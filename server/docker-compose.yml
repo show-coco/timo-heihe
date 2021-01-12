@@ -1,0 +1,17 @@
+version: '3'
+
+services:
+  db:
+    image: postgres:11
+    environment:
+      POSTGRES_USER: timoheihe # same with RDS
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres # same with RDS
+    networks:
+      - default
+    ports:
+      - 5432:5432
+    expose:
+      - '5432'
+    volumes:
+      - ./local-data/db:/var/lib/postgresql/data
