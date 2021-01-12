@@ -1,6 +1,6 @@
 import React from "react";
 import { Meta } from "@storybook/react";
-import Button from "./button";
+import { Button } from "./button";
 
 export default {
   title: "Button",
@@ -8,5 +8,5 @@ export default {
 } as Meta;
 
 export const Basic = () => {
-  return <Button />;
+  return <Button label="Hello" />;
 };
