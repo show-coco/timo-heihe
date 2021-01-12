@@ -11,10 +11,10 @@
     "plugin:react/recommended",
     "plugin:prettier/recommended"
   ],
+  "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "sourceType": "module",
-    "ecmaVersion": 2018,
-    "parser": "typescript-eslint-parser",
+    "ecmaVersion": 2018
   },
   "settings": {
     "react": {
