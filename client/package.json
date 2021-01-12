@@ -5,7 +5,9 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "storybook": "start-storybook -p 6006",
+    "build-storybook": "build-storybook"
   },
   "dependencies": {
     "next": "10.0.5",
@@ -13,8 +15,14 @@
     "react-dom": "17.0.1"
   },
   "devDependencies": {
+    "@babel/core": "^7.12.10",
+    "@storybook/addon-actions": "^6.1.12",
+    "@storybook/addon-essentials": "^6.1.12",
+    "@storybook/addon-links": "^6.1.12",
+    "@storybook/react": "^6.1.12",
     "@types/node": "^14.14.20",
     "@types/react": "^17.0.0",
+    "babel-loader": "^8.2.2",
     "eslint": "^7.17.0",
     "eslint-config-prettier": "^7.1.0",
     "eslint-plugin-prettier": "^3.3.1",
