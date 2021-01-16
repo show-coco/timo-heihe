@@ -1,4 +1,6 @@
+import { UseGuards } from '@nestjs/common';
 import { Args, ID, Query, Resolver } from '@nestjs/graphql';
+import { GqlJwtAuthGuard } from 'src/auth/jwt-auth.guards';
 import { UserModel } from './user.model';
 import { User } from './users.entity';
 import { UsersService } from './users.service';
@@ -13,6 +15,7 @@ export class UsersResolver {
   }
 
   @Query(() => [UserModel])
+  @UseGuards(GqlJwtAuthGuard)
   async users() {
     return this.usersService.findAll();
   }

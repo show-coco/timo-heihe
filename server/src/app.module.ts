@@ -2,8 +2,6 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { GraphQLModule } from '@nestjs/graphql';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
 import { User } from './users/users.entity';
 import { UsersModule } from './users/users.module';
@@ -20,6 +18,7 @@ import { UsersModule } from './users/users.module';
       playground: true,
       autoSchemaFile: 'schema.graphql',
       sortSchema: true,
+      context: ({ req }) => ({ headers: req.headers }),
     }),
     TypeOrmModule.forRoot({
       type: 'postgres',
@@ -32,7 +31,5 @@ import { UsersModule } from './users/users.module';
       synchronize: true,
     }),
   ],
-  controllers: [AppController],
-  providers: [AppService],
 })
 export class AppModule {}
