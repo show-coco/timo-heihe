@@ -6,6 +6,7 @@ export type ButtonProps = {
   onClick?: () => void;
   children: React.ReactNode;
   className?: string;
+  disabled?: boolean;
 };
 
 const sizes = {
@@ -29,11 +30,12 @@ export const Button: React.FC<ButtonProps> = ({
   const baseButton = "font-bold w-max rounded-md hover:bg-orange-600";
   const sizeMode = sizes[size];
   const buttonType = variants[variant];
+  const disabledStyle = props.disabled ? "opacity-50" : "";
 
   return (
     <button
       type="button"
-      className={`${buttonType} ${baseButton} ${sizeMode} ${className}`}
+      className={`${buttonType} ${baseButton} ${sizeMode} ${disabledStyle} ${className}`}
       {...props}
     >
       {children}
