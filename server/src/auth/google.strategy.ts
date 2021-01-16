@@ -3,12 +3,15 @@ import { Strategy, VerifyCallback } from 'passport-google-oauth20';
 import { config } from 'dotenv';
 
 import { Injectable } from '@nestjs/common';
+import { GooglePrfile } from './types/googleProfile';
+import { UsersService } from 'src/users/users.service';
+import { User } from 'src/users/users.entity';
 
 config();
 
 @Injectable()
 export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
-  constructor() {
+  constructor(private usersService: UsersService) {
     super({
       clientID: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_SECRET,
@@ -20,21 +23,31 @@ export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
   async validate(
     accessToken: string,
     refreshToken: string,
-    profile: any,
+    profile: GooglePrfile,
     done: VerifyCallback,
   ): Promise<any> {
-    const { name, emails, photos } = profile;
-    const user = {
+    const { name, emails, photos, id } = profile;
+
+    const userDefaultInfo: User = {
+      id: id,
+      name: name.givenName + ' ' + name.familyName,
       email: emails[0].value,
-      id: emails[0].value,
-      name: name.givenName + name.familyName,
-      accessToken,
+      avatar: photos[0].value,
+      introduction: null,
+      github_id: null,
+      twitter_id: null,
+      // accessToken,
     };
 
-    // TODO: emailでDB検索
-    // 存在すれば、ユーザを生成して返却
-    // 存在しなければ、ユーザをDBに保存して返却
+    const user = await this.usersService.findOne(id);
+    const userExists = Boolean(user);
+    // ユーザが既に存在すれば、ユーザを取得して返却
+    if (userExists) {
+      return user;
+    }
 
-    done(null, user);
+    // 存在しなければ、ユーザをDBに保存して返却
+    const newUser = await this.usersService.save(userDefaultInfo);
+    return newUser;
   }
 }

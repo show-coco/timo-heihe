@@ -1,10 +1,25 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, PrimaryColumn } from 'typeorm';
 
 @Entity()
 export class User {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryColumn()
+  id: string;
 
-  @Column({ length: 16 })
+  @Column()
   name: string;
+
+  @Column()
+  email: string;
+
+  @Column({ nullable: true })
+  avatar: string;
+
+  @Column({ nullable: true })
+  introduction: string;
+
+  @Column({ nullable: true })
+  github_id: string;
+
+  @Column({ nullable: true })
+  twitter_id: string;
 }
