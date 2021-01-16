@@ -8,9 +8,16 @@ module.exports = {
           450: "#1ea7fd",
         },
         orange: {
+          200: "#FFF4EB",
           500: "#E89C80",
           600: "#D88364",
         },
+      },
+      height: {
+        "450px": "450px",
+      },
+      width: {
+        "620px": "620px",
       },
     },
     fontFamily: {

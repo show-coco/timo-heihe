@@ -5,12 +5,13 @@ export type ButtonProps = {
   size?: "small" | "medium" | "large";
   onClick?: () => void;
   children: React.ReactNode;
+  className?: string;
 };
 
 const sizes = {
-  small: "py-1.5 px-4",
-  medium: "py-2 px-5",
-  large: "py-3 px-8",
+  small: "px-4 h-8",
+  medium: "px-5 h-10",
+  large: "px-8 h-14",
 };
 
 const variants = {
@@ -22,6 +23,7 @@ export const Button: React.FC<ButtonProps> = ({
   variant = "primary",
   size = "medium",
   children,
+  className,
   ...props
 }: ButtonProps) => {
   const baseButton = "font-bold w-max rounded-md hover:bg-orange-600";
@@ -31,7 +33,7 @@ export const Button: React.FC<ButtonProps> = ({
   return (
     <button
       type="button"
-      className={`${buttonType} ${baseButton} ${sizeMode}`}
+      className={`${buttonType} ${baseButton} ${sizeMode} ${className}`}
       {...props}
     >
       {children}
