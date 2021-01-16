@@ -2,6 +2,8 @@ import { ExtractJwt, Strategy } from 'passport-jwt';
 import { PassportStrategy } from '@nestjs/passport';
 import { Injectable } from '@nestjs/common';
 import { jwtConstants } from './auth.constants';
+import { UsersService } from 'src/users/users.service';
+import { User } from 'src/users/users.entity';
 
 type Payload = {
   sub: string;
@@ -10,7 +12,7 @@ type Payload = {
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
-  constructor() {
+  constructor(private usersService: UsersService) {
     super({
       // jwtFromRequestは、jwtを抽出するメソッドを指定する。
       // リクエストのAuthorizationヘッダからBearerトークンを取り出す標準的な手法を使用。
@@ -27,7 +29,8 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     });
   }
 
-  async validate(payload: any) {
-    return { id: payload.sub, name: payload.name };
+  async validate(payload: Payload): Promise<User> {
+    const user = await this.usersService.findOne(payload.sub);
+    return user;
   }
 }
