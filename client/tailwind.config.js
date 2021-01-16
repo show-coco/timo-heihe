@@ -7,6 +7,10 @@ module.exports = {
         blue: {
           450: "#1ea7fd",
         },
+        orange: {
+          500: "#E89C80",
+          600: "#D88364",
+        },
       },
     },
     fontFamily: {

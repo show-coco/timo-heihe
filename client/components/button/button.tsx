@@ -1,47 +1,40 @@
 import React from "react";
 
-export interface ButtonProps {
-  primary?: boolean;
-  backgroundColor?: string;
+export type ButtonProps = {
+  variant?: "primary" | "outline";
   size?: "small" | "medium" | "large";
-  label: string;
   onClick?: () => void;
-}
+  children: React.ReactNode;
+};
+
+const sizes = {
+  small: "py-1.5 px-4",
+  medium: "py-2 px-5",
+  large: "py-3 px-8",
+};
+
+const variants = {
+  primary: "text-white bg-orange-500",
+  outline: "text-gray-600 bg-transparent shadow-inner",
+};
 
 export const Button: React.FC<ButtonProps> = ({
-  primary = false,
+  variant = "primary",
   size = "medium",
-  backgroundColor,
-  label,
+  children,
   ...props
 }: ButtonProps) => {
-  const baseButton = "rounded-full font-bold";
-  const sizeMode =
-    size === "small"
-      ? "py-1.5 px-4 text-xs"
-      : size === "medium"
-      ? "py-2 px-5 text-sm"
-      : size === "large"
-      ? "py-3 px-6 text-base"
-      : "";
-  return primary ? (
-    <div>
-      <button
-        type="button"
-        className={`text-white bg-blue-450 ${baseButton} ${sizeMode}`}
-        {...props}
-      >
-        {label}
-      </button>
-    </div>
-  ) : (
+  const baseButton = "font-bold w-max rounded-md hover:bg-orange-600";
+  const sizeMode = sizes[size];
+  const buttonType = variants[variant];
+
+  return (
     <button
       type="button"
-      className={`text-gray-600 bg-transparent shadow-inner ${baseButton} ${sizeMode}`}
-      style={{ backgroundColor }}
+      className={`${buttonType} ${baseButton} ${sizeMode}`}
       {...props}
     >
-      {label}
+      {children}
     </button>
   );
 };
