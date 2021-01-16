@@ -1,14 +1,18 @@
 import { Module } from '@nestjs/common';
-import { GraphQLModule } from '@nestjs/graphql';
+import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { User } from './user/user.entity';
-import { UsersModule } from './user/user.module';
+import { AppController } from './app.controller';
+import { AppService } from './app.service';
+import { AuthModule } from './auth/auth.module';
+import { User } from './users/users.entity';
+import { UsersModule } from './users/users.module';
 
 @Module({
   imports: [
-    GraphQLModule.forRoot({
-      playground: true,
-      autoSchemaFile: 'schema.graphql',
+    AuthModule,
+    UsersModule,
+    ConfigModule.forRoot({
+      envFilePath: '.env.dev',
     }),
     TypeOrmModule.forRoot({
       type: 'postgres',
@@ -20,7 +24,8 @@ import { UsersModule } from './user/user.module';
       entities: [User],
       synchronize: true,
     }),
-    UsersModule,
   ],
+  controllers: [AppController],
+  providers: [AppService],
 })
 export class AppModule {}
