@@ -1,5 +1,6 @@
 import React from "react";
 import { Button } from "../components/button/button";
+import { Checkbox } from "../components/checkbox/checkbox";
 
 function Login() {
   return (
@@ -29,10 +30,9 @@ function Login() {
               Googleアカウントを使用して、下のボタンからログイン、新規登録を行う事ができます。
             </p>
           </div>
-          <p className="my-3">
-            <input type="checkbox" />
-            利用規約、プライバシーポリシーに同意する
-          </p>
+          <div>
+            <Checkbox>利用規約、プライバシーポリシーに同意する</Checkbox>
+          </div>
           <Button className="my-4">Log in with Google</Button>
         </div>
       </div>
