@@ -14,4 +14,10 @@ Timo Heiheはエンジニアのためのアウトプットプラットフォー�
 
 ```bash
 cd client && yarn install
+cd server && yarn install
+```
+
+```bash
+cd client && yarn start
+cd server && yarn start:dev
 ```
