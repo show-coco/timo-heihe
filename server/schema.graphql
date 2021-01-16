@@ -2,11 +2,17 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-type User {
-  id: ID!
-  name: String!
+type Query {
+  user(id: ID!): UserModel!
+  users: [UserModel!]!
 }
 
-type Query {
-  users: [User!]!
+type UserModel {
+  avatar: String
+  email: String!
+  github_id: String
+  id: ID!
+  introduction: String
+  name: String!
+  twitter_id: String
 }

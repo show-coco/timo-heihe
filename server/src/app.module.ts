@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
+import { GraphQLModule } from '@nestjs/graphql';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -13,6 +14,12 @@ import { UsersModule } from './users/users.module';
     UsersModule,
     ConfigModule.forRoot({
       envFilePath: '.env.dev',
+    }),
+    GraphQLModule.forRoot({
+      include: [UsersModule],
+      playground: true,
+      autoSchemaFile: 'schema.graphql',
+      sortSchema: true,
     }),
     TypeOrmModule.forRoot({
       type: 'postgres',
