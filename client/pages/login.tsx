@@ -1,5 +1,6 @@
 import React from "react";
 import { Button } from "../components/button/button";
+import { Card } from "../components/card/card";
 
 function Login() {
   return (
@@ -23,7 +24,7 @@ function Login() {
       </div>
 
       <div className="flex justify-center items-center w-full bg-orange-200">
-        <div className="p-8 border-2 border-gray-400 rounded-md bg-white text-center m-10">
+        <Card className="text-center">
           <h2 className="text-4xl my-6">Log in</h2>
           <div className="w-3/4 mx-auto">
             <p className="my-7 text-left">
@@ -41,7 +42,7 @@ function Login() {
           <a href="http://localhost:8080/google">
             <Button className="my-4">Log in with Google</Button>
           </a>
-        </div>
+        </Card>
       </div>
     </div>
   );

@@ -1,7 +1,6 @@
 import React from "react";
 import { Meta } from "@storybook/react";
 import { Button } from "./button";
-import { IconButton } from "./icon-button";
 
 export default {
   title: "Button",

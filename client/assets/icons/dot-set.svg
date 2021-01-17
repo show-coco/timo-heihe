@@ -1,0 +1,45 @@
+<svg id="DotSet" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="47" height="47" viewBox="0 0 47 47">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: none;
+      }
+
+      .cls-2 {
+        clip-path: url(#clip-path);
+      }
+    </style>
+    <clipPath id="clip-path">
+      <rect class="cls-1" width="47" height="47"/>
+    </clipPath>
+  </defs>
+  <g id="リピートグリッド_1" data-name="リピートグリッド 1" class="cls-2">
+    <g transform="translate(-1509 -36)">
+      <circle id="楕円形_1" data-name="楕円形 1" class="cls-3" cx="5.5" cy="5.5" r="5.5" transform="translate(1509 36)"/>
+    </g>
+    <g transform="translate(-1491 -36)">
+      <circle id="楕円形_1-2" data-name="楕円形 1" class="cls-3" cx="5.5" cy="5.5" r="5.5" transform="translate(1509 36)"/>
+    </g>
+    <g transform="translate(-1473 -36)">
+      <circle id="楕円形_1-3" data-name="楕円形 1" class="cls-3" cx="5.5" cy="5.5" r="5.5" transform="translate(1509 36)"/>
+    </g>
+    <g transform="translate(-1509 -18)">
+      <circle id="楕円形_1-4" data-name="楕円形 1" class="cls-3" cx="5.5" cy="5.5" r="5.5" transform="translate(1509 36)"/>
+    </g>
+    <g transform="translate(-1491 -18)">
+      <circle id="楕円形_1-5" data-name="楕円形 1" class="cls-3" cx="5.5" cy="5.5" r="5.5" transform="translate(1509 36)"/>
+    </g>
+    <g transform="translate(-1473 -18)">
+      <circle id="楕円形_1-6" data-name="楕円形 1" class="cls-3" cx="5.5" cy="5.5" r="5.5" transform="translate(1509 36)"/>
+    </g>
+    <g transform="translate(-1509)">
+      <circle id="楕円形_1-7" data-name="楕円形 1" class="cls-3" cx="5.5" cy="5.5" r="5.5" transform="translate(1509 36)"/>
+    </g>
+    <g transform="translate(-1491)">
+      <circle id="楕円形_1-8" data-name="楕円形 1" class="cls-3" cx="5.5" cy="5.5" r="5.5" transform="translate(1509 36)"/>
+    </g>
+    <g transform="translate(-1473)">
+      <circle id="楕円形_1-9" data-name="楕円形 1" class="cls-3" cx="5.5" cy="5.5" r="5.5" transform="translate(1509 36)"/>
+    </g>
+  </g>
+</svg>
