@@ -1,11 +1,10 @@
 import React from "react";
 import { Meta } from "@storybook/react";
-import { Button } from "./button";
 import { IconButton } from "./icon-button";
 
 export default {
-  title: "Button",
-  component: Button,
+  title: "IconButton",
+  component: IconButton,
 } as Meta;
 
 const sizes = ["small", "medium", "large"] as const;
@@ -15,9 +14,11 @@ export const withSizes = () => {
   return (
     <div className="flex items-center space-x-5">
       {sizes.map((size) => (
-        <Button size={size} key={size}>
-          Hello
-        </Button>
+        <IconButton
+          size={size}
+          key={size}
+          icon={<span className="text-white">i</span>}
+        />
       ))}
     </div>
   );
@@ -27,9 +28,9 @@ export const withVariants = () => {
   return (
     <div className="flex items-center space-x-5">
       {variants.map((variant) => (
-        <Button variant={variant} key={variant}>
-          Hello
-        </Button>
+        <IconButton variant={variant} key={variant}>
+          i
+        </IconButton>
       ))}
     </div>
   );
