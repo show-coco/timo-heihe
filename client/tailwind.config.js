@@ -17,6 +17,7 @@ module.exports = {
         },
         gray: {
           300: "#cdd4d8",
+          700: "#4B4D5C",
         },
       },
       height: {
@@ -29,10 +30,10 @@ module.exports = {
     },
     fontFamily: {
       sans: [
+        "Arial",
         "Nunito Sans",
         "Helvetica Neue",
         "Helvetica",
-        "Arial",
         "sans-serif",
       ],
     },

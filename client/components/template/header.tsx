@@ -6,7 +6,7 @@ import { Avatar } from "../avatar/avatar";
 
 export const AppHeader: React.FC = () => {
   return (
-    <div className="h-70px flex">
+    <div className="h-70px flex overflow-hidden rounded-full">
       <div className="w-1/5 flex items-center justify-center border-b-2">
         <Image
           src="/hirosaa-logo.png"
