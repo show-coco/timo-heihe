@@ -38,7 +38,9 @@ function Login() {
               に同意した上でログインしてください。
             </p>
           </div>
-          <Button className="my-4">Log in with Google</Button>
+          <a href="http://localhost:8080/google">
+            <Button className="my-4">Log in with Google</Button>
+          </a>
         </div>
       </div>
     </div>
