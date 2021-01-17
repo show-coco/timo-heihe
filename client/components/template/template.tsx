@@ -1,5 +1,5 @@
 import React from "react";
-import { Header } from "./header";
+import { AppHeader } from "./header";
 import { Navigation } from "./navigation";
 
 type TemplateProps = {
@@ -11,11 +11,11 @@ export const Template: React.FC<TemplateProps> = ({
 }: TemplateProps) => {
   return (
     <div className="flex flex-col min-h-screen">
-      <Header />
+      <AppHeader />
 
       <div className="flex flex-1">
         <Navigation />
-        <main className="flex-1">{children}</main>
+        <main className="flex-1 bg-gray-100">{children}</main>
       </div>
     </div>
   );
