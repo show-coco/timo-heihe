@@ -1,5 +1,6 @@
-import { Controller, Request, UseGuards, Get, Req } from '@nestjs/common';
+import { Controller, UseGuards, Get, Req, Res } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
+import { Response } from 'express';
 import { AuthService } from './auth.service';
 import { RequestWithUser } from './types/request';
 
@@ -15,7 +16,12 @@ export class AuthController {
 
   @Get('redirect')
   @UseGuards(AuthGuard('google'))
-  googleAuthRedirect(@Req() req: RequestWithUser) {
-    return this.authService.login(req.user);
+  async googleAuthRedirect(@Req() req: RequestWithUser, @Res() res: Response) {
+    const token = await this.authService.login(req.user);
+    const redirectUrl =
+      'http://localhost:3000/google/callback?access_token=' +
+      token.access_token;
+
+    res.redirect(redirectUrl);
   }
 }

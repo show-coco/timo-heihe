@@ -7,6 +7,20 @@ module.exports = {
         blue: {
           450: "#1ea7fd",
         },
+        orange: {
+          200: "#FFF4EB",
+          500: "#E89C80",
+          600: "#D88364",
+        },
+        black: {
+          400: "#434343",
+        },
+      },
+      height: {
+        "450px": "450px",
+      },
+      width: {
+        "620px": "620px",
       },
     },
     fontFamily: {
@@ -25,5 +39,5 @@ module.exports = {
   variants: {
     extend: {},
   },
-  plugins: [],
+  plugins: [require("@tailwindcss/forms")],
 };

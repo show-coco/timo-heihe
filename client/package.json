@@ -12,6 +12,7 @@
     "lint:fix": "eslint --fix . --ext .ts,.js,.tsx,.jsx"
   },
   "dependencies": {
+    "@tailwindcss/forms": "^0.2.1",
     "@tailwindcss/postcss7-compat": "^2.0.2",
     "autoprefixer": "^9",
     "next": "10.0.5",

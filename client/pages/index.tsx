@@ -11,7 +11,7 @@ export default function Home() {
         quaerat quis ratione? At, maiores voluptas? Eveniet odio omnis
         repellendus sapiente voluptatibus.
       </p>
-      <Button label="Button" />
+      <Button>Button</Button>
     </section>
   );
 }

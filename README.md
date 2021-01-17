@@ -18,6 +18,6 @@ cd server && yarn install
 ```
 
 ```bash
-cd client && yarn start
+cd client && yarn dev
 cd server && yarn start:dev
 ```
