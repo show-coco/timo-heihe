@@ -1,7 +1,7 @@
 import React from "react";
 import Image from "next/image";
 
-type AvatarProps = {
+export type AvatarProps = {
   src: string;
   name?: string;
   size?: "small" | "medium" | "large";
