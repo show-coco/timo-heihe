@@ -10,9 +10,15 @@ import {
   AvatarWithNameProps,
 } from "../avatar/avatar-with-name";
 
+type PeopleInfo = {
+  current: number;
+  limit: number;
+};
+
 export type TeamCardProps = {
   title: string;
   leader: AvatarWithNameProps;
+  people: PeopleInfo;
   description: string;
   languages: LanguagePochiSetProps["languages"];
   created: string;
@@ -21,6 +27,7 @@ export type TeamCardProps = {
 export const TeamCard: React.FC<TeamCardProps> = ({
   title,
   leader,
+  people,
   description,
   languages,
   created,
@@ -38,7 +45,9 @@ export const TeamCard: React.FC<TeamCardProps> = ({
         />
 
         <PeopleIcon />
-        <p className="ml-2">23/50</p>
+        <p className="ml-2">
+          {people.current}/{people.limit}
+        </p>
       </div>
 
       <div className="pt-4 pb-6">{description}</div>
