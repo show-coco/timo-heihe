@@ -26,7 +26,7 @@ export const TeamCard: React.FC<TeamCardProps> = ({
   created,
 }: TeamCardProps) => {
   return (
-    <Card variant="none" className="max-w-xl p-5">
+    <Card variant="none" className="max-w-xl p-5 cursor-pointer">
       <div className="flex items-center">
         <h3 className="flex-1">{title}</h3>
 
