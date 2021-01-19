@@ -2,6 +2,12 @@ import { AppProps } from "next/dist/next-server/lib/router/router";
 import React from "react";
 import "../styles/globals.css";
 import Head from "next/head";
+import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
+
+const client = new ApolloClient({
+  uri: "http://localhost:8080/graphql",
+  cache: new InMemoryCache(),
+});
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
@@ -14,7 +20,9 @@ function MyApp({ Component, pageProps }: AppProps) {
         {/* <link rel="shortcut icon" href="/favicon.png" key="shortcutIcon" /> */}
         {/* <link rel="manifest" href="/manifest.json" /> */}
       </Head>
-      <Component {...pageProps} />
+      <ApolloProvider client={client}>
+        <Component {...pageProps} />
+      </ApolloProvider>
     </>
   );
 }

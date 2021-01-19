@@ -1,12 +1,16 @@
 import React from "react";
 import { TeamCard, TeamCardProps } from "../components/card/team-card";
 import { Template } from "../components/template/template";
+import { useTeamQuery } from "../generated/types";
 
 export default function Home() {
+  const { data, error } = useTeamQuery();
+  if (error) console.log(error);
+  console.log(data);
   return (
     <Template>
-      {mockTeams.map((team) => (
-        <TeamCard {...team} key={team.title} />
+      {mockTeams.map((team, i) => (
+        <TeamCard {...team} key={i} />
       ))}
     </Template>
   );
