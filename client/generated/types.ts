@@ -1,9 +1,13 @@
-import { gql } from '@apollo/client';
-import * as Apollo from '@apollo/client';
+import { gql } from "@apollo/client";
+import * as Apollo from "@apollo/client";
 export type Maybe<T> = T | null;
-export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
-export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
-export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
+export type Exact<T extends { [key: string]: unknown }> = {
+  [K in keyof T]: T[K];
+};
+export type MakeOptional<T, K extends keyof T> = Omit<T, K> &
+  { [SubKey in K]?: Maybe<T[SubKey]> };
+export type MakeMaybe<T, K extends keyof T> = Omit<T, K> &
+  { [SubKey in K]: Maybe<T[SubKey]> };
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: string;
@@ -16,127 +20,114 @@ export type Scalars = {
 };
 
 export type CreateTeamInput = {
-  createdAt?: Maybe<Scalars['Timestamp']>;
-  description: Scalars['String'];
-  id: Scalars['Int'];
+  createdAt?: Maybe<Scalars["Timestamp"]>;
+  description: Scalars["String"];
+  id: Scalars["Int"];
   members: Array<UserInput>;
-  ownerId: Scalars['String'];
-  skills?: Maybe<Scalars['String']>;
-  title: Scalars['String'];
+  ownerId: Scalars["String"];
+  skills?: Maybe<Scalars["String"]>;
+  title: Scalars["String"];
 };
 
 export type Mutation = {
-  __typename?: 'Mutation';
+  __typename?: "Mutation";
   createTeam: TeamModel;
   deleteTeam: TeamModel;
   updateTeam: TeamModel;
 };
 
-
 export type MutationCreateTeamArgs = {
   createTeamInput: CreateTeamInput;
 };
 
-
 export type MutationDeleteTeamArgs = {
-  id: Scalars['Float'];
+  id: Scalars["Float"];
 };
-
 
 export type MutationUpdateTeamArgs = {
   updateTeamInput: UpdateTeamInput;
 };
 
 export type Query = {
-  __typename?: 'Query';
+  __typename?: "Query";
   team: TeamModel;
   teams: Array<TeamModel>;
   user: UserModel;
   users: Array<UserModel>;
 };
 
-
 export type QueryTeamArgs = {
-  id: Scalars['Int'];
+  id: Scalars["Int"];
 };
 
-
 export type QueryUserArgs = {
-  id: Scalars['ID'];
+  id: Scalars["ID"];
 };
 
 export type TeamModel = {
-  __typename?: 'TeamModel';
-  createdAt?: Maybe<Scalars['Timestamp']>;
-  description: Scalars['String'];
-  id?: Maybe<Scalars['Int']>;
+  __typename?: "TeamModel";
+  createdAt?: Maybe<Scalars["Timestamp"]>;
+  description: Scalars["String"];
+  id?: Maybe<Scalars["Int"]>;
   members?: Maybe<Array<UserModel>>;
   owner: UserModel;
-  skills?: Maybe<Scalars['String']>;
-  title: Scalars['String'];
+  skills?: Maybe<Scalars["String"]>;
+  title: Scalars["String"];
 };
 
-
 export type UpdateTeamInput = {
-  createdAt?: Maybe<Scalars['Timestamp']>;
-  description?: Maybe<Scalars['String']>;
-  id: Scalars['Int'];
+  createdAt?: Maybe<Scalars["Timestamp"]>;
+  description?: Maybe<Scalars["String"]>;
+  id: Scalars["Int"];
   members?: Maybe<Array<UserInput>>;
-  ownerId?: Maybe<Scalars['String']>;
-  skills?: Maybe<Scalars['String']>;
-  title?: Maybe<Scalars['String']>;
+  ownerId?: Maybe<Scalars["String"]>;
+  skills?: Maybe<Scalars["String"]>;
+  title?: Maybe<Scalars["String"]>;
 };
 
 export type UserInput = {
-  avatar?: Maybe<Scalars['String']>;
-  email: Scalars['String'];
-  githubId?: Maybe<Scalars['String']>;
-  id: Scalars['ID'];
-  introduction?: Maybe<Scalars['String']>;
-  name: Scalars['String'];
-  twitterId?: Maybe<Scalars['String']>;
+  avatar?: Maybe<Scalars["String"]>;
+  email: Scalars["String"];
+  githubId?: Maybe<Scalars["String"]>;
+  id: Scalars["ID"];
+  introduction?: Maybe<Scalars["String"]>;
+  name: Scalars["String"];
+  twitterId?: Maybe<Scalars["String"]>;
 };
 
 export type UserModel = {
-  __typename?: 'UserModel';
-  avatar?: Maybe<Scalars['String']>;
-  email: Scalars['String'];
-  githubId?: Maybe<Scalars['String']>;
-  id: Scalars['ID'];
-  introduction?: Maybe<Scalars['String']>;
-  name: Scalars['String'];
-  twitterId?: Maybe<Scalars['String']>;
+  __typename?: "UserModel";
+  avatar?: Maybe<Scalars["String"]>;
+  email: Scalars["String"];
+  githubId?: Maybe<Scalars["String"]>;
+  id: Scalars["ID"];
+  introduction?: Maybe<Scalars["String"]>;
+  name: Scalars["String"];
+  twitterId?: Maybe<Scalars["String"]>;
 };
 
-export type TeamQueryVariables = Exact<{ [key: string]: never; }>;
+export type TeamQueryVariables = Exact<{ [key: string]: never }>;
 
-
-export type TeamQuery = (
-  { __typename?: 'Query' }
-  & { team: (
-    { __typename?: 'TeamModel' }
-    & Pick<TeamModel, 'id' | 'title' | 'createdAt'>
-    & { owner: (
-      { __typename?: 'UserModel' }
-      & Pick<UserModel, 'id' | 'name'>
-    ) }
-  ) }
-);
-
+export type TeamQuery = { __typename?: "Query" } & {
+  team: { __typename?: "TeamModel" } & Pick<
+    TeamModel,
+    "id" | "title" | "createdAt"
+  > & { owner: { __typename?: "UserModel" } & Pick<UserModel, "id" | "name"> };
+};
 
 export const TeamDocument = gql`
-    query Team {
-  team(id: 11) {
-    id
-    title
-    createdAt
-    owner {
+  query Team {
+    team(id: 11) {
       id
-      name
+      title
+      createdAt
+      owner {
+        id
+        name
+      }
     }
   }
-}
-    `;
+`;
 
 /**
  * __useTeamQuery__
@@ -153,12 +144,22 @@ export const TeamDocument = gql`
  *   },
  * });
  */
-export function useTeamQuery(baseOptions?: Apollo.QueryHookOptions<TeamQuery, TeamQueryVariables>) {
-        return Apollo.useQuery<TeamQuery, TeamQueryVariables>(TeamDocument, baseOptions);
-      }
-export function useTeamLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<TeamQuery, TeamQueryVariables>) {
-          return Apollo.useLazyQuery<TeamQuery, TeamQueryVariables>(TeamDocument, baseOptions);
-        }
+export function useTeamQuery(
+  baseOptions?: Apollo.QueryHookOptions<TeamQuery, TeamQueryVariables>
+) {
+  return Apollo.useQuery<TeamQuery, TeamQueryVariables>(
+    TeamDocument,
+    baseOptions
+  );
+}
+export function useTeamLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<TeamQuery, TeamQueryVariables>
+) {
+  return Apollo.useLazyQuery<TeamQuery, TeamQueryVariables>(
+    TeamDocument,
+    baseOptions
+  );
+}
 export type TeamQueryHookResult = ReturnType<typeof useTeamQuery>;
 export type TeamLazyQueryHookResult = ReturnType<typeof useTeamLazyQuery>;
 export type TeamQueryResult = Apollo.QueryResult<TeamQuery, TeamQueryVariables>;
