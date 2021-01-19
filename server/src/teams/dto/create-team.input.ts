@@ -21,6 +21,6 @@ export class CreateTeamInput {
   @Field(() => [UserInput])
   members: UserInput[];
 
-  @Field(() => GraphQLTimestamp)
-  created_at: Date;
+  @Field(() => GraphQLTimestamp, { nullable: true })
+  createdAt: Date;
 }

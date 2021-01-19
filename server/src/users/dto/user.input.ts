@@ -18,8 +18,8 @@ export class UserInput {
   introduction: string;
 
   @Field({ nullable: true })
-  github_id: string;
+  githubId: string;
 
   @Field({ nullable: true })
-  twitter_id: string;
+  twitterId: string;
 }

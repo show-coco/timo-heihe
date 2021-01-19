@@ -22,5 +22,5 @@ export class TeamModel {
   members?: UserModel[];
 
   @Field(() => GraphQLTimestamp, { nullable: true })
-  created_at?: Date;
+  createdAt?: Date;
 }

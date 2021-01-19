@@ -3,7 +3,7 @@
 # ------------------------------------------------------
 
 input CreateTeamInput {
-  created_at: Timestamp!
+  createdAt: Timestamp
   description: String!
   id: Int!
   members: [UserInput!]!
@@ -26,7 +26,7 @@ type Query {
 }
 
 type TeamModel {
-  created_at: Timestamp
+  createdAt: Timestamp
   description: String!
   id: Int
   members: [UserModel!]
@@ -41,7 +41,7 @@ type TeamModel {
 scalar Timestamp
 
 input UpdateTeamInput {
-  created_at: Timestamp
+  createdAt: Timestamp
   description: String
   id: Int!
   members: [UserInput!]
@@ -53,19 +53,19 @@ input UpdateTeamInput {
 input UserInput {
   avatar: String
   email: String!
-  github_id: String
+  githubId: String
   id: ID!
   introduction: String
   name: String!
-  twitter_id: String
+  twitterId: String
 }
 
 type UserModel {
   avatar: String
   email: String!
-  github_id: String
+  githubId: String
   id: ID!
   introduction: String
   name: String!
-  twitter_id: String
+  twitterId: String
 }

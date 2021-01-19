@@ -31,5 +31,5 @@ export class Team {
   members?: User[];
 
   @CreateDateColumn({ type: 'timestamp' })
-  created_at?: Date;
+  createdAt?: Date;
 }

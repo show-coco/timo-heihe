@@ -1,5 +1,5 @@
 import { Team } from 'src/teams/teams.entity';
-import { Column, Entity, ManyToOne, OneToMany, PrimaryColumn } from 'typeorm';
+import { Column, Entity, OneToMany, PrimaryColumn } from 'typeorm';
 
 @Entity()
 export class User {
@@ -19,10 +19,10 @@ export class User {
   introduction: string;
 
   @Column({ nullable: true })
-  github_id: string;
+  githubId: string;
 
   @Column({ nullable: true })
-  twitter_id: string;
+  twitterId: string;
 
   @OneToMany(() => Team, (team) => team.owner)
   teams?: Team[];

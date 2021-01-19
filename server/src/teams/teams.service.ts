@@ -28,7 +28,7 @@ export class TeamsService {
   }
 
   async update(id: number, updateTeamInput: UpdateTeamInput) {
-    const input = JSON.parse(JSON.stringify(updateTeamInput));
+    const input: UpdateTeamInput = JSON.parse(JSON.stringify(updateTeamInput));
 
     const returns = await this.teamRepository
       .createQueryBuilder()
@@ -42,18 +42,21 @@ export class TeamsService {
   }
 
   async insert(createTeamInput: CreateTeamInput) {
-    const input = JSON.parse(JSON.stringify(createTeamInput));
+    const input: CreateTeamInput = JSON.parse(JSON.stringify(createTeamInput));
 
-    const returns = await this.teamRepository
-      .createQueryBuilder()
-      .insert()
-      .into(Team)
-      .values(input)
-      .returning(['id', 'title', 'description', 'skills', 'created_at'])
-      .updateEntity(true)
-      .execute();
-
-    return returns.raw[0];
+    try {
+      const returns = await this.teamRepository
+        .createQueryBuilder()
+        .insert()
+        .into(Team)
+        .values(input)
+        .returning(['id', 'title', 'description', 'skills', 'created_at'])
+        .updateEntity(true)
+        .execute();
+      return returns.raw[0];
+    } catch (e) {
+      console.log(e);
+    }
   }
 
   async remove(id: number) {
