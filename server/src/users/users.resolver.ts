@@ -5,11 +5,11 @@ import { UserModel } from './user.model';
 import { User } from './users.entity';
 import { UsersService } from './users.service';
 
-@Resolver((of) => UserModel)
+@Resolver(() => UserModel)
 export class UsersResolver {
   constructor(private usersService: UsersService) {}
 
-  @Query((returns) => UserModel)
+  @Query(() => UserModel)
   async user(@Args('id', { type: () => ID }) id: string): Promise<User> {
     return this.usersService.findOne(id);
   }

@@ -5,16 +5,18 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from './auth/auth.module';
 import { User } from './users/users.entity';
 import { UsersModule } from './users/users.module';
+import { TeamsResolver } from './teams/teams.resolver';
+import { TeamsService } from './teams/teams.service';
+import { TeamsModule } from './teams/teams.module';
+import { Team } from './teams/teams.entity';
 
 @Module({
   imports: [
-    AuthModule,
-    UsersModule,
     ConfigModule.forRoot({
       envFilePath: '.env.dev',
     }),
     GraphQLModule.forRoot({
-      include: [UsersModule],
+      include: [UsersModule, TeamsModule],
       playground: true,
       autoSchemaFile: 'schema.graphql',
       sortSchema: true,
@@ -27,9 +29,12 @@ import { UsersModule } from './users/users.module';
       username: 'timoheihe',
       password: 'postgres',
       database: 'postgres',
-      entities: [User],
+      entities: [User, Team],
       synchronize: true,
     }),
+    AuthModule,
+    UsersModule,
+    TeamsModule,
   ],
 })
 export class AppModule {}

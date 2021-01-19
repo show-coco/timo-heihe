@@ -3,9 +3,26 @@
 # ------------------------------------------------------
 
 type Query {
+  team(id: Int!): TeamModel!
+  teams: [TeamModel!]!
   user(id: ID!): UserModel!
   users: [UserModel!]!
 }
+
+type TeamModel {
+  created_at: Timestamp!
+  description: String!
+  id: Int!
+  members: UserModel!
+  owner: UserModel!
+  skills: String
+  title: String!
+}
+
+"""
+`Date` type as integer. Type represents date and time as number of milliseconds from start of UNIX epoch.
+"""
+scalar Timestamp
 
 type UserModel {
   avatar: String
