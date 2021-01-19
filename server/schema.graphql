@@ -2,6 +2,22 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+input CreateTeamInput {
+  created_at: Timestamp!
+  description: String!
+  id: Int!
+  members: [UserInput!]!
+  ownerId: String!
+  skills: String
+  title: String!
+}
+
+type Mutation {
+  createTeam(createTeamInput: CreateTeamInput!): TeamModel!
+  deleteTeam(id: Float!): TeamModel!
+  updateTeam(updateTeamInput: UpdateTeamInput!): TeamModel!
+}
+
 type Query {
   team(id: Int!): TeamModel!
   teams: [TeamModel!]!
@@ -10,10 +26,10 @@ type Query {
 }
 
 type TeamModel {
-  created_at: Timestamp!
+  created_at: Timestamp
   description: String!
-  id: Int!
-  members: UserModel!
+  id: Int
+  members: [UserModel!]
   owner: UserModel!
   skills: String
   title: String!
@@ -23,6 +39,26 @@ type TeamModel {
 `Date` type as integer. Type represents date and time as number of milliseconds from start of UNIX epoch.
 """
 scalar Timestamp
+
+input UpdateTeamInput {
+  created_at: Timestamp
+  description: String
+  id: Int!
+  members: [UserInput!]
+  ownerId: String
+  skills: String
+  title: String
+}
+
+input UserInput {
+  avatar: String
+  email: String!
+  github_id: String
+  id: ID!
+  introduction: String
+  name: String!
+  twitter_id: String
+}
 
 type UserModel {
   avatar: String
