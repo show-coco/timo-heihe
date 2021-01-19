@@ -1,7 +1,7 @@
-import { Field, ID, ObjectType } from '@nestjs/graphql';
+import { Field, ID, InputType } from '@nestjs/graphql';
 
-@ObjectType()
-export class UserModel {
+@InputType()
+export class UserInput {
   @Field(() => ID)
   id: string;
 

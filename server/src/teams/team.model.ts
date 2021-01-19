@@ -1,10 +1,10 @@
-import { Field, GraphQLTimestamp, ID, Int, ObjectType } from '@nestjs/graphql';
+import { Field, GraphQLTimestamp, Int, ObjectType } from '@nestjs/graphql';
 import { UserModel } from 'src/users/user.model';
 
 @ObjectType()
 export class TeamModel {
-  @Field((type) => Int)
-  id: number;
+  @Field((type) => Int, { nullable: true })
+  id?: number;
 
   @Field()
   title: string;
@@ -18,9 +18,9 @@ export class TeamModel {
   @Field()
   owner: UserModel;
 
-  @Field(() => UserModel)
-  members: UserModel[];
+  @Field(() => [UserModel], { nullable: true })
+  members?: UserModel[];
 
-  @Field(() => GraphQLTimestamp)
-  created_at: Date;
+  @Field(() => GraphQLTimestamp, { nullable: true })
+  createdAt?: Date;
 }

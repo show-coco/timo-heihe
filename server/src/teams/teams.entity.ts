@@ -3,7 +3,6 @@ import {
   Column,
   CreateDateColumn,
   Entity,
-  JoinColumn,
   JoinTable,
   ManyToMany,
   ManyToOne,
@@ -13,7 +12,7 @@ import {
 @Entity()
 export class Team {
   @PrimaryGeneratedColumn()
-  id: number;
+  id?: number;
 
   @Column()
   title: string;
@@ -29,8 +28,8 @@ export class Team {
 
   @ManyToMany(() => User)
   @JoinTable()
-  members: User[];
+  members?: User[];
 
   @CreateDateColumn({ type: 'timestamp' })
-  created_at: Date;
+  createdAt?: Date;
 }
