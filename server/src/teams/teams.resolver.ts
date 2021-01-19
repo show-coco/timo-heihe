@@ -32,7 +32,7 @@ export class TeamsResolver {
   // FIXME: ネストQueryができない
   @ResolveProperty(() => UserModel)
   owner(@Parent() team: TeamModel) {
-    console.log(team);
+    console.log(team.owner.id);
     return this.usersService.findOne(team.owner.id);
   }
 }

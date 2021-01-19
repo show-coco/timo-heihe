@@ -11,14 +11,17 @@ export class TeamsService {
   ) {}
 
   async findOne(id: number) {
-    const team = this.teamRepository.findOne({
-      id: id,
-    });
-    console.log(team);
-    return team;
+    return this.teamRepository
+      .createQueryBuilder('team')
+      .leftJoinAndSelect('team.owner', 'user')
+      .where({ id: id })
+      .getOne();
   }
 
   async findAll() {
-    return this.teamRepository.find();
+    return await this.teamRepository
+      .createQueryBuilder('team')
+      .leftJoinAndSelect('team.owner', 'user')
+      .getMany();
   }
 }

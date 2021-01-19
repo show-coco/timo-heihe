@@ -5,8 +5,6 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from './auth/auth.module';
 import { User } from './users/users.entity';
 import { UsersModule } from './users/users.module';
-import { TeamsResolver } from './teams/teams.resolver';
-import { TeamsService } from './teams/teams.service';
 import { TeamsModule } from './teams/teams.module';
 import { Team } from './teams/teams.entity';
 

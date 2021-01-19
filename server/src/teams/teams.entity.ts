@@ -25,7 +25,6 @@ export class Team {
   skills: string;
 
   @ManyToOne(() => User, (user) => user.teams)
-  @JoinColumn()
   owner: User;
 
   @ManyToMany(() => User)
