@@ -36,7 +36,7 @@ export const convertToTeamCardObjFromTeams = (
       src: team.owner.avatar || "",
     },
     people: {
-      current: team.members?.length || 0, // TODO:
+      current: team.members?.length || 1, // TODO:
       limit: 5, // TODO:
     },
     languages: ["typescript"], // TODO:
