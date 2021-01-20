@@ -14,7 +14,7 @@ const variants = {
 
 export const Card: React.FC<CardProps> = ({
   children,
-  variant = "outline",
+  variant = "none",
   ...props
 }: CardProps) => {
   const variantStyle = variants[variant];
