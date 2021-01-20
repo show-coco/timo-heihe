@@ -9,6 +9,7 @@ import {
   AvatarWithName,
   AvatarWithNameProps,
 } from "../avatar/avatar-with-name";
+import { TeamsQuery } from "../../generated/types";
 
 type PeopleInfo = {
   current: number;
@@ -17,20 +18,38 @@ type PeopleInfo = {
 
 export type TeamCardProps = {
   title: string;
-  leader: AvatarWithNameProps;
+  owner: AvatarWithNameProps;
   people: PeopleInfo;
   description: string;
   languages: LanguagePochiSetProps["languages"];
-  created: string;
+  createdAt: string;
+};
+
+export const convertToTeamCardObjFromTeams = (
+  queryObj: TeamsQuery["teams"]
+): TeamCardProps[] => {
+  return queryObj.map((team) => ({
+    ...team,
+    owner: {
+      name: team.owner.name,
+      src: team.owner.avatar || "",
+    },
+    people: {
+      current: team.members?.length || 0, // TODO:
+      limit: 5, // TODO:
+    },
+    languages: ["typescript"], // TODO:
+    createdAt: team.createdAt,
+  }));
 };
 
 export const TeamCard: React.FC<TeamCardProps> = ({
   title,
-  leader,
+  owner,
   people,
   description,
   languages,
-  created,
+  createdAt,
 }: TeamCardProps) => {
   return (
     <Card variant="none" className="max-w-xl p-5 cursor-pointer">
@@ -38,8 +57,8 @@ export const TeamCard: React.FC<TeamCardProps> = ({
         <h3 className="flex-1">{title}</h3>
 
         <AvatarWithName
-          src={leader.src}
-          name={leader.name}
+          src={owner.src}
+          name={owner.name}
           size="small"
           className="mr-4"
         />
@@ -57,9 +76,57 @@ export const TeamCard: React.FC<TeamCardProps> = ({
 
         <span className="space-x-2">
           <span>作成日</span>
-          <span>{created}</span>
+          <span>{createdAt}</span>
         </span>
       </div>
     </Card>
   );
 };
+
+export const mockTeams: TeamCardProps[] = [
+  {
+    title: "Web開発",
+    owner: {
+      name: "Ropital",
+      src: "https://bit.ly/ryan-florence",
+    },
+    description:
+      "チーム募集Webアプリを開発しています。PrismaやTypeScript, GraphQL,Goなどを使用 しています！モダン技術が好きな方是非きてください！",
+    languages: ["go", "typescript", "go", "typescript", "go", "typescript"],
+    createdAt: "2020/9/12",
+    people: {
+      current: 22,
+      limit: 50,
+    },
+  },
+  {
+    title: "Web開発",
+    owner: {
+      name: "Ropital",
+      src: "https://bit.ly/ryan-florence",
+    },
+    description:
+      "チーム募集Webアプリを開発しています。PrismaやTypeScript, GraphQL,Goなどを使用 しています！モダン技術が好きな方是非きてください！",
+    languages: ["go", "typescript", "go", "typescript", "go", "typescript"],
+    createdAt: "2020/9/12",
+    people: {
+      current: 22,
+      limit: 50,
+    },
+  },
+  {
+    title: "Web開発",
+    owner: {
+      name: "Ropital",
+      src: "https://bit.ly/ryan-florence",
+    },
+    description:
+      "チーム募集Webアプリを開発しています。PrismaやTypeScript, GraphQL,Goなどを使用 しています！モダン技術が好きな方是非きてください！",
+    languages: ["go", "typescript", "go", "typescript", "go", "typescript"],
+    createdAt: "2020/9/12",
+    people: {
+      current: 22,
+      limit: 50,
+    },
+  },
+];

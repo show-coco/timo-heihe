@@ -1,0 +1,17 @@
+query Teams {
+  teams {
+    id
+    title
+    description
+    createdAt
+    skills
+    owner {
+      id
+      name
+      avatar
+    }
+    members {
+      id
+    }
+  }
+}

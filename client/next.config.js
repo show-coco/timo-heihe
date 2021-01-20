@@ -1,5 +1,5 @@
 module.exports = {
   images: {
-    domains: ["bit.ly"],
+    domains: ["bit.ly", "lh3.googleusercontent.com"],
   },
 };
