@@ -8,6 +8,7 @@ import { NumberInput } from "../components/number-input/number-input";
 import { Radio } from "../components/radio/radio";
 import { Template } from "../components/template/template";
 import GithubIcon from "../assets/icons/github.svg";
+import { TextInput } from "../components/text-input/text-input";
 
 const betweenH2 = "space-y-2";
 
@@ -35,7 +36,7 @@ export default function CreateTeam() {
               <span className="text-red-500">*</span>
             </span>
 
-            <input type="text" placeholder="チーム名を入力" />
+            <TextInput placeholder="チーム名を入力" />
           </div>
 
           <div className={betweenH2}>
@@ -75,7 +76,7 @@ export default function CreateTeam() {
           <div className={betweenH2}>
             <Heading as="h2">使用するスキル</Heading>
 
-            <input type="text" placeholder="検索する" />
+            <TextInput placeholder="検索する" />
           </div>
 
           <div className={betweenH2}>
@@ -83,7 +84,7 @@ export default function CreateTeam() {
 
             <div className="flex items-center space-x-2">
               <GithubIcon height="30px" />
-              <input type="text" placeholder="URLを入力" />
+              <TextInput placeholder="URLを入力" />
             </div>
           </div>
 
