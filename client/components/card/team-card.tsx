@@ -23,6 +23,7 @@ export type TeamCardProps = {
   description: string;
   languages: LanguagePochiSetProps["languages"];
   createdAt: string;
+  className?: string;
 };
 
 export const convertToTeamCardObjFromTeams = (
@@ -50,9 +51,10 @@ export const TeamCard: React.FC<TeamCardProps> = ({
   description,
   languages,
   createdAt,
+  className,
 }: TeamCardProps) => {
   return (
-    <Card variant="none" className="max-w-xl p-5 cursor-pointer">
+    <Card variant="none" className={`max-w-xl p-5 cursor-pointer ${className}`}>
       <div className="flex items-center">
         <h3 className="flex-1">{title}</h3>
 
