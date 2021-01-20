@@ -15,7 +15,7 @@ export const Template: React.FC<TemplateProps> = ({
 
       <div className="flex flex-1">
         <Navigation />
-        <main className="flex-1 bg-gray-100">{children}</main>
+        <main className="flex-1 bg-gray-100 p-10">{children}</main>
       </div>
     </div>
   );

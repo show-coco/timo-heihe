@@ -23,7 +23,7 @@ function Login() {
         </div>
       </div>
 
-      <div className="flex justify-center items-center w-full bg-orange-200">
+      <div className="flex justify-center items-center w-full bg-orange-200 px-10">
         <Card className="text-center">
           <h2 className="text-4xl my-6">Log in</h2>
           <div className="w-3/4 mx-auto">

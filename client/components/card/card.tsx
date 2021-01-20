@@ -6,7 +6,7 @@ type CardProps = {
   className?: string;
 };
 
-const defaultStyle = "p-3 m-10 rounded-md bg-white";
+const defaultStyle = "p-3 rounded-md bg-white";
 const variants = {
   outline: "border-2 border-gray-300",
   none: "",

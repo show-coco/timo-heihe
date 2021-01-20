@@ -3,6 +3,7 @@ import {
   convertToTeamCardObjFromTeams,
   TeamCard,
 } from "../components/card/team-card";
+import { Heading } from "../components/heading/heading";
 import { Template } from "../components/template/template";
 import { useTeamsQuery } from "../generated/types";
 
@@ -19,9 +20,12 @@ export default function Home() {
 
   return (
     <Template>
-      {teams.map((team, i) => (
-        <TeamCard {...team} key={i} />
-      ))}
+      <Heading>Board</Heading>
+      <div className="space-y-5 mt-5">
+        {teams.map((team, i) => (
+          <TeamCard {...team} key={i} />
+        ))}
+      </div>
     </Template>
   );
 }
