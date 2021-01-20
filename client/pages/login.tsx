@@ -5,7 +5,7 @@ import { Card } from "../components/card/card";
 function Login() {
   return (
     <div className="flex flex-col lg:flex-row  h-screen w-full">
-      <div className="flex flex-col items-center items-center w-full p-20">
+      <div className="flex flex-col items-center w-full p-20">
         <div className="mb-16 w-full">
           <h1 className="mb-5 text-center text-2xl">Timo Heiheとは</h1>
           <p>
@@ -23,7 +23,7 @@ function Login() {
         </div>
       </div>
 
-      <div className="flex justify-center items-center w-full bg-orange-200">
+      <div className="flex justify-center items-center w-full bg-orange-200 px-10">
         <Card className="text-center">
           <h2 className="text-4xl my-6">Log in</h2>
           <div className="w-3/4 mx-auto">

@@ -12,8 +12,8 @@ export const LanguagePochiSet: React.FC<LanguagePochiSetProps> = ({
 }: LanguagePochiSetProps) => {
   return (
     <div className={`flex flex-wrap ${className}`}>
-      {languages.map((lang) => (
-        <LanguagePochi language={lang} key={lang} className={`mr-4 mt-2`} />
+      {languages.map((lang, i) => (
+        <LanguagePochi language={lang} key={i} className={`mr-4 mt-2`} />
       ))}
     </div>
   );

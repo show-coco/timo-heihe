@@ -1,0 +1,11 @@
+query Team {
+  team(id: 11) {
+    id
+    title
+    createdAt
+    owner {
+      id
+      name
+    }
+  }
+}
