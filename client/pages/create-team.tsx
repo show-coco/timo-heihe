@@ -9,11 +9,16 @@ import { Radio } from "../components/radio/radio";
 import { Template } from "../components/template/template";
 import GithubIcon from "../assets/icons/github.svg";
 import { TextInput } from "../components/text-input/text-input";
+import { FileInput } from "../components/file-input/file-inpute";
+import { useFileInput } from "../hooks/useFileInput";
 
 const betweenH2 = "space-y-2";
 
 export default function CreateTeam() {
   const [peopleNumber, setPeopleNumber] = useState(0);
+  const { fileRef, onClick, onChange, imageUrl } = useFileInput();
+
+  console.log(imageUrl);
 
   return (
     <Template>
@@ -25,8 +30,8 @@ export default function CreateTeam() {
             <Heading as="h2">チームアイコン</Heading>
 
             <div className="flex items-center space-x-7">
-              <Avatar src="https://bit.ly/kent-c-dodds" />
-              <input type="file" />
+              <Avatar src={imageUrl} />
+              <FileInput ref={fileRef} onClick={onClick} onChange={onChange} />
             </div>
           </div>
 
