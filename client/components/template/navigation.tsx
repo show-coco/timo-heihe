@@ -12,14 +12,16 @@ export const Navigation: React.FC = () => {
       <div className="w-3/5 mx-auto space-y-10 mt-12">
         <div className="flex items-center">
           <BoardIcon class="w-5 h-5 fill-current mr-3" />
-          <Link href="#">
+          <Link href="/">
             <span className={`${textStyle} pt-0.5`}>チーム募集掲示板</span>
           </Link>
         </div>
 
         <div className="flex items-center">
           <PenIcon class="w-5 h-5 fill-current mr-3" />
-          <a className={textStyle}>チームを作成する</a>
+          <Link href="/create-team">
+            <span className={textStyle}>チームを作成する</span>
+          </Link>
         </div>
 
         <div className="flex items-center">
