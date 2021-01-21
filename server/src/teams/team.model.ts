@@ -3,11 +3,14 @@ import { UserModel } from 'src/users/user.model';
 
 @ObjectType()
 export class TeamModel {
-  @Field((type) => Int, { nullable: true })
+  @Field(() => Int, { nullable: true })
   id?: number;
 
   @Field()
   title: string;
+
+  @Field({ nullable: true })
+  icon?: string;
 
   @Field()
   description: string;

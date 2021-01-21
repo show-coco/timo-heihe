@@ -9,6 +9,9 @@ export class CreateTeamInput {
   @Field()
   title: string;
 
+  @Field({ nullable: true })
+  icon?: string;
+
   @Field()
   description: string;
 
@@ -16,7 +19,7 @@ export class CreateTeamInput {
   skills?: string;
 
   @Field()
-  ownerId: string;
+  owner: UserInput;
 
   @Field(() => [UserInput])
   members: UserInput[];

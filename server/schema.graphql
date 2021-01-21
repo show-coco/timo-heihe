@@ -5,9 +5,10 @@
 input CreateTeamInput {
   createdAt: Timestamp
   description: String!
+  icon: String
   id: Int!
   members: [UserInput!]!
-  ownerId: String!
+  owner: UserInput!
   skills: String
   title: String!
 }
@@ -28,6 +29,7 @@ type Query {
 type TeamModel {
   createdAt: Timestamp
   description: String!
+  icon: String
   id: Int
   members: [UserModel!]
   owner: UserModel!
@@ -43,20 +45,21 @@ scalar Timestamp
 input UpdateTeamInput {
   createdAt: Timestamp
   description: String
+  icon: String
   id: Int!
   members: [UserInput!]
-  ownerId: String
+  owner: UserInput
   skills: String
   title: String
 }
 
 input UserInput {
   avatar: String
-  email: String!
+  email: String
   githubId: String
   id: ID!
   introduction: String
-  name: String!
+  name: String
   twitterId: String
 }
 

@@ -17,6 +17,9 @@ export class Team {
   @Column()
   title: string;
 
+  @Column({ nullable: true })
+  icon: string;
+
   @Column()
   description: string;
 

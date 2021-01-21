@@ -48,7 +48,6 @@ export class TeamsResolver {
 
   @ResolveProperty(() => UserModel)
   owner(@Parent() team: TeamModel) {
-    console.log(team.owner.id);
     return this.usersService.findOne(team.owner.id);
   }
 }
