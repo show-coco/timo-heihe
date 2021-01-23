@@ -16,29 +16,35 @@ export const Navigation: React.FC = () => {
         <div className="flex items-center">
           <BoardIcon class="w-5 h-5 fill-current mr-3" />
           <Link href="/">
-            <span className={`${textStyle} pt-0.5`}>チーム募集掲示板</span>
+            <span className={`${textStyle} pt-0.5`} role="button">
+              チーム募集掲示板
+            </span>
           </Link>
         </div>
 
         <div className="flex items-center">
           <PenIcon class="w-5 h-5 fill-current mr-3" />
           <Link href="/create-team">
-            <span className={textStyle}>チームを作成する</span>
+            <span className={textStyle} role="button">
+              チームを作成する
+            </span>
           </Link>
         </div>
 
         <div className="flex items-center">
           <ChatIcon class="w-5 h-5 fill-current mr-3" />
-          <a className={textStyle} href="#">
-            チームチャット
-          </a>
+          <Link href="#">
+            <span className={textStyle} role="button">
+              チームチャット
+            </span>
+          </Link>
         </div>
 
         <div className="flex items-center">
           <ChatIcon class="w-5 h-5 fill-current mr-3" />
-          <a className={textStyle} onClick={logout}>
+          <span className={textStyle} onClick={logout} role="button">
             ログアウト
-          </a>
+          </span>
         </div>
       </div>
     </div>
