@@ -11,6 +11,7 @@ import GithubIcon from "../assets/icons/github.svg";
 import { TextInput } from "../components/text-input/text-input";
 import { FileInput } from "../components/file-input/file-inpute";
 import { useCreateTeam } from "../hooks/useCreateTeam";
+import { useCreateTeamPageQuery } from "../generated/types";
 
 const betweenH2 = "space-y-2";
 
@@ -29,6 +30,9 @@ export default function CreateTeam() {
     fileRef,
     imageUrl,
   } = useCreateTeam();
+  const { data } = useCreateTeamPageQuery();
+
+  console.log(data);
 
   return (
     <Template>
@@ -113,13 +117,13 @@ export default function CreateTeam() {
               </div>
             </div>
 
-            <div className={`flex flex-wrap w-2/3`}>
+            <div className={`flex flex-col flex-wrap w-2/3`}>
               <Heading as="h2">カテゴリー</Heading>
 
               <div>
-                {categoriesMock.map((category, i) => (
+                {data?.categories.map((category, i) => (
                   <Checkbox key={i} className="mr-4 mt-4">
-                    {category}
+                    {category.name}
                   </Checkbox>
                 ))}
               </div>
@@ -155,17 +159,17 @@ export default function CreateTeam() {
   );
 }
 
-const categoriesMock = [
-  "iOS",
-  "Android",
-  "Web",
-  "ゲーム",
-  "iOS",
-  "Android",
-  "Web",
-  "ゲーム",
-  "iOS",
-  "Android",
-  "Web",
-  "ゲーム",
-];
+// const categoriesMock = [
+//   "iOS",
+//   "Android",
+//   "Web",
+//   "ゲーム",
+//   "iOS",
+//   "Android",
+//   "Web",
+//   "ゲーム",
+//   "iOS",
+//   "Android",
+//   "Web",
+//   "ゲーム",
+// ];

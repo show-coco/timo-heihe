@@ -21,7 +21,24 @@ export type Scalars = {
   Timestamp: any;
 };
 
+export type CategoryInput = {
+  id: Scalars["Int"];
+  name?: Maybe<Scalars["String"]>;
+};
+
+export type CategoryModel = {
+  __typename?: "CategoryModel";
+  id?: Maybe<Scalars["Int"]>;
+  name: Scalars["String"];
+  teams: Array<TeamModel>;
+};
+
+export type CreateCategoryInput = {
+  name: Scalars["String"];
+};
+
 export type CreateTeamInput = {
+  categories: Array<CategoryInput>;
   createdAt?: Maybe<Scalars["Timestamp"]>;
   description: Scalars["String"];
   icon?: Maybe<Scalars["String"]>;
@@ -36,9 +53,16 @@ export type CreateTeamInput = {
 
 export type Mutation = {
   __typename?: "Mutation";
+  createCategory: CategoryModel;
   createTeam: TeamModel;
   deleteTeam: TeamModel;
+  removeCategory: CategoryModel;
+  updateCategory: CategoryModel;
   updateTeam: TeamModel;
+};
+
+export type MutationCreateCategoryArgs = {
+  createCategoryInput: CreateCategoryInput;
 };
 
 export type MutationCreateTeamArgs = {
@@ -49,17 +73,31 @@ export type MutationDeleteTeamArgs = {
   id: Scalars["Float"];
 };
 
+export type MutationRemoveCategoryArgs = {
+  id: Scalars["Int"];
+};
+
+export type MutationUpdateCategoryArgs = {
+  updateCategoryInput: UpdateCategoryInput;
+};
+
 export type MutationUpdateTeamArgs = {
   updateTeamInput: UpdateTeamInput;
 };
 
 export type Query = {
   __typename?: "Query";
+  categories: Array<CategoryModel>;
+  category: CategoryModel;
   me: UserModel;
   team: TeamModel;
   teams: Array<TeamModel>;
   user: UserModel;
   users: Array<UserModel>;
+};
+
+export type QueryCategoryArgs = {
+  id: Scalars["Int"];
 };
 
 export type QueryTeamArgs = {
@@ -85,7 +123,13 @@ export type TeamModel = {
   title: Scalars["String"];
 };
 
+export type UpdateCategoryInput = {
+  id: Scalars["Int"];
+  name?: Maybe<Scalars["String"]>;
+};
+
 export type UpdateTeamInput = {
+  categories?: Maybe<Array<CategoryInput>>;
   createdAt?: Maybe<Scalars["Timestamp"]>;
   description?: Maybe<Scalars["String"]>;
   icon?: Maybe<Scalars["String"]>;
@@ -126,6 +170,14 @@ export type CreateTeamMutationVariables = Exact<{
 
 export type CreateTeamMutation = { __typename?: "Mutation" } & {
   createTeam: { __typename?: "TeamModel" } & Pick<TeamModel, "id" | "title">;
+};
+
+export type CreateTeamPageQueryVariables = Exact<{ [key: string]: never }>;
+
+export type CreateTeamPageQuery = { __typename?: "Query" } & {
+  categories: Array<
+    { __typename?: "CategoryModel" } & Pick<CategoryModel, "id" | "name">
+  >;
 };
 
 export type MeQueryVariables = Exact<{ [key: string]: never }>;
@@ -210,6 +262,62 @@ export type CreateTeamMutationResult = Apollo.MutationResult<CreateTeamMutation>
 export type CreateTeamMutationOptions = Apollo.BaseMutationOptions<
   CreateTeamMutation,
   CreateTeamMutationVariables
+>;
+export const CreateTeamPageDocument = gql`
+  query CreateTeamPage {
+    categories {
+      id
+      name
+    }
+  }
+`;
+
+/**
+ * __useCreateTeamPageQuery__
+ *
+ * To run a query within a React component, call `useCreateTeamPageQuery` and pass it any options that fit your needs.
+ * When your component renders, `useCreateTeamPageQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useCreateTeamPageQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useCreateTeamPageQuery(
+  baseOptions?: Apollo.QueryHookOptions<
+    CreateTeamPageQuery,
+    CreateTeamPageQueryVariables
+  >
+) {
+  return Apollo.useQuery<CreateTeamPageQuery, CreateTeamPageQueryVariables>(
+    CreateTeamPageDocument,
+    baseOptions
+  );
+}
+export function useCreateTeamPageLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    CreateTeamPageQuery,
+    CreateTeamPageQueryVariables
+  >
+) {
+  return Apollo.useLazyQuery<CreateTeamPageQuery, CreateTeamPageQueryVariables>(
+    CreateTeamPageDocument,
+    baseOptions
+  );
+}
+export type CreateTeamPageQueryHookResult = ReturnType<
+  typeof useCreateTeamPageQuery
+>;
+export type CreateTeamPageLazyQueryHookResult = ReturnType<
+  typeof useCreateTeamPageLazyQuery
+>;
+export type CreateTeamPageQueryResult = Apollo.QueryResult<
+  CreateTeamPageQuery,
+  CreateTeamPageQueryVariables
 >;
 export const MeDocument = gql`
   query Me {
