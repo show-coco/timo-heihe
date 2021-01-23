@@ -10,6 +10,7 @@ import {
   AvatarWithNameProps,
 } from "../avatar/avatar-with-name";
 import { TeamsQuery } from "../../generated/types";
+import { dateFormatter, YEAR_MANTH_DAY_SLASH } from "../../utils/dateFormat";
 
 type PeopleInfo = {
   current: number;
@@ -19,7 +20,7 @@ type PeopleInfo = {
 export type TeamCardProps = {
   title: string;
   owner: AvatarWithNameProps;
-  people: PeopleInfo;
+  member: PeopleInfo;
   description: string;
   languages: LanguagePochiSetProps["languages"];
   createdAt: string;
@@ -35,19 +36,22 @@ export const convertToTeamCardObjFromTeams = (
       name: team.owner.name,
       src: team.owner.avatar || "",
     },
-    people: {
+    member: {
       current: team.members?.length || 1, // TODO:
       limit: 5, // TODO:
     },
     languages: ["typescript"], // TODO:
-    createdAt: team.createdAt,
+    createdAt: dateFormatter(
+      new Date(Date.parse(team.createdAt)),
+      YEAR_MANTH_DAY_SLASH
+    ),
   }));
 };
 
 export const TeamCard: React.FC<TeamCardProps> = ({
   title,
   owner,
-  people,
+  member,
   description,
   languages,
   createdAt,
@@ -67,7 +71,7 @@ export const TeamCard: React.FC<TeamCardProps> = ({
 
         <PeopleIcon />
         <p className="ml-2">
-          {people.current}/{people.limit}
+          {member.current}/{member.limit}
         </p>
       </div>
 
@@ -96,7 +100,7 @@ export const mockTeams: TeamCardProps[] = [
       "チーム募集Webアプリを開発しています。PrismaやTypeScript, GraphQL,Goなどを使用 しています！モダン技術が好きな方是非きてください！",
     languages: ["go", "typescript", "go", "typescript", "go", "typescript"],
     createdAt: "2020/9/12",
-    people: {
+    member: {
       current: 22,
       limit: 50,
     },
@@ -111,7 +115,7 @@ export const mockTeams: TeamCardProps[] = [
       "チーム募集Webアプリを開発しています。PrismaやTypeScript, GraphQL,Goなどを使用 しています！モダン技術が好きな方是非きてください！",
     languages: ["go", "typescript", "go", "typescript", "go", "typescript"],
     createdAt: "2020/9/12",
-    people: {
+    member: {
       current: 22,
       limit: 50,
     },
@@ -126,7 +130,7 @@ export const mockTeams: TeamCardProps[] = [
       "チーム募集Webアプリを開発しています。PrismaやTypeScript, GraphQL,Goなどを使用 しています！モダン技術が好きな方是非きてください！",
     languages: ["go", "typescript", "go", "typescript", "go", "typescript"],
     createdAt: "2020/9/12",
-    people: {
+    member: {
       current: 22,
       limit: 50,
     },

@@ -15,6 +15,8 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
+  /** A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format. */
+  DateTime: any;
   /** `Date` type as integer. Type represents date and time as number of milliseconds from start of UNIX epoch. */
   Timestamp: any;
 };
@@ -70,7 +72,7 @@ export type QueryUserArgs = {
 
 export type TeamModel = {
   __typename?: "TeamModel";
-  createdAt?: Maybe<Scalars["Timestamp"]>;
+  createdAt?: Maybe<Scalars["DateTime"]>;
   description: Scalars["String"];
   icon?: Maybe<Scalars["String"]>;
   id?: Maybe<Scalars["Int"]>;
