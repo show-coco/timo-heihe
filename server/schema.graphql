@@ -79,6 +79,7 @@ type SkillModel {
 }
 
 type TeamModel {
+  categories: [CategoryModel!]!
   createdAt: DateTime
   description: String!
   icon: String

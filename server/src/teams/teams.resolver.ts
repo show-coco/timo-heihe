@@ -7,6 +7,7 @@ import {
   ResolveProperty,
   Resolver,
 } from '@nestjs/graphql';
+import { CategoryService } from 'src/category/category.service';
 import { SkillService } from 'src/skill/skill.service';
 import { UserModel } from 'src/users/models/user.model';
 import { UsersService } from 'src/users/users.service';
@@ -21,6 +22,7 @@ export class TeamsResolver {
     private teamsService: TeamsService,
     private usersService: UsersService,
     private skillService: SkillService,
+    private categoryService: CategoryService,
   ) {}
 
   @Query(() => TeamModel)
@@ -64,6 +66,13 @@ export class TeamsResolver {
   async skills(@Parent() team: TeamModel) {
     return await team.skills.map(async (skill) => {
       return await this.skillService.findOne(skill.id);
+    });
+  }
+
+  @ResolveProperty(() => UserModel)
+  async categories(@Parent() team: TeamModel) {
+    return await team.categories.map(async (category) => {
+      return await this.categoryService.findOne(category.id);
     });
   }
 }

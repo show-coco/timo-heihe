@@ -18,6 +18,7 @@ export class TeamsService {
       .leftJoinAndSelect('team.owner', 'user')
       .leftJoinAndSelect('team.skills', 'skills')
       .leftJoinAndSelect('team.members', 'members')
+      .leftJoinAndSelect('team.categories', 'categories')
       .where({ id: id })
       .getOne();
   }
@@ -28,6 +29,7 @@ export class TeamsService {
       .leftJoinAndSelect('team.owner', 'user')
       .leftJoinAndSelect('team.skills', 'skills')
       .leftJoinAndSelect('team.members', 'members')
+      .leftJoinAndSelect('team.categories', 'categories')
       .getMany();
   }
 
