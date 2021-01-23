@@ -17,6 +17,12 @@ input CreateCategoryInput {
   name: String!
 }
 
+input CreateSkillInput {
+  icon: String!
+  id: Int!
+  name: String!
+}
+
 input CreateTeamInput {
   categories: [CategoryInput!]!
   createdAt: Timestamp
@@ -27,7 +33,7 @@ input CreateTeamInput {
   owner: UserInput!
   recruitNumbers: Int!
   repositoryUrl: String
-  skills: String
+  skills: [SkillInput!]!
   title: String!
 }
 
@@ -38,10 +44,13 @@ scalar DateTime
 
 type Mutation {
   createCategory(createCategoryInput: CreateCategoryInput!): CategoryModel!
+  createSkill(createSkillInput: CreateSkillInput!): SkillModel!
   createTeam(createTeamInput: CreateTeamInput!): TeamModel!
   deleteTeam(id: Float!): TeamModel!
   removeCategory(id: Int!): CategoryModel!
+  removeSkill(id: Int!): SkillModel!
   updateCategory(updateCategoryInput: UpdateCategoryInput!): CategoryModel!
+  updateSkill(updateSkillInput: UpdateSkillInput!): SkillModel!
   updateTeam(updateTeamInput: UpdateTeamInput!): TeamModel!
 }
 
@@ -49,10 +58,24 @@ type Query {
   categories: [CategoryModel!]!
   category(id: Int!): CategoryModel!
   me: UserModel!
+  skill(id: Int!): SkillModel!
+  skills: [SkillModel!]!
   team(id: Int!): TeamModel!
   teams: [TeamModel!]!
   user(id: ID!): UserModel!
   users: [UserModel!]!
+}
+
+input SkillInput {
+  icon: String
+  id: Int!
+  name: String
+}
+
+type SkillModel {
+  icon: String!
+  id: Int!
+  name: String!
 }
 
 type TeamModel {
@@ -79,6 +102,12 @@ input UpdateCategoryInput {
   name: String
 }
 
+input UpdateSkillInput {
+  icon: String
+  id: Int!
+  name: String
+}
+
 input UpdateTeamInput {
   categories: [CategoryInput!]
   createdAt: Timestamp
@@ -90,7 +119,7 @@ input UpdateTeamInput {
   owner: UserInput
   recruitNumbers: Int
   repositoryUrl: String
-  skills: String
+  skills: [SkillInput!]
   title: String
 }
 

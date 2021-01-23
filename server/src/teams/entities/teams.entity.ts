@@ -1,4 +1,5 @@
 import { Category } from 'src/category/entities/category.entity';
+import { Skill } from 'src/skill/entities/skill.entity';
 import { User } from 'src/users/entities/users.entity';
 import {
   Column,
@@ -24,8 +25,9 @@ export class Team {
   @Column()
   description: string;
 
-  @Column()
-  skills: string;
+  @ManyToMany(() => Skill, (skill) => skill.teams)
+  @JoinTable()
+  skills: Skill[];
 
   @ManyToOne(() => User, (user) => user.teams)
   owner: User;
