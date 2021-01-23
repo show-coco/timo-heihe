@@ -62,41 +62,40 @@ export const TeamCard: React.FC<TeamCardProps> = ({
   className,
 }: TeamCardProps) => {
   return (
-    <Link href="/team/[id]" as={`/team/${id.toString()}`}>
-      <div>
-        <Card
-          variant="none"
-          className={`max-w-xl p-5 cursor-pointer ${className}`}
-        >
-          <div className="flex items-center">
-            <h3 className="flex-1">{title}</h3>
+    <div className={`max-w-xl`}>
+      <Link href="/team/[id]" as={`/team/${id.toString()}`}>
+        <div>
+          <Card variant="none" className={`p-5 cursor-pointer ${className}`}>
+            <div className="flex items-center">
+              <h3 className="flex-1">{title}</h3>
 
-            <AvatarWithName
-              src={owner.src}
-              name={owner.name}
-              size="small"
-              className="mr-4"
-            />
+              <AvatarWithName
+                src={owner.src}
+                name={owner.name}
+                size="small"
+                className="mr-4"
+              />
 
-            <PeopleIcon />
-            <p className="ml-2">
-              {member.current}/{member.limit}
-            </p>
-          </div>
+              <PeopleIcon />
+              <p className="ml-2">
+                {member.current}/{member.limit}
+              </p>
+            </div>
 
-          <div className="pt-4 pb-6">{description}</div>
+            <div className="pt-4 pb-6">{description}</div>
 
-          <div className="flex items-end">
-            <LanguagePochiSet languages={languages} className="flex-1" />
+            <div className="flex items-end">
+              <LanguagePochiSet languages={languages} className="flex-1" />
 
-            <span className="space-x-2">
-              <span>作成日</span>
-              <span>{createdAt}</span>
-            </span>
-          </div>
-        </Card>
-      </div>
-    </Link>
+              <span className="space-x-2">
+                <span>作成日</span>
+                <span>{createdAt}</span>
+              </span>
+            </div>
+          </Card>
+        </div>
+      </Link>
+    </div>
   );
 };
 
