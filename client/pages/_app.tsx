@@ -2,15 +2,37 @@ import { AppProps } from "next/dist/next-server/lib/router/router";
 import React from "react";
 import "../styles/globals.css";
 import Head from "next/head";
-import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
+import {
+  ApolloClient,
+  ApolloProvider,
+  createHttpLink,
+  InMemoryCache,
+} from "@apollo/client";
 import { AuthProvider } from "../providers/useAuthContext";
+import { setContext } from "@apollo/client/link/context";
+import { jwtManager } from "../utils/jwtManager";
 
-const client = new ApolloClient({
+const httpLink = createHttpLink({
   uri: "http://localhost:8080/graphql",
-  cache: new InMemoryCache(),
+  credentials: "same-origin",
+});
+
+const authLink = setContext((_, { headers }) => {
+  const token = jwtManager.getJwt();
+  return {
+    headers: {
+      ...headers,
+      authorization: token ? `Bearer ${token}` : "",
+    },
+  };
 });
 
 function MyApp({ Component, pageProps }: AppProps) {
+  const client = new ApolloClient({
+    link: authLink.concat(httpLink),
+    cache: new InMemoryCache(),
+  });
+
   return (
     <>
       <Head>

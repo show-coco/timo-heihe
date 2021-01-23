@@ -53,6 +53,7 @@ export type MutationUpdateTeamArgs = {
 
 export type Query = {
   __typename?: "Query";
+  me: UserModel;
   team: TeamModel;
   teams: Array<TeamModel>;
   user: UserModel;
@@ -123,6 +124,12 @@ export type CreateTeamMutationVariables = Exact<{
 
 export type CreateTeamMutation = { __typename?: "Mutation" } & {
   createTeam: { __typename?: "TeamModel" } & Pick<TeamModel, "id" | "title">;
+};
+
+export type MeQueryVariables = Exact<{ [key: string]: never }>;
+
+export type MeQuery = { __typename?: "Query" } & {
+  me: { __typename?: "UserModel" } & Pick<UserModel, "name" | "id">;
 };
 
 export type TeamQueryVariables = Exact<{ [key: string]: never }>;
@@ -202,6 +209,46 @@ export type CreateTeamMutationOptions = Apollo.BaseMutationOptions<
   CreateTeamMutation,
   CreateTeamMutationVariables
 >;
+export const MeDocument = gql`
+  query Me {
+    me {
+      name
+      id
+    }
+  }
+`;
+
+/**
+ * __useMeQuery__
+ *
+ * To run a query within a React component, call `useMeQuery` and pass it any options that fit your needs.
+ * When your component renders, `useMeQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useMeQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useMeQuery(
+  baseOptions?: Apollo.QueryHookOptions<MeQuery, MeQueryVariables>
+) {
+  return Apollo.useQuery<MeQuery, MeQueryVariables>(MeDocument, baseOptions);
+}
+export function useMeLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<MeQuery, MeQueryVariables>
+) {
+  return Apollo.useLazyQuery<MeQuery, MeQueryVariables>(
+    MeDocument,
+    baseOptions
+  );
+}
+export type MeQueryHookResult = ReturnType<typeof useMeQuery>;
+export type MeLazyQueryHookResult = ReturnType<typeof useMeLazyQuery>;
+export type MeQueryResult = Apollo.QueryResult<MeQuery, MeQueryVariables>;
 export const TeamDocument = gql`
   query Team {
     team(id: 11) {

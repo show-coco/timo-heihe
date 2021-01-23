@@ -1,6 +1,7 @@
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { createContext } from "react";
+import { useMeQuery } from "../generated/types";
 import { jwtManager } from "../utils/jwtManager";
 
 type AuthContextType = {
@@ -32,6 +33,7 @@ export const AuthProvider: React.FC<Props> = ({ children }: Props) => {
   const [name, setName] = useState("");
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const router = useRouter();
+  const { data } = useMeQuery();
 
   const login = (token: string, { name, id }: { name: string; id: string }) => {
     jwtManager.setJwt(token);
@@ -51,8 +53,13 @@ export const AuthProvider: React.FC<Props> = ({ children }: Props) => {
 
   useEffect(() => {
     const hasToken = Boolean(jwtManager.getJwt());
+    if (data?.me) {
+      const { id, name } = data?.me;
+      setName(name);
+      setId(id);
+    }
     setIsAuthenticated(hasToken);
-  }, []);
+  }, [data?.me]);
 
   return (
     <LoginUserContext.Provider
