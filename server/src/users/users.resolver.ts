@@ -3,8 +3,8 @@ import { Args, ID, Query, Resolver } from '@nestjs/graphql';
 import { GqlJwtAuthGuard } from 'src/auth/jwt-auth.guards';
 import { Payload } from 'src/auth/types/payload';
 import { CurrentUser } from './dto/current-user';
-import { UserModel } from './user.model';
-import { User } from './users.entity';
+import { UserModel } from './models/user.model';
+import { User } from './entities/users.entity';
 import { UsersService } from './users.service';
 
 @Resolver(() => UserModel)

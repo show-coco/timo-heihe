@@ -1,4 +1,4 @@
-import { Team } from 'src/teams/teams.entity';
+import { Team } from 'src/teams/entities/teams.entity';
 import { Column, Entity, ManyToMany, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
@@ -9,6 +9,6 @@ export class Category {
   @Column()
   name: string;
 
-  @ManyToMany(() => Team)
+  @ManyToMany(() => Team, (team) => team.categories)
   teams: Team[];
 }

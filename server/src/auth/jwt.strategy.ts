@@ -3,7 +3,7 @@ import { PassportStrategy } from '@nestjs/passport';
 import { Injectable } from '@nestjs/common';
 import { jwtConstants } from './auth.constants';
 import { UsersService } from 'src/users/users.service';
-import { User } from 'src/users/users.entity';
+import { User } from 'src/users/entities/users.entity';
 
 type Payload = {
   sub: string;

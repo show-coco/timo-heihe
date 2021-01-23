@@ -1,5 +1,5 @@
 import { Category } from 'src/category/entities/category.entity';
-import { User } from 'src/users/users.entity';
+import { User } from 'src/users/entities/users.entity';
 import {
   Column,
   CreateDateColumn,
@@ -34,7 +34,7 @@ export class Team {
   @JoinTable()
   members?: User[];
 
-  @ManyToMany(() => Category)
+  @ManyToMany(() => Category, (category) => category.teams)
   @JoinTable()
   categories: Category[];
 

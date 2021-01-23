@@ -3,10 +3,10 @@ import { ConfigModule } from '@nestjs/config';
 import { GraphQLModule } from '@nestjs/graphql';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from './auth/auth.module';
-import { User } from './users/users.entity';
+import { User } from './users/entities/users.entity';
 import { UsersModule } from './users/users.module';
 import { TeamsModule } from './teams/teams.module';
-import { Team } from './teams/teams.entity';
+import { Team } from './teams/entities/teams.entity';
 import { CategoryModule } from './category/category.module';
 import { Category } from './category/entities/category.entity';
 

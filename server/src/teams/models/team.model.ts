@@ -1,5 +1,5 @@
 import { Field, GraphQLISODateTime, Int, ObjectType } from '@nestjs/graphql';
-import { UserModel } from 'src/users/user.model';
+import { UserModel } from 'src/users/models/user.model';
 
 @ObjectType()
 export class TeamModel {

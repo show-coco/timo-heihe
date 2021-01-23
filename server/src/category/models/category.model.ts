@@ -1,5 +1,5 @@
 import { Field, Int, ObjectType } from '@nestjs/graphql';
-import { TeamModel } from 'src/teams/team.model';
+import { TeamModel } from 'src/teams/models/team.model';
 
 @ObjectType()
 export class CategoryModel {
