@@ -26,6 +26,7 @@ export default function CreateTeam() {
     onChangeFileInput,
     onSubmit,
     setIsRequired,
+    onChangeCategories,
     recruitNumber,
     fileRef,
     imageUrl,
@@ -122,7 +123,14 @@ export default function CreateTeam() {
 
               <div>
                 {data?.categories.map((category, i) => (
-                  <Checkbox key={i} className="mr-4 mt-4">
+                  <Checkbox
+                    key={i}
+                    className="mr-4 mt-4"
+                    value={category.id?.toString()}
+                    onChange={(e) =>
+                      onChangeCategories(e, Number(e.currentTarget.value))
+                    }
+                  >
                     {category.name}
                   </Checkbox>
                 ))}

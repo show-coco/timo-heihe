@@ -4,6 +4,12 @@ import { useCreateTeamMutation } from "../generated/types";
 import { useAuthContext } from "../providers/useAuthContext";
 import { useFileInput } from "./useFileInput";
 
+const convertToCategoriesObj = (categories: number[]) => {
+  return categories.map((category) => ({
+    id: category,
+  }));
+};
+
 export const useCreateTeam = () => {
   const { id } = useAuthContext();
   const [createTeam, { loading }] = useCreateTeamMutation();
@@ -13,6 +19,7 @@ export const useCreateTeam = () => {
   const [recruitNumber, setRecruitNumber] = useState(0);
   const [repositoryUrl, setRespositoryUrl] = useState("");
   const [isRequired, setIsRequired] = useState("1");
+  const [categories, setCategories] = useState<number[]>([]);
   const {
     fileRef,
     onClick: onClickFileInput,
@@ -36,6 +43,7 @@ export const useCreateTeam = () => {
     repositoryUrl,
     recruitNumbers: recruitNumber,
     isRequired: isRequired === "2",
+    categories: convertToCategoriesObj(categories),
   });
 
   console.log(getVariables());
@@ -53,6 +61,20 @@ export const useCreateTeam = () => {
     }
   };
 
+  const onChangeCategories = (
+    event: React.FormEvent<HTMLInputElement>,
+    id: number
+  ) => {
+    let newCategories = categories.slice();
+
+    if (categories.includes(id)) {
+      newCategories = categories.filter((value) => value !== id);
+    } else {
+      newCategories.push(id);
+    }
+    setCategories(newCategories);
+  };
+
   return {
     setTitle,
     setSkills,
@@ -63,6 +85,7 @@ export const useCreateTeam = () => {
     setRecruitNumber,
     setRespositoryUrl,
     setIsRequired,
+    onChangeCategories,
     recruitNumber,
     fileRef,
     imageUrl,
