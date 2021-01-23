@@ -20,7 +20,7 @@ export class SkillService {
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} skill`;
+    return this.skillRepository.findOne(id);
   }
 
   update(id: number, updateSkillInput: UpdateSkillInput) {

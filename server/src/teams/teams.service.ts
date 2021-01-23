@@ -16,6 +16,8 @@ export class TeamsService {
     return this.teamRepository
       .createQueryBuilder('team')
       .leftJoinAndSelect('team.owner', 'user')
+      .leftJoinAndSelect('team.skills', 'skills')
+      .leftJoinAndSelect('team.members', 'members')
       .where({ id: id })
       .getOne();
   }
@@ -24,6 +26,8 @@ export class TeamsService {
     return this.teamRepository
       .createQueryBuilder('team')
       .leftJoinAndSelect('team.owner', 'user')
+      .leftJoinAndSelect('team.skills', 'skills')
+      .leftJoinAndSelect('team.members', 'members')
       .getMany();
   }
 
