@@ -1,12 +1,13 @@
 import React from "react";
 import { useState } from "react";
 import { useCreateTeamMutation } from "../generated/types";
+import { useAuthContext } from "../providers/useAuthContext";
 import { useFileInput } from "./useFileInput";
 
 export const useCreateTeam = () => {
+  const { id } = useAuthContext();
   const [createTeam, { loading }] = useCreateTeamMutation();
   const [title, setTitle] = useState("");
-  const [ownerId, setOwnerId] = useState("100453910579362727908");
   const [skills, setSkills] = useState("");
   const [description, setDescription] = useState("");
   const [peopleNumber, setPeopleNumber] = useState(0);
@@ -22,14 +23,14 @@ export const useCreateTeam = () => {
   const getVariables = () => ({
     title,
     owner: {
-      id: ownerId,
+      id,
     },
     icon: imageUrl,
     skills,
     description,
     members: [
       {
-        id: ownerId,
+        id,
       },
     ],
     repositoryUrl,
@@ -54,7 +55,6 @@ export const useCreateTeam = () => {
 
   return {
     setTitle,
-    setOwnerId,
     setSkills,
     setDescription,
     onSubmit,
