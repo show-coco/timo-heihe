@@ -1,4 +1,4 @@
-import React, { BaseSyntheticEvent, useState } from "react";
+import React from "react";
 import { Avatar } from "../components/avatar/avatar";
 import { Button } from "../components/button";
 import { Card } from "../components/card/card";
@@ -11,8 +11,15 @@ import GithubIcon from "../assets/icons/github.svg";
 import { TextInput } from "../components/text-input/text-input";
 import { FileInput } from "../components/file-input/file-inpute";
 import { useCreateTeam } from "../hooks/useCreateTeam";
-import { SkillModel, useCreateTeamPageQuery } from "../generated/types";
-import Autosuggest from "react-autosuggest";
+import {
+  CreateTeamPageQuery,
+  useCreateTeamPageQuery,
+} from "../generated/types";
+import {
+  ACSelectedData,
+  AutoComplate,
+} from "../components/auto-complate/auto-complate";
+import { LanguagePochiSet } from "../components/language/language-pochi-set";
 
 const betweenH2 = "space-y-2";
 
@@ -29,59 +36,14 @@ export default function CreateTeam() {
     setIsRequired,
     onChangeCategories,
     recruitNumber,
+    selectedSkills,
     fileRef,
     imageUrl,
   } = useCreateTeam();
   const { data } = useCreateTeamPageQuery();
 
   const skills = data?.skills || [];
-
-  const getSuggestions = (value: string): SkillModel[] => {
-    const inputValue = value.trim().toLowerCase();
-    const inputLength = inputValue.length;
-
-    return inputLength === 0
-      ? []
-      : skills.filter(
-          (lang) => lang.name.toLowerCase().slice(0, inputLength) === inputValue
-        );
-  };
-
-  const [value, setValue] = useState("");
-  const [suggestions, setSuggestions] = useState<SkillModel[]>([]);
-
-  const getSuggestionValue = (suggestion: SkillModel): string => {
-    const { name } = suggestion;
-
-    return name;
-  };
-
-  const renderSuggestion = (suggestion: SkillModel) => {
-    return <div>{suggestion.name}</div>;
-  };
-
-  const onChange = (
-    event: BaseSyntheticEvent,
-    { newValue }: { newValue: string }
-  ) => {
-    if (event) setValue(newValue);
-  };
-
-  const onSuggestionsFetchRequested = ({ value }: { value: string }) => {
-    const suggestions: SkillModel[] = getSuggestions(value);
-    setSuggestions(suggestions);
-  };
-
-  // Autosuggest will call this function every time you need to clear suggestions.
-  const onSuggestionsClearRequested = () => {
-    setSuggestions([]);
-  };
-
-  const inputProps = {
-    placeholder: "cかeを入力してみて",
-    value,
-    onChange,
-  };
+  console.log("selectedSkills", selectedSkills);
 
   return (
     <Template>
@@ -193,14 +155,17 @@ export default function CreateTeam() {
                 name="skills"
                 onChange={(e) => setSkills(e.target.value)}
               /> */}
-              <Autosuggest
-                suggestions={suggestions}
-                onSuggestionsFetchRequested={onSuggestionsFetchRequested}
-                onSuggestionsClearRequested={onSuggestionsClearRequested}
-                getSuggestionValue={getSuggestionValue}
-                renderSuggestion={renderSuggestion}
-                inputProps={inputProps}
+              <AutoComplate
+                data={convertToACData(skills)}
+                placeholder="スキルを検索"
+                setSelected={setSkills}
+                selectedData={selectedSkills}
               />
+              <div>
+                <LanguagePochiSet
+                  languages={convertToSkillPochiSetArray(selectedSkills)}
+                />
+              </div>
             </div>
 
             <div className={betweenH2}>
@@ -222,6 +187,17 @@ export default function CreateTeam() {
     </Template>
   );
 }
+
+const convertToACData = (skills: CreateTeamPageQuery["skills"]) => {
+  return skills.map((skill) => ({
+    id: skill.id.toString(),
+    name: skill.name,
+  }));
+};
+
+const convertToSkillPochiSetArray = (skills: ACSelectedData[]) => {
+  return skills.map((skill) => skill.name);
+};
 
 // const categoriesMock = [
 //   "iOS",
