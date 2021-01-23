@@ -6,7 +6,6 @@ input CreateTeamInput {
   createdAt: Timestamp
   description: String!
   icon: String
-  id: Int!
   members: [UserInput!]!
   owner: UserInput!
   skills: String

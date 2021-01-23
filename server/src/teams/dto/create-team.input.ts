@@ -1,11 +1,8 @@
-import { InputType, Int, Field, GraphQLTimestamp } from '@nestjs/graphql';
+import { InputType, Field, GraphQLTimestamp } from '@nestjs/graphql';
 import { UserInput } from 'src/users/dto/user.input';
 
 @InputType()
 export class CreateTeamInput {
-  @Field(() => Int)
-  id: number;
-
   @Field()
   title: string;
 

@@ -3,17 +3,21 @@ import React from "react";
 type TextInputProps = {
   placeholder?: string;
   className?: string;
+  name?: string;
+  // eslint-disable-next-line no-unused-vars
+  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
-export const TextInput: React.FC<TextInputProps> = ({
-  className,
-  ...props
-}: TextInputProps) => {
-  return (
-    <input
-      type="text"
-      className={`border-none bg-blue-100 rounded-sm ${className}`}
-      {...props}
-    />
-  );
-};
+// eslint-disable-next-line react/display-name
+export const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
+  ({ className, ...props }: TextInputProps, ref) => {
+    return (
+      <input
+        type="text"
+        ref={ref}
+        className={`border-none bg-blue-100 rounded-sm ${className}`}
+        {...props}
+      />
+    );
+  }
+);
