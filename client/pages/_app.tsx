@@ -3,6 +3,7 @@ import React from "react";
 import "../styles/globals.css";
 import Head from "next/head";
 import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
+import { AuthProvider } from "../providers/useAuthContext";
 
 const client = new ApolloClient({
   uri: "http://localhost:8080/graphql",
@@ -21,7 +22,9 @@ function MyApp({ Component, pageProps }: AppProps) {
         {/* <link rel="manifest" href="/manifest.json" /> */}
       </Head>
       <ApolloProvider client={client}>
-        <Component {...pageProps} />
+        <AuthProvider>
+          <Component {...pageProps} />
+        </AuthProvider>
       </ApolloProvider>
     </>
   );
