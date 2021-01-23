@@ -2,6 +2,7 @@ import React from "react";
 import ChatIcon from "../../assets/icons/chat.svg";
 import PenIcon from "../../assets/icons/pen.svg";
 import BoardIcon from "../../assets/icons/board.svg";
+import LogoutIcon from "../../assets/icons/logout.svg";
 import Link from "next/link";
 import { useAuthContext } from "../../providers/useAuthContext";
 
@@ -41,7 +42,7 @@ export const Navigation: React.FC = () => {
         </div>
 
         <div className="flex items-center">
-          <ChatIcon class="w-5 h-5 fill-current mr-3" />
+          <LogoutIcon class="w-5 h-5 fill-current mr-3" />
           <span className={textStyle} onClick={logout} role="button">
             ログアウト
           </span>
