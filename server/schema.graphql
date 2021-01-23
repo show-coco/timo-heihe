@@ -7,6 +7,16 @@ input CategoryInput {
   name: String
 }
 
+type CategoryModel {
+  id: Int
+  name: String!
+  teams: [TeamModel!]!
+}
+
+input CreateCategoryInput {
+  name: String!
+}
+
 input CreateTeamInput {
   categories: [CategoryInput!]!
   createdAt: Timestamp
@@ -27,12 +37,17 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 scalar DateTime
 
 type Mutation {
+  createCategory(createCategoryInput: CreateCategoryInput!): CategoryModel!
   createTeam(createTeamInput: CreateTeamInput!): TeamModel!
   deleteTeam(id: Float!): TeamModel!
+  removeCategory(id: Int!): CategoryModel!
+  updateCategory(updateCategoryInput: UpdateCategoryInput!): CategoryModel!
   updateTeam(updateTeamInput: UpdateTeamInput!): TeamModel!
 }
 
 type Query {
+  categories: [CategoryModel!]!
+  category(id: Int!): CategoryModel!
   me: UserModel!
   team(id: Int!): TeamModel!
   teams: [TeamModel!]!
@@ -58,6 +73,11 @@ type TeamModel {
 `Date` type as integer. Type represents date and time as number of milliseconds from start of UNIX epoch.
 """
 scalar Timestamp
+
+input UpdateCategoryInput {
+  id: Int!
+  name: String
+}
 
 input UpdateTeamInput {
   categories: [CategoryInput!]

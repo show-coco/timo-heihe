@@ -16,7 +16,7 @@ import { Category } from './category/entities/category.entity';
       envFilePath: '.env.dev',
     }),
     GraphQLModule.forRoot({
-      include: [UsersModule, TeamsModule],
+      include: [UsersModule, TeamsModule, CategoryModule],
       playground: true,
       autoSchemaFile: 'schema.graphql',
       sortSchema: true,
