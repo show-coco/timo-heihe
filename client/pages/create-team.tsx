@@ -20,12 +20,12 @@ export default function CreateTeam() {
     setRespositoryUrl,
     setSkills,
     setDescription,
-    setPeopleNumber,
+    setRecruitNumber,
     onClickFileInput,
     onChangeFileInput,
     onSubmit,
     setIsRequired,
-    peopleNumber,
+    recruitNumber,
     fileRef,
     imageUrl,
   } = useCreateTeam();
@@ -84,7 +84,10 @@ export default function CreateTeam() {
               </span>
 
               <div className="flex flex-row h-10 w-full rounded-lg relative bg-transparent mt-1">
-                <NumberInput value={peopleNumber} setValue={setPeopleNumber} />
+                <NumberInput
+                  value={recruitNumber}
+                  setValue={setRecruitNumber}
+                />
               </div>
             </div>
 

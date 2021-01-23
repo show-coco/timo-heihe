@@ -10,7 +10,7 @@ export const useCreateTeam = () => {
   const [title, setTitle] = useState("");
   const [skills, setSkills] = useState("");
   const [description, setDescription] = useState("");
-  const [peopleNumber, setPeopleNumber] = useState(0);
+  const [recruitNumber, setRecruitNumber] = useState(0);
   const [repositoryUrl, setRespositoryUrl] = useState("");
   const [isRequired, setIsRequired] = useState("1");
   const {
@@ -34,7 +34,7 @@ export const useCreateTeam = () => {
       },
     ],
     repositoryUrl,
-    recruitNumbers: peopleNumber,
+    recruitNumbers: recruitNumber,
     isRequired: isRequired === "2",
   });
 
@@ -60,10 +60,10 @@ export const useCreateTeam = () => {
     onSubmit,
     onClickFileInput,
     onChangeFileInput,
-    setPeopleNumber,
+    setRecruitNumber,
     setRespositoryUrl,
     setIsRequired,
-    peopleNumber,
+    recruitNumber,
     fileRef,
     imageUrl,
     loading,
