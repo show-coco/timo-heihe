@@ -1,0 +1,6 @@
+query CreateTeamPage {
+  categories {
+    id
+    name
+  }
+}

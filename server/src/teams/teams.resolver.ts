@@ -7,11 +7,11 @@ import {
   ResolveProperty,
   Resolver,
 } from '@nestjs/graphql';
-import { UserModel } from 'src/users/user.model';
+import { UserModel } from 'src/users/models/user.model';
 import { UsersService } from 'src/users/users.service';
 import { CreateTeamInput } from './dto/create-team.input';
 import { UpdateTeamInput } from './dto/update-team.input';
-import { TeamModel } from './team.model';
+import { TeamModel } from './models/team.model';
 import { TeamsService } from './teams.service';
 
 @Resolver(() => TeamModel)
@@ -38,7 +38,6 @@ export class TeamsResolver {
 
   @Mutation(() => TeamModel)
   createTeam(@Args('createTeamInput') createTeamInput: CreateTeamInput) {
-    console.log(createTeamInput);
     return this.teamsService.insert(createTeamInput);
   }
 

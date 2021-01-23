@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateTeamInput } from './dto/create-team.input';
 import { UpdateTeamInput } from './dto/update-team.input';
-import { Team } from './teams.entity';
+import { Team } from './entities/teams.entity';
 
 @Injectable()
 export class TeamsService {
@@ -45,15 +45,8 @@ export class TeamsService {
     const input: CreateTeamInput = JSON.parse(JSON.stringify(createTeamInput));
 
     try {
-      const returns = await this.teamRepository
-        .createQueryBuilder()
-        .insert()
-        .into(Team)
-        .values(input)
-        .returning(['id', 'title', 'description', 'skills', 'created_at'])
-        .updateEntity(true)
-        .execute();
-      return returns.raw[0];
+      const returns = await this.teamRepository.save(input);
+      return returns;
     } catch (e) {
       console.log(e);
     }

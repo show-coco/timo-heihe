@@ -2,7 +2,23 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+input CategoryInput {
+  id: Int!
+  name: String
+}
+
+type CategoryModel {
+  id: Int
+  name: String!
+  teams: [TeamModel!]!
+}
+
+input CreateCategoryInput {
+  name: String!
+}
+
 input CreateTeamInput {
+  categories: [CategoryInput!]!
   createdAt: Timestamp
   description: String!
   icon: String
@@ -21,12 +37,17 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 scalar DateTime
 
 type Mutation {
+  createCategory(createCategoryInput: CreateCategoryInput!): CategoryModel!
   createTeam(createTeamInput: CreateTeamInput!): TeamModel!
   deleteTeam(id: Float!): TeamModel!
+  removeCategory(id: Int!): CategoryModel!
+  updateCategory(updateCategoryInput: UpdateCategoryInput!): CategoryModel!
   updateTeam(updateTeamInput: UpdateTeamInput!): TeamModel!
 }
 
 type Query {
+  categories: [CategoryModel!]!
+  category(id: Int!): CategoryModel!
   me: UserModel!
   team(id: Int!): TeamModel!
   teams: [TeamModel!]!
@@ -53,7 +74,13 @@ type TeamModel {
 """
 scalar Timestamp
 
+input UpdateCategoryInput {
+  id: Int!
+  name: String
+}
+
 input UpdateTeamInput {
+  categories: [CategoryInput!]
   createdAt: Timestamp
   description: String
   icon: String

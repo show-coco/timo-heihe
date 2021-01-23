@@ -5,7 +5,7 @@ import { config } from 'dotenv';
 import { Injectable } from '@nestjs/common';
 import { GooglePrfile } from './types/googleProfile';
 import { UsersService } from 'src/users/users.service';
-import { User } from 'src/users/users.entity';
+import { User } from 'src/users/entities/users.entity';
 
 config();
 
