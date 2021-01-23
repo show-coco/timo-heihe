@@ -3,4 +3,9 @@ query CreateTeamPage {
     id
     name
   }
+  skills {
+    id
+    name
+    icon
+  }
 }

@@ -11,7 +11,15 @@ import GithubIcon from "../assets/icons/github.svg";
 import { TextInput } from "../components/text-input/text-input";
 import { FileInput } from "../components/file-input/file-inpute";
 import { useCreateTeam } from "../hooks/useCreateTeam";
-import { useCreateTeamPageQuery } from "../generated/types";
+import {
+  CreateTeamPageQuery,
+  useCreateTeamPageQuery,
+} from "../generated/types";
+import {
+  ACSelectedData,
+  AutoComplate,
+} from "../components/auto-complate/auto-complate";
+import { LanguagePochiSet } from "../components/language/language-pochi-set";
 
 const betweenH2 = "space-y-2";
 
@@ -28,12 +36,14 @@ export default function CreateTeam() {
     setIsRequired,
     onChangeCategories,
     recruitNumber,
+    selectedSkills,
     fileRef,
     imageUrl,
   } = useCreateTeam();
   const { data } = useCreateTeamPageQuery();
 
-  console.log(data);
+  const skills = data?.skills || [];
+  console.log("selectedSkills", selectedSkills);
 
   return (
     <Template>
@@ -140,11 +150,22 @@ export default function CreateTeam() {
             <div className={betweenH2}>
               <Heading as="h2">使用するスキル</Heading>
 
-              <TextInput
+              {/* <TextInput
                 placeholder="検索する"
                 name="skills"
                 onChange={(e) => setSkills(e.target.value)}
+              /> */}
+              <AutoComplate
+                data={convertToACData(skills)}
+                placeholder="スキルを検索"
+                setSelected={setSkills}
+                selectedData={selectedSkills}
               />
+              <div>
+                <LanguagePochiSet
+                  languages={convertToSkillPochiSetArray(selectedSkills)}
+                />
+              </div>
             </div>
 
             <div className={betweenH2}>
@@ -166,6 +187,17 @@ export default function CreateTeam() {
     </Template>
   );
 }
+
+const convertToACData = (skills: CreateTeamPageQuery["skills"]) => {
+  return skills.map((skill) => ({
+    id: skill.id.toString(),
+    name: skill.name,
+  }));
+};
+
+const convertToSkillPochiSetArray = (skills: ACSelectedData[]) => {
+  return skills.map((skill) => skill.name);
+};
 
 // const categoriesMock = [
 //   "iOS",

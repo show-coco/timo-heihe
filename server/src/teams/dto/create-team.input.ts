@@ -1,5 +1,6 @@
 import { InputType, Field, GraphQLTimestamp, Int } from '@nestjs/graphql';
 import { CategoryInput } from 'src/category/dto/category.input';
+import { SkillInput } from 'src/skill/dto/skill.input';
 import { UserInput } from 'src/users/dto/user.input';
 
 @InputType()
@@ -13,8 +14,8 @@ export class CreateTeamInput {
   @Field()
   description: string;
 
-  @Field({ nullable: true })
-  skills?: string;
+  @Field(() => [SkillInput])
+  skills?: SkillInput[];
 
   @Field()
   owner: UserInput;
