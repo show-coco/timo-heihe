@@ -10,7 +10,7 @@ export class AuthController {
 
   @Get()
   @UseGuards(AuthGuard('google'))
-  async googleAuth(@Req() req: RequestWithUser) {
+  async googleAuth() {
     // do nothing
   }
 
@@ -18,10 +18,9 @@ export class AuthController {
   @UseGuards(AuthGuard('google'))
   async googleAuthRedirect(@Req() req: RequestWithUser, @Res() res: Response) {
     const token = await this.authService.login(req.user);
-    const redirectUrl =
-      'http://localhost:3000/google/callback?access_token=' +
-      token.access_token;
+    console.log(req.user);
 
+    const redirectUrl = `http://localhost:3000/google/callback?access_token=${token.access_token}&name=${req.user.name}&id=${req.user.id}`;
     res.redirect(redirectUrl);
   }
 }
