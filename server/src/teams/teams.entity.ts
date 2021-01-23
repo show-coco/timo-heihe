@@ -33,6 +33,15 @@ export class Team {
   @JoinTable()
   members?: User[];
 
+  @Column({ nullable: true })
+  repositoryUrl?: string;
+
+  @Column()
+  recruitNumbers: number;
+
+  @Column({ nullable: true })
+  isRequired: boolean;
+
   @CreateDateColumn({ type: 'timestamp' })
   createdAt?: Date;
 }

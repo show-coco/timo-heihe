@@ -24,6 +24,7 @@ export default function CreateTeam() {
     onClickFileInput,
     onChangeFileInput,
     onSubmit,
+    setIsRequired,
     peopleNumber,
     fileRef,
     imageUrl,
@@ -94,8 +95,18 @@ export default function CreateTeam() {
               </span>
 
               <div className="space-x-8 flex">
-                <Radio text="なし" name="apply" />
-                <Radio text="あり" name="apply" />
+                <Radio
+                  text="なし"
+                  name="apply"
+                  value="1"
+                  onChange={(e) => setIsRequired(e.target.value)}
+                />
+                <Radio
+                  text="あり"
+                  name="apply"
+                  value="2"
+                  onChange={(e) => setIsRequired(e.target.value)}
+                />
               </div>
             </div>
 

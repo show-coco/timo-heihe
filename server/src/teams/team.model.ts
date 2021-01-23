@@ -24,6 +24,15 @@ export class TeamModel {
   @Field(() => [UserModel], { nullable: true })
   members?: UserModel[];
 
+  @Field({ nullable: true })
+  repositoryUrl?: string;
+
+  @Field(() => Int)
+  recruitNumbers?: number;
+
+  @Field()
+  isRequired: boolean;
+
   @Field(() => GraphQLTimestamp, { nullable: true })
   createdAt?: Date;
 }

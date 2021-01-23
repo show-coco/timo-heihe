@@ -6,8 +6,11 @@ input CreateTeamInput {
   createdAt: Timestamp
   description: String!
   icon: String
+  isRequired: Boolean!
   members: [UserInput!]!
   owner: UserInput!
+  recruitNumbers: Int!
+  repositoryUrl: String
   skills: String
   title: String!
 }
@@ -30,8 +33,11 @@ type TeamModel {
   description: String!
   icon: String
   id: Int
+  isRequired: Boolean!
   members: [UserModel!]
   owner: UserModel!
+  recruitNumbers: Int!
+  repositoryUrl: String
   skills: String
   title: String!
 }
@@ -46,8 +52,11 @@ input UpdateTeamInput {
   description: String
   icon: String
   id: Int!
+  isRequired: Boolean
   members: [UserInput!]
   owner: UserInput
+  recruitNumbers: Int
+  repositoryUrl: String
   skills: String
   title: String
 }

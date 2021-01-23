@@ -10,7 +10,8 @@ export const useCreateTeam = () => {
   const [skills, setSkills] = useState("");
   const [description, setDescription] = useState("");
   const [peopleNumber, setPeopleNumber] = useState(0);
-  const [, setRespositoryUrl] = useState("");
+  const [repositoryUrl, setRespositoryUrl] = useState("");
+  const [isRequired, setIsRequired] = useState("1");
   const {
     fileRef,
     onClick: onClickFileInput,
@@ -31,7 +32,12 @@ export const useCreateTeam = () => {
         id: ownerId,
       },
     ],
+    repositoryUrl,
+    recruitNumbers: peopleNumber,
+    isRequired: isRequired === "2",
   });
+
+  console.log(getVariables());
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -56,6 +62,7 @@ export const useCreateTeam = () => {
     onChangeFileInput,
     setPeopleNumber,
     setRespositoryUrl,
+    setIsRequired,
     peopleNumber,
     fileRef,
     imageUrl,

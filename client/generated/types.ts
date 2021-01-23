@@ -23,8 +23,11 @@ export type CreateTeamInput = {
   createdAt?: Maybe<Scalars["Timestamp"]>;
   description: Scalars["String"];
   icon?: Maybe<Scalars["String"]>;
+  isRequired: Scalars["Boolean"];
   members: Array<UserInput>;
   owner: UserInput;
+  recruitNumbers: Scalars["Int"];
+  repositoryUrl?: Maybe<Scalars["String"]>;
   skills?: Maybe<Scalars["String"]>;
   title: Scalars["String"];
 };
@@ -70,8 +73,11 @@ export type TeamModel = {
   description: Scalars["String"];
   icon?: Maybe<Scalars["String"]>;
   id?: Maybe<Scalars["Int"]>;
+  isRequired: Scalars["Boolean"];
   members?: Maybe<Array<UserModel>>;
   owner: UserModel;
+  recruitNumbers: Scalars["Int"];
+  repositoryUrl?: Maybe<Scalars["String"]>;
   skills?: Maybe<Scalars["String"]>;
   title: Scalars["String"];
 };
@@ -81,8 +87,11 @@ export type UpdateTeamInput = {
   description?: Maybe<Scalars["String"]>;
   icon?: Maybe<Scalars["String"]>;
   id: Scalars["Int"];
+  isRequired?: Maybe<Scalars["Boolean"]>;
   members?: Maybe<Array<UserInput>>;
   owner?: Maybe<UserInput>;
+  recruitNumbers?: Maybe<Scalars["Int"]>;
+  repositoryUrl?: Maybe<Scalars["String"]>;
   skills?: Maybe<Scalars["String"]>;
   title?: Maybe<Scalars["String"]>;
 };
