@@ -37,6 +37,12 @@ export type CreateCategoryInput = {
   name: Scalars["String"];
 };
 
+export type CreateSkillInput = {
+  icon: Scalars["String"];
+  id: Scalars["Int"];
+  name: Scalars["String"];
+};
+
 export type CreateTeamInput = {
   categories: Array<CategoryInput>;
   createdAt?: Maybe<Scalars["Timestamp"]>;
@@ -47,22 +53,29 @@ export type CreateTeamInput = {
   owner: UserInput;
   recruitNumbers: Scalars["Int"];
   repositoryUrl?: Maybe<Scalars["String"]>;
-  skills?: Maybe<Scalars["String"]>;
+  skills: Array<SkillInput>;
   title: Scalars["String"];
 };
 
 export type Mutation = {
   __typename?: "Mutation";
   createCategory: CategoryModel;
+  createSkill: SkillModel;
   createTeam: TeamModel;
   deleteTeam: TeamModel;
   removeCategory: CategoryModel;
+  removeSkill: SkillModel;
   updateCategory: CategoryModel;
+  updateSkill: SkillModel;
   updateTeam: TeamModel;
 };
 
 export type MutationCreateCategoryArgs = {
   createCategoryInput: CreateCategoryInput;
+};
+
+export type MutationCreateSkillArgs = {
+  createSkillInput: CreateSkillInput;
 };
 
 export type MutationCreateTeamArgs = {
@@ -77,8 +90,16 @@ export type MutationRemoveCategoryArgs = {
   id: Scalars["Int"];
 };
 
+export type MutationRemoveSkillArgs = {
+  id: Scalars["Int"];
+};
+
 export type MutationUpdateCategoryArgs = {
   updateCategoryInput: UpdateCategoryInput;
+};
+
+export type MutationUpdateSkillArgs = {
+  updateSkillInput: UpdateSkillInput;
 };
 
 export type MutationUpdateTeamArgs = {
@@ -90,6 +111,8 @@ export type Query = {
   categories: Array<CategoryModel>;
   category: CategoryModel;
   me: UserModel;
+  skill: SkillModel;
+  skills: Array<SkillModel>;
   team: TeamModel;
   teams: Array<TeamModel>;
   user: UserModel;
@@ -100,12 +123,29 @@ export type QueryCategoryArgs = {
   id: Scalars["Int"];
 };
 
+export type QuerySkillArgs = {
+  id: Scalars["Int"];
+};
+
 export type QueryTeamArgs = {
   id: Scalars["Int"];
 };
 
 export type QueryUserArgs = {
   id: Scalars["ID"];
+};
+
+export type SkillInput = {
+  icon?: Maybe<Scalars["String"]>;
+  id: Scalars["Int"];
+  name?: Maybe<Scalars["String"]>;
+};
+
+export type SkillModel = {
+  __typename?: "SkillModel";
+  icon: Scalars["String"];
+  id: Scalars["Int"];
+  name: Scalars["String"];
 };
 
 export type TeamModel = {
@@ -128,6 +168,12 @@ export type UpdateCategoryInput = {
   name?: Maybe<Scalars["String"]>;
 };
 
+export type UpdateSkillInput = {
+  icon?: Maybe<Scalars["String"]>;
+  id: Scalars["Int"];
+  name?: Maybe<Scalars["String"]>;
+};
+
 export type UpdateTeamInput = {
   categories?: Maybe<Array<CategoryInput>>;
   createdAt?: Maybe<Scalars["Timestamp"]>;
@@ -139,7 +185,7 @@ export type UpdateTeamInput = {
   owner?: Maybe<UserInput>;
   recruitNumbers?: Maybe<Scalars["Int"]>;
   repositoryUrl?: Maybe<Scalars["String"]>;
-  skills?: Maybe<Scalars["String"]>;
+  skills?: Maybe<Array<SkillInput>>;
   title?: Maybe<Scalars["String"]>;
 };
 
@@ -177,6 +223,9 @@ export type CreateTeamPageQueryVariables = Exact<{ [key: string]: never }>;
 export type CreateTeamPageQuery = { __typename?: "Query" } & {
   categories: Array<
     { __typename?: "CategoryModel" } & Pick<CategoryModel, "id" | "name">
+  >;
+  skills: Array<
+    { __typename?: "SkillModel" } & Pick<SkillModel, "id" | "name" | "icon">
   >;
 };
 
@@ -268,6 +317,11 @@ export const CreateTeamPageDocument = gql`
     categories {
       id
       name
+    }
+    skills {
+      id
+      name
+      icon
     }
   }
 `;
