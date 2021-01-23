@@ -11,6 +11,7 @@ import {
 } from "../avatar/avatar-with-name";
 import { TeamsQuery } from "../../generated/types";
 import { dateFormatter, YEAR_MANTH_DAY_SLASH } from "../../utils/dateFormat";
+import Link from "next/link";
 
 type PeopleInfo = {
   current: number;
@@ -18,6 +19,7 @@ type PeopleInfo = {
 };
 
 export type TeamCardProps = {
+  id: number;
   title: string;
   owner: AvatarWithNameProps;
   member: PeopleInfo;
@@ -32,6 +34,7 @@ export const convertToTeamCardObjFromTeams = (
 ): TeamCardProps[] => {
   return queryObj.map((team) => ({
     ...team,
+    id: team.id || 0,
     owner: {
       name: team.owner.name,
       src: team.owner.avatar || "",
@@ -49,6 +52,7 @@ export const convertToTeamCardObjFromTeams = (
 };
 
 export const TeamCard: React.FC<TeamCardProps> = ({
+  id,
   title,
   owner,
   member,
@@ -58,39 +62,47 @@ export const TeamCard: React.FC<TeamCardProps> = ({
   className,
 }: TeamCardProps) => {
   return (
-    <Card variant="none" className={`max-w-xl p-5 cursor-pointer ${className}`}>
-      <div className="flex items-center">
-        <h3 className="flex-1">{title}</h3>
+    <Link href="/team/[id]" as={`/team/${id.toString()}`}>
+      <div>
+        <Card
+          variant="none"
+          className={`max-w-xl p-5 cursor-pointer ${className}`}
+        >
+          <div className="flex items-center">
+            <h3 className="flex-1">{title}</h3>
 
-        <AvatarWithName
-          src={owner.src}
-          name={owner.name}
-          size="small"
-          className="mr-4"
-        />
+            <AvatarWithName
+              src={owner.src}
+              name={owner.name}
+              size="small"
+              className="mr-4"
+            />
 
-        <PeopleIcon />
-        <p className="ml-2">
-          {member.current}/{member.limit}
-        </p>
+            <PeopleIcon />
+            <p className="ml-2">
+              {member.current}/{member.limit}
+            </p>
+          </div>
+
+          <div className="pt-4 pb-6">{description}</div>
+
+          <div className="flex items-end">
+            <LanguagePochiSet languages={languages} className="flex-1" />
+
+            <span className="space-x-2">
+              <span>作成日</span>
+              <span>{createdAt}</span>
+            </span>
+          </div>
+        </Card>
       </div>
-
-      <div className="pt-4 pb-6">{description}</div>
-
-      <div className="flex items-end">
-        <LanguagePochiSet languages={languages} className="flex-1" />
-
-        <span className="space-x-2">
-          <span>作成日</span>
-          <span>{createdAt}</span>
-        </span>
-      </div>
-    </Card>
+    </Link>
   );
 };
 
 export const mockTeams: TeamCardProps[] = [
   {
+    id: 1,
     title: "Web開発",
     owner: {
       name: "Ropital",
@@ -106,6 +118,7 @@ export const mockTeams: TeamCardProps[] = [
     },
   },
   {
+    id: 2,
     title: "Web開発",
     owner: {
       name: "Ropital",
@@ -121,6 +134,7 @@ export const mockTeams: TeamCardProps[] = [
     },
   },
   {
+    id: 3,
     title: "Web開発",
     owner: {
       name: "Ropital",

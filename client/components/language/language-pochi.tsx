@@ -29,7 +29,7 @@ const languages = {
   },
   nextjs: {
     color: "bg-blue-500",
-    name: "Nest.js",
+    name: "next.js",
   },
 };
 
