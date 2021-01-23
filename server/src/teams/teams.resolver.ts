@@ -38,6 +38,7 @@ export class TeamsResolver {
 
   @Mutation(() => TeamModel)
   createTeam(@Args('createTeamInput') createTeamInput: CreateTeamInput) {
+    console.log(createTeamInput);
     return this.teamsService.insert(createTeamInput);
   }
 
@@ -48,7 +49,6 @@ export class TeamsResolver {
 
   @ResolveProperty(() => UserModel)
   owner(@Parent() team: TeamModel) {
-    console.log(team.owner.id);
     return this.usersService.findOne(team.owner.id);
   }
 }

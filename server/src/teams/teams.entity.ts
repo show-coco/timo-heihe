@@ -17,6 +17,9 @@ export class Team {
   @Column()
   title: string;
 
+  @Column({ nullable: true })
+  icon: string;
+
   @Column()
   description: string;
 
@@ -29,6 +32,15 @@ export class Team {
   @ManyToMany(() => User)
   @JoinTable()
   members?: User[];
+
+  @Column({ nullable: true })
+  repositoryUrl?: string;
+
+  @Column()
+  recruitNumbers: number;
+
+  @Column({ nullable: true })
+  isRequired: boolean;
 
   @CreateDateColumn({ type: 'timestamp' })
   createdAt?: Date;

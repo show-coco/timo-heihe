@@ -5,10 +5,10 @@ export class UserInput {
   @Field(() => ID)
   id: string;
 
-  @Field()
+  @Field({ nullable: true })
   name: string;
 
-  @Field()
+  @Field({ nullable: true })
   email: string;
 
   @Field({ nullable: true })

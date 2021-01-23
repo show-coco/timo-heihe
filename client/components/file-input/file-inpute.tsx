@@ -1,7 +1,8 @@
 import React from "react";
 
-type FileInputProps = React.ComponentPropsWithRef<"input"> & {
-  onClick: () => void;
+type FileInputProps = {
+  // eslint-disable-next-line no-unused-vars
+  onClick: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
   // FIXME
   // eslint-disable-next-line no-unused-vars
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;

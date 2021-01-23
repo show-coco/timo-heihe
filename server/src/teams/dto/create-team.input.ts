@@ -1,13 +1,13 @@
-import { InputType, Int, Field, GraphQLTimestamp } from '@nestjs/graphql';
+import { InputType, Field, GraphQLTimestamp, Int } from '@nestjs/graphql';
 import { UserInput } from 'src/users/dto/user.input';
 
 @InputType()
 export class CreateTeamInput {
-  @Field(() => Int)
-  id: number;
-
   @Field()
   title: string;
+
+  @Field({ nullable: true })
+  icon?: string;
 
   @Field()
   description: string;
@@ -16,10 +16,19 @@ export class CreateTeamInput {
   skills?: string;
 
   @Field()
-  ownerId: string;
+  owner: UserInput;
 
   @Field(() => [UserInput])
   members: UserInput[];
+
+  @Field({ nullable: true })
+  repositoryUrl?: string;
+
+  @Field(() => Int)
+  recruitNumbers: number;
+
+  @Field()
+  isRequired: boolean;
 
   @Field(() => GraphQLTimestamp, { nullable: true })
   createdAt: Date;

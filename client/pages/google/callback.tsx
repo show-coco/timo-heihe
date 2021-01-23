@@ -1,15 +1,23 @@
 import React from "react";
 import { useRouter } from "next/router";
-import { jwtManager } from "../../utils/jwtManager";
+import { useAuthContext } from "../../providers/useAuthContext";
 
 function Google() {
   const router = useRouter();
+  const { login } = useAuthContext();
+
   const token = router.query.access_token;
-  if (typeof token !== "string") {
+  const name = router.query.name;
+  const id = router.query.id;
+  if (
+    typeof token !== "string" ||
+    typeof name !== "string" ||
+    typeof id !== "string"
+  ) {
     return <p>ログインに失敗しました</p>;
   }
-  jwtManager.setJwt(token);
-  router.push("/");
+
+  login(token, { name, id });
 
   return <p>ログイン中</p>;
 }

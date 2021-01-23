@@ -5,9 +5,12 @@
 input CreateTeamInput {
   createdAt: Timestamp
   description: String!
-  id: Int!
+  icon: String
+  isRequired: Boolean!
   members: [UserInput!]!
-  ownerId: String!
+  owner: UserInput!
+  recruitNumbers: Int!
+  repositoryUrl: String
   skills: String
   title: String!
 }
@@ -19,6 +22,7 @@ type Mutation {
 }
 
 type Query {
+  me: UserModel!
   team(id: Int!): TeamModel!
   teams: [TeamModel!]!
   user(id: ID!): UserModel!
@@ -28,9 +32,13 @@ type Query {
 type TeamModel {
   createdAt: Timestamp
   description: String!
+  icon: String
   id: Int
+  isRequired: Boolean!
   members: [UserModel!]
   owner: UserModel!
+  recruitNumbers: Int!
+  repositoryUrl: String
   skills: String
   title: String!
 }
@@ -43,20 +51,24 @@ scalar Timestamp
 input UpdateTeamInput {
   createdAt: Timestamp
   description: String
+  icon: String
   id: Int!
+  isRequired: Boolean
   members: [UserInput!]
-  ownerId: String
+  owner: UserInput
+  recruitNumbers: Int
+  repositoryUrl: String
   skills: String
   title: String
 }
 
 input UserInput {
   avatar: String
-  email: String!
+  email: String
   githubId: String
   id: ID!
   introduction: String
-  name: String!
+  name: String
   twitterId: String
 }
 

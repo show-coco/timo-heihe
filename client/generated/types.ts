@@ -22,9 +22,12 @@ export type Scalars = {
 export type CreateTeamInput = {
   createdAt?: Maybe<Scalars["Timestamp"]>;
   description: Scalars["String"];
-  id: Scalars["Int"];
+  icon?: Maybe<Scalars["String"]>;
+  isRequired: Scalars["Boolean"];
   members: Array<UserInput>;
-  ownerId: Scalars["String"];
+  owner: UserInput;
+  recruitNumbers: Scalars["Int"];
+  repositoryUrl?: Maybe<Scalars["String"]>;
   skills?: Maybe<Scalars["String"]>;
   title: Scalars["String"];
 };
@@ -50,6 +53,7 @@ export type MutationUpdateTeamArgs = {
 
 export type Query = {
   __typename?: "Query";
+  me: UserModel;
   team: TeamModel;
   teams: Array<TeamModel>;
   user: UserModel;
@@ -68,9 +72,13 @@ export type TeamModel = {
   __typename?: "TeamModel";
   createdAt?: Maybe<Scalars["Timestamp"]>;
   description: Scalars["String"];
+  icon?: Maybe<Scalars["String"]>;
   id?: Maybe<Scalars["Int"]>;
+  isRequired: Scalars["Boolean"];
   members?: Maybe<Array<UserModel>>;
   owner: UserModel;
+  recruitNumbers: Scalars["Int"];
+  repositoryUrl?: Maybe<Scalars["String"]>;
   skills?: Maybe<Scalars["String"]>;
   title: Scalars["String"];
 };
@@ -78,20 +86,24 @@ export type TeamModel = {
 export type UpdateTeamInput = {
   createdAt?: Maybe<Scalars["Timestamp"]>;
   description?: Maybe<Scalars["String"]>;
+  icon?: Maybe<Scalars["String"]>;
   id: Scalars["Int"];
+  isRequired?: Maybe<Scalars["Boolean"]>;
   members?: Maybe<Array<UserInput>>;
-  ownerId?: Maybe<Scalars["String"]>;
+  owner?: Maybe<UserInput>;
+  recruitNumbers?: Maybe<Scalars["Int"]>;
+  repositoryUrl?: Maybe<Scalars["String"]>;
   skills?: Maybe<Scalars["String"]>;
   title?: Maybe<Scalars["String"]>;
 };
 
 export type UserInput = {
   avatar?: Maybe<Scalars["String"]>;
-  email: Scalars["String"];
+  email?: Maybe<Scalars["String"]>;
   githubId?: Maybe<Scalars["String"]>;
   id: Scalars["ID"];
   introduction?: Maybe<Scalars["String"]>;
-  name: Scalars["String"];
+  name?: Maybe<Scalars["String"]>;
   twitterId?: Maybe<Scalars["String"]>;
 };
 
@@ -104,6 +116,20 @@ export type UserModel = {
   introduction?: Maybe<Scalars["String"]>;
   name: Scalars["String"];
   twitterId?: Maybe<Scalars["String"]>;
+};
+
+export type CreateTeamMutationVariables = Exact<{
+  input: CreateTeamInput;
+}>;
+
+export type CreateTeamMutation = { __typename?: "Mutation" } & {
+  createTeam: { __typename?: "TeamModel" } & Pick<TeamModel, "id" | "title">;
+};
+
+export type MeQueryVariables = Exact<{ [key: string]: never }>;
+
+export type MeQuery = { __typename?: "Query" } & {
+  me: { __typename?: "UserModel" } & Pick<UserModel, "name" | "id">;
 };
 
 export type TeamQueryVariables = Exact<{ [key: string]: never }>;
@@ -134,6 +160,95 @@ export type TeamsQuery = { __typename?: "Query" } & {
   >;
 };
 
+export const CreateTeamDocument = gql`
+  mutation CreateTeam($input: CreateTeamInput!) {
+    createTeam(createTeamInput: $input) {
+      id
+      title
+    }
+  }
+`;
+export type CreateTeamMutationFn = Apollo.MutationFunction<
+  CreateTeamMutation,
+  CreateTeamMutationVariables
+>;
+
+/**
+ * __useCreateTeamMutation__
+ *
+ * To run a mutation, you first call `useCreateTeamMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateTeamMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createTeamMutation, { data, loading, error }] = useCreateTeamMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useCreateTeamMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    CreateTeamMutation,
+    CreateTeamMutationVariables
+  >
+) {
+  return Apollo.useMutation<CreateTeamMutation, CreateTeamMutationVariables>(
+    CreateTeamDocument,
+    baseOptions
+  );
+}
+export type CreateTeamMutationHookResult = ReturnType<
+  typeof useCreateTeamMutation
+>;
+export type CreateTeamMutationResult = Apollo.MutationResult<CreateTeamMutation>;
+export type CreateTeamMutationOptions = Apollo.BaseMutationOptions<
+  CreateTeamMutation,
+  CreateTeamMutationVariables
+>;
+export const MeDocument = gql`
+  query Me {
+    me {
+      name
+      id
+    }
+  }
+`;
+
+/**
+ * __useMeQuery__
+ *
+ * To run a query within a React component, call `useMeQuery` and pass it any options that fit your needs.
+ * When your component renders, `useMeQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useMeQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useMeQuery(
+  baseOptions?: Apollo.QueryHookOptions<MeQuery, MeQueryVariables>
+) {
+  return Apollo.useQuery<MeQuery, MeQueryVariables>(MeDocument, baseOptions);
+}
+export function useMeLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<MeQuery, MeQueryVariables>
+) {
+  return Apollo.useLazyQuery<MeQuery, MeQueryVariables>(
+    MeDocument,
+    baseOptions
+  );
+}
+export type MeQueryHookResult = ReturnType<typeof useMeQuery>;
+export type MeLazyQueryHookResult = ReturnType<typeof useMeLazyQuery>;
+export type MeQueryResult = Apollo.QueryResult<MeQuery, MeQueryVariables>;
 export const TeamDocument = gql`
   query Team {
     team(id: 11) {

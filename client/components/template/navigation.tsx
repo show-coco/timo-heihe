@@ -3,10 +3,13 @@ import ChatIcon from "../../assets/icons/chat.svg";
 import PenIcon from "../../assets/icons/pen.svg";
 import BoardIcon from "../../assets/icons/board.svg";
 import Link from "next/link";
+import { useAuthContext } from "../../providers/useAuthContext";
 
 const textStyle = "font-semibold text-base text-gray-700 cursor-pointer";
 
 export const Navigation: React.FC = () => {
+  const { logout } = useAuthContext();
+
   return (
     <div className="w-1/5 items-center">
       <div className="w-3/5 mx-auto space-y-10 mt-12">
@@ -28,6 +31,13 @@ export const Navigation: React.FC = () => {
           <ChatIcon class="w-5 h-5 fill-current mr-3" />
           <a className={textStyle} href="#">
             チームチャット
+          </a>
+        </div>
+
+        <div className="flex items-center">
+          <ChatIcon class="w-5 h-5 fill-current mr-3" />
+          <a className={textStyle} onClick={logout}>
+            ログアウト
           </a>
         </div>
       </div>

@@ -4,10 +4,12 @@ export type ButtonProps = {
   variant?: "primary" | "outline" | "ghost";
   size?: "small" | "medium" | "large";
   isIcon?: boolean;
-  onClick?: () => void;
+  // eslint-disable-next-line no-unused-vars
+  onClick?: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
   children?: React.ReactNode;
   className?: string;
   disabled?: boolean;
+  type?: "submit";
 };
 
 const defaultStyle =

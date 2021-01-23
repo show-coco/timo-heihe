@@ -6,9 +6,14 @@ import {
 import { Heading } from "../components/heading/heading";
 import { Template } from "../components/template/template";
 import { useTeamsQuery } from "../generated/types";
+import { useAuthContext } from "../providers/useAuthContext";
 
 export default function Home() {
   const { data, error, loading } = useTeamsQuery();
+  const { isAuthenticated, name, id } = useAuthContext();
+
+  console.log(isAuthenticated);
+  console.log(name, id);
 
   const teams = useMemo(() => {
     return data && data.teams && convertToTeamCardObjFromTeams(data?.teams);
