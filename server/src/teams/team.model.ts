@@ -1,4 +1,4 @@
-import { Field, GraphQLTimestamp, Int, ObjectType } from '@nestjs/graphql';
+import { Field, GraphQLISODateTime, Int, ObjectType } from '@nestjs/graphql';
 import { UserModel } from 'src/users/user.model';
 
 @ObjectType()
@@ -33,6 +33,6 @@ export class TeamModel {
   @Field()
   isRequired: boolean;
 
-  @Field(() => GraphQLTimestamp, { nullable: true })
+  @Field(() => GraphQLISODateTime, { nullable: true })
   createdAt?: Date;
 }

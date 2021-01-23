@@ -15,6 +15,11 @@ input CreateTeamInput {
   title: String!
 }
 
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
 type Mutation {
   createTeam(createTeamInput: CreateTeamInput!): TeamModel!
   deleteTeam(id: Float!): TeamModel!
@@ -30,7 +35,7 @@ type Query {
 }
 
 type TeamModel {
-  createdAt: Timestamp
+  createdAt: DateTime
   description: String!
   icon: String
   id: Int

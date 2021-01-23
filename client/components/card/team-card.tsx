@@ -10,6 +10,7 @@ import {
   AvatarWithNameProps,
 } from "../avatar/avatar-with-name";
 import { TeamsQuery } from "../../generated/types";
+import { dateFormatter, YEAR_MANTH_DAY_SLASH } from "../../utils/dateFormat";
 
 type PeopleInfo = {
   current: number;
@@ -40,7 +41,10 @@ export const convertToTeamCardObjFromTeams = (
       limit: 5, // TODO:
     },
     languages: ["typescript"], // TODO:
-    createdAt: team.createdAt,
+    createdAt: dateFormatter(
+      new Date(Date.parse(team.createdAt)),
+      YEAR_MANTH_DAY_SLASH
+    ),
   }));
 };
 
