@@ -1,3 +1,4 @@
+import { Category } from 'src/category/entities/category.entity';
 import { User } from 'src/users/users.entity';
 import {
   Column,
@@ -32,6 +33,10 @@ export class Team {
   @ManyToMany(() => User)
   @JoinTable()
   members?: User[];
+
+  @ManyToMany(() => Category)
+  @JoinTable()
+  categories: Category[];
 
   @Column({ nullable: true })
   repositoryUrl?: string;

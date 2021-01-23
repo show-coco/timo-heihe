@@ -7,6 +7,8 @@ import { User } from './users/users.entity';
 import { UsersModule } from './users/users.module';
 import { TeamsModule } from './teams/teams.module';
 import { Team } from './teams/teams.entity';
+import { CategoryModule } from './category/category.module';
+import { Category } from './category/entities/category.entity';
 
 @Module({
   imports: [
@@ -27,12 +29,13 @@ import { Team } from './teams/teams.entity';
       username: 'timoheihe',
       password: 'postgres',
       database: 'postgres',
-      entities: [User, Team],
+      entities: [User, Team, Category],
       synchronize: true,
     }),
     AuthModule,
     UsersModule,
     TeamsModule,
+    CategoryModule,
   ],
 })
 export class AppModule {}

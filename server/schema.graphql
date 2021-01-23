@@ -2,7 +2,13 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+input CategoryInput {
+  id: Int!
+  name: String
+}
+
 input CreateTeamInput {
+  categories: [CategoryInput!]!
   createdAt: Timestamp
   description: String!
   icon: String
@@ -54,6 +60,7 @@ type TeamModel {
 scalar Timestamp
 
 input UpdateTeamInput {
+  categories: [CategoryInput!]
   createdAt: Timestamp
   description: String
   icon: String
