@@ -11,6 +11,10 @@ import { Template } from "../../components/template/template";
 import { useUserDetailPageQuery } from "../../generated/types";
 import TwitterIcon from "../../assets/icons/twitter.svg";
 import GithubIcon from "../../assets/icons/github.svg";
+import {
+  convertToSkillPochiSetArray,
+  LanguagePochiSet,
+} from "../../components/language/language-pochi-set";
 
 export default function UserDetail() {
   const router = useRouter();
@@ -25,9 +29,11 @@ export default function UserDetail() {
   console.log(data);
   const teams = convertToTeamCardObjFromTeams(data?.user.teams || []);
 
+  console.log(data?.user.skills);
+
   return (
     <Template>
-      <div className="grid grid-rows-2 md:grid-cols-2 gap-10">
+      <div className="grid grid-rows-2 md:grid-cols-2 md:grid-rows-none gap-10">
         <Card className="p-8 space-y-5">
           <span className="flex space-x-3 items-center">
             <Avatar src={data?.user.avatar || ""} size="large" />
@@ -52,10 +58,20 @@ export default function UserDetail() {
           </div>
         </Card>
 
-        <Card className="p-8">Learning Skills</Card>
+        <Card className="p-8 space-y-5">
+          <Heading as="h2">スキル</Heading>
+
+          {data?.user.skills.length ? (
+            <LanguagePochiSet
+              languages={convertToSkillPochiSetArray(data?.user.skills)}
+            />
+          ) : (
+            <p>スキルを登録してください</p>
+          )}
+        </Card>
       </div>
 
-      <div className="space-y-2">
+      <div className="space-y-2 mt-10">
         <Heading as="h1Small">所属しているチーム</Heading>
 
         <div className="space-y-5">
