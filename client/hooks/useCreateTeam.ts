@@ -5,13 +5,13 @@ import { useCreateTeamMutation } from "../generated/types";
 import { useAuthContext } from "../providers/useAuthContext";
 import { useFileInput } from "./useFileInput";
 
-const convertToCategoriesObj = (categories: number[]) => {
+export const convertToCategoriesObj = (categories: number[]) => {
   return categories.map((category) => ({
     id: category,
   }));
 };
 
-const convertToSkillsObj = (skills: ACSelectedData[]) => {
+export const convertToSkillsObj = (skills: ACSelectedData[]) => {
   return skills.map((skill) => ({
     id: Number(skill.id),
   }));

@@ -2,8 +2,13 @@ import React from "react";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { ACSelectedData } from "../components/auto-complate/auto-complate";
-import { TeamEditPageQuery, useTeamEditPageQuery } from "../generated/types";
+import {
+  TeamEditPageQuery,
+  useEditTeamMutation,
+  useTeamEditPageQuery,
+} from "../generated/types";
 import { useFileInput } from "./useFileInput";
+import { convertToCategoriesObj, convertToSkillsObj } from "./useCreateTeam";
 
 const convertToACSelectedData = (
   skills: TeamEditPageQuery["team"]["skills"]
@@ -25,11 +30,6 @@ export const convertToCategoryArray = (
 export const useEditTeam = () => {
   const router = useRouter();
   const id = router.query.id;
-  const { data, loading } = useTeamEditPageQuery({
-    variables: {
-      id: Number(id),
-    },
-  });
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [recruitNumber, setRecruitNumber] = useState(0);
@@ -44,6 +44,14 @@ export const useEditTeam = () => {
     imageUrl,
     setImageUrl,
   } = useFileInput();
+
+  const { data, loading } = useTeamEditPageQuery({
+    variables: {
+      id: Number(id),
+    },
+  });
+
+  const [updateTeam] = useEditTeamMutation();
 
   useEffect(() => {
     if (!loading && data) {
@@ -74,6 +82,31 @@ export const useEditTeam = () => {
     setCategories(newCategories);
   };
 
+  const getVariables = () => ({
+    id: Number(id),
+    title,
+    icon: imageUrl,
+    skills: convertToSkillsObj(selectedSkills),
+    description,
+    repositoryUrl,
+    recruitNumbers: recruitNumber,
+    isRequired: isRequired === "2",
+    categories: convertToCategoriesObj(categories),
+  });
+
+  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    try {
+      await updateTeam({
+        variables: {
+          input: getVariables(),
+        },
+      });
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   return {
     formState: {
       title,
@@ -100,6 +133,7 @@ export const useEditTeam = () => {
       onChangeCategories,
       setImageUrl,
     },
+    onSubmit,
     categories: data?.categories || [],
     skills: data?.skills || [],
   };

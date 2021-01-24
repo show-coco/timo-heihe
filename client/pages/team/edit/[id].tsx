@@ -21,14 +21,21 @@ import {
 const betweenH2 = "space-y-2";
 
 export default function EditTeam() {
-  const { formState, file, setter, skills, categories } = useEditTeam();
+  const {
+    formState,
+    file,
+    setter,
+    skills,
+    categories,
+    onSubmit,
+  } = useEditTeam();
 
   console.log(formState);
 
   return (
     <Template>
       <Card className="p-8">
-        <form onSubmit={() => {}}>
+        <form onSubmit={onSubmit}>
           <div className="space-y-10">
             <Heading as="h1Small">新しいチームを作成する</Heading>
 
