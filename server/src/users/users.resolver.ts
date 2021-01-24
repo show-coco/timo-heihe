@@ -1,15 +1,30 @@
-import { UseGuards } from '@nestjs/common';
-import { Args, ID, Query, Resolver } from '@nestjs/graphql';
+import { forwardRef, Inject, UseGuards } from '@nestjs/common';
+import {
+  Args,
+  ID,
+  Parent,
+  Query,
+  ResolveField,
+  Resolver,
+} from '@nestjs/graphql';
 import { GqlJwtAuthGuard } from 'src/auth/jwt-auth.guards';
 import { Payload } from 'src/auth/types/payload';
 import { CurrentUser } from './dto/current-user';
 import { UserModel } from './models/user.model';
 import { User } from './entities/users.entity';
 import { UsersService } from './users.service';
+import { SkillModel } from 'src/skill/models/skill.model';
+import { SkillService } from 'src/skill/skill.service';
+import { TeamsService } from 'src/teams/teams.service';
+import { TeamModel } from 'src/teams/models/team.model';
 
 @Resolver(() => UserModel)
 export class UsersResolver {
-  constructor(private usersService: UsersService) {}
+  constructor(
+    private usersService: UsersService,
+    private skillService: SkillService,
+    @Inject(forwardRef(() => TeamsService)) private teamsService: TeamsService,
+  ) {}
 
   @Query(() => UserModel)
   @UseGuards(GqlJwtAuthGuard)
@@ -25,5 +40,19 @@ export class UsersResolver {
   @Query(() => [UserModel])
   async users() {
     return this.usersService.findAll();
+  }
+
+  @ResolveField(() => [SkillModel])
+  async skills(@Parent() user: UserModel) {
+    return await user.skills.map(async (skill) => {
+      return await this.skillService.findOne(skill.id);
+    });
+  }
+
+  @ResolveField(() => [TeamModel])
+  async teams(@Parent() user: UserModel) {
+    return await user.teams.map(async (team) => {
+      return await this.teamsService.findOne(team.id);
+    });
   }
 }

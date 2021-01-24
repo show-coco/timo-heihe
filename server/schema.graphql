@@ -141,5 +141,8 @@ type UserModel {
   id: ID!
   introduction: String
   name: String!
+  ownerTeams: [TeamModel!]!
+  skills: [SkillModel!]!
+  teams: [TeamModel!]!
   twitterId: String
 }

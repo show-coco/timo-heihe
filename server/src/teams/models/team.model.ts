@@ -20,7 +20,7 @@ export class TeamModel {
   @Field(() => [SkillModel], { nullable: true })
   skills?: SkillModel[];
 
-  @Field()
+  @Field(() => UserModel)
   owner: UserModel;
 
   @Field(() => [UserModel], { nullable: true })
