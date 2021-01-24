@@ -36,15 +36,7 @@ export class TeamsService {
   async update(id: number, updateTeamInput: UpdateTeamInput) {
     const input: UpdateTeamInput = JSON.parse(JSON.stringify(updateTeamInput));
 
-    const returns = await this.teamRepository
-      .createQueryBuilder()
-      .update(Team, input)
-      .where({ id })
-      .returning(['id', 'title', 'description', 'skills', 'created_at'])
-      .updateEntity(true)
-      .execute();
-
-    return returns.raw[0];
+    return await this.teamRepository.save(input);
   }
 
   async insert(createTeamInput: CreateTeamInput) {
