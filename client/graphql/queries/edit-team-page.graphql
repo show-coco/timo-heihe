@@ -1,4 +1,4 @@
-query Team($id: Int!) {
+query TeamEditPage($id: Int!) {
   team(id: $id) {
     id
     title
@@ -25,5 +25,13 @@ query Team($id: Int!) {
       id
       name
     }
+  }
+  categories {
+    id
+    name
+  }
+  skills {
+    id
+    name
   }
 }

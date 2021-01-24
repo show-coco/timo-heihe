@@ -63,9 +63,10 @@ export const useFileInput = () => {
   // };
 
   return {
-    fileRef,
     onClick,
     onChange,
+    setImageUrl,
+    fileRef,
     imageUrl,
   };
 };

@@ -230,6 +230,48 @@ export type CreateTeamPageQuery = { __typename?: "Query" } & {
   >;
 };
 
+export type TeamEditPageQueryVariables = Exact<{
+  id: Scalars["Int"];
+}>;
+
+export type TeamEditPageQuery = { __typename?: "Query" } & {
+  team: { __typename?: "TeamModel" } & Pick<
+    TeamModel,
+    | "id"
+    | "title"
+    | "description"
+    | "icon"
+    | "recruitNumbers"
+    | "isRequired"
+    | "repositoryUrl"
+  > & {
+      members?: Maybe<
+        Array<
+          { __typename?: "UserModel" } & Pick<
+            UserModel,
+            "id" | "name" | "avatar"
+          >
+        >
+      >;
+      owner: { __typename?: "UserModel" } & Pick<
+        UserModel,
+        "id" | "name" | "avatar"
+      >;
+      skills?: Maybe<
+        Array<{ __typename?: "SkillModel" } & Pick<SkillModel, "id" | "name">>
+      >;
+      categories: Array<
+        { __typename?: "CategoryModel" } & Pick<CategoryModel, "id" | "name">
+      >;
+    };
+  categories: Array<
+    { __typename?: "CategoryModel" } & Pick<CategoryModel, "id" | "name">
+  >;
+  skills: Array<
+    { __typename?: "SkillModel" } & Pick<SkillModel, "id" | "name">
+  >;
+};
+
 export type MeQueryVariables = Exact<{ [key: string]: never }>;
 
 export type MeQuery = { __typename?: "Query" } & {
@@ -243,7 +285,13 @@ export type TeamQueryVariables = Exact<{
 export type TeamQuery = { __typename?: "Query" } & {
   team: { __typename?: "TeamModel" } & Pick<
     TeamModel,
-    "id" | "title" | "description" | "icon" | "recruitNumbers" | "isRequired"
+    | "id"
+    | "title"
+    | "description"
+    | "icon"
+    | "recruitNumbers"
+    | "isRequired"
+    | "repositoryUrl"
   > & {
       members?: Maybe<
         Array<
@@ -398,6 +446,94 @@ export type CreateTeamPageQueryResult = Apollo.QueryResult<
   CreateTeamPageQuery,
   CreateTeamPageQueryVariables
 >;
+export const TeamEditPageDocument = gql`
+  query TeamEditPage($id: Int!) {
+    team(id: $id) {
+      id
+      title
+      description
+      icon
+      recruitNumbers
+      isRequired
+      repositoryUrl
+      members {
+        id
+        name
+        avatar
+      }
+      owner {
+        id
+        name
+        avatar
+      }
+      skills {
+        id
+        name
+      }
+      categories {
+        id
+        name
+      }
+    }
+    categories {
+      id
+      name
+    }
+    skills {
+      id
+      name
+    }
+  }
+`;
+
+/**
+ * __useTeamEditPageQuery__
+ *
+ * To run a query within a React component, call `useTeamEditPageQuery` and pass it any options that fit your needs.
+ * When your component renders, `useTeamEditPageQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useTeamEditPageQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useTeamEditPageQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    TeamEditPageQuery,
+    TeamEditPageQueryVariables
+  >
+) {
+  return Apollo.useQuery<TeamEditPageQuery, TeamEditPageQueryVariables>(
+    TeamEditPageDocument,
+    baseOptions
+  );
+}
+export function useTeamEditPageLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    TeamEditPageQuery,
+    TeamEditPageQueryVariables
+  >
+) {
+  return Apollo.useLazyQuery<TeamEditPageQuery, TeamEditPageQueryVariables>(
+    TeamEditPageDocument,
+    baseOptions
+  );
+}
+export type TeamEditPageQueryHookResult = ReturnType<
+  typeof useTeamEditPageQuery
+>;
+export type TeamEditPageLazyQueryHookResult = ReturnType<
+  typeof useTeamEditPageLazyQuery
+>;
+export type TeamEditPageQueryResult = Apollo.QueryResult<
+  TeamEditPageQuery,
+  TeamEditPageQueryVariables
+>;
 export const MeDocument = gql`
   query Me {
     me {
@@ -447,6 +583,7 @@ export const TeamDocument = gql`
       icon
       recruitNumbers
       isRequired
+      repositoryUrl
       members {
         id
         name

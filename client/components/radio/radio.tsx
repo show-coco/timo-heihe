@@ -5,6 +5,7 @@ type RadioProps = {
   name: string;
   text: string;
   value: string;
+  checked?: boolean;
   // eslint-disable-next-line no-unused-vars
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 };
