@@ -1,4 +1,4 @@
-query User($id: ID!) {
+query UserDetailPage($id: ID!) {
   user(id: $id) {
     id
     name

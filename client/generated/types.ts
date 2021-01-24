@@ -208,6 +208,9 @@ export type UserModel = {
   id: Scalars["ID"];
   introduction?: Maybe<Scalars["String"]>;
   name: Scalars["String"];
+  ownerTeams: Array<TeamModel>;
+  skills: Array<SkillModel>;
+  teams: Array<TeamModel>;
   twitterId?: Maybe<Scalars["String"]>;
 };
 
@@ -342,6 +345,40 @@ export type TeamsQuery = { __typename?: "Query" } & {
         >;
       }
   >;
+};
+
+export type UserDetailPageQueryVariables = Exact<{
+  id: Scalars["ID"];
+}>;
+
+export type UserDetailPageQuery = { __typename?: "Query" } & {
+  user: { __typename?: "UserModel" } & Pick<
+    UserModel,
+    "id" | "name" | "avatar" | "introduction" | "githubId" | "twitterId"
+  > & {
+      skills: Array<
+        { __typename?: "SkillModel" } & Pick<SkillModel, "id" | "name">
+      >;
+      teams: Array<
+        { __typename?: "TeamModel" } & Pick<
+          TeamModel,
+          "id" | "title" | "description" | "createdAt" | "recruitNumbers"
+        > & {
+            skills?: Maybe<
+              Array<
+                { __typename?: "SkillModel" } & Pick<SkillModel, "id" | "name">
+              >
+            >;
+            owner: { __typename?: "UserModel" } & Pick<
+              UserModel,
+              "id" | "name" | "avatar"
+            >;
+            members?: Maybe<
+              Array<{ __typename?: "UserModel" } & Pick<UserModel, "id">>
+            >;
+          }
+      >;
+    };
 };
 
 export const CreateTeamDocument = gql`
@@ -756,4 +793,88 @@ export type TeamsLazyQueryHookResult = ReturnType<typeof useTeamsLazyQuery>;
 export type TeamsQueryResult = Apollo.QueryResult<
   TeamsQuery,
   TeamsQueryVariables
+>;
+export const UserDetailPageDocument = gql`
+  query UserDetailPage($id: ID!) {
+    user(id: $id) {
+      id
+      name
+      avatar
+      introduction
+      githubId
+      twitterId
+      skills {
+        id
+        name
+      }
+      teams {
+        id
+        title
+        description
+        createdAt
+        recruitNumbers
+        skills {
+          id
+          name
+        }
+        owner {
+          id
+          name
+          avatar
+        }
+        members {
+          id
+        }
+      }
+    }
+  }
+`;
+
+/**
+ * __useUserDetailPageQuery__
+ *
+ * To run a query within a React component, call `useUserDetailPageQuery` and pass it any options that fit your needs.
+ * When your component renders, `useUserDetailPageQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useUserDetailPageQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useUserDetailPageQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    UserDetailPageQuery,
+    UserDetailPageQueryVariables
+  >
+) {
+  return Apollo.useQuery<UserDetailPageQuery, UserDetailPageQueryVariables>(
+    UserDetailPageDocument,
+    baseOptions
+  );
+}
+export function useUserDetailPageLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    UserDetailPageQuery,
+    UserDetailPageQueryVariables
+  >
+) {
+  return Apollo.useLazyQuery<UserDetailPageQuery, UserDetailPageQueryVariables>(
+    UserDetailPageDocument,
+    baseOptions
+  );
+}
+export type UserDetailPageQueryHookResult = ReturnType<
+  typeof useUserDetailPageQuery
+>;
+export type UserDetailPageLazyQueryHookResult = ReturnType<
+  typeof useUserDetailPageLazyQuery
+>;
+export type UserDetailPageQueryResult = Apollo.QueryResult<
+  UserDetailPageQuery,
+  UserDetailPageQueryVariables
 >;
