@@ -35,6 +35,7 @@ export const convertToTeamCardObjFromTeams = (
     owner: {
       name: team.owner.name,
       src: team.owner.avatar || "",
+      userId: team.owner.id,
     },
     member: {
       current: team.members?.length || 1, // TODO:
@@ -73,12 +74,15 @@ export const TeamCard: React.FC<TeamCardProps> = ({
             <div className="flex items-center">
               <h3 className="flex-1">{title}</h3>
 
-              <AvatarWithName
-                src={owner.src}
-                name={owner.name}
-                size="small"
-                className="mr-4"
-              />
+              <span>
+                <AvatarWithName
+                  src={owner.src}
+                  name={owner.name}
+                  size="small"
+                  className="mr-4"
+                  userId={owner.userId}
+                />
+              </span>
 
               <PeopleIcon />
               <p className="ml-2">
@@ -110,6 +114,7 @@ export const mockTeams: TeamCardProps[] = [
     owner: {
       name: "Ropital",
       src: "https://bit.ly/ryan-florence",
+      userId: "1",
     },
     description:
       "チーム募集Webアプリを開発しています。PrismaやTypeScript, GraphQL,Goなどを使用 しています！モダン技術が好きな方是非きてください！",
@@ -126,6 +131,7 @@ export const mockTeams: TeamCardProps[] = [
     owner: {
       name: "Ropital",
       src: "https://bit.ly/ryan-florence",
+      userId: "2",
     },
     description:
       "チーム募集Webアプリを開発しています。PrismaやTypeScript, GraphQL,Goなどを使用 しています！モダン技術が好きな方是非きてください！",
@@ -142,6 +148,7 @@ export const mockTeams: TeamCardProps[] = [
     owner: {
       name: "Ropital",
       src: "https://bit.ly/ryan-florence",
+      userId: "3",
     },
     description:
       "チーム募集Webアプリを開発しています。PrismaやTypeScript, GraphQL,Goなどを使用 しています！モダン技術が好きな方是非きてください！",
