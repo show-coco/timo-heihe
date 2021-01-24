@@ -219,6 +219,14 @@ export type CreateTeamMutation = { __typename?: "Mutation" } & {
   createTeam: { __typename?: "TeamModel" } & Pick<TeamModel, "id" | "title">;
 };
 
+export type EditTeamMutationVariables = Exact<{
+  input: UpdateTeamInput;
+}>;
+
+export type EditTeamMutation = { __typename?: "Mutation" } & {
+  updateTeam: { __typename?: "TeamModel" } & Pick<TeamModel, "id" | "title">;
+};
+
 export type CreateTeamPageQueryVariables = Exact<{ [key: string]: never }>;
 
 export type CreateTeamPageQuery = { __typename?: "Query" } & {
@@ -227,6 +235,48 @@ export type CreateTeamPageQuery = { __typename?: "Query" } & {
   >;
   skills: Array<
     { __typename?: "SkillModel" } & Pick<SkillModel, "id" | "name" | "icon">
+  >;
+};
+
+export type TeamEditPageQueryVariables = Exact<{
+  id: Scalars["Int"];
+}>;
+
+export type TeamEditPageQuery = { __typename?: "Query" } & {
+  team: { __typename?: "TeamModel" } & Pick<
+    TeamModel,
+    | "id"
+    | "title"
+    | "description"
+    | "icon"
+    | "recruitNumbers"
+    | "isRequired"
+    | "repositoryUrl"
+  > & {
+      members?: Maybe<
+        Array<
+          { __typename?: "UserModel" } & Pick<
+            UserModel,
+            "id" | "name" | "avatar"
+          >
+        >
+      >;
+      owner: { __typename?: "UserModel" } & Pick<
+        UserModel,
+        "id" | "name" | "avatar"
+      >;
+      skills?: Maybe<
+        Array<{ __typename?: "SkillModel" } & Pick<SkillModel, "id" | "name">>
+      >;
+      categories: Array<
+        { __typename?: "CategoryModel" } & Pick<CategoryModel, "id" | "name">
+      >;
+    };
+  categories: Array<
+    { __typename?: "CategoryModel" } & Pick<CategoryModel, "id" | "name">
+  >;
+  skills: Array<
+    { __typename?: "SkillModel" } & Pick<SkillModel, "id" | "name">
   >;
 };
 
@@ -243,7 +293,13 @@ export type TeamQueryVariables = Exact<{
 export type TeamQuery = { __typename?: "Query" } & {
   team: { __typename?: "TeamModel" } & Pick<
     TeamModel,
-    "id" | "title" | "description" | "icon" | "recruitNumbers" | "isRequired"
+    | "id"
+    | "title"
+    | "description"
+    | "icon"
+    | "recruitNumbers"
+    | "isRequired"
+    | "repositoryUrl"
   > & {
       members?: Maybe<
         Array<
@@ -272,7 +328,7 @@ export type TeamsQuery = { __typename?: "Query" } & {
   teams: Array<
     { __typename?: "TeamModel" } & Pick<
       TeamModel,
-      "id" | "title" | "description" | "createdAt"
+      "id" | "title" | "description" | "createdAt" | "recruitNumbers"
     > & {
         skills?: Maybe<
           Array<{ __typename?: "SkillModel" } & Pick<SkillModel, "id" | "name">>
@@ -337,6 +393,53 @@ export type CreateTeamMutationOptions = Apollo.BaseMutationOptions<
   CreateTeamMutation,
   CreateTeamMutationVariables
 >;
+export const EditTeamDocument = gql`
+  mutation EditTeam($input: UpdateTeamInput!) {
+    updateTeam(updateTeamInput: $input) {
+      id
+      title
+    }
+  }
+`;
+export type EditTeamMutationFn = Apollo.MutationFunction<
+  EditTeamMutation,
+  EditTeamMutationVariables
+>;
+
+/**
+ * __useEditTeamMutation__
+ *
+ * To run a mutation, you first call `useEditTeamMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useEditTeamMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [editTeamMutation, { data, loading, error }] = useEditTeamMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useEditTeamMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    EditTeamMutation,
+    EditTeamMutationVariables
+  >
+) {
+  return Apollo.useMutation<EditTeamMutation, EditTeamMutationVariables>(
+    EditTeamDocument,
+    baseOptions
+  );
+}
+export type EditTeamMutationHookResult = ReturnType<typeof useEditTeamMutation>;
+export type EditTeamMutationResult = Apollo.MutationResult<EditTeamMutation>;
+export type EditTeamMutationOptions = Apollo.BaseMutationOptions<
+  EditTeamMutation,
+  EditTeamMutationVariables
+>;
 export const CreateTeamPageDocument = gql`
   query CreateTeamPage {
     categories {
@@ -398,6 +501,94 @@ export type CreateTeamPageQueryResult = Apollo.QueryResult<
   CreateTeamPageQuery,
   CreateTeamPageQueryVariables
 >;
+export const TeamEditPageDocument = gql`
+  query TeamEditPage($id: Int!) {
+    team(id: $id) {
+      id
+      title
+      description
+      icon
+      recruitNumbers
+      isRequired
+      repositoryUrl
+      members {
+        id
+        name
+        avatar
+      }
+      owner {
+        id
+        name
+        avatar
+      }
+      skills {
+        id
+        name
+      }
+      categories {
+        id
+        name
+      }
+    }
+    categories {
+      id
+      name
+    }
+    skills {
+      id
+      name
+    }
+  }
+`;
+
+/**
+ * __useTeamEditPageQuery__
+ *
+ * To run a query within a React component, call `useTeamEditPageQuery` and pass it any options that fit your needs.
+ * When your component renders, `useTeamEditPageQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useTeamEditPageQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useTeamEditPageQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    TeamEditPageQuery,
+    TeamEditPageQueryVariables
+  >
+) {
+  return Apollo.useQuery<TeamEditPageQuery, TeamEditPageQueryVariables>(
+    TeamEditPageDocument,
+    baseOptions
+  );
+}
+export function useTeamEditPageLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    TeamEditPageQuery,
+    TeamEditPageQueryVariables
+  >
+) {
+  return Apollo.useLazyQuery<TeamEditPageQuery, TeamEditPageQueryVariables>(
+    TeamEditPageDocument,
+    baseOptions
+  );
+}
+export type TeamEditPageQueryHookResult = ReturnType<
+  typeof useTeamEditPageQuery
+>;
+export type TeamEditPageLazyQueryHookResult = ReturnType<
+  typeof useTeamEditPageLazyQuery
+>;
+export type TeamEditPageQueryResult = Apollo.QueryResult<
+  TeamEditPageQuery,
+  TeamEditPageQueryVariables
+>;
 export const MeDocument = gql`
   query Me {
     me {
@@ -447,6 +638,7 @@ export const TeamDocument = gql`
       icon
       recruitNumbers
       isRequired
+      repositoryUrl
       members {
         id
         name
@@ -511,6 +703,7 @@ export const TeamsDocument = gql`
       title
       description
       createdAt
+      recruitNumbers
       skills {
         id
         name

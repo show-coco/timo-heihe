@@ -4,6 +4,7 @@ type TextInputProps = {
   placeholder?: string;
   className?: string;
   name?: string;
+  value?: string;
   // eslint-disable-next-line no-unused-vars
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
 };

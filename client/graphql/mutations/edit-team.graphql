@@ -1,0 +1,6 @@
+mutation EditTeam($input: UpdateTeamInput!) {
+  updateTeam(updateTeamInput: $input) {
+    id
+    title
+  }
+}

@@ -4,6 +4,7 @@ query Teams {
     title
     description
     createdAt
+    recruitNumbers
     skills {
       id
       name

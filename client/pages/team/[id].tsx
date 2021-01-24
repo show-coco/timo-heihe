@@ -16,6 +16,7 @@ import {
 } from "../../components/language/language-pochi-set";
 import { Button } from "../../components/button";
 import { useAuthContext } from "../../providers/useAuthContext";
+import Link from "next/link";
 
 export default function ShowTeam() {
   const router = useRouter();
@@ -59,7 +60,13 @@ export default function ShowTeam() {
           </div>
 
           <div className="flex flex-col space-y-3">
-            {iAmOwner && <Button>編集する</Button>}
+            {iAmOwner && (
+              <Link href="/team/edit/[id]" as={`/team/edit/${id}`}>
+                <div>
+                  <Button>編集する</Button>
+                </div>
+              </Link>
+            )}
             {!iAmJoining && team.isRequired && <Button>申請する</Button>}
             {!iAmJoining && !team.isRequired && <Button>参加する</Button>}
             {iAmJoining && <Button variant="outline">脱退する</Button>}
