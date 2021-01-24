@@ -49,12 +49,24 @@ export default function UserDetail() {
           <p>{data?.user.introduction || "自己紹介文を設定してください"}</p>
 
           <div className="flex space-x-4">
-            <a className="cursor-pointer">
-              <GithubIcon />
-            </a>
-            <a className="cursor-pointer">
-              <TwitterIcon class="bg-blue-400 rounded-full" />
-            </a>
+            {data?.user.githubId && (
+              <a
+                className="cursor-pointer"
+                href={`https://github.com/${data?.user.githubId}`}
+                target="blank"
+              >
+                <GithubIcon />
+              </a>
+            )}
+            {data?.user.twitterId && (
+              <a
+                className="cursor-pointer"
+                href={`https://twitter.com/${data?.user.twitterId}`}
+                target="blank"
+              >
+                <TwitterIcon class="bg-blue-400 rounded-full" />
+              </a>
+            )}
           </div>
         </Card>
 
