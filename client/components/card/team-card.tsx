@@ -39,7 +39,7 @@ export const convertToTeamCardObjFromTeams = (
     },
     member: {
       current: team.members?.length || 1, // TODO:
-      limit: 5, // TODO:
+      limit: team.recruitNumbers, // TODO:
     },
     languages: convertToSKillsArray(team.skills),
     createdAt: dateFormatter(

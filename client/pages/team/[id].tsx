@@ -17,6 +17,7 @@ import {
 import { Button } from "../../components/button";
 import { useAuthContext } from "../../providers/useAuthContext";
 import Link from "next/link";
+import { AvatarWithName } from "../../components/avatar/avatar-with-name";
 
 export default function ShowTeam() {
   const router = useRouter();
@@ -87,8 +88,12 @@ export default function ShowTeam() {
 
           <span className="flex items-center space-x-3">
             <p className="font-bold">リーダー</p>
-            <Avatar src={team.owner.avatar || ""} size="small" />
-            <span>{team.owner.name}</span>
+            <AvatarWithName
+              src={team.owner.avatar || ""}
+              userId={team.owner.id}
+              name={team.owner.name}
+              size="small"
+            />
           </span>
         </div>
 
