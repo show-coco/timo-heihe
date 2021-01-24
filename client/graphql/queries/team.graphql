@@ -5,6 +5,7 @@ query Team($id: Int!) {
     description
     icon
     recruitNumbers
+    isRequired
     members {
       id
       name

@@ -35,7 +35,7 @@ const hoverAnimation = {
 
 const variants = {
   primary: `text-white bg-orange-500 ${hoverAnimation["orange"]}`,
-  outline: `text-gray-600 bg-transparent shadow-inner hover:bg-black-400 ${hoverAnimation["black"]}`,
+  outline: `text-red-500 bg-transparent border border-red-500 hover:bg-black-400 ${hoverAnimation["black"]}`,
   ghost: `hover:bg-black-400 ${hoverAnimation["black"]}`,
 };
 

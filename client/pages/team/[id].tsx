@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import React from "react";
+import React, { useMemo } from "react";
 import { Avatar } from "../../components/avatar/avatar";
 import { Card } from "../../components/card/card";
 import {
@@ -14,10 +14,13 @@ import {
   convertToSkillPochiSetArray,
   LanguagePochiSet,
 } from "../../components/language/language-pochi-set";
+import { Button } from "../../components/button";
+import { useAuthContext } from "../../providers/useAuthContext";
 
 export default function ShowTeam() {
   const router = useRouter();
   const id = router.query.id;
+  const { id: userId } = useAuthContext();
 
   const { data } = useTeamQuery({
     variables: {
@@ -25,20 +28,43 @@ export default function ShowTeam() {
     },
   });
 
-  if (!data) return <p>データがありません</p>;
   const team = data?.team;
+
+  const iAmJoining = useMemo(() => {
+    return Boolean(
+      team?.members?.filter((member) => member.id === userId).length
+    );
+  }, [team?.members, userId]);
+
+  const iAmOwner = useMemo(() => {
+    return userId === team?.owner.id;
+  }, [team?.owner.id, userId]);
+
+  if (!team) return <p>データがありません</p>;
 
   return (
     <Template>
-      <Card className="p-8 space-y-6">
-        <CategorySet
-          categories={convertToCategoryArray(team.categories)}
-          className="mb-4"
-        />
+      <Card className="p-8">
+        <div className="flex justify-between">
+          <div>
+            <CategorySet
+              categories={convertToCategoryArray(team.categories)}
+              className="mb-4"
+            />
 
-        <div className="flex items-center space-x-3">
-          <Avatar src={team.icon || ""} size="large" />
-          <Heading as="h1Big">{team.title}</Heading>
+            <div className="flex items-center space-x-3">
+              <Avatar src={team.icon || ""} size="large" />
+              <Heading as="h1Big">{team.title}</Heading>
+            </div>
+          </div>
+
+          <div className="flex flex-col space-y-3">
+            {iAmOwner && <Button>編集する</Button>}
+            {!iAmJoining && team.isRequired && <Button>申請する</Button>}
+            {!iAmJoining && !team.isRequired && <Button>参加する</Button>}
+            {iAmJoining && <Button variant="outline">脱退する</Button>}
+            {iAmOwner && <Button variant="outline">アーカイブ</Button>}
+          </div>
         </div>
 
         <div className="flex items-center space-x-8">
@@ -59,13 +85,13 @@ export default function ShowTeam() {
           </span>
         </div>
 
-        <div className="space-y-2">
+        <div className="space-y-2 mt-8">
           <Heading as="h2">チームの説明</Heading>
 
           <p>{team.description}</p>
         </div>
 
-        <div className="space-y-2">
+        <div className="space-y-2 mt-8">
           <Heading as="h2">使用するスキル</Heading>
 
           <LanguagePochiSet

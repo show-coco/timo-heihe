@@ -243,7 +243,7 @@ export type TeamQueryVariables = Exact<{
 export type TeamQuery = { __typename?: "Query" } & {
   team: { __typename?: "TeamModel" } & Pick<
     TeamModel,
-    "id" | "title" | "description" | "icon" | "recruitNumbers"
+    "id" | "title" | "description" | "icon" | "recruitNumbers" | "isRequired"
   > & {
       members?: Maybe<
         Array<
@@ -446,6 +446,7 @@ export const TeamDocument = gql`
       description
       icon
       recruitNumbers
+      isRequired
       members {
         id
         name
