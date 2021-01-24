@@ -1,9 +1,25 @@
-query Team {
-  team(id: 11) {
+query Team($id: Int!) {
+  team(id: $id) {
     id
     title
-    createdAt
+    description
+    icon
+    recruitNumbers
+    members {
+      id
+      name
+      avatar
+    }
     owner {
+      id
+      name
+      avatar
+    }
+    skills {
+      id
+      name
+    }
+    categories {
       id
       name
     }

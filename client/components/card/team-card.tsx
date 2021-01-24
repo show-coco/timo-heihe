@@ -1,15 +1,12 @@
 import React from "react";
 import { Card } from "./card";
 import PeopleIcon from "../../assets/icons/people.svg";
-import {
-  LanguagePochiSet,
-  LanguagePochiSetProps,
-} from "../language/language-pochi-set";
+import { LanguagePochiSet } from "../language/language-pochi-set";
 import {
   AvatarWithName,
   AvatarWithNameProps,
 } from "../avatar/avatar-with-name";
-import { TeamsQuery } from "../../generated/types";
+import { SkillModel, TeamsQuery } from "../../generated/types";
 import { dateFormatter, YEAR_MANTH_DAY_SLASH } from "../../utils/dateFormat";
 import Link from "next/link";
 
@@ -24,7 +21,7 @@ export type TeamCardProps = {
   owner: AvatarWithNameProps;
   member: PeopleInfo;
   description: string;
-  languages: LanguagePochiSetProps["languages"];
+  languages: string[];
   createdAt: string;
   className?: string;
 };
@@ -43,12 +40,19 @@ export const convertToTeamCardObjFromTeams = (
       current: team.members?.length || 1, // TODO:
       limit: 5, // TODO:
     },
-    languages: ["typescript"], // TODO:
+    languages: convertToSKillsArray(team.skills),
     createdAt: dateFormatter(
       new Date(Date.parse(team.createdAt)),
       YEAR_MANTH_DAY_SLASH
     ),
   }));
+};
+
+const convertToSKillsArray = (
+  skills: Pick<SkillModel, "name" | "id">[] | null | undefined
+) => {
+  if (skills == undefined || skills == null) return [""];
+  return skills?.map((skill) => skill.name);
 };
 
 export const TeamCard: React.FC<TeamCardProps> = ({
