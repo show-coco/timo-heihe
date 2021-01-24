@@ -29,10 +29,10 @@ export class Team {
   @JoinTable()
   skills: Skill[];
 
-  @ManyToOne(() => User, (user) => user.teams)
+  @ManyToOne(() => User, (user) => user.ownerTeams)
   owner: User;
 
-  @ManyToMany(() => User)
+  @ManyToMany(() => User, (user) => user.teams)
   @JoinTable()
   members?: User[];
 

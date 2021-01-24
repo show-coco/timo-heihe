@@ -1,3 +1,4 @@
+import { forwardRef, Inject } from '@nestjs/common';
 import {
   Args,
   Int,
@@ -20,7 +21,7 @@ import { TeamsService } from './teams.service';
 export class TeamsResolver {
   constructor(
     private teamsService: TeamsService,
-    private usersService: UsersService,
+    @Inject(forwardRef(() => UsersService)) private usersService: UsersService,
     private skillService: SkillService,
     private categoryService: CategoryService,
   ) {}

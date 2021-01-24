@@ -1,4 +1,6 @@
 import { Field, ID, ObjectType } from '@nestjs/graphql';
+import { SkillModel } from 'src/skill/models/skill.model';
+import { TeamModel } from 'src/teams/models/team.model';
 
 @ObjectType()
 export class UserModel {
@@ -22,4 +24,13 @@ export class UserModel {
 
   @Field({ nullable: true })
   twitterId: string;
+
+  @Field(() => [TeamModel])
+  ownerTeams: TeamModel[];
+
+  @Field(() => [TeamModel])
+  teams: TeamModel[];
+
+  @Field(() => [SkillModel])
+  skills: SkillModel[];
 }

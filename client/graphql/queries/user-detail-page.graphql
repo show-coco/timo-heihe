@@ -1,0 +1,33 @@
+query UserDetailPage($id: ID!) {
+  user(id: $id) {
+    id
+    name
+    avatar
+    introduction
+    githubId
+    twitterId
+    skills {
+      id
+      name
+    }
+    teams {
+      id
+      title
+      description
+      createdAt
+      recruitNumbers
+      skills {
+        id
+        name
+      }
+      owner {
+        id
+        name
+        avatar
+      }
+      members {
+        id
+      }
+    }
+  }
+}
