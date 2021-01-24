@@ -1,3 +1,4 @@
+import { useRouter } from "next/router";
 import React from "react";
 import { useState } from "react";
 import { ACSelectedData } from "../components/auto-complate/auto-complate";
@@ -18,6 +19,7 @@ export const convertToSkillsObj = (skills: ACSelectedData[]) => {
 };
 
 export const useCreateTeam = () => {
+  const router = useRouter();
   const { id } = useAuthContext();
   const [createTeam, { loading }] = useCreateTeamMutation();
   const [title, setTitle] = useState("");
@@ -58,11 +60,12 @@ export const useCreateTeam = () => {
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      await createTeam({
+      const res = await createTeam({
         variables: {
           input: getVariables(),
         },
       });
+      router.push(`/team/${res.data?.createTeam.id}`);
     } catch (e) {
       console.log(e);
     }
