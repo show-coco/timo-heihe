@@ -8,7 +8,8 @@ export type AvatarProps = {
   className?: string;
 };
 
-const defaultStyle = "inline-flex items-center justify-center rounded-full";
+const defaultStyle =
+  "inline-flex items-center justify-center rounded-full border-2 border-blue-100";
 
 const sizes = {
   small: "w-8 h-8",
@@ -26,7 +27,11 @@ export const Avatar: React.FC<AvatarProps> = ({
 
   return (
     <span className={`${defaultStyle} ${SizeStyle} ${className}`} {...props}>
-      <Image src={src} width="100%" height="100%" className="rounded-full" />
+      {src ? (
+        <Image src={src} width="100%" height="100%" className="rounded-full" />
+      ) : (
+        <img src={src} width="100%" height="100%" className="rounded-full" />
+      )}
     </span>
   );
 };

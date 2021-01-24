@@ -79,6 +79,7 @@ type SkillModel {
 }
 
 type TeamModel {
+  categories: [CategoryModel!]!
   createdAt: DateTime
   description: String!
   icon: String
@@ -88,7 +89,7 @@ type TeamModel {
   owner: UserModel!
   recruitNumbers: Int!
   repositoryUrl: String
-  skills: String
+  skills: [SkillModel!]
   title: String!
 }
 

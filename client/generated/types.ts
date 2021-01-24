@@ -150,6 +150,7 @@ export type SkillModel = {
 
 export type TeamModel = {
   __typename?: "TeamModel";
+  categories: Array<CategoryModel>;
   createdAt?: Maybe<Scalars["DateTime"]>;
   description: Scalars["String"];
   icon?: Maybe<Scalars["String"]>;
@@ -159,7 +160,7 @@ export type TeamModel = {
   owner: UserModel;
   recruitNumbers: Scalars["Int"];
   repositoryUrl?: Maybe<Scalars["String"]>;
-  skills?: Maybe<Scalars["String"]>;
+  skills?: Maybe<Array<SkillModel>>;
   title: Scalars["String"];
 };
 
@@ -235,13 +236,34 @@ export type MeQuery = { __typename?: "Query" } & {
   me: { __typename?: "UserModel" } & Pick<UserModel, "name" | "id">;
 };
 
-export type TeamQueryVariables = Exact<{ [key: string]: never }>;
+export type TeamQueryVariables = Exact<{
+  id: Scalars["Int"];
+}>;
 
 export type TeamQuery = { __typename?: "Query" } & {
   team: { __typename?: "TeamModel" } & Pick<
     TeamModel,
-    "id" | "title" | "createdAt"
-  > & { owner: { __typename?: "UserModel" } & Pick<UserModel, "id" | "name"> };
+    "id" | "title" | "description" | "icon" | "recruitNumbers" | "isRequired"
+  > & {
+      members?: Maybe<
+        Array<
+          { __typename?: "UserModel" } & Pick<
+            UserModel,
+            "id" | "name" | "avatar"
+          >
+        >
+      >;
+      owner: { __typename?: "UserModel" } & Pick<
+        UserModel,
+        "id" | "name" | "avatar"
+      >;
+      skills?: Maybe<
+        Array<{ __typename?: "SkillModel" } & Pick<SkillModel, "id" | "name">>
+      >;
+      categories: Array<
+        { __typename?: "CategoryModel" } & Pick<CategoryModel, "id" | "name">
+      >;
+    };
 };
 
 export type TeamsQueryVariables = Exact<{ [key: string]: never }>;
@@ -250,8 +272,11 @@ export type TeamsQuery = { __typename?: "Query" } & {
   teams: Array<
     { __typename?: "TeamModel" } & Pick<
       TeamModel,
-      "id" | "title" | "description" | "createdAt" | "skills"
+      "id" | "title" | "description" | "createdAt"
     > & {
+        skills?: Maybe<
+          Array<{ __typename?: "SkillModel" } & Pick<SkillModel, "id" | "name">>
+        >;
         owner: { __typename?: "UserModel" } & Pick<
           UserModel,
           "id" | "name" | "avatar"
@@ -414,12 +439,29 @@ export type MeQueryHookResult = ReturnType<typeof useMeQuery>;
 export type MeLazyQueryHookResult = ReturnType<typeof useMeLazyQuery>;
 export type MeQueryResult = Apollo.QueryResult<MeQuery, MeQueryVariables>;
 export const TeamDocument = gql`
-  query Team {
-    team(id: 11) {
+  query Team($id: Int!) {
+    team(id: $id) {
       id
       title
-      createdAt
+      description
+      icon
+      recruitNumbers
+      isRequired
+      members {
+        id
+        name
+        avatar
+      }
       owner {
+        id
+        name
+        avatar
+      }
+      skills {
+        id
+        name
+      }
+      categories {
         id
         name
       }
@@ -439,11 +481,12 @@ export const TeamDocument = gql`
  * @example
  * const { data, loading, error } = useTeamQuery({
  *   variables: {
+ *      id: // value for 'id'
  *   },
  * });
  */
 export function useTeamQuery(
-  baseOptions?: Apollo.QueryHookOptions<TeamQuery, TeamQueryVariables>
+  baseOptions: Apollo.QueryHookOptions<TeamQuery, TeamQueryVariables>
 ) {
   return Apollo.useQuery<TeamQuery, TeamQueryVariables>(
     TeamDocument,
@@ -468,7 +511,10 @@ export const TeamsDocument = gql`
       title
       description
       createdAt
-      skills
+      skills {
+        id
+        name
+      }
       owner {
         id
         name

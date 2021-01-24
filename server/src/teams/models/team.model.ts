@@ -1,4 +1,6 @@
 import { Field, GraphQLISODateTime, Int, ObjectType } from '@nestjs/graphql';
+import { CategoryModel } from 'src/category/models/category.model';
+import { SkillModel } from 'src/skill/models/skill.model';
 import { UserModel } from 'src/users/models/user.model';
 
 @ObjectType()
@@ -15,14 +17,17 @@ export class TeamModel {
   @Field()
   description: string;
 
-  @Field({ nullable: true })
-  skills?: string;
+  @Field(() => [SkillModel], { nullable: true })
+  skills?: SkillModel[];
 
   @Field()
   owner: UserModel;
 
   @Field(() => [UserModel], { nullable: true })
   members?: UserModel[];
+
+  @Field(() => [CategoryModel])
+  categories: CategoryModel[];
 
   @Field({ nullable: true })
   repositoryUrl?: string;
