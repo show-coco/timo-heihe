@@ -39,26 +39,33 @@ const variants = {
   ghost: `hover:bg-black-400 ${hoverAnimation["black"]}`,
 };
 
-export const Button: React.FC<ButtonProps> = ({
-  variant = "primary",
-  size = "medium",
-  children,
-  className,
-  isIcon,
-  ...props
-}: ButtonProps) => {
-  const sizeMode = sizes[size];
-  const buttonType = variants[variant];
-  const disabledStyle = props.disabled ? "opacity-50" : "";
-  const paddingClass = isIcon ? paddings["icon"] : paddings[size];
+// eslint-disable-next-line react/display-name
+export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
+  (
+    {
+      variant = "primary",
+      size = "medium",
+      children,
+      className,
+      isIcon,
+      ...props
+    }: ButtonProps,
+    ref
+  ) => {
+    const sizeMode = sizes[size];
+    const buttonType = variants[variant];
+    const disabledStyle = props.disabled ? "opacity-50" : "";
+    const paddingClass = isIcon ? paddings["icon"] : paddings[size];
 
-  return (
-    <button
-      type="button"
-      className={`${buttonType} ${defaultStyle} ${sizeMode} ${paddingClass} ${disabledStyle} ${className}`}
-      {...props}
-    >
-      {children}
-    </button>
-  );
-};
+    return (
+      <button
+        type="button"
+        className={`${buttonType} ${defaultStyle} ${sizeMode} ${paddingClass} ${disabledStyle} ${className}`}
+        ref={ref}
+        {...props}
+      >
+        {children}
+      </button>
+    );
+  }
+);

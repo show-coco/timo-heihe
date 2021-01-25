@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import React from "react";
+import React, { useMemo } from "react";
 import { Avatar } from "../../components/avatar/avatar";
 import { Card } from "../../components/card/card";
 import {
@@ -15,10 +15,14 @@ import {
   convertToSkillPochiSetArray,
   LanguagePochiSet,
 } from "../../components/language/language-pochi-set";
+import { Button } from "../../components/button";
+import { useAuthContext } from "../../providers/useAuthContext";
+import Link from "next/link";
 
 export default function UserDetail() {
   const router = useRouter();
   const id = router.query.id;
+  const { id: loginUserId } = useAuthContext();
 
   const { data } = useUserDetailPageQuery({
     variables: {
@@ -26,13 +30,22 @@ export default function UserDetail() {
     },
   });
 
-  console.log(data);
-  const teams = convertToTeamCardObjFromTeams(data?.user.teams || []);
+  const iAmLoginUser = useMemo(() => data?.user.id === loginUserId, [
+    data?.user.id,
+    loginUserId,
+  ]);
 
-  console.log(data?.user.skills);
+  const teams = convertToTeamCardObjFromTeams(data?.user.teams || []);
 
   return (
     <Template>
+      {iAmLoginUser && (
+        <div className="flex justify-end mb-4">
+          <Link href="/user/edit/[id]" as={`/user/edit/${id}`}>
+            <Button>編集する</Button>
+          </Link>
+        </div>
+      )}
       <div className="grid grid-rows-2 md:grid-cols-2 md:grid-rows-none gap-10">
         <Card className="p-8 space-y-5">
           <span className="flex space-x-3 items-center">

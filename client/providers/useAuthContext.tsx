@@ -48,7 +48,7 @@ export const AuthProvider: React.FC<Props> = ({ children }: Props) => {
     setIsAuthenticated(false);
     setId("");
     setName("");
-    router.push("/");
+    router.push("/login");
   };
 
   useEffect(() => {

@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { ACSelectedData } from "../components/auto-complate/auto-complate";
 import {
+  SkillModel,
   TeamEditPageQuery,
   useEditTeamMutation,
   useTeamEditPageQuery,
@@ -10,8 +11,8 @@ import {
 import { useFileInput } from "./useFileInput";
 import { convertToCategoriesObj, convertToSkillsObj } from "./useCreateTeam";
 
-const convertToACSelectedData = (
-  skills: TeamEditPageQuery["team"]["skills"]
+export const convertToACSelectedData = (
+  skills: Pick<SkillModel, "id" | "name">[]
 ): ACSelectedData[] => {
   if (!skills) return [];
   return skills?.map<ACSelectedData>((skill) => ({
@@ -62,7 +63,7 @@ export const useEditTeam = () => {
       setRecruitNumber(team.recruitNumbers);
       setRespositoryUrl(team.repositoryUrl || "");
       setIsRequired(team.isRequired ? "2" : "1");
-      setSkills(convertToACSelectedData(team.skills));
+      setSkills(convertToACSelectedData(team.skills || []));
       setCategories(convertToCategoryArray(team.categories));
       setImageUrl(team.icon || "");
     }

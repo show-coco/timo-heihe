@@ -2,6 +2,7 @@ import { forwardRef, Inject, UseGuards } from '@nestjs/common';
 import {
   Args,
   ID,
+  Mutation,
   Parent,
   Query,
   ResolveField,
@@ -17,6 +18,7 @@ import { SkillModel } from 'src/skill/models/skill.model';
 import { SkillService } from 'src/skill/skill.service';
 import { TeamsService } from 'src/teams/teams.service';
 import { TeamModel } from 'src/teams/models/team.model';
+import { UpdateUserInput } from './dto/update-user.input';
 
 @Resolver(() => UserModel)
 export class UsersResolver {
@@ -40,6 +42,11 @@ export class UsersResolver {
   @Query(() => [UserModel])
   async users() {
     return this.usersService.findAll();
+  }
+
+  @Mutation(() => UserModel)
+  updateUser(@Args('updateUserInput') updateUserInput: UpdateUserInput) {
+    return this.usersService.update(updateUserInput);
   }
 
   @ResolveField(() => [SkillModel])
