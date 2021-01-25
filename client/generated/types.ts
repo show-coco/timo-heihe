@@ -68,6 +68,7 @@ export type Mutation = {
   updateCategory: CategoryModel;
   updateSkill: SkillModel;
   updateTeam: TeamModel;
+  updateUser: UserModel;
 };
 
 export type MutationCreateCategoryArgs = {
@@ -104,6 +105,10 @@ export type MutationUpdateSkillArgs = {
 
 export type MutationUpdateTeamArgs = {
   updateTeamInput: UpdateTeamInput;
+};
+
+export type MutationUpdateUserArgs = {
+  updateUserInput: UpdateUserInput;
 };
 
 export type Query = {
@@ -190,6 +195,16 @@ export type UpdateTeamInput = {
   title?: Maybe<Scalars["String"]>;
 };
 
+export type UpdateUserInput = {
+  avatar?: Maybe<Scalars["String"]>;
+  email?: Maybe<Scalars["String"]>;
+  githubId?: Maybe<Scalars["String"]>;
+  id: Scalars["ID"];
+  introduction?: Maybe<Scalars["String"]>;
+  name?: Maybe<Scalars["String"]>;
+  twitterId?: Maybe<Scalars["String"]>;
+};
+
 export type UserInput = {
   avatar?: Maybe<Scalars["String"]>;
   email?: Maybe<Scalars["String"]>;
@@ -228,6 +243,14 @@ export type EditTeamMutationVariables = Exact<{
 
 export type EditTeamMutation = { __typename?: "Mutation" } & {
   updateTeam: { __typename?: "TeamModel" } & Pick<TeamModel, "id" | "title">;
+};
+
+export type UpdateUserMutationVariables = Exact<{
+  input: UpdateUserInput;
+}>;
+
+export type UpdateUserMutation = { __typename?: "Mutation" } & {
+  updateUser: { __typename?: "UserModel" } & Pick<UserModel, "id">;
 };
 
 export type CreateTeamPageQueryVariables = Exact<{ [key: string]: never }>;
@@ -278,6 +301,43 @@ export type TeamEditPageQuery = { __typename?: "Query" } & {
   categories: Array<
     { __typename?: "CategoryModel" } & Pick<CategoryModel, "id" | "name">
   >;
+  skills: Array<
+    { __typename?: "SkillModel" } & Pick<SkillModel, "id" | "name">
+  >;
+};
+
+export type EditUserPageQueryVariables = Exact<{
+  id: Scalars["ID"];
+}>;
+
+export type EditUserPageQuery = { __typename?: "Query" } & {
+  user: { __typename?: "UserModel" } & Pick<
+    UserModel,
+    "id" | "name" | "avatar" | "introduction" | "githubId" | "twitterId"
+  > & {
+      skills: Array<
+        { __typename?: "SkillModel" } & Pick<SkillModel, "id" | "name">
+      >;
+      teams: Array<
+        { __typename?: "TeamModel" } & Pick<
+          TeamModel,
+          "id" | "title" | "description" | "createdAt" | "recruitNumbers"
+        > & {
+            skills?: Maybe<
+              Array<
+                { __typename?: "SkillModel" } & Pick<SkillModel, "id" | "name">
+              >
+            >;
+            owner: { __typename?: "UserModel" } & Pick<
+              UserModel,
+              "id" | "name" | "avatar"
+            >;
+            members?: Maybe<
+              Array<{ __typename?: "UserModel" } & Pick<UserModel, "id">>
+            >;
+          }
+      >;
+    };
   skills: Array<
     { __typename?: "SkillModel" } & Pick<SkillModel, "id" | "name">
   >;
@@ -477,6 +537,54 @@ export type EditTeamMutationOptions = Apollo.BaseMutationOptions<
   EditTeamMutation,
   EditTeamMutationVariables
 >;
+export const UpdateUserDocument = gql`
+  mutation UpdateUser($input: UpdateUserInput!) {
+    updateUser(updateUserInput: $input) {
+      id
+    }
+  }
+`;
+export type UpdateUserMutationFn = Apollo.MutationFunction<
+  UpdateUserMutation,
+  UpdateUserMutationVariables
+>;
+
+/**
+ * __useUpdateUserMutation__
+ *
+ * To run a mutation, you first call `useUpdateUserMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateUserMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateUserMutation, { data, loading, error }] = useUpdateUserMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useUpdateUserMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    UpdateUserMutation,
+    UpdateUserMutationVariables
+  >
+) {
+  return Apollo.useMutation<UpdateUserMutation, UpdateUserMutationVariables>(
+    UpdateUserDocument,
+    baseOptions
+  );
+}
+export type UpdateUserMutationHookResult = ReturnType<
+  typeof useUpdateUserMutation
+>;
+export type UpdateUserMutationResult = Apollo.MutationResult<UpdateUserMutation>;
+export type UpdateUserMutationOptions = Apollo.BaseMutationOptions<
+  UpdateUserMutation,
+  UpdateUserMutationVariables
+>;
 export const CreateTeamPageDocument = gql`
   query CreateTeamPage {
     categories {
@@ -625,6 +733,94 @@ export type TeamEditPageLazyQueryHookResult = ReturnType<
 export type TeamEditPageQueryResult = Apollo.QueryResult<
   TeamEditPageQuery,
   TeamEditPageQueryVariables
+>;
+export const EditUserPageDocument = gql`
+  query EditUserPage($id: ID!) {
+    user(id: $id) {
+      id
+      name
+      avatar
+      introduction
+      githubId
+      twitterId
+      skills {
+        id
+        name
+      }
+      teams {
+        id
+        title
+        description
+        createdAt
+        recruitNumbers
+        skills {
+          id
+          name
+        }
+        owner {
+          id
+          name
+          avatar
+        }
+        members {
+          id
+        }
+      }
+    }
+    skills {
+      id
+      name
+    }
+  }
+`;
+
+/**
+ * __useEditUserPageQuery__
+ *
+ * To run a query within a React component, call `useEditUserPageQuery` and pass it any options that fit your needs.
+ * When your component renders, `useEditUserPageQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useEditUserPageQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useEditUserPageQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    EditUserPageQuery,
+    EditUserPageQueryVariables
+  >
+) {
+  return Apollo.useQuery<EditUserPageQuery, EditUserPageQueryVariables>(
+    EditUserPageDocument,
+    baseOptions
+  );
+}
+export function useEditUserPageLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    EditUserPageQuery,
+    EditUserPageQueryVariables
+  >
+) {
+  return Apollo.useLazyQuery<EditUserPageQuery, EditUserPageQueryVariables>(
+    EditUserPageDocument,
+    baseOptions
+  );
+}
+export type EditUserPageQueryHookResult = ReturnType<
+  typeof useEditUserPageQuery
+>;
+export type EditUserPageLazyQueryHookResult = ReturnType<
+  typeof useEditUserPageLazyQuery
+>;
+export type EditUserPageQueryResult = Apollo.QueryResult<
+  EditUserPageQuery,
+  EditUserPageQueryVariables
 >;
 export const MeDocument = gql`
   query Me {

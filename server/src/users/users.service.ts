@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { UpdateUserInput } from './dto/update-user.input';
 import { User } from './entities/users.entity';
 
 @Injectable()
@@ -30,5 +31,11 @@ export class UsersService {
     } catch (e) {
       console.log(e);
     }
+  }
+
+  async update(updateUserInput: UpdateUserInput) {
+    const input: UpdateUserInput = JSON.parse(JSON.stringify(updateUserInput));
+
+    return this.userRepository.save(input);
   }
 }
