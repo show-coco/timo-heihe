@@ -1,7 +1,11 @@
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { ACSelectedData } from "../components/auto-complate/auto-complate";
-import { useEditUserPageQuery } from "../generated/types";
+import {
+  useEditUserPageQuery,
+  useUpdateUserMutation,
+} from "../generated/types";
+import { convertToSkillsObj } from "./useCreateTeam";
 import { convertToACSelectedData } from "./useEditTeam";
 import { useFileInput } from "./useFileInput";
 
@@ -21,6 +25,7 @@ export const useEditUser = () => {
     imageUrl,
     setImageUrl,
   } = useFileInput();
+  const [updateUser] = useUpdateUserMutation();
 
   const { data } = useEditUserPageQuery({
     variables: {
@@ -41,19 +46,29 @@ export const useEditUser = () => {
     }
   }, [data, setImageUrl]);
 
-  // const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-  //   e.preventDefault();
-  //   try {
-  //     await updateTeam({
-  //       variables: {
-  //         input: getVariables(),
-  //       },
-  //     });
-  //     router.push(`/team/${id}`);
-  //   } catch (e) {
-  //     console.log(e);
-  //   }
-  // };
+  const getVariables = () => ({
+    id: userId,
+    name: userName,
+    introduction,
+    githubId,
+    twitterId,
+    avatar: imageUrl,
+    skills: convertToSkillsObj(selectedSkills),
+  });
+
+  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    try {
+      const { data } = await updateUser({
+        variables: {
+          input: getVariables(),
+        },
+      });
+      router.push(`/user/${data?.updateUser.id}`);
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
   return {
     formState: {
@@ -67,6 +82,11 @@ export const useEditUser = () => {
     },
     setter: {
       setSkills,
+      setUserName,
+      setUserId,
+      setIntroduction,
+      setGithubId,
+      setTwitterId,
     },
     file: {
       fileRef,
@@ -74,5 +94,6 @@ export const useEditUser = () => {
       onChangeFileInput,
     },
     skills: data?.skills || [],
+    onSubmit,
   };
 };
