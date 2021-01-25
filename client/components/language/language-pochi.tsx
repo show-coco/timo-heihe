@@ -4,6 +4,8 @@ import { Pochi } from "../pochi/pochi";
 export type LanguagePochiProps = {
   language: string;
   className?: string;
+  // eslint-disable-next-line no-unused-vars
+  onClick?: (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
 };
 
 const languages = {
@@ -36,6 +38,7 @@ const languages = {
 export const LanguagePochi: React.FC<LanguagePochiProps> = ({
   language,
   className,
+  onClick,
 }: LanguagePochiProps) => {
   if (
     language !== "typescript" &&
@@ -49,7 +52,10 @@ export const LanguagePochi: React.FC<LanguagePochiProps> = ({
   }
 
   return (
-    <span className={`flex items-center space-x-2 ${className}`}>
+    <span
+      className={`flex items-center space-x-2 ${className}`}
+      onClick={onClick}
+    >
       <Pochi className={languages[language].color} />
       <span>{languages[language].name}</span>
     </span>

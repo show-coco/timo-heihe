@@ -71,3 +71,28 @@ input[type="number"]::-webkit-outer-spin-button {
 .react-autosuggest__suggestion--highlighted {
   background-color: #ddd;
 }
+
+.editable-language::after {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.3);
+
+  font-size: 32px;
+  content: "×";
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  border-radius: 3px;
+
+  opacity: 0;
+  box-shadow: inset 0 0 30px 15px rgba(0, 0, 0, 0.3);
+  transition: all 0.12s ease;
+}
+
+.editable-language:hover::after {
+  opacity: 1;
+}
