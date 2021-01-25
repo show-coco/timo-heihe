@@ -63,9 +63,7 @@ export default function ShowTeam() {
           <div className="flex flex-col space-y-3">
             {iAmOwner && (
               <Link href="/team/edit/[id]" as={`/team/edit/${id}`}>
-                <div>
-                  <Button>編集する</Button>
-                </div>
+                <Button>編集する</Button>
               </Link>
             )}
             {!iAmJoining && team.isRequired && <Button>申請する</Button>}
