@@ -8,13 +8,13 @@ import GithubIcon from "../../../assets/icons/github.svg";
 import { TextInput } from "../../../components/text-input/text-input";
 import { useEditUser } from "../../../hooks/useEditUser";
 import { FileInput } from "../../../components/file-input/file-inpute";
-import { LanguagePochiSet } from "../../../components/language/language-pochi-set";
 import {
   convertToACData,
   convertToSkillPochiSetArray,
 } from "../../create-team";
 import { AutoComplate } from "../../../components/auto-complate/auto-complate";
 import { Button } from "../../../components/button";
+import { EditableLanguagePochiSet } from "../../../components/language/editable-language-pochi-set";
 
 export default function EditUser() {
   const { formState, file, setter, skills, onSubmit } = useEditUser();
@@ -92,8 +92,10 @@ export default function EditUser() {
               setSelected={setter.setSkills}
               selectedData={formState.selectedSkills}
             />
-            <LanguagePochiSet
+            <EditableLanguagePochiSet
               languages={convertToSkillPochiSetArray(formState.selectedSkills)}
+              setSelected={setter.setSkills}
+              selectedData={formState.selectedSkills}
             />
           </div>
 

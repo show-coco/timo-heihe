@@ -5,7 +5,6 @@ import { Card } from "../../../components/card/card";
 import { Checkbox } from "../../../components/checkbox/checkbox";
 import { FileInput } from "../../../components/file-input/file-inpute";
 import { Heading } from "../../../components/heading/heading";
-import { LanguagePochiSet } from "../../../components/language/language-pochi-set";
 import { NumberInput } from "../../../components/number-input/number-input";
 import { Radio } from "../../../components/radio/radio";
 import { Template } from "../../../components/template/template";
@@ -17,6 +16,7 @@ import {
   convertToACData,
   convertToSkillPochiSetArray,
 } from "../../create-team";
+import { EditableLanguagePochiSet } from "../../../components/language/editable-language-pochi-set";
 
 const betweenH2 = "space-y-2";
 
@@ -152,10 +152,12 @@ export default function EditTeam() {
                 selectedData={formState.selectedSkills}
               />
               <div>
-                <LanguagePochiSet
+                <EditableLanguagePochiSet
                   languages={convertToSkillPochiSetArray(
                     formState.selectedSkills
                   )}
+                  setSelected={setter.setSkills}
+                  selectedData={formState.selectedSkills}
                 />
               </div>
             </div>
