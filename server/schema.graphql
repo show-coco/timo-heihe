@@ -52,6 +52,7 @@ type Mutation {
   updateCategory(updateCategoryInput: UpdateCategoryInput!): CategoryModel!
   updateSkill(updateSkillInput: UpdateSkillInput!): SkillModel!
   updateTeam(updateTeamInput: UpdateTeamInput!): TeamModel!
+  updateUser(updateUserInput: UpdateUserInput!): UserModel!
 }
 
 type Query {
@@ -124,6 +125,17 @@ input UpdateTeamInput {
   title: String
 }
 
+input UpdateUserInput {
+  avatar: String
+  email: String
+  githubId: String
+  id: ID!
+  introduction: String
+  name: String
+  skills: [SkillInput!]
+  twitterId: String
+}
+
 input UserInput {
   avatar: String
   email: String
@@ -131,6 +143,7 @@ input UserInput {
   id: ID!
   introduction: String
   name: String
+  skills: [SkillInput!]
   twitterId: String
 }
 
