@@ -283,6 +283,43 @@ export type TeamEditPageQuery = { __typename?: "Query" } & {
   >;
 };
 
+export type EditUserPageQueryVariables = Exact<{
+  id: Scalars["ID"];
+}>;
+
+export type EditUserPageQuery = { __typename?: "Query" } & {
+  user: { __typename?: "UserModel" } & Pick<
+    UserModel,
+    "id" | "name" | "avatar" | "introduction" | "githubId" | "twitterId"
+  > & {
+      skills: Array<
+        { __typename?: "SkillModel" } & Pick<SkillModel, "id" | "name">
+      >;
+      teams: Array<
+        { __typename?: "TeamModel" } & Pick<
+          TeamModel,
+          "id" | "title" | "description" | "createdAt" | "recruitNumbers"
+        > & {
+            skills?: Maybe<
+              Array<
+                { __typename?: "SkillModel" } & Pick<SkillModel, "id" | "name">
+              >
+            >;
+            owner: { __typename?: "UserModel" } & Pick<
+              UserModel,
+              "id" | "name" | "avatar"
+            >;
+            members?: Maybe<
+              Array<{ __typename?: "UserModel" } & Pick<UserModel, "id">>
+            >;
+          }
+      >;
+    };
+  skills: Array<
+    { __typename?: "SkillModel" } & Pick<SkillModel, "id" | "name">
+  >;
+};
+
 export type MeQueryVariables = Exact<{ [key: string]: never }>;
 
 export type MeQuery = { __typename?: "Query" } & {
@@ -625,6 +662,94 @@ export type TeamEditPageLazyQueryHookResult = ReturnType<
 export type TeamEditPageQueryResult = Apollo.QueryResult<
   TeamEditPageQuery,
   TeamEditPageQueryVariables
+>;
+export const EditUserPageDocument = gql`
+  query EditUserPage($id: ID!) {
+    user(id: $id) {
+      id
+      name
+      avatar
+      introduction
+      githubId
+      twitterId
+      skills {
+        id
+        name
+      }
+      teams {
+        id
+        title
+        description
+        createdAt
+        recruitNumbers
+        skills {
+          id
+          name
+        }
+        owner {
+          id
+          name
+          avatar
+        }
+        members {
+          id
+        }
+      }
+    }
+    skills {
+      id
+      name
+    }
+  }
+`;
+
+/**
+ * __useEditUserPageQuery__
+ *
+ * To run a query within a React component, call `useEditUserPageQuery` and pass it any options that fit your needs.
+ * When your component renders, `useEditUserPageQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useEditUserPageQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useEditUserPageQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    EditUserPageQuery,
+    EditUserPageQueryVariables
+  >
+) {
+  return Apollo.useQuery<EditUserPageQuery, EditUserPageQueryVariables>(
+    EditUserPageDocument,
+    baseOptions
+  );
+}
+export function useEditUserPageLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    EditUserPageQuery,
+    EditUserPageQueryVariables
+  >
+) {
+  return Apollo.useLazyQuery<EditUserPageQuery, EditUserPageQueryVariables>(
+    EditUserPageDocument,
+    baseOptions
+  );
+}
+export type EditUserPageQueryHookResult = ReturnType<
+  typeof useEditUserPageQuery
+>;
+export type EditUserPageLazyQueryHookResult = ReturnType<
+  typeof useEditUserPageLazyQuery
+>;
+export type EditUserPageQueryResult = Apollo.QueryResult<
+  EditUserPageQuery,
+  EditUserPageQueryVariables
 >;
 export const MeDocument = gql`
   query Me {
