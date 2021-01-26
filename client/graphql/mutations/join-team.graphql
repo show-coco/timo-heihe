@@ -1,0 +1,10 @@
+mutation JoinTeam($userId: String!, $teamId: Int!) {
+  joinTeam(userId: $userId, teamId: $teamId) {
+    id
+    title
+    members {
+      id
+      name
+    }
+  }
+}

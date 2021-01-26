@@ -63,6 +63,8 @@ export type Mutation = {
   createSkill: SkillModel;
   createTeam: TeamModel;
   deleteTeam: TeamModel;
+  joinTeam: TeamModel;
+  leaveTeam: TeamModel;
   removeCategory: CategoryModel;
   removeSkill: SkillModel;
   updateCategory: CategoryModel;
@@ -84,7 +86,17 @@ export type MutationCreateTeamArgs = {
 };
 
 export type MutationDeleteTeamArgs = {
-  id: Scalars["Float"];
+  id: Scalars["Int"];
+};
+
+export type MutationJoinTeamArgs = {
+  teamId: Scalars["Int"];
+  userId: Scalars["String"];
+};
+
+export type MutationLeaveTeamArgs = {
+  teamId: Scalars["Int"];
+  userId: Scalars["String"];
 };
 
 export type MutationRemoveCategoryArgs = {
@@ -202,6 +214,7 @@ export type UpdateUserInput = {
   id: Scalars["ID"];
   introduction?: Maybe<Scalars["String"]>;
   name?: Maybe<Scalars["String"]>;
+  skills?: Maybe<Array<SkillInput>>;
   twitterId?: Maybe<Scalars["String"]>;
 };
 
@@ -212,6 +225,7 @@ export type UserInput = {
   id: Scalars["ID"];
   introduction?: Maybe<Scalars["String"]>;
   name?: Maybe<Scalars["String"]>;
+  skills?: Maybe<Array<SkillInput>>;
   twitterId?: Maybe<Scalars["String"]>;
 };
 
@@ -243,6 +257,19 @@ export type EditTeamMutationVariables = Exact<{
 
 export type EditTeamMutation = { __typename?: "Mutation" } & {
   updateTeam: { __typename?: "TeamModel" } & Pick<TeamModel, "id" | "title">;
+};
+
+export type JoinTeamMutationVariables = Exact<{
+  userId: Scalars["String"];
+  teamId: Scalars["Int"];
+}>;
+
+export type JoinTeamMutation = { __typename?: "Mutation" } & {
+  joinTeam: { __typename?: "TeamModel" } & Pick<TeamModel, "id" | "title"> & {
+      members?: Maybe<
+        Array<{ __typename?: "UserModel" } & Pick<UserModel, "id" | "name">>
+      >;
+    };
 };
 
 export type UpdateUserMutationVariables = Exact<{
@@ -536,6 +563,58 @@ export type EditTeamMutationResult = Apollo.MutationResult<EditTeamMutation>;
 export type EditTeamMutationOptions = Apollo.BaseMutationOptions<
   EditTeamMutation,
   EditTeamMutationVariables
+>;
+export const JoinTeamDocument = gql`
+  mutation JoinTeam($userId: String!, $teamId: Int!) {
+    joinTeam(userId: $userId, teamId: $teamId) {
+      id
+      title
+      members {
+        id
+        name
+      }
+    }
+  }
+`;
+export type JoinTeamMutationFn = Apollo.MutationFunction<
+  JoinTeamMutation,
+  JoinTeamMutationVariables
+>;
+
+/**
+ * __useJoinTeamMutation__
+ *
+ * To run a mutation, you first call `useJoinTeamMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useJoinTeamMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [joinTeamMutation, { data, loading, error }] = useJoinTeamMutation({
+ *   variables: {
+ *      userId: // value for 'userId'
+ *      teamId: // value for 'teamId'
+ *   },
+ * });
+ */
+export function useJoinTeamMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    JoinTeamMutation,
+    JoinTeamMutationVariables
+  >
+) {
+  return Apollo.useMutation<JoinTeamMutation, JoinTeamMutationVariables>(
+    JoinTeamDocument,
+    baseOptions
+  );
+}
+export type JoinTeamMutationHookResult = ReturnType<typeof useJoinTeamMutation>;
+export type JoinTeamMutationResult = Apollo.MutationResult<JoinTeamMutation>;
+export type JoinTeamMutationOptions = Apollo.BaseMutationOptions<
+  JoinTeamMutation,
+  JoinTeamMutationVariables
 >;
 export const UpdateUserDocument = gql`
   mutation UpdateUser($input: UpdateUserInput!) {

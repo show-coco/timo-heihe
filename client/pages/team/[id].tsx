@@ -8,7 +8,7 @@ import {
 } from "../../components/category/category-set";
 import { Heading } from "../../components/heading/heading";
 import { Template } from "../../components/template/template";
-import { useTeamQuery } from "../../generated/types";
+import { useJoinTeamMutation, useTeamQuery } from "../../generated/types";
 import PeopleIcon from "../../assets/icons/people.svg";
 import {
   convertToSkillPochiSetArray,
@@ -21,14 +21,28 @@ import { AvatarWithName } from "../../components/avatar/avatar-with-name";
 
 export default function ShowTeam() {
   const router = useRouter();
-  const id = router.query.id;
+  const teamId = router.query.id;
   const { id: userId } = useAuthContext();
 
   const { data } = useTeamQuery({
     variables: {
-      id: Number(id),
+      id: Number(teamId),
     },
   });
+
+  const [joinTeam] = useJoinTeamMutation();
+
+  const onJoinTeam = (
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    event.preventDefault();
+    joinTeam({
+      variables: {
+        userId,
+        teamId: Number(teamId),
+      },
+    });
+  };
 
   const team = data?.team;
 
@@ -62,12 +76,14 @@ export default function ShowTeam() {
 
           <div className="flex flex-col space-y-3">
             {iAmOwner && (
-              <Link href="/team/edit/[id]" as={`/team/edit/${id}`}>
+              <Link href="/team/edit/[id]" as={`/team/edit/${teamId}`}>
                 <Button>編集する</Button>
               </Link>
             )}
             {!iAmJoining && team.isRequired && <Button>申請する</Button>}
-            {!iAmJoining && !team.isRequired && <Button>参加する</Button>}
+            {!iAmJoining && !team.isRequired && (
+              <Button onClick={onJoinTeam}>参加する</Button>
+            )}
             {iAmJoining && <Button variant="outline">脱退する</Button>}
             {iAmOwner && <Button variant="outline">アーカイブ</Button>}
           </div>
