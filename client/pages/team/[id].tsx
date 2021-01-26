@@ -1,5 +1,4 @@
-import { useRouter } from "next/router";
-import React, { useMemo } from "react";
+import React from "react";
 import { Avatar } from "../../components/avatar/avatar";
 import { Card } from "../../components/card/card";
 import {
@@ -8,71 +7,25 @@ import {
 } from "../../components/category/category-set";
 import { Heading } from "../../components/heading/heading";
 import { Template } from "../../components/template/template";
-import {
-  useJoinTeamMutation,
-  useLeaveTeamMutation,
-  useTeamQuery,
-} from "../../generated/types";
 import PeopleIcon from "../../assets/icons/people.svg";
 import {
   convertToSkillPochiSetArray,
   LanguagePochiSet,
 } from "../../components/language/language-pochi-set";
 import { Button } from "../../components/button";
-import { useAuthContext } from "../../providers/useAuthContext";
 import Link from "next/link";
 import { AvatarWithName } from "../../components/avatar/avatar-with-name";
+import { useTeamDetail } from "../../hooks/useTeamDetail";
 
 export default function ShowTeam() {
-  const router = useRouter();
-  const teamId = router.query.id;
-  const { id: userId } = useAuthContext();
-
-  const { data } = useTeamQuery({
-    variables: {
-      id: Number(teamId),
-    },
-  });
-
-  const [joinTeam] = useJoinTeamMutation();
-
-  const [leaveTeam] = useLeaveTeamMutation();
-
-  const onJoinTeam = (
-    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ) => {
-    event.preventDefault();
-    joinTeam({
-      variables: {
-        userId,
-        teamId: Number(teamId),
-      },
-    });
-  };
-
-  const onLeaveTeam = (
-    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ) => {
-    event.preventDefault();
-    leaveTeam({
-      variables: {
-        userId,
-        teamId: Number(teamId),
-      },
-    });
-  };
-
-  const team = data?.team;
-
-  const iAmJoining = useMemo(() => {
-    return Boolean(
-      team?.members?.filter((member) => member.id === userId).length
-    );
-  }, [team?.members, userId]);
-
-  const iAmOwner = useMemo(() => {
-    return userId === team?.owner.id;
-  }, [team?.owner.id, userId]);
+  const {
+    onJoinTeam,
+    onLeaveTeam,
+    iAmJoining,
+    iAmOwner,
+    team,
+    teamId,
+  } = useTeamDetail();
 
   if (!team) return <p>データがありません</p>;
 
