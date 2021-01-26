@@ -16,8 +16,7 @@ import { Button } from "../../components/button";
 import Link from "next/link";
 import { AvatarWithName } from "../../components/avatar/avatar-with-name";
 import { useTeamDetail } from "../../hooks/useTeamDetail";
-import { JoinTeamDialog } from "../../components/dialog/join-team-dialog";
-import { LeaveTeamDialog } from "../../components/dialog/leave-team-dialog";
+import { SimpleDialog } from "../../components/dialog/simple-dialog";
 
 export default function ShowTeam() {
   const {
@@ -36,15 +35,19 @@ export default function ShowTeam() {
   return (
     <Template>
       <Card className="p-8">
-        <JoinTeamDialog
+        <SimpleDialog
           isOpen={dialogState.joinTeamDialogIsOpened}
           onClose={dialogSetter.onCloseJoinDialog}
           onClick={onJoinTeam}
+          buttonText="参加する"
+          title="このチームに参加しますか"
         />
-        <LeaveTeamDialog
+        <SimpleDialog
           isOpen={dialogState.leaveTeamDialogIsOpened}
           onClose={dialogSetter.onCloseLeaveDialog}
           onClick={onLeaveTeam}
+          buttonText="脱退する"
+          title="このチームから脱退しますか"
         />
 
         <div className="flex justify-between">

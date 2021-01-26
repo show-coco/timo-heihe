@@ -5,18 +5,22 @@ import { Dialog, DialogProps } from "./dialog";
 
 type Props = Pick<DialogProps, "isOpen" | "onClose"> & {
   onClick: ButtonProps["onClick"];
+  title: string;
+  buttonText: string;
 };
 
-export const LeaveTeamDialog: React.FC<Props> = ({
+export const SimpleDialog: React.FC<Props> = ({
   onClick,
+  title,
+  buttonText,
   ...rest
 }: Props) => {
   return (
     <Dialog {...rest}>
       <div className="p-2 text-center space-y-4">
-        <Heading as="h1Small">このチームを脱退しますか</Heading>
+        <Heading as="h1Small">{title}</Heading>
         <div>
-          <Button onClick={onClick}>脱退する</Button>
+          <Button onClick={onClick}>{buttonText}</Button>
         </div>
       </div>
     </Dialog>
