@@ -8,7 +8,11 @@ import {
 } from "../../components/category/category-set";
 import { Heading } from "../../components/heading/heading";
 import { Template } from "../../components/template/template";
-import { useJoinTeamMutation, useTeamQuery } from "../../generated/types";
+import {
+  useJoinTeamMutation,
+  useLeaveTeamMutation,
+  useTeamQuery,
+} from "../../generated/types";
 import PeopleIcon from "../../assets/icons/people.svg";
 import {
   convertToSkillPochiSetArray,
@@ -32,11 +36,25 @@ export default function ShowTeam() {
 
   const [joinTeam] = useJoinTeamMutation();
 
+  const [leaveTeam] = useLeaveTeamMutation();
+
   const onJoinTeam = (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     event.preventDefault();
     joinTeam({
+      variables: {
+        userId,
+        teamId: Number(teamId),
+      },
+    });
+  };
+
+  const onLeaveTeam = (
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    event.preventDefault();
+    leaveTeam({
       variables: {
         userId,
         teamId: Number(teamId),
@@ -84,7 +102,11 @@ export default function ShowTeam() {
             {!iAmJoining && !team.isRequired && (
               <Button onClick={onJoinTeam}>参加する</Button>
             )}
-            {iAmJoining && <Button variant="outline">脱退する</Button>}
+            {iAmJoining && (
+              <Button variant="outline" onClick={onLeaveTeam}>
+                脱退する
+              </Button>
+            )}
             {iAmOwner && <Button variant="outline">アーカイブ</Button>}
           </div>
         </div>

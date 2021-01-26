@@ -272,6 +272,19 @@ export type JoinTeamMutation = { __typename?: "Mutation" } & {
     };
 };
 
+export type LeaveTeamMutationVariables = Exact<{
+  userId: Scalars["String"];
+  teamId: Scalars["Int"];
+}>;
+
+export type LeaveTeamMutation = { __typename?: "Mutation" } & {
+  leaveTeam: { __typename?: "TeamModel" } & Pick<TeamModel, "id" | "title"> & {
+      members?: Maybe<
+        Array<{ __typename?: "UserModel" } & Pick<UserModel, "id" | "name">>
+      >;
+    };
+};
+
 export type UpdateUserMutationVariables = Exact<{
   input: UpdateUserInput;
 }>;
@@ -615,6 +628,60 @@ export type JoinTeamMutationResult = Apollo.MutationResult<JoinTeamMutation>;
 export type JoinTeamMutationOptions = Apollo.BaseMutationOptions<
   JoinTeamMutation,
   JoinTeamMutationVariables
+>;
+export const LeaveTeamDocument = gql`
+  mutation LeaveTeam($userId: String!, $teamId: Int!) {
+    leaveTeam(userId: $userId, teamId: $teamId) {
+      id
+      title
+      members {
+        id
+        name
+      }
+    }
+  }
+`;
+export type LeaveTeamMutationFn = Apollo.MutationFunction<
+  LeaveTeamMutation,
+  LeaveTeamMutationVariables
+>;
+
+/**
+ * __useLeaveTeamMutation__
+ *
+ * To run a mutation, you first call `useLeaveTeamMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useLeaveTeamMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [leaveTeamMutation, { data, loading, error }] = useLeaveTeamMutation({
+ *   variables: {
+ *      userId: // value for 'userId'
+ *      teamId: // value for 'teamId'
+ *   },
+ * });
+ */
+export function useLeaveTeamMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    LeaveTeamMutation,
+    LeaveTeamMutationVariables
+  >
+) {
+  return Apollo.useMutation<LeaveTeamMutation, LeaveTeamMutationVariables>(
+    LeaveTeamDocument,
+    baseOptions
+  );
+}
+export type LeaveTeamMutationHookResult = ReturnType<
+  typeof useLeaveTeamMutation
+>;
+export type LeaveTeamMutationResult = Apollo.MutationResult<LeaveTeamMutation>;
+export type LeaveTeamMutationOptions = Apollo.BaseMutationOptions<
+  LeaveTeamMutation,
+  LeaveTeamMutationVariables
 >;
 export const UpdateUserDocument = gql`
   mutation UpdateUser($input: UpdateUserInput!) {

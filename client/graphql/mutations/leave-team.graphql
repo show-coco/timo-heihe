@@ -1,0 +1,10 @@
+mutation LeaveTeam($userId: String!, $teamId: Int!) {
+  leaveTeam(userId: $userId, teamId: $teamId) {
+    id
+    title
+    members {
+      id
+      name
+    }
+  }
+}
