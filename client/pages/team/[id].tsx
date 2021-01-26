@@ -16,6 +16,8 @@ import { Button } from "../../components/button";
 import Link from "next/link";
 import { AvatarWithName } from "../../components/avatar/avatar-with-name";
 import { useTeamDetail } from "../../hooks/useTeamDetail";
+import { JoinTeamDialog } from "../../components/dialog/join-team-dialog";
+import { LeaveTeamDialog } from "../../components/dialog/leave-team-dialog";
 
 export default function ShowTeam() {
   const {
@@ -25,6 +27,8 @@ export default function ShowTeam() {
     iAmOwner,
     team,
     teamId,
+    dialogState,
+    dialogSetter,
   } = useTeamDetail();
 
   if (!team) return <p>データがありません</p>;
@@ -32,6 +36,17 @@ export default function ShowTeam() {
   return (
     <Template>
       <Card className="p-8">
+        <JoinTeamDialog
+          isOpen={dialogState.joinTeamDialogIsOpened}
+          onClose={dialogSetter.onCloseJoinDialog}
+          onClick={onJoinTeam}
+        />
+        <LeaveTeamDialog
+          isOpen={dialogState.leaveTeamDialogIsOpened}
+          onClose={dialogSetter.onCloseLeaveDialog}
+          onClick={onLeaveTeam}
+        />
+
         <div className="flex justify-between">
           <div>
             <CategorySet
@@ -53,10 +68,13 @@ export default function ShowTeam() {
             )}
             {!iAmJoining && team.isRequired && <Button>申請する</Button>}
             {!iAmJoining && !team.isRequired && (
-              <Button onClick={onJoinTeam}>参加する</Button>
+              <Button onClick={dialogSetter.onClickJoinButton}>参加する</Button>
             )}
             {iAmJoining && (
-              <Button variant="outline" onClick={onLeaveTeam}>
+              <Button
+                variant="outline"
+                onClick={dialogSetter.onClickLeaveButton}
+              >
                 脱退する
               </Button>
             )}

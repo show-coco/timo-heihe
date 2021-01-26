@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import React, { useMemo } from "react";
+import React, { useMemo, useState } from "react";
 import {
   useJoinTeamMutation,
   useLeaveTeamMutation,
@@ -11,6 +11,8 @@ export const useTeamDetail = () => {
   const router = useRouter();
   const teamId = router.query.id;
   const { id: userId } = useAuthContext();
+  const [joinTeamDialogIsOpened, setJoinTeamDialogIsOpened] = useState(false);
+  const [leaveTeamDialogIsOpened, setLeaveTeamDialogIsOpened] = useState(false);
 
   const { data } = useTeamQuery({
     variables: {
@@ -22,28 +24,66 @@ export const useTeamDetail = () => {
 
   const [leaveTeam] = useLeaveTeamMutation();
 
-  const onJoinTeam = (
+  const onJoinTeam = async (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     event.preventDefault();
-    joinTeam({
-      variables: {
-        userId,
-        teamId: Number(teamId),
-      },
-    });
+    try {
+      await joinTeam({
+        variables: {
+          userId,
+          teamId: Number(teamId),
+        },
+      });
+    } catch (e) {
+      console.error(e);
+    }
+    setJoinTeamDialogIsOpened(false);
   };
 
-  const onLeaveTeam = (
+  const onLeaveTeam = async (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     event.preventDefault();
-    leaveTeam({
-      variables: {
-        userId,
-        teamId: Number(teamId),
-      },
-    });
+    try {
+      await leaveTeam({
+        variables: {
+          userId,
+          teamId: Number(teamId),
+        },
+      });
+    } catch (e) {
+      console.error(e);
+    }
+    setLeaveTeamDialogIsOpened(false);
+  };
+
+  const onClickJoinButton = (
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    event.preventDefault();
+    setJoinTeamDialogIsOpened(true);
+  };
+
+  const onClickLeaveButton = (
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    event.preventDefault();
+    setLeaveTeamDialogIsOpened(true);
+  };
+
+  const onCloseLeaveDialog = (
+    event: React.MouseEvent<Element, MouseEvent> | React.KeyboardEvent<Element>
+  ) => {
+    event.preventDefault();
+    setLeaveTeamDialogIsOpened(false);
+  };
+
+  const onCloseJoinDialog = (
+    event: React.MouseEvent<Element, MouseEvent> | React.KeyboardEvent<Element>
+  ) => {
+    event.preventDefault();
+    setJoinTeamDialogIsOpened(false);
   };
 
   const team = data?.team;
@@ -65,5 +105,15 @@ export const useTeamDetail = () => {
     iAmOwner,
     team: data?.team,
     teamId,
+    dialogState: {
+      joinTeamDialogIsOpened,
+      leaveTeamDialogIsOpened,
+    },
+    dialogSetter: {
+      onClickJoinButton,
+      onClickLeaveButton,
+      onCloseLeaveDialog,
+      onCloseJoinDialog,
+    },
   };
 };
