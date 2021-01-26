@@ -46,7 +46,9 @@ type Mutation {
   createCategory(createCategoryInput: CreateCategoryInput!): CategoryModel!
   createSkill(createSkillInput: CreateSkillInput!): SkillModel!
   createTeam(createTeamInput: CreateTeamInput!): TeamModel!
-  deleteTeam(id: Float!): TeamModel!
+  deleteTeam(id: Int!): TeamModel!
+  joinTeam(teamId: Int!, userId: String!): TeamModel!
+  leaveTeam(teamId: Int!, userId: String!): TeamModel!
   removeCategory(id: Int!): CategoryModel!
   removeSkill(id: Int!): SkillModel!
   updateCategory(updateCategoryInput: UpdateCategoryInput!): CategoryModel!

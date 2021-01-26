@@ -1,5 +1,4 @@
-import { useRouter } from "next/router";
-import React, { useMemo } from "react";
+import React from "react";
 import { Avatar } from "../../components/avatar/avatar";
 import { Card } from "../../components/card/card";
 import {
@@ -8,45 +7,49 @@ import {
 } from "../../components/category/category-set";
 import { Heading } from "../../components/heading/heading";
 import { Template } from "../../components/template/template";
-import { useTeamQuery } from "../../generated/types";
 import PeopleIcon from "../../assets/icons/people.svg";
 import {
   convertToSkillPochiSetArray,
   LanguagePochiSet,
 } from "../../components/language/language-pochi-set";
 import { Button } from "../../components/button";
-import { useAuthContext } from "../../providers/useAuthContext";
 import Link from "next/link";
 import { AvatarWithName } from "../../components/avatar/avatar-with-name";
+import { useTeamDetail } from "../../hooks/useTeamDetail";
+import { SimpleDialog } from "../../components/dialog/simple-dialog";
 
 export default function ShowTeam() {
-  const router = useRouter();
-  const id = router.query.id;
-  const { id: userId } = useAuthContext();
-
-  const { data } = useTeamQuery({
-    variables: {
-      id: Number(id),
-    },
-  });
-
-  const team = data?.team;
-
-  const iAmJoining = useMemo(() => {
-    return Boolean(
-      team?.members?.filter((member) => member.id === userId).length
-    );
-  }, [team?.members, userId]);
-
-  const iAmOwner = useMemo(() => {
-    return userId === team?.owner.id;
-  }, [team?.owner.id, userId]);
+  const {
+    onJoinTeam,
+    onLeaveTeam,
+    iAmJoining,
+    iAmOwner,
+    team,
+    teamId,
+    dialogState,
+    dialogSetter,
+  } = useTeamDetail();
 
   if (!team) return <p>データがありません</p>;
 
   return (
     <Template>
       <Card className="p-8">
+        <SimpleDialog
+          isOpen={dialogState.joinTeamDialogIsOpened}
+          onClose={dialogSetter.onCloseJoinDialog}
+          onClick={onJoinTeam}
+          buttonText="参加する"
+          title="このチームに参加しますか"
+        />
+        <SimpleDialog
+          isOpen={dialogState.leaveTeamDialogIsOpened}
+          onClose={dialogSetter.onCloseLeaveDialog}
+          onClick={onLeaveTeam}
+          buttonText="脱退する"
+          title="このチームから脱退しますか"
+        />
+
         <div className="flex justify-between">
           <div>
             <CategorySet
@@ -62,13 +65,22 @@ export default function ShowTeam() {
 
           <div className="flex flex-col space-y-3">
             {iAmOwner && (
-              <Link href="/team/edit/[id]" as={`/team/edit/${id}`}>
+              <Link href="/team/edit/[id]" as={`/team/edit/${teamId}`}>
                 <Button>編集する</Button>
               </Link>
             )}
             {!iAmJoining && team.isRequired && <Button>申請する</Button>}
-            {!iAmJoining && !team.isRequired && <Button>参加する</Button>}
-            {iAmJoining && <Button variant="outline">脱退する</Button>}
+            {!iAmJoining && !team.isRequired && (
+              <Button onClick={dialogSetter.onClickJoinButton}>参加する</Button>
+            )}
+            {iAmJoining && (
+              <Button
+                variant="outline"
+                onClick={dialogSetter.onClickLeaveButton}
+              >
+                脱退する
+              </Button>
+            )}
             {iAmOwner && <Button variant="outline">アーカイブ</Button>}
           </div>
         </div>

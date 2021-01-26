@@ -1,3 +1,4 @@
+import { Int } from '@nestjs/graphql';
 import { Category } from 'src/category/entities/category.entity';
 import { Skill } from 'src/skill/entities/skill.entity';
 import { User } from 'src/users/entities/users.entity';

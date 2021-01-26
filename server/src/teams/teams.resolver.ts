@@ -47,8 +47,24 @@ export class TeamsResolver {
   }
 
   @Mutation(() => TeamModel)
-  deleteTeam(@Args('id') id: number) {
+  deleteTeam(@Args('id', { type: () => Int }) id: number) {
     return this.teamsService.remove(id);
+  }
+
+  @Mutation(() => TeamModel)
+  async joinTeam(
+    @Args('userId') userId: string,
+    @Args('teamId', { type: () => Int }) teamId: number,
+  ) {
+    return this.teamsService.join(userId, teamId);
+  }
+
+  @Mutation(() => TeamModel)
+  async leaveTeam(
+    @Args('userId') userId: string,
+    @Args('teamId', { type: () => Int }) teamId: number,
+  ) {
+    return this.teamsService.leave(userId, teamId);
   }
 
   @ResolveProperty(() => UserModel)
