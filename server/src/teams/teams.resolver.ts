@@ -59,6 +59,14 @@ export class TeamsResolver {
     return this.teamsService.join(userId, teamId);
   }
 
+  @Mutation(() => TeamModel)
+  async leaveTeam(
+    @Args('userId') userId: string,
+    @Args('teamId') teamId: number,
+  ) {
+    return this.teamsService.leave(userId, teamId);
+  }
+
   @ResolveProperty(() => UserModel)
   owner(@Parent() team: TeamModel) {
     return this.usersService.findOne(team.owner.id);

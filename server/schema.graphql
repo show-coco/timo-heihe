@@ -48,6 +48,7 @@ type Mutation {
   createTeam(createTeamInput: CreateTeamInput!): TeamModel!
   deleteTeam(id: Float!): TeamModel!
   joinTeam(teamId: Float!, userId: String!): TeamModel!
+  leaveTeam(teamId: Float!, userId: String!): TeamModel!
   removeCategory(id: Int!): CategoryModel!
   removeSkill(id: Int!): SkillModel!
   updateCategory(updateCategoryInput: UpdateCategoryInput!): CategoryModel!
