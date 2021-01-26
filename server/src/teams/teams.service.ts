@@ -50,6 +50,25 @@ export class TeamsService {
     }
   }
 
+  async join(userId: string, teamId: number) {
+    const targetTeam = await this.findOne(teamId);
+    const userIsExistsInThisTeam = targetTeam.members.some(
+      (member) => member.id === userId,
+    );
+
+    if (userIsExistsInThisTeam) {
+      throw new Error('user already exists in this team');
+    }
+
+    targetTeam.members.push({
+      id: userId,
+      introduction: '',
+      email: '',
+      name: '',
+    });
+    return this.teamRepository.save(targetTeam);
+  }
+
   async remove(id: number) {
     const returns = await this.teamRepository
       .createQueryBuilder()

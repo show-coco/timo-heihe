@@ -21,16 +21,16 @@ export class User {
   email: string;
 
   @Column({ nullable: true })
-  avatar: string;
+  avatar?: string;
 
   @Column({ nullable: true })
-  introduction: string;
+  introduction?: string;
 
   @Column({ nullable: true })
-  githubId: string;
+  githubId?: string;
 
   @Column({ nullable: true })
-  twitterId: string;
+  twitterId?: string;
 
   @OneToMany(() => Team, (team) => team.owner, { nullable: true })
   ownerTeams?: Team[];
