@@ -1,7 +1,6 @@
-import { Int } from '@nestjs/graphql';
-import { Category } from 'src/category/entities/category.entity';
-import { Skill } from 'src/skill/entities/skill.entity';
-import { User } from 'src/users/entities/users.entity';
+import { Category } from '../../category/entities/category.entity';
+import { Skill } from '../../skill/entities/skill.entity';
+import { User } from '../../users/entities/users.entity';
 import {
   Column,
   CreateDateColumn,
@@ -31,7 +30,7 @@ export class Team {
   skills: Skill[];
 
   @ManyToOne(() => User, (user) => user.ownerTeams)
-  owner: User;
+  owner: Partial<User>;
 
   @ManyToMany(() => User, (user) => user.teams)
   @JoinTable()

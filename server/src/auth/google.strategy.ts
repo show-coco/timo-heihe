@@ -4,8 +4,8 @@ import { config } from 'dotenv';
 
 import { Injectable } from '@nestjs/common';
 import { GooglePrfile } from './types/googleProfile';
-import { UsersService } from 'src/users/users.service';
-import { User } from 'src/users/entities/users.entity';
+import { UsersService } from '../users/users.service';
+import { User } from '../users/entities/users.entity';
 
 config();
 

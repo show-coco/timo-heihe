@@ -1,6 +1,5 @@
 import { Field, ID, InputType } from '@nestjs/graphql';
-import { SkillInput } from 'src/skill/dto/skill.input';
-import { SkillModel } from 'src/skill/models/skill.model';
+import { SkillInput } from '../../skill/dto/skill.input';
 
 @InputType()
 export class UserInput {

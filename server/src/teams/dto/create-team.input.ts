@@ -1,7 +1,7 @@
 import { InputType, Field, GraphQLTimestamp, Int } from '@nestjs/graphql';
-import { CategoryInput } from 'src/category/dto/category.input';
-import { SkillInput } from 'src/skill/dto/skill.input';
-import { UserInput } from 'src/users/dto/user.input';
+import { CategoryInput } from '../../category/dto/category.input';
+import { SkillInput } from '../../skill/dto/skill.input';
+import { UserInput } from '../../users/dto/user.input';
 
 @InputType()
 export class CreateTeamInput {

@@ -8,16 +8,16 @@ import {
   ResolveField,
   Resolver,
 } from '@nestjs/graphql';
-import { GqlJwtAuthGuard } from 'src/auth/jwt-auth.guards';
-import { Payload } from 'src/auth/types/payload';
+import { GqlJwtAuthGuard } from '../auth/jwt-auth.guards';
+import { Payload } from '../auth/types/payload';
 import { CurrentUser } from './dto/current-user';
 import { UserModel } from './models/user.model';
 import { User } from './entities/users.entity';
 import { UsersService } from './users.service';
-import { SkillModel } from 'src/skill/models/skill.model';
-import { SkillService } from 'src/skill/skill.service';
-import { TeamsService } from 'src/teams/teams.service';
-import { TeamModel } from 'src/teams/models/team.model';
+import { SkillModel } from '../skill/models/skill.model';
+import { SkillService } from '../skill/skill.service';
+import { TeamsService } from '../teams/teams.service';
+import { TeamModel } from '../teams/models/team.model';
 import { UpdateUserInput } from './dto/update-user.input';
 
 @Resolver(() => UserModel)

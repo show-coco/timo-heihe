@@ -1,5 +1,5 @@
-import { Skill } from 'src/skill/entities/skill.entity';
-import { Team } from 'src/teams/entities/teams.entity';
+import { Skill } from '../../skill/entities/skill.entity';
+import { Team } from '../../teams/entities/teams.entity';
 import {
   Column,
   Entity,
