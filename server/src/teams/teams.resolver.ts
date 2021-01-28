@@ -8,10 +8,10 @@ import {
   ResolveProperty,
   Resolver,
 } from '@nestjs/graphql';
-import { CategoryService } from 'src/category/category.service';
-import { SkillService } from 'src/skill/skill.service';
-import { UserModel } from 'src/users/models/user.model';
-import { UsersService } from 'src/users/users.service';
+import { CategoryService } from '../category/category.service';
+import { SkillService } from '../skill/skill.service';
+import { UserModel } from '../users/models/user.model';
+import { UsersService } from '../users/users.service';
 import { CreateTeamInput } from './dto/create-team.input';
 import { UpdateTeamInput } from './dto/update-team.input';
 import { TeamModel } from './models/team.model';

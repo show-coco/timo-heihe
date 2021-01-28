@@ -1,6 +1,6 @@
 import { Field, ID, ObjectType } from '@nestjs/graphql';
-import { SkillModel } from 'src/skill/models/skill.model';
-import { TeamModel } from 'src/teams/models/team.model';
+import { SkillModel } from '../../skill/models/skill.model';
+import { TeamModel } from '../../teams/models/team.model';
 
 @ObjectType()
 export class UserModel {

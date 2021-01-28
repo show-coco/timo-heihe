@@ -3,8 +3,8 @@ import { UsersService } from './users.service';
 import { User } from './entities/users.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UsersResolver } from './users.resolver';
-import { SkillModule } from 'src/skill/skill.module';
-import { TeamsModule } from 'src/teams/teams.module';
+import { SkillModule } from '../skill/skill.module';
+import { TeamsModule } from '../teams/teams.module';
 
 @Module({
   imports: [
