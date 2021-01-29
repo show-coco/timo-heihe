@@ -1,0 +1,20 @@
+# c.f. https://dependabot.com/docs/config-file/
+version: 1
+
+update_configs:
+  - package_manager: "javascript"
+    directory: "/client"
+    update_schedule: "live"
+    automerged_updates:
+      - match:
+          update_type: "semver:patch"
+    default_reviewers:
+      - show-coco
+  - package_manager: "javascript"
+    directory: "/server"
+    update_schedule: "live"
+    automerged_updates:
+      - match:
+          update_type: "semver:patch"
+    default_reviewers:
+      - show-coco
