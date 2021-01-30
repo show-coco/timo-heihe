@@ -8,6 +8,7 @@ import {
   OneToMany,
   PrimaryColumn,
 } from 'typeorm';
+import { TeamMembersUser } from '../../team-members-user/entities/team-members-user.entity';
 
 @Entity()
 export class User {
@@ -35,8 +36,10 @@ export class User {
   @OneToMany(() => Team, (team) => team.owner, { nullable: true })
   ownerTeams?: Team[];
 
-  @ManyToMany(() => Team, (team) => team.members, { nullable: true })
-  teams?: Team[];
+  @OneToMany(() => TeamMembersUser, (tmu) => tmu.user, {
+    nullable: true,
+  })
+  teams?: TeamMembersUser[];
 
   @ManyToMany(() => Skill, (skill) => skill.users, { nullable: true })
   @JoinTable()

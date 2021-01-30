@@ -1,10 +1,20 @@
-import { Field, ID, ObjectType } from '@nestjs/graphql';
-import { UserMemberModel } from '../../team-members-user/models/user-member-model';
+import {
+  Field,
+  GraphQLISODateTime,
+  ID,
+  ObjectType,
+  registerEnumType,
+} from '@nestjs/graphql';
 import { SkillModel } from '../../skill/models/skill.model';
 import { TeamModel } from '../../teams/models/team.model';
+import { MemberState } from '../entities/team-members-user.entity';
+
+registerEnumType(MemberState, {
+  name: 'MemberState',
+});
 
 @ObjectType()
-export class UserModel {
+export class TeamMemberModel {
   @Field(() => ID)
   id: string;
 
@@ -29,9 +39,15 @@ export class UserModel {
   @Field(() => [TeamModel])
   ownerTeams: TeamModel[];
 
-  @Field(() => [UserMemberModel])
-  teams: UserMemberModel[];
+  @Field(() => [TeamModel])
+  teams: TeamModel[];
 
   @Field(() => [SkillModel])
   skills: SkillModel[];
+
+  @Field(() => MemberState)
+  memberState: MemberState;
+
+  @Field(() => GraphQLISODateTime)
+  createdAt: Date;
 }

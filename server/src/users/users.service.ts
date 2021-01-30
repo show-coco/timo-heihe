@@ -11,17 +11,31 @@ export class UsersService {
     private userRepository: Repository<User>,
   ) {}
 
-  async findOne(id: string): Promise<User | undefined> {
+  async findOne(id: string): Promise<User> {
+    const res = await this.userRepository
+      .createQueryBuilder('user')
+      .leftJoinAndSelect('user.skills', 'userSkills')
+      .leftJoinAndSelect('user.teams', 'teams')
+      .leftJoinAndSelect('teams.team', 'team')
+      .leftJoinAndSelect('team.owner', 'owner')
+      .leftJoinAndSelect('team.skills', 'teamSkills')
+      .where({ id })
+      .getOne();
+
+    // console.log('response on users->service->findOne', res.teams);
+
+    return res;
+  }
+
+  async findAll(): Promise<User[]> {
     return this.userRepository
       .createQueryBuilder('user')
       .leftJoinAndSelect('user.skills', 'skills')
       .leftJoinAndSelect('user.teams', 'teams')
-      .where({ id })
-      .getOne();
-  }
-
-  async findAll(): Promise<User[]> {
-    return this.userRepository.find();
+      .leftJoinAndSelect('teams.team', 'team')
+      .leftJoinAndSelect('team.owner', 'owner')
+      .leftJoinAndSelect('team.skills', 'skills')
+      .getMany();
   }
 
   async save(user: User): Promise<User> {

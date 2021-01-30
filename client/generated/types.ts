@@ -49,7 +49,7 @@ export type CreateTeamInput = {
   description: Scalars["String"];
   icon?: Maybe<Scalars["String"]>;
   isRequired: Scalars["Boolean"];
-  members: Array<UserInput>;
+  members: Array<CreateTeamMembersUserInput>;
   owner: UserInput;
   recruitNumbers: Scalars["Int"];
   repositoryUrl?: Maybe<Scalars["String"]>;
@@ -57,8 +57,25 @@ export type CreateTeamInput = {
   title: Scalars["String"];
 };
 
+export type CreateTeamMembersUserInput = {
+  team: UpdateTeamInput;
+  user: UserInput;
+};
+
+export enum MemberState {
+  // eslint-disable-next-line no-unused-vars
+  Ejected = "EJECTED",
+  // eslint-disable-next-line no-unused-vars
+  Joining = "JOINING",
+  // eslint-disable-next-line no-unused-vars
+  Leave = "LEAVE",
+  // eslint-disable-next-line no-unused-vars
+  Pending = "PENDING",
+}
+
 export type Mutation = {
   __typename?: "Mutation";
+  applyTeam: TeamModel;
   createCategory: CategoryModel;
   createSkill: SkillModel;
   createTeam: TeamModel;
@@ -71,6 +88,11 @@ export type Mutation = {
   updateSkill: SkillModel;
   updateTeam: TeamModel;
   updateUser: UserModel;
+};
+
+export type MutationApplyTeamArgs = {
+  teamId: Scalars["Int"];
+  userId: Scalars["String"];
 };
 
 export type MutationCreateCategoryArgs = {
@@ -165,6 +187,22 @@ export type SkillModel = {
   name: Scalars["String"];
 };
 
+export type TeamMemberModel = {
+  __typename?: "TeamMemberModel";
+  avatar?: Maybe<Scalars["String"]>;
+  createdAt: Scalars["DateTime"];
+  email: Scalars["String"];
+  githubId?: Maybe<Scalars["String"]>;
+  id: Scalars["ID"];
+  introduction?: Maybe<Scalars["String"]>;
+  memberState: MemberState;
+  name: Scalars["String"];
+  ownerTeams: Array<TeamModel>;
+  skills: Array<SkillModel>;
+  teams: Array<TeamModel>;
+  twitterId?: Maybe<Scalars["String"]>;
+};
+
 export type TeamModel = {
   __typename?: "TeamModel";
   categories: Array<CategoryModel>;
@@ -173,7 +211,7 @@ export type TeamModel = {
   icon?: Maybe<Scalars["String"]>;
   id?: Maybe<Scalars["Int"]>;
   isRequired: Scalars["Boolean"];
-  members?: Maybe<Array<UserModel>>;
+  members?: Maybe<Array<TeamMemberModel>>;
   owner: UserModel;
   recruitNumbers: Scalars["Int"];
   repositoryUrl?: Maybe<Scalars["String"]>;
@@ -199,7 +237,7 @@ export type UpdateTeamInput = {
   icon?: Maybe<Scalars["String"]>;
   id: Scalars["Int"];
   isRequired?: Maybe<Scalars["Boolean"]>;
-  members?: Maybe<Array<UserInput>>;
+  members?: Maybe<Array<CreateTeamMembersUserInput>>;
   owner?: Maybe<UserInput>;
   recruitNumbers?: Maybe<Scalars["Int"]>;
   repositoryUrl?: Maybe<Scalars["String"]>;
@@ -229,6 +267,23 @@ export type UserInput = {
   twitterId?: Maybe<Scalars["String"]>;
 };
 
+export type UserMemberModel = {
+  __typename?: "UserMemberModel";
+  categories: Array<CategoryModel>;
+  createdAt?: Maybe<Scalars["DateTime"]>;
+  description: Scalars["String"];
+  icon?: Maybe<Scalars["String"]>;
+  id?: Maybe<Scalars["Int"]>;
+  isRequired: Scalars["Boolean"];
+  members?: Maybe<Array<TeamMemberModel>>;
+  memberState: MemberState;
+  owner: UserModel;
+  recruitNumbers: Scalars["Int"];
+  repositoryUrl?: Maybe<Scalars["String"]>;
+  skills?: Maybe<Array<SkillModel>>;
+  title: Scalars["String"];
+};
+
 export type UserModel = {
   __typename?: "UserModel";
   avatar?: Maybe<Scalars["String"]>;
@@ -239,7 +294,7 @@ export type UserModel = {
   name: Scalars["String"];
   ownerTeams: Array<TeamModel>;
   skills: Array<SkillModel>;
-  teams: Array<TeamModel>;
+  teams: Array<UserMemberModel>;
   twitterId?: Maybe<Scalars["String"]>;
 };
 
@@ -267,7 +322,12 @@ export type JoinTeamMutationVariables = Exact<{
 export type JoinTeamMutation = { __typename?: "Mutation" } & {
   joinTeam: { __typename?: "TeamModel" } & Pick<TeamModel, "id" | "title"> & {
       members?: Maybe<
-        Array<{ __typename?: "UserModel" } & Pick<UserModel, "id" | "name">>
+        Array<
+          { __typename?: "TeamMemberModel" } & Pick<
+            TeamMemberModel,
+            "id" | "name"
+          >
+        >
       >;
     };
 };
@@ -280,7 +340,12 @@ export type LeaveTeamMutationVariables = Exact<{
 export type LeaveTeamMutation = { __typename?: "Mutation" } & {
   leaveTeam: { __typename?: "TeamModel" } & Pick<TeamModel, "id" | "title"> & {
       members?: Maybe<
-        Array<{ __typename?: "UserModel" } & Pick<UserModel, "id" | "name">>
+        Array<
+          { __typename?: "TeamMemberModel" } & Pick<
+            TeamMemberModel,
+            "id" | "name"
+          >
+        >
       >;
     };
 };
@@ -291,6 +356,15 @@ export type UpdateUserMutationVariables = Exact<{
 
 export type UpdateUserMutation = { __typename?: "Mutation" } & {
   updateUser: { __typename?: "UserModel" } & Pick<UserModel, "id">;
+};
+
+export type ApplyTeamMutationVariables = Exact<{
+  teamId: Scalars["Int"];
+  userId: Scalars["String"];
+}>;
+
+export type ApplyTeamMutation = { __typename?: "Mutation" } & {
+  applyTeam: { __typename?: "TeamModel" } & Pick<TeamModel, "id" | "title">;
 };
 
 export type CreateTeamPageQueryVariables = Exact<{ [key: string]: never }>;
@@ -321,8 +395,8 @@ export type TeamEditPageQuery = { __typename?: "Query" } & {
   > & {
       members?: Maybe<
         Array<
-          { __typename?: "UserModel" } & Pick<
-            UserModel,
+          { __typename?: "TeamMemberModel" } & Pick<
+            TeamMemberModel,
             "id" | "name" | "avatar"
           >
         >
@@ -359,8 +433,8 @@ export type EditUserPageQuery = { __typename?: "Query" } & {
         { __typename?: "SkillModel" } & Pick<SkillModel, "id" | "name">
       >;
       teams: Array<
-        { __typename?: "TeamModel" } & Pick<
-          TeamModel,
+        { __typename?: "UserMemberModel" } & Pick<
+          UserMemberModel,
           "id" | "title" | "description" | "createdAt" | "recruitNumbers"
         > & {
             skills?: Maybe<
@@ -373,7 +447,9 @@ export type EditUserPageQuery = { __typename?: "Query" } & {
               "id" | "name" | "avatar"
             >;
             members?: Maybe<
-              Array<{ __typename?: "UserModel" } & Pick<UserModel, "id">>
+              Array<
+                { __typename?: "TeamMemberModel" } & Pick<TeamMemberModel, "id">
+              >
             >;
           }
       >;
@@ -406,9 +482,9 @@ export type TeamQuery = { __typename?: "Query" } & {
   > & {
       members?: Maybe<
         Array<
-          { __typename?: "UserModel" } & Pick<
-            UserModel,
-            "id" | "name" | "avatar"
+          { __typename?: "TeamMemberModel" } & Pick<
+            TeamMemberModel,
+            "id" | "name" | "avatar" | "memberState"
           >
         >
       >;
@@ -441,7 +517,9 @@ export type TeamsQuery = { __typename?: "Query" } & {
           "id" | "name" | "avatar"
         >;
         members?: Maybe<
-          Array<{ __typename?: "UserModel" } & Pick<UserModel, "id">>
+          Array<
+            { __typename?: "TeamMemberModel" } & Pick<TeamMemberModel, "id">
+          >
         >;
       }
   >;
@@ -460,8 +538,8 @@ export type UserDetailPageQuery = { __typename?: "Query" } & {
         { __typename?: "SkillModel" } & Pick<SkillModel, "id" | "name">
       >;
       teams: Array<
-        { __typename?: "TeamModel" } & Pick<
-          TeamModel,
+        { __typename?: "UserMemberModel" } & Pick<
+          UserMemberModel,
           "id" | "title" | "description" | "createdAt" | "recruitNumbers"
         > & {
             skills?: Maybe<
@@ -474,7 +552,9 @@ export type UserDetailPageQuery = { __typename?: "Query" } & {
               "id" | "name" | "avatar"
             >;
             members?: Maybe<
-              Array<{ __typename?: "UserModel" } & Pick<UserModel, "id">>
+              Array<
+                { __typename?: "TeamMemberModel" } & Pick<TeamMemberModel, "id">
+              >
             >;
           }
       >;
@@ -730,6 +810,56 @@ export type UpdateUserMutationResult = Apollo.MutationResult<UpdateUserMutation>
 export type UpdateUserMutationOptions = Apollo.BaseMutationOptions<
   UpdateUserMutation,
   UpdateUserMutationVariables
+>;
+export const ApplyTeamDocument = gql`
+  mutation ApplyTeam($teamId: Int!, $userId: String!) {
+    applyTeam(teamId: $teamId, userId: $userId) {
+      id
+      title
+    }
+  }
+`;
+export type ApplyTeamMutationFn = Apollo.MutationFunction<
+  ApplyTeamMutation,
+  ApplyTeamMutationVariables
+>;
+
+/**
+ * __useApplyTeamMutation__
+ *
+ * To run a mutation, you first call `useApplyTeamMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useApplyTeamMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [applyTeamMutation, { data, loading, error }] = useApplyTeamMutation({
+ *   variables: {
+ *      teamId: // value for 'teamId'
+ *      userId: // value for 'userId'
+ *   },
+ * });
+ */
+export function useApplyTeamMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    ApplyTeamMutation,
+    ApplyTeamMutationVariables
+  >
+) {
+  return Apollo.useMutation<ApplyTeamMutation, ApplyTeamMutationVariables>(
+    ApplyTeamDocument,
+    baseOptions
+  );
+}
+export type ApplyTeamMutationHookResult = ReturnType<
+  typeof useApplyTeamMutation
+>;
+export type ApplyTeamMutationResult = Apollo.MutationResult<ApplyTeamMutation>;
+export type ApplyTeamMutationOptions = Apollo.BaseMutationOptions<
+  ApplyTeamMutation,
+  ApplyTeamMutationVariables
 >;
 export const CreateTeamPageDocument = gql`
   query CreateTeamPage {
@@ -1022,6 +1152,7 @@ export const TeamDocument = gql`
         id
         name
         avatar
+        memberState
       }
       owner {
         id

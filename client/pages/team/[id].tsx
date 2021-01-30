@@ -22,7 +22,9 @@ export default function ShowTeam() {
   const {
     onJoinTeam,
     onLeaveTeam,
+    onApplyTeam,
     iAmJoining,
+    iAmApplying,
     iAmOwner,
     team,
     teamId,
@@ -49,6 +51,13 @@ export default function ShowTeam() {
           buttonText="脱退する"
           title="このチームから脱退しますか"
         />
+        <SimpleDialog
+          isOpen={dialogState.applyTeamDialogIsOpened}
+          onClose={dialogSetter.onCloseApplyDialog}
+          onClick={onApplyTeam}
+          buttonText="申請する"
+          title="このチームに参加申請しますか"
+        />
 
         <div className="flex justify-between">
           <div>
@@ -69,7 +78,16 @@ export default function ShowTeam() {
                 <Button>編集する</Button>
               </Link>
             )}
-            {!iAmJoining && team.isRequired && <Button>申請する</Button>}
+            {!iAmApplying && team.isRequired && (
+              <Button onClick={dialogSetter.onClickApplyButton}>
+                申請する
+              </Button>
+            )}
+            {iAmApplying && team.isRequired && (
+              <Button onClick={dialogSetter.onClickApplyButton} disabled={true}>
+                申請中です
+              </Button>
+            )}
             {!iAmJoining && !team.isRequired && (
               <Button onClick={dialogSetter.onClickJoinButton}>参加する</Button>
             )}

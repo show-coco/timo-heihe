@@ -29,7 +29,7 @@ input CreateTeamInput {
   description: String!
   icon: String
   isRequired: Boolean!
-  members: [UserInput!]!
+  members: [CreateTeamMembersUserInput!]!
   owner: UserInput!
   recruitNumbers: Int!
   repositoryUrl: String
@@ -37,12 +37,25 @@ input CreateTeamInput {
   title: String!
 }
 
+input CreateTeamMembersUserInput {
+  team: UpdateTeamInput!
+  user: UserInput!
+}
+
 """
 A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
 """
 scalar DateTime
 
+enum MemberState {
+  EJECTED
+  JOINING
+  LEAVE
+  PENDING
+}
+
 type Mutation {
+  applyTeam(teamId: Int!, userId: String!): TeamModel!
   createCategory(createCategoryInput: CreateCategoryInput!): CategoryModel!
   createSkill(createSkillInput: CreateSkillInput!): SkillModel!
   createTeam(createTeamInput: CreateTeamInput!): TeamModel!
@@ -81,6 +94,21 @@ type SkillModel {
   name: String!
 }
 
+type TeamMemberModel {
+  avatar: String
+  createdAt: DateTime!
+  email: String!
+  githubId: String
+  id: ID!
+  introduction: String
+  memberState: MemberState!
+  name: String!
+  ownerTeams: [TeamModel!]!
+  skills: [SkillModel!]!
+  teams: [TeamModel!]!
+  twitterId: String
+}
+
 type TeamModel {
   categories: [CategoryModel!]!
   createdAt: DateTime
@@ -88,7 +116,7 @@ type TeamModel {
   icon: String
   id: Int
   isRequired: Boolean!
-  members: [UserModel!]
+  members: [TeamMemberModel!]
   owner: UserModel!
   recruitNumbers: Int!
   repositoryUrl: String
@@ -119,7 +147,7 @@ input UpdateTeamInput {
   icon: String
   id: Int!
   isRequired: Boolean
-  members: [UserInput!]
+  members: [CreateTeamMembersUserInput!]
   owner: UserInput
   recruitNumbers: Int
   repositoryUrl: String
@@ -149,6 +177,22 @@ input UserInput {
   twitterId: String
 }
 
+type UserMemberModel {
+  categories: [CategoryModel!]!
+  createdAt: DateTime
+  description: String!
+  icon: String
+  id: Int
+  isRequired: Boolean!
+  members: [TeamMemberModel!]
+  memberState: MemberState!
+  owner: UserModel!
+  recruitNumbers: Int!
+  repositoryUrl: String
+  skills: [SkillModel!]
+  title: String!
+}
+
 type UserModel {
   avatar: String
   email: String!
@@ -158,6 +202,6 @@ type UserModel {
   name: String!
   ownerTeams: [TeamModel!]!
   skills: [SkillModel!]!
-  teams: [TeamModel!]!
+  teams: [UserMemberModel!]!
   twitterId: String
 }

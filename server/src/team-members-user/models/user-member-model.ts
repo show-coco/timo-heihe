@@ -1,11 +1,12 @@
 import { Field, GraphQLISODateTime, Int, ObjectType } from '@nestjs/graphql';
-import { TeamMemberModel } from '../../team-members-user/models/team-member.model';
 import { CategoryModel } from '../../category/models/category.model';
 import { SkillModel } from '../../skill/models/skill.model';
 import { UserModel } from '../../users/models/user.model';
+import { MemberState } from '../entities/team-members-user.entity';
+import { TeamMemberModel } from './team-member.model';
 
 @ObjectType()
-export class TeamModel {
+export class UserMemberModel {
   @Field(() => Int, { nullable: true })
   id?: number;
 
@@ -41,4 +42,7 @@ export class TeamModel {
 
   @Field(() => GraphQLISODateTime, { nullable: true })
   createdAt?: Date;
+
+  @Field(() => MemberState)
+  memberState: MemberState;
 }

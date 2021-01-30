@@ -11,6 +11,7 @@ query Team($id: Int!) {
       id
       name
       avatar
+      memberState
     }
     owner {
       id

@@ -8,12 +8,14 @@ import {
   ResolveProperty,
   Resolver,
 } from '@nestjs/graphql';
+import { TeamMemberModel } from '../team-members-user/models/team-member.model';
 import { CategoryService } from '../category/category.service';
 import { SkillService } from '../skill/skill.service';
 import { UserModel } from '../users/models/user.model';
 import { UsersService } from '../users/users.service';
 import { CreateTeamInput } from './dto/create-team.input';
 import { UpdateTeamInput } from './dto/update-team.input';
+import { Team } from './entities/teams.entity';
 import { TeamModel } from './models/team.model';
 import { TeamsService } from './teams.service';
 
@@ -43,6 +45,7 @@ export class TeamsResolver {
 
   @Mutation(() => TeamModel)
   createTeam(@Args('createTeamInput') createTeamInput: CreateTeamInput) {
+    console.log('request on teams->resolver->createTeam', createTeamInput);
     return this.teamsService.insert(createTeamInput);
   }
 
@@ -60,6 +63,14 @@ export class TeamsResolver {
   }
 
   @Mutation(() => TeamModel)
+  async applyTeam(
+    @Args('userId') userId: string,
+    @Args('teamId', { type: () => Int }) teamId: number,
+  ) {
+    return this.teamsService.apply(userId, teamId);
+  }
+
+  @Mutation(() => TeamModel)
   async leaveTeam(
     @Args('userId') userId: string,
     @Args('teamId', { type: () => Int }) teamId: number,
@@ -68,26 +79,32 @@ export class TeamsResolver {
   }
 
   @ResolveProperty(() => UserModel)
-  owner(@Parent() team: TeamModel) {
+  owner(@Parent() team: Team) {
     return this.usersService.findOne(team.owner.id);
   }
 
-  @ResolveProperty(() => UserModel)
-  async members(@Parent() team: TeamModel) {
-    return await team.members.map(async (member) => {
-      return await this.usersService.findOne(member.id);
-    });
+  @ResolveProperty(() => TeamMemberModel)
+  async members(@Parent() team: Team) {
+    // console.log('request on teams->resolver->members', team.members);
+
+    return await team.members.map((member) => ({
+      createdAt: member.createdAt,
+      memberState: member.memberState,
+      ...member.user,
+    }));
   }
 
   @ResolveProperty(() => UserModel)
-  async skills(@Parent() team: TeamModel) {
+  async skills(@Parent() team: Team) {
+    // console.log('request on teams->resolver->skills', team);
+
     return await team.skills.map(async (skill) => {
       return await this.skillService.findOne(skill.id);
     });
   }
 
   @ResolveProperty(() => UserModel)
-  async categories(@Parent() team: TeamModel) {
+  async categories(@Parent() team: Team) {
     return await team.categories.map(async (category) => {
       return await this.categoryService.findOne(category.id);
     });
