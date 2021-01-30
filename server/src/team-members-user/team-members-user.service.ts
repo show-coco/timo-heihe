@@ -2,7 +2,10 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { UpdateTeamMembersUserInput } from './dto/update-team-members-user.input';
-import { TeamMembersUser } from './entities/team-members-user.entity';
+import {
+  MemberState,
+  TeamMembersUser,
+} from './entities/team-members-user.entity';
 
 @Injectable()
 export class TeamMembersUserService {
@@ -11,8 +14,12 @@ export class TeamMembersUserService {
     private teamRepository: Repository<TeamMembersUser>,
   ) {}
 
-  create(teamId: number, userId: string) {
-    this.teamRepository.insert({ user: { id: userId }, team: { id: teamId } });
+  create(teamId: number, userId: string, memberState: MemberState) {
+    this.teamRepository.insert({
+      user: { id: userId },
+      team: { id: teamId },
+      memberState: memberState,
+    });
   }
 
   findAll() {

@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { MemberState } from 'src/team-members-user/entities/team-members-user.entity';
 import { TeamMembersUserService } from 'src/team-members-user/team-members-user.service';
 import { Repository } from 'typeorm';
 import { CreateTeamInput } from './dto/create-team.input';
@@ -70,7 +71,29 @@ export class TeamsService {
       throw new Error('user already exists in this team');
     }
 
-    return this.teamMembersUserService.create(teamId, userId);
+    return this.teamMembersUserService.create(
+      teamId,
+      userId,
+      MemberState.JOINING,
+    );
+  }
+
+  async apply(userId: string, teamId: number) {
+    const targetTeam = await this.findOne(teamId);
+    const userApplyingToThisTeam = targetTeam.members.some(
+      (member) =>
+        member.user.id === userId && member.memberState === MemberState.PENDING,
+    );
+
+    if (userApplyingToThisTeam) {
+      throw new Error('user is already applying to this team');
+    }
+
+    return this.teamMembersUserService.create(
+      teamId,
+      userId,
+      MemberState.PENDING,
+    );
   }
 
   async leave(userId: string, teamId: number) {

@@ -63,6 +63,14 @@ export class TeamsResolver {
   }
 
   @Mutation(() => TeamModel)
+  async applyTeam(
+    @Args('userId') userId: string,
+    @Args('teamId', { type: () => Int }) teamId: number,
+  ) {
+    return this.teamsService.apply(userId, teamId);
+  }
+
+  @Mutation(() => TeamModel)
   async leaveTeam(
     @Args('userId') userId: string,
     @Args('teamId', { type: () => Int }) teamId: number,

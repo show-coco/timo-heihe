@@ -1,7 +1,9 @@
 import { Resolver, Query, Mutation, Args, Int, ID } from '@nestjs/graphql';
 import { TeamMembersUserService } from './team-members-user.service';
-import { TeamMembersUser } from './entities/team-members-user.entity';
-import { CreateTeamMembersUserInput } from './dto/create-team-members-user.input';
+import {
+  MemberState,
+  TeamMembersUser,
+} from './entities/team-members-user.entity';
 import { UpdateTeamMembersUserInput } from './dto/update-team-members-user.input';
 
 @Resolver(() => TeamMembersUser)
@@ -15,7 +17,11 @@ export class TeamMembersUserResolver {
     @Args('userId', { type: () => ID }) userId: string,
     @Args('userId', { type: () => Int }) teamId: number,
   ) {
-    return this.teamMembersUserService.create(teamId, userId);
+    return this.teamMembersUserService.create(
+      teamId,
+      userId,
+      MemberState.JOINING,
+    );
   }
 
   @Query(() => [TeamMembersUser], { name: 'teamMembersUser' })

@@ -55,6 +55,7 @@ enum MemberState {
 }
 
 type Mutation {
+  applyTeam(teamId: Int!, userId: String!): TeamModel!
   createCategory(createCategoryInput: CreateCategoryInput!): CategoryModel!
   createSkill(createSkillInput: CreateSkillInput!): SkillModel!
   createTeam(createTeamInput: CreateTeamInput!): TeamModel!
