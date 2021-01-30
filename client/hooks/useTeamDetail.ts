@@ -1,6 +1,7 @@
 import { useRouter } from "next/router";
 import React, { useMemo, useState } from "react";
 import {
+  MemberState,
   useApplyTeamMutation,
   useJoinTeamMutation,
   useLeaveTeamMutation,
@@ -124,8 +125,16 @@ export const useTeamDetail = () => {
   const team = data?.team;
 
   const iAmJoining = useMemo(() => {
-    return Boolean(
-      team?.members?.filter((member) => member.id === userId).length
+    return team?.members?.find(
+      (member) =>
+        member.id === userId && member.memberState === MemberState.Joining
+    );
+  }, [team?.members, userId]);
+
+  const iAmApplying = useMemo(() => {
+    return team?.members?.find(
+      (member) =>
+        member.id === userId && member.memberState === MemberState.Pending
     );
   }, [team?.members, userId]);
 
@@ -139,6 +148,7 @@ export const useTeamDetail = () => {
     onApplyTeam,
     iAmJoining,
     iAmOwner,
+    iAmApplying,
     team: data?.team,
     teamId,
     dialogState: {

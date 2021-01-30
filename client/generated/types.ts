@@ -484,7 +484,7 @@ export type TeamQuery = { __typename?: "Query" } & {
         Array<
           { __typename?: "TeamMemberModel" } & Pick<
             TeamMemberModel,
-            "id" | "name" | "avatar"
+            "id" | "name" | "avatar" | "memberState"
           >
         >
       >;
@@ -1152,6 +1152,7 @@ export const TeamDocument = gql`
         id
         name
         avatar
+        memberState
       }
       owner {
         id

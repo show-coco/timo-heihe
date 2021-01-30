@@ -24,6 +24,7 @@ export default function ShowTeam() {
     onLeaveTeam,
     onApplyTeam,
     iAmJoining,
+    iAmApplying,
     iAmOwner,
     team,
     teamId,
@@ -77,9 +78,14 @@ export default function ShowTeam() {
                 <Button>編集する</Button>
               </Link>
             )}
-            {!iAmJoining && team.isRequired && (
+            {!iAmApplying && team.isRequired && (
               <Button onClick={dialogSetter.onClickApplyButton}>
                 申請する
+              </Button>
+            )}
+            {iAmApplying && team.isRequired && (
+              <Button onClick={dialogSetter.onClickApplyButton} disabled={true}>
+                申請中です
               </Button>
             )}
             {!iAmJoining && !team.isRequired && (
