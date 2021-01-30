@@ -1,4 +1,4 @@
-import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
+import { Resolver, Query, Mutation, Args, Int, ID } from '@nestjs/graphql';
 import { TeamMembersUserService } from './team-members-user.service';
 import { TeamMembersUser } from './entities/team-members-user.entity';
 import { CreateTeamMembersUserInput } from './dto/create-team-members-user.input';
@@ -6,11 +6,16 @@ import { UpdateTeamMembersUserInput } from './dto/update-team-members-user.input
 
 @Resolver(() => TeamMembersUser)
 export class TeamMembersUserResolver {
-  constructor(private readonly teamMembersUserService: TeamMembersUserService) {}
+  constructor(
+    private readonly teamMembersUserService: TeamMembersUserService,
+  ) {}
 
   @Mutation(() => TeamMembersUser)
-  createTeamMembersUser(@Args('createTeamMembersUserInput') createTeamMembersUserInput: CreateTeamMembersUserInput) {
-    return this.teamMembersUserService.create(createTeamMembersUserInput);
+  createTeamMembersUser(
+    @Args('userId', { type: () => ID }) userId: string,
+    @Args('userId', { type: () => Int }) teamId: number,
+  ) {
+    return this.teamMembersUserService.create(teamId, userId);
   }
 
   @Query(() => [TeamMembersUser], { name: 'teamMembersUser' })
@@ -24,8 +29,14 @@ export class TeamMembersUserResolver {
   }
 
   @Mutation(() => TeamMembersUser)
-  updateTeamMembersUser(@Args('updateTeamMembersUserInput') updateTeamMembersUserInput: UpdateTeamMembersUserInput) {
-    return this.teamMembersUserService.update(updateTeamMembersUserInput.id, updateTeamMembersUserInput);
+  updateTeamMembersUser(
+    @Args('updateTeamMembersUserInput')
+    updateTeamMembersUserInput: UpdateTeamMembersUserInput,
+  ) {
+    return this.teamMembersUserService.update(
+      updateTeamMembersUserInput.id,
+      updateTeamMembersUserInput,
+    );
   }
 
   @Mutation(() => TeamMembersUser)

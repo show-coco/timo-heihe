@@ -1,11 +1,18 @@
 import { Injectable } from '@nestjs/common';
-import { CreateTeamMembersUserInput } from './dto/create-team-members-user.input';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 import { UpdateTeamMembersUserInput } from './dto/update-team-members-user.input';
+import { TeamMembersUser } from './entities/team-members-user.entity';
 
 @Injectable()
 export class TeamMembersUserService {
-  create(createTeamMembersUserInput: CreateTeamMembersUserInput) {
-    return 'This action adds a new teamMembersUser';
+  constructor(
+    @InjectRepository(TeamMembersUser)
+    private teamRepository: Repository<TeamMembersUser>,
+  ) {}
+
+  create(teamId: number, userId: string) {
+    this.teamRepository.insert({ user: { id: userId }, team: { id: teamId } });
   }
 
   findAll() {

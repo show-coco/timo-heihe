@@ -7,5 +7,6 @@ import { TeamMembersUser } from './entities/team-members-user.entity';
 @Module({
   imports: [TypeOrmModule.forFeature([TeamMembersUser])],
   providers: [TeamMembersUserResolver, TeamMembersUserService],
+  exports: [TeamMembersUserService],
 })
 export class TeamMembersUserModule {}

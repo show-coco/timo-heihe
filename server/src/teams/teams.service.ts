@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { TeamMembersUserService } from 'src/team-members-user/team-members-user.service';
 import { Repository } from 'typeorm';
 import { CreateTeamInput } from './dto/create-team.input';
 import { UpdateTeamInput } from './dto/update-team.input';
@@ -10,9 +11,10 @@ export class TeamsService {
   constructor(
     @InjectRepository(Team)
     private teamRepository: Repository<Team>,
+    private teamMembersUserService: TeamMembersUserService,
   ) {}
 
-  async findOne(id: number): Promise<any> {
+  async findOne(id: number): Promise<Team> {
     const res = await this.teamRepository
       .createQueryBuilder('team')
       .leftJoinAndSelect('team.members', 'members', 'members.teamId = team.id')
@@ -28,7 +30,7 @@ export class TeamsService {
     return res;
   }
 
-  async findAll() {
+  async findAll(): Promise<Team[]> {
     return this.teamRepository
       .createQueryBuilder('team')
       .leftJoinAndSelect('team.members', 'members', 'members.teamId = team.id')
@@ -68,21 +70,7 @@ export class TeamsService {
       throw new Error('user already exists in this team');
     }
 
-    targetTeam.members.push({
-      team: {
-        id: teamId,
-        title: '',
-        description: '',
-        icon: '',
-        skills: [],
-        owner: { id: '' },
-        categories: [],
-        recruitNumbers: 1,
-        isRequired: false,
-      },
-      user: { id: userId, name: '', email: '' },
-    });
-    return this.teamRepository.save(targetTeam);
+    return this.teamMembersUserService.create(teamId, userId);
   }
 
   async leave(userId: string, teamId: number) {

@@ -14,10 +14,11 @@ export class UsersService {
   async findOne(id: string): Promise<User> {
     const res = await this.userRepository
       .createQueryBuilder('user')
-      .leftJoinAndSelect('user.skills', 'skills')
+      .leftJoinAndSelect('user.skills', 'userSkills')
       .leftJoinAndSelect('user.teams', 'teams')
       .leftJoinAndSelect('teams.team', 'team')
       .leftJoinAndSelect('team.owner', 'owner')
+      .leftJoinAndSelect('team.skills', 'teamSkills')
       .where({ id })
       .getOne();
 
@@ -27,7 +28,14 @@ export class UsersService {
   }
 
   async findAll(): Promise<User[]> {
-    return this.userRepository.find();
+    return this.userRepository
+      .createQueryBuilder('user')
+      .leftJoinAndSelect('user.skills', 'skills')
+      .leftJoinAndSelect('user.teams', 'teams')
+      .leftJoinAndSelect('teams.team', 'team')
+      .leftJoinAndSelect('team.owner', 'owner')
+      .leftJoinAndSelect('team.skills', 'skills')
+      .getMany();
   }
 
   async save(user: User): Promise<User> {
