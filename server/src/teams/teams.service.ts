@@ -83,14 +83,7 @@ export class TeamsService {
       throw new Error('user does not exsts in this team');
     }
 
-    const newMembers = targetTeam.members.filter(
-      (member) => member.user.id !== userId,
-    );
-
-    return this.teamRepository.save({
-      ...targetTeam,
-      members: newMembers,
-    });
+    return this.teamMembersUserService.remove(teamId, userId);
   }
 
   async remove(id: number) {

@@ -23,11 +23,11 @@ export class TeamMembersUserService {
     return `This action returns a #${id} teamMembersUser`;
   }
 
-  update(id: number, updateTeamMembersUserInput: UpdateTeamMembersUserInput) {
-    return `This action updates a #${id} teamMembersUser`;
+  remove(teamId: number, userId: string) {
+    this.teamRepository.delete({ user: { id: userId }, team: { id: teamId } });
   }
 
-  remove(id: number) {
+  update(id: number, input: UpdateTeamMembersUserInput) {
     return `This action removes a #${id} teamMembersUser`;
   }
 }

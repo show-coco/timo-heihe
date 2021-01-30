@@ -40,7 +40,10 @@ export class TeamMembersUserResolver {
   }
 
   @Mutation(() => TeamMembersUser)
-  removeTeamMembersUser(@Args('id', { type: () => Int }) id: number) {
-    return this.teamMembersUserService.remove(id);
+  removeTeamMembersUser(
+    @Args('id', { type: () => ID }) userId: string,
+    @Args('id', { type: () => Int }) teamId: number,
+  ) {
+    return this.teamMembersUserService.remove(teamId, userId);
   }
 }
