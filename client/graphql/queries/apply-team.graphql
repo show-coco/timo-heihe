@@ -1,0 +1,6 @@
+mutation ApplyTeam($teamId: Int!, $userId: String!) {
+  applyTeam(teamId: $teamId, userId: $userId) {
+    id
+    title
+  }
+}

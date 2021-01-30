@@ -1,6 +1,7 @@
 import { useRouter } from "next/router";
 import React, { useMemo, useState } from "react";
 import {
+  useApplyTeamMutation,
   useJoinTeamMutation,
   useLeaveTeamMutation,
   useTeamQuery,
@@ -13,6 +14,7 @@ export const useTeamDetail = () => {
   const { id: userId } = useAuthContext();
   const [joinTeamDialogIsOpened, setJoinTeamDialogIsOpened] = useState(false);
   const [leaveTeamDialogIsOpened, setLeaveTeamDialogIsOpened] = useState(false);
+  const [applyTeamDialogIsOpened, setApplyTeamDialogIsOpened] = useState(false);
 
   const { data } = useTeamQuery({
     variables: {
@@ -23,6 +25,8 @@ export const useTeamDetail = () => {
   const [joinTeam] = useJoinTeamMutation();
 
   const [leaveTeam] = useLeaveTeamMutation();
+
+  const [applyTeam] = useApplyTeamMutation();
 
   const onJoinTeam = async (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
@@ -58,11 +62,35 @@ export const useTeamDetail = () => {
     setLeaveTeamDialogIsOpened(false);
   };
 
+  const onApplyTeam = async (
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    event.preventDefault();
+    try {
+      await applyTeam({
+        variables: {
+          userId,
+          teamId: Number(teamId),
+        },
+      });
+    } catch (e) {
+      console.error(e);
+    }
+    setApplyTeamDialogIsOpened(false);
+  };
+
   const onClickJoinButton = (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     event.preventDefault();
     setJoinTeamDialogIsOpened(true);
+  };
+
+  const onClickApplyButton = (
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    event.preventDefault();
+    setApplyTeamDialogIsOpened(true);
   };
 
   const onClickLeaveButton = (
@@ -77,6 +105,13 @@ export const useTeamDetail = () => {
   ) => {
     event.preventDefault();
     setLeaveTeamDialogIsOpened(false);
+  };
+
+  const onCloseApplyDialog = (
+    event: React.MouseEvent<Element, MouseEvent> | React.KeyboardEvent<Element>
+  ) => {
+    event.preventDefault();
+    setApplyTeamDialogIsOpened(false);
   };
 
   const onCloseJoinDialog = (
@@ -101,6 +136,7 @@ export const useTeamDetail = () => {
   return {
     onJoinTeam,
     onLeaveTeam,
+    onApplyTeam,
     iAmJoining,
     iAmOwner,
     team: data?.team,
@@ -108,12 +144,15 @@ export const useTeamDetail = () => {
     dialogState: {
       joinTeamDialogIsOpened,
       leaveTeamDialogIsOpened,
+      applyTeamDialogIsOpened,
     },
     dialogSetter: {
       onClickJoinButton,
       onClickLeaveButton,
       onCloseLeaveDialog,
       onCloseJoinDialog,
+      onClickApplyButton,
+      onCloseApplyDialog,
     },
   };
 };
