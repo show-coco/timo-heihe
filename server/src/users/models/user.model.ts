@@ -1,4 +1,5 @@
 import { Field, ID, ObjectType } from '@nestjs/graphql';
+import { UserMemberModel } from 'src/team-members-user/models/user-member-model';
 import { SkillModel } from '../../skill/models/skill.model';
 import { TeamModel } from '../../teams/models/team.model';
 
@@ -28,8 +29,8 @@ export class UserModel {
   @Field(() => [TeamModel])
   ownerTeams: TeamModel[];
 
-  @Field(() => [TeamModel])
-  teams: TeamModel[];
+  @Field(() => [UserMemberModel])
+  teams: UserMemberModel[];
 
   @Field(() => [SkillModel])
   skills: SkillModel[];

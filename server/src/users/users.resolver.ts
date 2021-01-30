@@ -17,8 +17,8 @@ import { UsersService } from './users.service';
 import { SkillModel } from '../skill/models/skill.model';
 import { SkillService } from '../skill/skill.service';
 import { TeamsService } from '../teams/teams.service';
-import { TeamModel } from '../teams/models/team.model';
 import { UpdateUserInput } from './dto/update-user.input';
+import { TeamMemberModel } from 'src/team-members-user/models/team-member.model';
 
 @Resolver(() => UserModel)
 export class UsersResolver {
@@ -56,12 +56,16 @@ export class UsersResolver {
     });
   }
 
-  @ResolveField(() => [TeamModel])
-  async teams(@Parent() user: UserModel) {
-    console.log('request on users->resolver->teams', user);
+  @ResolveField(() => [TeamMemberModel])
+  teams(@Parent() user: User) {
+    // console.log('request on users->resolver->teams', user);
 
-    return await user.teams.map(async (team) => {
-      return await this.teamsService.findOne(team.id);
+    return user.teams.map((team) => {
+      return {
+        createdAt: team.createdAt,
+        memberState: team.memberState,
+        ...team.team,
+      };
     });
   }
 }

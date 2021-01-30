@@ -11,13 +11,19 @@ export class UsersService {
     private userRepository: Repository<User>,
   ) {}
 
-  async findOne(id: string): Promise<User | undefined> {
-    return this.userRepository
+  async findOne(id: string): Promise<User> {
+    const res = await this.userRepository
       .createQueryBuilder('user')
       .leftJoinAndSelect('user.skills', 'skills')
       .leftJoinAndSelect('user.teams', 'teams')
+      .leftJoinAndSelect('teams.team', 'team')
+      .leftJoinAndSelect('team.owner', 'owner')
       .where({ id })
       .getOne();
+
+    // console.log('response on users->service->findOne', res.teams);
+
+    return res;
   }
 
   async findAll(): Promise<User[]> {

@@ -176,6 +176,22 @@ input UserInput {
   twitterId: String
 }
 
+type UserMemberModel {
+  categories: [CategoryModel!]!
+  createdAt: DateTime
+  description: String!
+  icon: String
+  id: Int
+  isRequired: Boolean!
+  members: [TeamMemberModel!]
+  memberState: MemberState!
+  owner: UserModel!
+  recruitNumbers: Int!
+  repositoryUrl: String
+  skills: [SkillModel!]
+  title: String!
+}
+
 type UserModel {
   avatar: String
   email: String!
@@ -185,6 +201,6 @@ type UserModel {
   name: String!
   ownerTeams: [TeamModel!]!
   skills: [SkillModel!]!
-  teams: [TeamModel!]!
+  teams: [UserMemberModel!]!
   twitterId: String
 }
