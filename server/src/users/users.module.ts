@@ -5,7 +5,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { UsersResolver } from './users.resolver';
 import { SkillModule } from '../skill/skill.module';
 import { TeamsModule } from '../teams/teams.module';
-import { TeamMembersUserModule } from 'src/team-members-user/team-members-user.module';
+import { TeamMembersUserModule } from '../team-members-user/team-members-user.module';
 
 @Module({
   imports: [

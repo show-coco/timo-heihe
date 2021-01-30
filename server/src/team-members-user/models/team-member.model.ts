@@ -5,8 +5,8 @@ import {
   ObjectType,
   registerEnumType,
 } from '@nestjs/graphql';
-import { SkillModel } from 'src/skill/models/skill.model';
-import { TeamModel } from 'src/teams/models/team.model';
+import { SkillModel } from '../../skill/models/skill.model';
+import { TeamModel } from '../../teams/models/team.model';
 import { MemberState } from '../entities/team-members-user.entity';
 
 registerEnumType(MemberState, {

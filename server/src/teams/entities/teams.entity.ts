@@ -11,7 +11,7 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { TeamMembersUser } from 'src/team-members-user/entities/team-members-user.entity';
+import { TeamMembersUser } from '../../team-members-user/entities/team-members-user.entity';
 
 @Entity()
 export class Team {

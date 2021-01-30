@@ -1,7 +1,7 @@
 import { Field, GraphQLISODateTime, Int, ObjectType } from '@nestjs/graphql';
-import { CategoryModel } from 'src/category/models/category.model';
-import { SkillModel } from 'src/skill/models/skill.model';
-import { UserModel } from 'src/users/models/user.model';
+import { CategoryModel } from '../../category/models/category.model';
+import { SkillModel } from '../../skill/models/skill.model';
+import { UserModel } from '../../users/models/user.model';
 import { MemberState } from '../entities/team-members-user.entity';
 import { TeamMemberModel } from './team-member.model';
 

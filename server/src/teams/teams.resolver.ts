@@ -8,7 +8,7 @@ import {
   ResolveProperty,
   Resolver,
 } from '@nestjs/graphql';
-import { TeamMemberModel } from 'src/team-members-user/models/team-member.model';
+import { TeamMemberModel } from '../team-members-user/models/team-member.model';
 import { CategoryService } from '../category/category.service';
 import { SkillService } from '../skill/skill.service';
 import { UserModel } from '../users/models/user.model';

@@ -1,5 +1,5 @@
-import { Team } from 'src/teams/entities/teams.entity';
-import { User } from 'src/users/entities/users.entity';
+import { Team } from '../../teams/entities/teams.entity';
+import { User } from '../../users/entities/users.entity';
 import { CreateDateColumn, Entity, ManyToOne, Column } from 'typeorm';
 
 export enum MemberState {
