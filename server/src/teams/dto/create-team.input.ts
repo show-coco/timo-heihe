@@ -1,4 +1,5 @@
 import { InputType, Field, GraphQLTimestamp, Int } from '@nestjs/graphql';
+import { CreateTeamMembersUserInput } from 'src/team-members-user/dto/create-team-members-user.input';
 import { CategoryInput } from '../../category/dto/category.input';
 import { SkillInput } from '../../skill/dto/skill.input';
 import { UserInput } from '../../users/dto/user.input';
@@ -20,8 +21,8 @@ export class CreateTeamInput {
   @Field()
   owner: UserInput;
 
-  @Field(() => [UserInput])
-  members: UserInput[];
+  @Field(() => [CreateTeamMembersUserInput])
+  members: CreateTeamMembersUserInput[];
 
   @Field(() => [CategoryInput])
   categories: CategoryInput[];

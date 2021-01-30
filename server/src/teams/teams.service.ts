@@ -12,24 +12,30 @@ export class TeamsService {
     private teamRepository: Repository<Team>,
   ) {}
 
-  async findOne(id: number) {
-    return this.teamRepository
+  async findOne(id: number): Promise<any> {
+    const res = await this.teamRepository
       .createQueryBuilder('team')
-      .leftJoinAndSelect('team.owner', 'user')
-      .leftJoinAndSelect('team.skills', 'skills')
-      .leftJoinAndSelect('team.members', 'members')
+      .leftJoinAndSelect('team.members', 'members', 'members.teamId = team.id')
+      .leftJoinAndSelect('members.user', 'user', 'members.userId = user.id')
       .leftJoinAndSelect('team.categories', 'categories')
+      .leftJoinAndSelect('team.owner', 'owner')
+      .leftJoinAndSelect('team.skills', 'skills')
       .where({ id: id })
       .getOne();
+
+    // console.log('response on teams->service->findOne', res);
+
+    return res;
   }
 
   async findAll() {
     return this.teamRepository
       .createQueryBuilder('team')
-      .leftJoinAndSelect('team.owner', 'user')
-      .leftJoinAndSelect('team.skills', 'skills')
-      .leftJoinAndSelect('team.members', 'members')
+      .leftJoinAndSelect('team.members', 'members', 'members.teamId = team.id')
+      .leftJoinAndSelect('members.user', 'user', 'members.userId = user.id')
       .leftJoinAndSelect('team.categories', 'categories')
+      .leftJoinAndSelect('team.owner', 'owner')
+      .leftJoinAndSelect('team.skills', 'skills')
       .getMany();
   }
 
@@ -42,6 +48,8 @@ export class TeamsService {
   async insert(createTeamInput: CreateTeamInput) {
     const input: CreateTeamInput = JSON.parse(JSON.stringify(createTeamInput));
 
+    console.log('paramater on teams->service->insert', createTeamInput);
+
     try {
       const returns = await this.teamRepository.save(input);
       return returns;
@@ -53,7 +61,7 @@ export class TeamsService {
   async join(userId: string, teamId: number) {
     const targetTeam = await this.findOne(teamId);
     const userExistsInThisTeam = targetTeam.members.some(
-      (member) => member.id === userId,
+      (member) => member.user.id === userId,
     );
 
     if (userExistsInThisTeam) {
@@ -61,10 +69,18 @@ export class TeamsService {
     }
 
     targetTeam.members.push({
-      id: userId,
-      introduction: '',
-      email: '',
-      name: '',
+      team: {
+        id: teamId,
+        title: '',
+        description: '',
+        icon: '',
+        skills: [],
+        owner: { id: '' },
+        categories: [],
+        recruitNumbers: 1,
+        isRequired: false,
+      },
+      user: { id: userId, name: '', email: '' },
     });
     return this.teamRepository.save(targetTeam);
   }
@@ -72,7 +88,7 @@ export class TeamsService {
   async leave(userId: string, teamId: number) {
     const targetTeam = await this.findOne(teamId);
     const userNotExistsInThisTeam = !targetTeam.members.some(
-      (member) => member.id === userId,
+      (member) => member.user.id === userId,
     );
 
     if (userNotExistsInThisTeam) {
@@ -80,7 +96,7 @@ export class TeamsService {
     }
 
     const newMembers = targetTeam.members.filter(
-      (member) => member.id !== userId,
+      (member) => member.user.id !== userId,
     );
 
     return this.teamRepository.save({

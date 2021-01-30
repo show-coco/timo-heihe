@@ -29,12 +29,17 @@ input CreateTeamInput {
   description: String!
   icon: String
   isRequired: Boolean!
-  members: [UserInput!]!
+  members: [CreateTeamMembersUserInput!]!
   owner: UserInput!
   recruitNumbers: Int!
   repositoryUrl: String
   skills: [SkillInput!]!
   title: String!
+}
+
+input CreateTeamMembersUserInput {
+  team: UpdateTeamInput!
+  user: UserInput!
 }
 
 """
@@ -119,7 +124,7 @@ input UpdateTeamInput {
   icon: String
   id: Int!
   isRequired: Boolean
-  members: [UserInput!]
+  members: [CreateTeamMembersUserInput!]
   owner: UserInput
   recruitNumbers: Int
   repositoryUrl: String

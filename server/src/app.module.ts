@@ -11,6 +11,8 @@ import { SkillModule } from './skill/skill.module';
 import { Team } from './teams/entities/teams.entity';
 import { Category } from './category/entities/category.entity';
 import { Skill } from './skill/entities/skill.entity';
+import { TeamMembersUserModule } from './team-members-user/team-members-user.module';
+import { TeamMembersUser } from './team-members-user/entities/team-members-user.entity';
 
 @Module({
   imports: [
@@ -31,7 +33,7 @@ import { Skill } from './skill/entities/skill.entity';
       username: 'timoheihe',
       password: 'postgres',
       database: 'postgres',
-      entities: [User, Team, Category, Skill],
+      entities: [User, Team, Category, Skill, TeamMembersUser],
       synchronize: true,
     }),
     AuthModule,
@@ -39,6 +41,7 @@ import { Skill } from './skill/entities/skill.entity';
     TeamsModule,
     CategoryModule,
     SkillModule,
+    TeamMembersUserModule,
   ],
 })
 export class AppModule {}

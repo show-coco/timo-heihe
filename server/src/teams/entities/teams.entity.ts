@@ -8,8 +8,10 @@ import {
   JoinTable,
   ManyToMany,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
+import { TeamMembersUser } from 'src/team-members-user/entities/team-members-user.entity';
 
 @Entity()
 export class Team {
@@ -32,9 +34,8 @@ export class Team {
   @ManyToOne(() => User, (user) => user.ownerTeams)
   owner: Partial<User>;
 
-  @ManyToMany(() => User, (user) => user.teams)
-  @JoinTable()
-  members?: User[];
+  @OneToMany(() => TeamMembersUser, (tmu) => tmu.team)
+  members?: TeamMembersUser[];
 
   @ManyToMany(() => Category, (category) => category.teams)
   @JoinTable()
