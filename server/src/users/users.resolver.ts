@@ -58,6 +58,8 @@ export class UsersResolver {
 
   @ResolveField(() => [TeamModel])
   async teams(@Parent() user: UserModel) {
+    console.log('request on users->resolver->teams', user);
+
     return await user.teams.map(async (team) => {
       return await this.teamsService.findOne(team.id);
     });

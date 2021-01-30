@@ -8,6 +8,7 @@ import {
   ResolveProperty,
   Resolver,
 } from '@nestjs/graphql';
+import { TeamMemberModel } from 'src/team-members-user/models/team-member.model';
 import { CategoryService } from '../category/category.service';
 import { SkillService } from '../skill/skill.service';
 import { UserModel } from '../users/models/user.model';
@@ -74,13 +75,15 @@ export class TeamsResolver {
     return this.usersService.findOne(team.owner.id);
   }
 
-  @ResolveProperty(() => UserModel)
+  @ResolveProperty(() => TeamMemberModel)
   async members(@Parent() team: Team) {
     // console.log('request on teams->resolver->members', team.members);
 
-    return await team.members.map(async (member) => {
-      return await this.usersService.findOne(member.user.id);
-    });
+    return await team.members.map((member) => ({
+      createdAt: member.createdAt,
+      memberState: member.memberState,
+      ...member.user,
+    }));
   }
 
   @ResolveProperty(() => UserModel)
