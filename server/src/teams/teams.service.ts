@@ -26,7 +26,7 @@ export class TeamsService {
       .where({ id: id })
       .getOne();
 
-    // console.log('response on teams->service->findOne', res);
+    console.log('response on teams->service->findOne', res);
 
     return res;
   }
@@ -41,15 +41,20 @@ export class TeamsService {
       .leftJoinAndSelect('team.skills', 'skills')
       .getMany();
 
-    // console.log('res on teams->service->findAll', res);
+    console.log('res on teams->service->findAll', res);
 
     return res;
   }
 
-  async update(id: number, updateTeamInput: UpdateTeamInput) {
+  async update(updateTeamInput: UpdateTeamInput) {
     const input: UpdateTeamInput = JSON.parse(JSON.stringify(updateTeamInput));
 
-    return await this.teamRepository.save(input);
+    const returns = await this.teamRepository.save(input);
+    const res = this.findOne(returns.id);
+
+    console.log('response on teams->service->update', res);
+
+    return res;
   }
 
   async insert(createTeamInput: CreateTeamInput) {
@@ -63,9 +68,8 @@ export class TeamsService {
       .values(input)
       .returning(['id', 'title'])
       .execute();
-    const res = returns.raw[0];
 
-    const teamId = res.id;
+    const teamId = returns.raw[0].id;
     input.members.forEach((member) =>
       this.teamMembersUserService.create(
         teamId,
@@ -73,6 +77,8 @@ export class TeamsService {
         MemberState.JOINING,
       ),
     );
+
+    const res = this.findOne(teamId);
 
     console.log('response on teams->setvice->insert', res);
 

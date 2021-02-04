@@ -40,7 +40,7 @@ export class TeamsResolver {
 
   @Mutation(() => TeamModel)
   updateTeam(@Args('updateTeamInput') updateTeamInput: UpdateTeamInput) {
-    return this.teamsService.update(updateTeamInput.id, updateTeamInput);
+    return this.teamsService.update(updateTeamInput);
   }
 
   @Mutation(() => TeamModel)
