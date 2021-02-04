@@ -32,7 +32,7 @@ export class TeamsService {
   }
 
   async findAll(): Promise<Team[]> {
-    return this.teamRepository
+    const res = await this.teamRepository
       .createQueryBuilder('team')
       .leftJoinAndSelect('team.members', 'members', 'members.teamId = team.id')
       .leftJoinAndSelect('members.user', 'user', 'members.userId = user.id')
@@ -40,6 +40,10 @@ export class TeamsService {
       .leftJoinAndSelect('team.owner', 'owner')
       .leftJoinAndSelect('team.skills', 'skills')
       .getMany();
+
+    // console.log('res on teams->service->findAll', res);
+
+    return res;
   }
 
   async update(id: number, updateTeamInput: UpdateTeamInput) {
@@ -51,17 +55,31 @@ export class TeamsService {
   async insert(createTeamInput: CreateTeamInput) {
     const input: CreateTeamInput = JSON.parse(JSON.stringify(createTeamInput));
 
-    console.log('paramater on teams->service->insert', createTeamInput);
+    console.log('paramater on teams->service->insert', input);
 
-    try {
-      const returns = await this.teamRepository.save(input);
-      return returns;
-    } catch (e) {
-      console.log(e);
-    }
+    const returns = await this.teamRepository
+      .createQueryBuilder()
+      .insert()
+      .values(input)
+      .returning(['id', 'title'])
+      .execute();
+    const res = returns.raw[0];
+
+    const teamId = res.id;
+    input.members.forEach((member) =>
+      this.teamMembersUserService.create(
+        teamId,
+        member.user.id,
+        MemberState.JOINING,
+      ),
+    );
+
+    console.log('response on teams->setvice->insert', res);
+
+    return res;
   }
 
-  async join(userId: string, teamId: number) {
+  async join(userId: number, teamId: number) {
     const targetTeam = await this.findOne(teamId);
     const userExistsInThisTeam = targetTeam.members.some(
       (member) => member.user.id === userId,
@@ -78,7 +96,7 @@ export class TeamsService {
     );
   }
 
-  async apply(userId: string, teamId: number) {
+  async apply(userId: number, teamId: number) {
     const targetTeam = await this.findOne(teamId);
     const userApplyingToThisTeam = targetTeam.members.some(
       (member) =>
@@ -99,7 +117,7 @@ export class TeamsService {
   async leave(userId: string, teamId: number) {
     const targetTeam = await this.findOne(teamId);
     const userNotExistsInThisTeam = !targetTeam.members.some(
-      (member) => member.user.id === userId,
+      (member) => member.user.userId === userId,
     );
 
     if (userNotExistsInThisTeam) {

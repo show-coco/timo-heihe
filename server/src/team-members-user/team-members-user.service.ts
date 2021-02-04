@@ -14,7 +14,7 @@ export class TeamMembersUserService {
     private teamRepository: Repository<TeamMembersUser>,
   ) {}
 
-  create(teamId: number, userId: string, memberState: MemberState) {
+  create(teamId: number, userId: number, memberState: MemberState) {
     this.teamRepository.insert({
       user: { id: userId },
       team: { id: teamId },
@@ -31,7 +31,10 @@ export class TeamMembersUserService {
   }
 
   remove(teamId: number, userId: string) {
-    this.teamRepository.delete({ user: { id: userId }, team: { id: teamId } });
+    this.teamRepository.delete({
+      user: { userId: userId },
+      team: { id: teamId },
+    });
   }
 
   update(id: number, input: UpdateTeamMembersUserInput) {

@@ -7,6 +7,6 @@ export class CreateTeamMembersUserInput {
   @Field(() => UserInput)
   user: UserInput;
 
-  @Field(() => UpdateTeamInput)
+  @Field(() => UpdateTeamInput, { nullable: true })
   team: UpdateTeamInput;
 }

@@ -20,7 +20,7 @@ export class AuthController {
     const token = await this.authService.login(req.user);
     console.log(req.user);
 
-    const redirectUrl = `http://localhost:3000/google/callback?access_token=${token.access_token}&name=${req.user.name}&id=${req.user.id}`;
+    const redirectUrl = `http://localhost:3000/google/callback?access_token=${token.access_token}&name=${req.user.name}&id=${req.user.userId}`;
     res.redirect(redirectUrl);
   }
 }

@@ -1,7 +1,7 @@
 import {
   Field,
   GraphQLISODateTime,
-  ID,
+  Int,
   ObjectType,
   registerEnumType,
 } from '@nestjs/graphql';
@@ -15,8 +15,11 @@ registerEnumType(MemberState, {
 
 @ObjectType()
 export class TeamMemberModel {
-  @Field(() => ID)
-  id: string;
+  @Field(() => Int)
+  id: number;
+
+  @Field()
+  userId: string;
 
   @Field()
   name: string;

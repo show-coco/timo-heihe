@@ -6,14 +6,14 @@ import {
   JoinTable,
   ManyToMany,
   OneToMany,
-  PrimaryColumn,
+  PrimaryGeneratedColumn,
 } from 'typeorm';
 import { TeamMembersUser } from '../../team-members-user/entities/team-members-user.entity';
 
 @Entity()
 export class User {
-  @PrimaryColumn()
-  id?: string;
+  @PrimaryGeneratedColumn()
+  id?: number;
 
   @Column({ unique: true })
   userId: string;

@@ -14,7 +14,7 @@ export class TeamMembersUserResolver {
 
   @Mutation(() => TeamMembersUser)
   createTeamMembersUser(
-    @Args('userId', { type: () => ID }) userId: string,
+    @Args('userId', { type: () => ID }) userId: number,
     @Args('userId', { type: () => Int }) teamId: number,
   ) {
     return this.teamMembersUserService.create(
