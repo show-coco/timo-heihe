@@ -44,7 +44,7 @@ export class TeamsService {
     return res;
   }
 
-  async update(updateTeamInput: UpdateTeamInput) {
+  async update(updateTeamInput: UpdateTeamInput): Promise<Team> {
     const input: UpdateTeamInput = JSON.parse(JSON.stringify(updateTeamInput));
 
     const returns = await this.teamRepository.save(input);
@@ -54,7 +54,7 @@ export class TeamsService {
     return res;
   }
 
-  async insert(createTeamInput: CreateTeamInput) {
+  async insert(createTeamInput: CreateTeamInput): Promise<Team> {
     const input: CreateTeamInput = JSON.parse(JSON.stringify(createTeamInput));
 
     console.log('paramater on teams->service->insert', input);
@@ -80,7 +80,7 @@ export class TeamsService {
     return res;
   }
 
-  async join(userId: number, teamId: number) {
+  async join(userId: number, teamId: number): Promise<Team> {
     const targetTeam = await this.findOne(teamId);
     const userExistsInThisTeam = targetTeam.members.some(
       (member) => member.user.id === userId,
@@ -119,17 +119,21 @@ export class TeamsService {
     );
   }
 
-  async leave(userId: string, teamId: number) {
+  async leave(userId: number, teamId: number): Promise<Team> {
     const targetTeam = await this.findOne(teamId);
     const userNotExistsInThisTeam = !targetTeam.members.some(
-      (member) => member.user.userId === userId,
+      (member) => member.user.id === userId,
     );
 
     if (userNotExistsInThisTeam) {
       throw new Error('user does not exsts in this team');
     }
 
-    return this.teamMembersUserService.remove(teamId, userId);
+    await this.teamMembersUserService.remove(teamId, userId);
+
+    const res = this.findOne(teamId);
+    console.log('response on teams->service->leave', res);
+    return res;
   }
 
   async remove(id: number) {

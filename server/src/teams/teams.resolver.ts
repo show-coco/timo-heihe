@@ -72,7 +72,7 @@ export class TeamsResolver {
 
   @Mutation(() => TeamModel)
   async leaveTeam(
-    @Args('userId') userId: string,
+    @Args('userId') userId: number,
     @Args('teamId', { type: () => Int }) teamId: number,
   ) {
     return this.teamsService.leave(userId, teamId);

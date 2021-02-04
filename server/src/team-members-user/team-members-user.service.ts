@@ -30,9 +30,9 @@ export class TeamMembersUserService {
     return `This action returns a #${id} teamMembersUser`;
   }
 
-  remove(teamId: number, userId: string) {
+  remove(teamId: number, userId: number) {
     this.teamRepository.delete({
-      user: { userId: userId },
+      user: { id: userId },
       team: { id: teamId },
     });
   }
