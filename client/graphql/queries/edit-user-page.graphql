@@ -1,5 +1,5 @@
-query EditUserPage($id: ID!) {
-  user(id: $id) {
+query EditUserPage($userId: String!) {
+  user(userId: $userId) {
     id
     name
     avatar

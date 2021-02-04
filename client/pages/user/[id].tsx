@@ -26,7 +26,7 @@ export default function UserDetail() {
 
   const { data } = useUserDetailPageQuery({
     variables: {
-      id: id?.toString() || "",
+      userId: id?.toString() || "",
     },
   });
 
@@ -35,6 +35,7 @@ export default function UserDetail() {
     loginUserId,
   ]);
 
+  // FIXME
   const teams = convertToTeamCardObjFromTeams(data?.user.teams || []);
 
   return (

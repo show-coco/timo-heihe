@@ -23,9 +23,11 @@ export default function ShowTeam() {
     onJoinTeam,
     onLeaveTeam,
     onApplyTeam,
-    iAmJoining,
+    iCanApply,
+    iCanEdit,
+    iCanJoin,
+    iCanLeave,
     iAmApplying,
-    iAmOwner,
     team,
     teamId,
     dialogState,
@@ -73,12 +75,12 @@ export default function ShowTeam() {
           </div>
 
           <div className="flex flex-col space-y-3">
-            {iAmOwner && (
+            {iCanEdit && (
               <Link href="/team/edit/[id]" as={`/team/edit/${teamId}`}>
                 <Button>編集する</Button>
               </Link>
             )}
-            {!iAmApplying && team.isRequired && (
+            {iCanApply && (
               <Button onClick={dialogSetter.onClickApplyButton}>
                 申請する
               </Button>
@@ -88,10 +90,10 @@ export default function ShowTeam() {
                 申請中です
               </Button>
             )}
-            {!iAmJoining && !team.isRequired && (
+            {iCanJoin && (
               <Button onClick={dialogSetter.onClickJoinButton}>参加する</Button>
             )}
-            {iAmJoining && (
+            {iCanLeave && (
               <Button
                 variant="outline"
                 onClick={dialogSetter.onClickLeaveButton}
@@ -99,7 +101,6 @@ export default function ShowTeam() {
                 脱退する
               </Button>
             )}
-            {iAmOwner && <Button variant="outline">アーカイブ</Button>}
           </div>
         </div>
 
@@ -118,7 +119,7 @@ export default function ShowTeam() {
             <p className="font-bold">リーダー</p>
             <AvatarWithName
               src={team.owner.avatar || ""}
-              userId={team.owner.id}
+              userId={team.owner.userId}
               name={team.owner.name}
               size="small"
             />

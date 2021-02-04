@@ -11,6 +11,7 @@ export default function Home() {
   const { data, error, loading } = useTeamsQuery();
 
   const teams = useMemo(() => {
+    // FIXME
     return data && data.teams && convertToTeamCardObjFromTeams(data?.teams);
   }, [data]);
 
