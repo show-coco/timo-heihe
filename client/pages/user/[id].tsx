@@ -56,7 +56,7 @@ export default function UserDetail() {
               <Heading className="text-xl" as="h2">
                 {data?.user.name || ""}
               </Heading>
-              <span>@{data?.user.id}</span>
+              <span>@{data?.user.userId}</span>
             </span>
           </span>
 

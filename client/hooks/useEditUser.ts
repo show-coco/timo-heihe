@@ -2,16 +2,18 @@ import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { ACSelectedData } from "../components/auto-complate/auto-complate";
 import {
+  UpdateUserInput,
   useEditUserPageQuery,
   useUpdateUserMutation,
 } from "../generated/types";
+import { useAuthContext } from "../providers/useAuthContext";
 import { convertToSkillsObj } from "./useCreateTeam";
 import { convertToACSelectedData } from "./useEditTeam";
 import { useFileInput } from "./useFileInput";
 
 export const useEditUser = () => {
   const router = useRouter();
-  const id = router.query.id;
+  const me = useAuthContext();
   const [userName, setUserName] = useState("");
   const [userId, setUserId] = useState("");
   const [introduction, setIntroduction] = useState("");
@@ -29,7 +31,7 @@ export const useEditUser = () => {
 
   const { data } = useEditUserPageQuery({
     variables: {
-      id: id?.toString() || "",
+      userId: me.userId,
     },
   });
 
@@ -37,7 +39,7 @@ export const useEditUser = () => {
     if (data) {
       const user = data.user;
       setUserName(user.name);
-      setUserId(user.id);
+      setUserId(user.userId);
       setIntroduction(user.introduction || "");
       setGithubId(user.githubId || "");
       setTwitterId(user.twitterId || "");
@@ -46,8 +48,9 @@ export const useEditUser = () => {
     }
   }, [data, setImageUrl]);
 
-  const getVariables = () => ({
-    id: userId,
+  const getVariables = (): UpdateUserInput => ({
+    id: me.id,
+    userId: userId,
     name: userName,
     introduction,
     githubId,
@@ -64,7 +67,7 @@ export const useEditUser = () => {
           input: getVariables(),
         },
       });
-      router.push(`/user/${data?.updateUser.id}`);
+      router.push(`/user/${data?.updateUser.userId}`);
     } catch (e) {
       console.log(e);
     }

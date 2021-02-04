@@ -356,7 +356,7 @@ export type UpdateUserMutationVariables = Exact<{
 }>;
 
 export type UpdateUserMutation = { __typename?: "Mutation" } & {
-  updateUser: { __typename?: "UserModel" } & Pick<UserModel, "id">;
+  updateUser: { __typename?: "UserModel" } & Pick<UserModel, "id" | "userId">;
 };
 
 export type ApplyTeamMutationVariables = Exact<{
@@ -428,7 +428,13 @@ export type EditUserPageQueryVariables = Exact<{
 export type EditUserPageQuery = { __typename?: "Query" } & {
   user: { __typename?: "UserModel" } & Pick<
     UserModel,
-    "id" | "name" | "avatar" | "introduction" | "githubId" | "twitterId"
+    | "id"
+    | "userId"
+    | "name"
+    | "avatar"
+    | "introduction"
+    | "githubId"
+    | "twitterId"
   > & {
       skills: Array<
         { __typename?: "SkillModel" } & Pick<SkillModel, "id" | "name">
@@ -445,11 +451,14 @@ export type EditUserPageQuery = { __typename?: "Query" } & {
             >;
             owner: { __typename?: "UserModel" } & Pick<
               UserModel,
-              "id" | "name" | "avatar"
+              "id" | "name" | "avatar" | "userId"
             >;
             members?: Maybe<
               Array<
-                { __typename?: "TeamMemberModel" } & Pick<TeamMemberModel, "id">
+                { __typename?: "TeamMemberModel" } & Pick<
+                  TeamMemberModel,
+                  "id" | "userId"
+                >
               >
             >;
           }
@@ -463,7 +472,7 @@ export type EditUserPageQuery = { __typename?: "Query" } & {
 export type MeQueryVariables = Exact<{ [key: string]: never }>;
 
 export type MeQuery = { __typename?: "Query" } & {
-  me: { __typename?: "UserModel" } & Pick<UserModel, "id" | "name" | "userId">;
+  me: { __typename?: "UserModel" } & Pick<UserModel, "id" | "userId" | "name">;
 };
 
 export type TeamQueryVariables = Exact<{
@@ -777,6 +786,7 @@ export const UpdateUserDocument = gql`
   mutation UpdateUser($input: UpdateUserInput!) {
     updateUser(updateUserInput: $input) {
       id
+      userId
     }
   }
 `;
@@ -1024,6 +1034,7 @@ export const EditUserPageDocument = gql`
   query EditUserPage($userId: String!) {
     user(userId: $userId) {
       id
+      userId
       name
       avatar
       introduction
@@ -1047,9 +1058,11 @@ export const EditUserPageDocument = gql`
           id
           name
           avatar
+          userId
         }
         members {
           id
+          userId
         }
       }
     }
@@ -1112,8 +1125,8 @@ export const MeDocument = gql`
   query Me {
     me {
       id
-      name
       userId
+      name
     }
   }
 `;

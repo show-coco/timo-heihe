@@ -30,7 +30,7 @@ export class UsersResolver {
   @Query(() => UserModel)
   @UseGuards(GqlJwtAuthGuard)
   async me(@CurrentUser() user: Payload) {
-    return this.usersService.findOne(user.sub);
+    return this.usersService.findById(user.sub);
   }
 
   @Query(() => UserModel)

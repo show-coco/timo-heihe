@@ -18,6 +18,9 @@ export class User {
   @Column({ unique: true })
   userId: string;
 
+  @Column({ unique: true })
+  googleId: string;
+
   @Column()
   name: string;
 
