@@ -136,15 +136,11 @@ export class TeamsService {
     return res;
   }
 
-  async remove(id: number) {
-    const returns = await this.teamRepository
-      .createQueryBuilder()
-      .delete()
-      .from(Team)
-      .where('id = :id', { id })
-      .returning(['id', 'title', 'description', 'skills', 'created_at'])
-      .execute();
+  async remove(id: number): Promise<{ affected?: number }> {
+    const returns = await this.teamRepository.delete({ id });
 
-    return returns.raw[0];
+    const res = returns;
+    console.log('response on teams->service->remove', res);
+    return res;
   }
 }
