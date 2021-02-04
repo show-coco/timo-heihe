@@ -27,7 +27,6 @@ export class TeamsService {
       .getOne();
 
     console.log('response on teams->service->findOne', res);
-
     return res;
   }
 
@@ -42,7 +41,6 @@ export class TeamsService {
       .getMany();
 
     console.log('res on teams->service->findAll', res);
-
     return res;
   }
 
@@ -50,10 +48,9 @@ export class TeamsService {
     const input: UpdateTeamInput = JSON.parse(JSON.stringify(updateTeamInput));
 
     const returns = await this.teamRepository.save(input);
+
     const res = this.findOne(returns.id);
-
     console.log('response on teams->service->update', res);
-
     return res;
   }
 
@@ -79,9 +76,7 @@ export class TeamsService {
     );
 
     const res = this.findOne(teamId);
-
     console.log('response on teams->setvice->insert', res);
-
     return res;
   }
 
@@ -95,11 +90,15 @@ export class TeamsService {
       throw new Error('user already exists in this team');
     }
 
-    return this.teamMembersUserService.create(
+    await this.teamMembersUserService.create(
       teamId,
       userId,
       MemberState.JOINING,
     );
+
+    const res = this.findOne(teamId);
+    console.log('response on teams->service->join', res);
+    return res;
   }
 
   async apply(userId: number, teamId: number) {
