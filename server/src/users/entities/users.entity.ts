@@ -13,7 +13,10 @@ import { TeamMembersUser } from '../../team-members-user/entities/team-members-u
 @Entity()
 export class User {
   @PrimaryColumn()
-  id: string;
+  id?: string;
+
+  @Column({ unique: true })
+  userId: string;
 
   @Column()
   name: string;

@@ -11,7 +11,7 @@ export class UsersService {
     private userRepository: Repository<User>,
   ) {}
 
-  async findOne(id: string): Promise<User> {
+  async findOne(userId: string): Promise<User> {
     const res = await this.userRepository
       .createQueryBuilder('user')
       .leftJoinAndSelect('user.skills', 'userSkills')
@@ -19,7 +19,7 @@ export class UsersService {
       .leftJoinAndSelect('teams.team', 'team')
       .leftJoinAndSelect('team.owner', 'owner')
       .leftJoinAndSelect('team.skills', 'teamSkills')
-      .where({ id })
+      .where({ userId })
       .getOne();
 
     // console.log('response on users->service->findOne', res.teams);

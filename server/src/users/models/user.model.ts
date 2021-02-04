@@ -9,6 +9,9 @@ export class UserModel {
   id: string;
 
   @Field()
+  userId: string;
+
+  @Field()
   name: string;
 
   @Field()

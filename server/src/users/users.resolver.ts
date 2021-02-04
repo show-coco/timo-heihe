@@ -1,7 +1,6 @@
 import { forwardRef, Inject, UseGuards } from '@nestjs/common';
 import {
   Args,
-  ID,
   Mutation,
   Parent,
   Query,
@@ -35,8 +34,8 @@ export class UsersResolver {
   }
 
   @Query(() => UserModel)
-  async user(@Args('id', { type: () => ID }) id: string): Promise<User> {
-    return this.usersService.findOne(id);
+  async user(@Args('userId') userId: string): Promise<User> {
+    return this.usersService.findOne(userId);
   }
 
   @Query(() => [UserModel])
