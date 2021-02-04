@@ -25,6 +25,7 @@ import { TeamMembersUser } from './team-members-user/entities/team-members-user.
       autoSchemaFile: 'schema.graphql',
       sortSchema: true,
       context: ({ req }) => ({ headers: req.headers }),
+      installSubscriptionHandlers: true,
     }),
     TypeOrmModule.forRoot({
       type: 'postgres',
