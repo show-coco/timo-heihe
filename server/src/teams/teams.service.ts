@@ -49,7 +49,7 @@ export class TeamsService {
 
     const returns = await this.teamRepository.save(input);
 
-    const res = this.findOne(returns.id);
+    const res = await this.findOne(returns.id);
     console.log('response on teams->service->update', res);
     return res;
   }
@@ -59,14 +59,9 @@ export class TeamsService {
 
     console.log('paramater on teams->service->insert', input);
 
-    const returns = await this.teamRepository
-      .createQueryBuilder()
-      .insert()
-      .values(input)
-      .returning(['id', 'title'])
-      .execute();
+    const returns = await this.teamRepository.save(input);
 
-    const teamId = returns.raw[0].id;
+    const teamId = returns.id;
     input.members.forEach((member) =>
       this.teamMembersUserService.create(
         teamId,
@@ -75,7 +70,7 @@ export class TeamsService {
       ),
     );
 
-    const res = this.findOne(teamId);
+    const res = await this.findOne(teamId);
     console.log('response on teams->setvice->insert', res);
     return res;
   }
@@ -96,7 +91,7 @@ export class TeamsService {
       MemberState.JOINING,
     );
 
-    const res = this.findOne(teamId);
+    const res = await this.findOne(teamId);
     console.log('response on teams->service->join', res);
     return res;
   }
@@ -117,7 +112,7 @@ export class TeamsService {
       MemberState.PENDING,
     );
 
-    const res = this.findOne(teamId);
+    const res = await this.findOne(teamId);
     console.log('response on teams->service->apply', res);
     return res;
   }
@@ -134,7 +129,7 @@ export class TeamsService {
 
     await this.teamMembersUserService.remove(teamId, userId);
 
-    const res = this.findOne(teamId);
+    const res = await this.findOne(teamId);
     console.log('response on teams->service->leave', res);
     return res;
   }
