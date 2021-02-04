@@ -56,7 +56,7 @@ export class TeamsResolver {
 
   @Mutation(() => TeamModel)
   async joinTeam(
-    @Args('userId') userId: number,
+    @Args('userId', { type: () => Int }) userId: number,
     @Args('teamId', { type: () => Int }) teamId: number,
   ) {
     return this.teamsService.join(userId, teamId);
@@ -64,7 +64,7 @@ export class TeamsResolver {
 
   @Mutation(() => TeamModel)
   async applyTeam(
-    @Args('userId') userId: number,
+    @Args('userId', { type: () => Int }) userId: number,
     @Args('teamId', { type: () => Int }) teamId: number,
   ) {
     return this.teamsService.apply(userId, teamId);
@@ -72,7 +72,7 @@ export class TeamsResolver {
 
   @Mutation(() => TeamModel)
   async leaveTeam(
-    @Args('userId') userId: number,
+    @Args('userId', { type: () => Int }) userId: number,
     @Args('teamId', { type: () => Int }) teamId: number,
   ) {
     return this.teamsService.leave(userId, teamId);

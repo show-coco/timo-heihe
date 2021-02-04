@@ -55,13 +55,13 @@ enum MemberState {
 }
 
 type Mutation {
-  applyTeam(teamId: Int!, userId: Float!): TeamModel!
+  applyTeam(teamId: Int!, userId: Int!): TeamModel!
   createCategory(createCategoryInput: CreateCategoryInput!): CategoryModel!
   createSkill(createSkillInput: CreateSkillInput!): SkillModel!
   createTeam(createTeamInput: CreateTeamInput!): TeamModel!
   deleteTeam(id: Int!): TeamModel!
-  joinTeam(teamId: Int!, userId: Float!): TeamModel!
-  leaveTeam(teamId: Int!, userId: Float!): TeamModel!
+  joinTeam(teamId: Int!, userId: Int!): TeamModel!
+  leaveTeam(teamId: Int!, userId: Int!): TeamModel!
   removeCategory(id: Int!): CategoryModel!
   removeSkill(id: Int!): SkillModel!
   updateCategory(updateCategoryInput: UpdateCategoryInput!): CategoryModel!
