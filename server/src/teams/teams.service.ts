@@ -101,22 +101,25 @@ export class TeamsService {
     return res;
   }
 
-  async apply(userId: number, teamId: number) {
+  async apply(userId: number, teamId: number): Promise<Team> {
     const targetTeam = await this.findOne(teamId);
-    const userApplyingToThisTeam = targetTeam.members.some(
-      (member) =>
-        member.user.id === userId && member.memberState === MemberState.PENDING,
+    const userExistsInThisTeam = targetTeam.members.some(
+      (member) => member.user.id === userId,
     );
 
-    if (userApplyingToThisTeam) {
-      throw new Error('user is already applying to this team');
+    if (userExistsInThisTeam) {
+      throw new Error('user already exists in this team');
     }
 
-    return this.teamMembersUserService.create(
+    await this.teamMembersUserService.create(
       teamId,
       userId,
       MemberState.PENDING,
     );
+
+    const res = this.findOne(teamId);
+    console.log('response on teams->service->apply', res);
+    return res;
   }
 
   async leave(userId: number, teamId: number): Promise<Team> {
