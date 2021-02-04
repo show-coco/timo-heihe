@@ -1,4 +1,4 @@
-mutation ApplyTeam($teamId: Int!, $userId: String!) {
+mutation ApplyTeam($teamId: Int!, $userId: Int!) {
   applyTeam(teamId: $teamId, userId: $userId) {
     id
     title

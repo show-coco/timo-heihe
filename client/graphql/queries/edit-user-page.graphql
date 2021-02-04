@@ -1,6 +1,7 @@
-query EditUserPage($id: ID!) {
-  user(id: $id) {
+query EditUserPage($userId: String!) {
+  user(userId: $userId) {
     id
+    userId
     name
     avatar
     introduction
@@ -24,9 +25,11 @@ query EditUserPage($id: ID!) {
         id
         name
         avatar
+        userId
       }
       members {
         id
+        userId
       }
     }
   }

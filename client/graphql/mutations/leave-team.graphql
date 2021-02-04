@@ -1,4 +1,4 @@
-mutation LeaveTeam($userId: String!, $teamId: Int!) {
+mutation LeaveTeam($teamId: Int!, $userId: Int!) {
   leaveTeam(userId: $userId, teamId: $teamId) {
     id
     title

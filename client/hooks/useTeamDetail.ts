@@ -124,6 +124,10 @@ export const useTeamDetail = () => {
 
   const team = data?.team;
 
+  const iAmOwner = useMemo(() => {
+    return userId === team?.owner.id;
+  }, [team?.owner.id, userId]);
+
   const iAmJoining = useMemo(() => {
     return team?.members?.find(
       (member) =>
@@ -138,16 +142,35 @@ export const useTeamDetail = () => {
     );
   }, [team?.members, userId]);
 
-  const iAmOwner = useMemo(() => {
-    return userId === team?.owner.id;
-  }, [team?.owner.id, userId]);
+  const iAmIn = useMemo(() => {
+    return team?.members?.find((member) => member.id === userId);
+  }, [team?.members, userId]);
+
+  const iCanJoin = useMemo(() => {
+    return !iAmIn && !team?.isRequired;
+  }, [iAmIn, team?.isRequired]);
+
+  const iCanApply = useMemo(() => {
+    return !iAmIn && !iAmJoining && team?.isRequired;
+  }, [iAmIn, iAmJoining, team?.isRequired]);
+
+  const iCanEdit = useMemo(() => {
+    return iAmOwner;
+  }, [iAmOwner]);
+
+  const iCanLeave = useMemo(() => {
+    return !iAmOwner && iAmJoining;
+  }, [iAmJoining, iAmOwner]);
 
   return {
     onJoinTeam,
     onLeaveTeam,
     onApplyTeam,
+    iCanJoin,
+    iCanApply,
+    iCanEdit,
+    iCanLeave,
     iAmJoining,
-    iAmOwner,
     iAmApplying,
     team: data?.team,
     teamId,

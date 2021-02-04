@@ -9,12 +9,14 @@ query Team($id: Int!) {
     repositoryUrl
     members {
       id
+      userId
       name
       avatar
       memberState
     }
     owner {
       id
+      userId
       name
       avatar
     }

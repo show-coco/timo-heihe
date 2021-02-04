@@ -6,7 +6,7 @@ import {
   AvatarWithName,
   AvatarWithNameProps,
 } from "../avatar/avatar-with-name";
-import { SkillModel, TeamsQuery } from "../../generated/types";
+import { SkillModel, UserMemberModel } from "../../generated/types";
 import { dateFormatter, YEAR_MANTH_DAY_SLASH } from "../../utils/dateFormat";
 import Link from "next/link";
 
@@ -27,7 +27,7 @@ export type TeamCardProps = {
 };
 
 export const convertToTeamCardObjFromTeams = (
-  queryObj: TeamsQuery["teams"]
+  queryObj: UserMemberModel[]
 ): TeamCardProps[] => {
   return queryObj.map((team) => ({
     ...team,
@@ -35,7 +35,7 @@ export const convertToTeamCardObjFromTeams = (
     owner: {
       name: team.owner.name,
       src: team.owner.avatar || "",
-      userId: team.owner.id,
+      userId: team.owner.userId,
     },
     member: {
       current: team.members?.length || 1, // TODO:

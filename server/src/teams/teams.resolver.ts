@@ -40,7 +40,7 @@ export class TeamsResolver {
 
   @Mutation(() => TeamModel)
   updateTeam(@Args('updateTeamInput') updateTeamInput: UpdateTeamInput) {
-    return this.teamsService.update(updateTeamInput.id, updateTeamInput);
+    return this.teamsService.update(updateTeamInput);
   }
 
   @Mutation(() => TeamModel)
@@ -56,7 +56,7 @@ export class TeamsResolver {
 
   @Mutation(() => TeamModel)
   async joinTeam(
-    @Args('userId') userId: string,
+    @Args('userId', { type: () => Int }) userId: number,
     @Args('teamId', { type: () => Int }) teamId: number,
   ) {
     return this.teamsService.join(userId, teamId);
@@ -64,7 +64,7 @@ export class TeamsResolver {
 
   @Mutation(() => TeamModel)
   async applyTeam(
-    @Args('userId') userId: string,
+    @Args('userId', { type: () => Int }) userId: number,
     @Args('teamId', { type: () => Int }) teamId: number,
   ) {
     return this.teamsService.apply(userId, teamId);
@@ -72,7 +72,7 @@ export class TeamsResolver {
 
   @Mutation(() => TeamModel)
   async leaveTeam(
-    @Args('userId') userId: string,
+    @Args('userId', { type: () => Int }) userId: number,
     @Args('teamId', { type: () => Int }) teamId: number,
   ) {
     return this.teamsService.leave(userId, teamId);
@@ -80,7 +80,7 @@ export class TeamsResolver {
 
   @ResolveProperty(() => UserModel)
   owner(@Parent() team: Team) {
-    return this.usersService.findOne(team.owner.id);
+    return this.usersService.findOne(team.owner.userId);
   }
 
   @ResolveProperty(() => TeamMemberModel)

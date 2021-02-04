@@ -11,7 +11,23 @@ export class UsersService {
     private userRepository: Repository<User>,
   ) {}
 
-  async findOne(id: string): Promise<User> {
+  async findByGoogleId(googleId: string) {
+    const res = await this.userRepository
+      .createQueryBuilder('user')
+      .leftJoinAndSelect('user.skills', 'userSkills')
+      .leftJoinAndSelect('user.teams', 'teams')
+      .leftJoinAndSelect('teams.team', 'team')
+      .leftJoinAndSelect('team.owner', 'owner')
+      .leftJoinAndSelect('team.skills', 'teamSkills')
+      .where({ googleId })
+      .getOne();
+
+    // console.log('response on users->service->findByGoogleId', res.teams);
+
+    return res;
+  }
+
+  async findById(id: number): Promise<User> {
     const res = await this.userRepository
       .createQueryBuilder('user')
       .leftJoinAndSelect('user.skills', 'userSkills')
@@ -20,6 +36,22 @@ export class UsersService {
       .leftJoinAndSelect('team.owner', 'owner')
       .leftJoinAndSelect('team.skills', 'teamSkills')
       .where({ id })
+      .getOne();
+
+    // console.log('response on users->service->findById', res.teams);
+
+    return res;
+  }
+
+  async findOne(userId: string): Promise<User> {
+    const res = await this.userRepository
+      .createQueryBuilder('user')
+      .leftJoinAndSelect('user.skills', 'userSkills')
+      .leftJoinAndSelect('user.teams', 'teams')
+      .leftJoinAndSelect('teams.team', 'team')
+      .leftJoinAndSelect('team.owner', 'owner')
+      .leftJoinAndSelect('team.skills', 'teamSkills')
+      .where({ userId })
       .getOne();
 
     // console.log('response on users->service->findOne', res.teams);

@@ -1,10 +1,13 @@
-import { Field, ID, InputType } from '@nestjs/graphql';
+import { Field, InputType, Int } from '@nestjs/graphql';
 import { SkillInput } from '../../skill/dto/skill.input';
 
 @InputType()
 export class UserInput {
-  @Field(() => ID)
-  id: string;
+  @Field(() => Int)
+  id: number;
+
+  @Field({ nullable: true })
+  userId: string;
 
   @Field({ nullable: true })
   name: string;

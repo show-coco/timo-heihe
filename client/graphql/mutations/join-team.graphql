@@ -1,4 +1,4 @@
-mutation JoinTeam($userId: String!, $teamId: Int!) {
+mutation JoinTeam($teamId: Int!, $userId: Int!) {
   joinTeam(userId: $userId, teamId: $teamId) {
     id
     title

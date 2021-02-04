@@ -38,7 +38,7 @@ input CreateTeamInput {
 }
 
 input CreateTeamMembersUserInput {
-  team: UpdateTeamInput!
+  team: UpdateTeamInput
   user: UserInput!
 }
 
@@ -55,13 +55,13 @@ enum MemberState {
 }
 
 type Mutation {
-  applyTeam(teamId: Int!, userId: String!): TeamModel!
+  applyTeam(teamId: Int!, userId: Int!): TeamModel!
   createCategory(createCategoryInput: CreateCategoryInput!): CategoryModel!
   createSkill(createSkillInput: CreateSkillInput!): SkillModel!
   createTeam(createTeamInput: CreateTeamInput!): TeamModel!
   deleteTeam(id: Int!): TeamModel!
-  joinTeam(teamId: Int!, userId: String!): TeamModel!
-  leaveTeam(teamId: Int!, userId: String!): TeamModel!
+  joinTeam(teamId: Int!, userId: Int!): TeamModel!
+  leaveTeam(teamId: Int!, userId: Int!): TeamModel!
   removeCategory(id: Int!): CategoryModel!
   removeSkill(id: Int!): SkillModel!
   updateCategory(updateCategoryInput: UpdateCategoryInput!): CategoryModel!
@@ -78,7 +78,7 @@ type Query {
   skills: [SkillModel!]!
   team(id: Int!): TeamModel!
   teams: [TeamModel!]!
-  user(id: ID!): UserModel!
+  user(userId: String!): UserModel!
   users: [UserModel!]!
 }
 
@@ -99,7 +99,7 @@ type TeamMemberModel {
   createdAt: DateTime!
   email: String!
   githubId: String
-  id: ID!
+  id: Int!
   introduction: String
   memberState: MemberState!
   name: String!
@@ -107,6 +107,7 @@ type TeamMemberModel {
   skills: [SkillModel!]!
   teams: [TeamModel!]!
   twitterId: String
+  userId: String!
 }
 
 type TeamModel {
@@ -159,22 +160,24 @@ input UpdateUserInput {
   avatar: String
   email: String
   githubId: String
-  id: ID!
+  id: Int!
   introduction: String
   name: String
   skills: [SkillInput!]
   twitterId: String
+  userId: String
 }
 
 input UserInput {
   avatar: String
   email: String
   githubId: String
-  id: ID!
+  id: Int!
   introduction: String
   name: String
   skills: [SkillInput!]
   twitterId: String
+  userId: String
 }
 
 type UserMemberModel {
@@ -197,11 +200,12 @@ type UserModel {
   avatar: String
   email: String!
   githubId: String
-  id: ID!
+  id: Int!
   introduction: String
   name: String!
   ownerTeams: [TeamModel!]!
   skills: [SkillModel!]!
   teams: [UserMemberModel!]!
   twitterId: String
+  userId: String!
 }

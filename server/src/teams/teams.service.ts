@@ -26,13 +26,12 @@ export class TeamsService {
       .where({ id: id })
       .getOne();
 
-    // console.log('response on teams->service->findOne', res);
-
+    console.log('response on teams->service->findOne', res);
     return res;
   }
 
   async findAll(): Promise<Team[]> {
-    return this.teamRepository
+    const res = await this.teamRepository
       .createQueryBuilder('team')
       .leftJoinAndSelect('team.members', 'members', 'members.teamId = team.id')
       .leftJoinAndSelect('members.user', 'user', 'members.userId = user.id')
@@ -40,28 +39,43 @@ export class TeamsService {
       .leftJoinAndSelect('team.owner', 'owner')
       .leftJoinAndSelect('team.skills', 'skills')
       .getMany();
+
+    console.log('res on teams->service->findAll', res);
+    return res;
   }
 
-  async update(id: number, updateTeamInput: UpdateTeamInput) {
+  async update(updateTeamInput: UpdateTeamInput): Promise<Team> {
     const input: UpdateTeamInput = JSON.parse(JSON.stringify(updateTeamInput));
 
-    return await this.teamRepository.save(input);
+    const returns = await this.teamRepository.save(input);
+
+    const res = await this.findOne(returns.id);
+    console.log('response on teams->service->update', res);
+    return res;
   }
 
-  async insert(createTeamInput: CreateTeamInput) {
+  async insert(createTeamInput: CreateTeamInput): Promise<Team> {
     const input: CreateTeamInput = JSON.parse(JSON.stringify(createTeamInput));
 
-    console.log('paramater on teams->service->insert', createTeamInput);
+    console.log('paramater on teams->service->insert', input);
 
-    try {
-      const returns = await this.teamRepository.save(input);
-      return returns;
-    } catch (e) {
-      console.log(e);
-    }
+    const returns = await this.teamRepository.save(input);
+
+    const teamId = returns.id;
+    input.members.forEach((member) =>
+      this.teamMembersUserService.create(
+        teamId,
+        member.user.id,
+        MemberState.JOINING,
+      ),
+    );
+
+    const res = await this.findOne(teamId);
+    console.log('response on teams->setvice->insert', res);
+    return res;
   }
 
-  async join(userId: string, teamId: number) {
+  async join(userId: number, teamId: number): Promise<Team> {
     const targetTeam = await this.findOne(teamId);
     const userExistsInThisTeam = targetTeam.members.some(
       (member) => member.user.id === userId,
@@ -71,32 +85,39 @@ export class TeamsService {
       throw new Error('user already exists in this team');
     }
 
-    return this.teamMembersUserService.create(
+    await this.teamMembersUserService.create(
       teamId,
       userId,
       MemberState.JOINING,
     );
+
+    const res = await this.findOne(teamId);
+    console.log('response on teams->service->join', res);
+    return res;
   }
 
-  async apply(userId: string, teamId: number) {
+  async apply(userId: number, teamId: number): Promise<Team> {
     const targetTeam = await this.findOne(teamId);
-    const userApplyingToThisTeam = targetTeam.members.some(
-      (member) =>
-        member.user.id === userId && member.memberState === MemberState.PENDING,
+    const userExistsInThisTeam = targetTeam.members.some(
+      (member) => member.user.id === userId,
     );
 
-    if (userApplyingToThisTeam) {
-      throw new Error('user is already applying to this team');
+    if (userExistsInThisTeam) {
+      throw new Error('user already exists in this team');
     }
 
-    return this.teamMembersUserService.create(
+    await this.teamMembersUserService.create(
       teamId,
       userId,
       MemberState.PENDING,
     );
+
+    const res = await this.findOne(teamId);
+    console.log('response on teams->service->apply', res);
+    return res;
   }
 
-  async leave(userId: string, teamId: number) {
+  async leave(userId: number, teamId: number): Promise<Team> {
     const targetTeam = await this.findOne(teamId);
     const userNotExistsInThisTeam = !targetTeam.members.some(
       (member) => member.user.id === userId,
@@ -106,18 +127,18 @@ export class TeamsService {
       throw new Error('user does not exsts in this team');
     }
 
-    return this.teamMembersUserService.remove(teamId, userId);
+    await this.teamMembersUserService.remove(teamId, userId);
+
+    const res = await this.findOne(teamId);
+    console.log('response on teams->service->leave', res);
+    return res;
   }
 
-  async remove(id: number) {
-    const returns = await this.teamRepository
-      .createQueryBuilder()
-      .delete()
-      .from(Team)
-      .where('id = :id', { id })
-      .returning(['id', 'title', 'description', 'skills', 'created_at'])
-      .execute();
+  async remove(id: number): Promise<{ affected?: number }> {
+    const returns = await this.teamRepository.delete({ id });
 
-    return returns.raw[0];
+    const res = returns;
+    console.log('response on teams->service->remove', res);
+    return res;
   }
 }

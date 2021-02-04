@@ -1,5 +1,6 @@
 mutation UpdateUser($input: UpdateUserInput!) {
   updateUser(updateUserInput: $input) {
     id
+    userId
   }
 }

@@ -11,6 +11,7 @@ query Teams {
     }
     owner {
       id
+      userId
       name
       avatar
     }

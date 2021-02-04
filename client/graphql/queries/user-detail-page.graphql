@@ -1,6 +1,7 @@
-query UserDetailPage($id: ID!) {
-  user(id: $id) {
+query UserDetailPage($userId: String!) {
+  user(userId: $userId) {
     id
+    userId
     name
     avatar
     introduction
@@ -24,9 +25,11 @@ query UserDetailPage($id: ID!) {
         id
         name
         avatar
+        userId
       }
       members {
         id
+        userId
       }
     }
   }

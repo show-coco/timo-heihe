@@ -18,7 +18,7 @@ describe('TeamsResolver', () => {
       icon: 'sample',
       description: 'sample',
       skills: [],
-      owner: { id: '1' },
+      owner: { id: 1 },
       members: [],
       categories: [],
       repositoryUrl: 'sample',

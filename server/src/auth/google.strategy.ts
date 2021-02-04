@@ -29,7 +29,8 @@ export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
     const { name, emails, photos, id } = profile;
 
     const userDefaultInfo: User = {
-      id: id,
+      userId: id,
+      googleId: id,
       name: name.givenName + ' ' + name.familyName,
       email: emails[0].value,
       avatar: photos[0].value,
@@ -39,7 +40,7 @@ export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
       // accessToken,
     };
 
-    const user = await this.usersService.findOne(id);
+    const user = await this.usersService.findByGoogleId(id);
     const userExists = Boolean(user);
     // ユーザが既に存在すれば、ユーザを取得して返却
     if (userExists) {

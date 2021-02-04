@@ -2,7 +2,7 @@ import { useRouter } from "next/router";
 import React from "react";
 import { useState } from "react";
 import { ACSelectedData } from "../components/auto-complate/auto-complate";
-import { useCreateTeamMutation } from "../generated/types";
+import { CreateTeamInput, useCreateTeamMutation } from "../generated/types";
 import { useAuthContext } from "../providers/useAuthContext";
 import { useFileInput } from "./useFileInput";
 
@@ -36,7 +36,7 @@ export const useCreateTeam = () => {
     imageUrl,
   } = useFileInput();
 
-  const getVariables = () => ({
+  const getVariables = (): CreateTeamInput => ({
     title,
     owner: {
       id,
@@ -46,7 +46,9 @@ export const useCreateTeam = () => {
     description,
     members: [
       {
-        id,
+        user: {
+          id,
+        },
       },
     ],
     repositoryUrl,
