@@ -46,8 +46,11 @@ export class ThreadService {
     return res;
   }
 
-  update(id: number, updateThreadInput: UpdateThreadInput) {
-    return `This action updates a #${id} thread`;
+  update(updateThreadInput: UpdateThreadInput): Promise<Thread> {
+    const res = this.threadRepository.save(updateThreadInput);
+
+    console.log('response on thread->service->update', res);
+    return res;
   }
 
   remove(id: number) {

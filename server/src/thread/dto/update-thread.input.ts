@@ -1,8 +1,10 @@
-import { CreateThreadInput } from './create-thread.input';
-import { InputType, Field, Int, PartialType } from '@nestjs/graphql';
+import { InputType, Field, Int } from '@nestjs/graphql';
 
 @InputType()
-export class UpdateThreadInput extends PartialType(CreateThreadInput) {
+export class UpdateThreadInput {
   @Field(() => Int)
   id: number;
+
+  @Field()
+  text: string;
 }

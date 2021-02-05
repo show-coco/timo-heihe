@@ -216,9 +216,7 @@ input UpdateTeamInput {
 
 input UpdateThreadInput {
   id: Int!
-  room: ConnectRoomInput
-  text: String
-  user: ConnectUserInput
+  text: String!
 }
 
 input UpdateUserInput {

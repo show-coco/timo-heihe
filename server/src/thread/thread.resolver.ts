@@ -25,7 +25,7 @@ export class ThreadResolver {
 
   @Mutation(() => ThreadModel)
   updateThread(@Args('input') updateThreadInput: UpdateThreadInput) {
-    return this.threadService.update(updateThreadInput.id, updateThreadInput);
+    return this.threadService.update(updateThreadInput);
   }
 
   @Mutation(() => ThreadModel)
