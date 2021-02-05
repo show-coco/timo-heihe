@@ -104,6 +104,7 @@ type Query {
   team(id: Int!): TeamModel!
   teams: [TeamModel!]!
   thread(id: Int!): ThreadModel!
+  threads: [ThreadModel!]!
   user(userId: String!): UserModel!
   users: [UserModel!]!
 }

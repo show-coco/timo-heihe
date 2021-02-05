@@ -8,19 +8,19 @@ import { ThreadModel } from './models/thread.model';
 export class ThreadResolver {
   constructor(private readonly threadService: ThreadService) {}
 
-  @Mutation(() => ThreadModel)
-  createThread(@Args('input') createThreadInput: CreateThreadInput) {
-    return this.threadService.create(createThreadInput);
+  @Query(() => ThreadModel)
+  thread(@Args('id', { type: () => Int }) id: number) {
+    return this.threadService.findOne(id);
   }
 
-  @Query(() => [ThreadModel], { name: 'thread' })
-  findAll() {
+  @Query(() => [ThreadModel])
+  threads() {
     return this.threadService.findAll();
   }
 
-  @Query(() => ThreadModel, { name: 'thread' })
-  findOne(@Args('id', { type: () => Int }) id: number) {
-    return this.threadService.findOne(id);
+  @Mutation(() => ThreadModel)
+  createThread(@Args('input') createThreadInput: CreateThreadInput) {
+    return this.threadService.create(createThreadInput);
   }
 
   @Mutation(() => ThreadModel)
