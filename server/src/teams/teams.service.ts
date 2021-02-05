@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { MemberState } from 'src/team-members-user/entities/team-members-user.entity';
-import { TeamMembersUserService } from 'src/team-members-user/team-members-user.service';
+import { MemberState } from '../team-members-user/entities/team-members-user.entity';
+import { TeamMembersUserService } from '../team-members-user/team-members-user.service';
 import { Repository } from 'typeorm';
 import { CreateTeamInput } from './dto/create-team.input';
 import { UpdateTeamInput } from './dto/update-team.input';

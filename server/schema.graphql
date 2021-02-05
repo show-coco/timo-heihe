@@ -13,8 +13,17 @@ type CategoryModel {
   teams: [TeamModel!]!
 }
 
+input ConnectTeamInput {
+  id: Int!
+}
+
 input CreateCategoryInput {
   name: String!
+}
+
+input CreateRoomInput {
+  name: String!
+  team: ConnectTeamInput!
 }
 
 input CreateSkillInput {
@@ -47,6 +56,10 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 """
 scalar DateTime
 
+type DeleteRoomResponse {
+  affected: Int
+}
+
 enum MemberState {
   EJECTED
   JOINING
@@ -57,8 +70,10 @@ enum MemberState {
 type Mutation {
   applyTeam(teamId: Int!, userId: Int!): TeamModel!
   createCategory(createCategoryInput: CreateCategoryInput!): CategoryModel!
+  createRoom(input: CreateRoomInput!): RoomModel!
   createSkill(createSkillInput: CreateSkillInput!): SkillModel!
   createTeam(createTeamInput: CreateTeamInput!): TeamModel!
+  deleteRoom(id: Int!): DeleteRoomResponse!
   deleteTeam(id: Int!): TeamModel!
   joinTeam(teamId: Int!, userId: Int!): TeamModel!
   leaveTeam(teamId: Int!, userId: Int!): TeamModel!
@@ -74,12 +89,20 @@ type Query {
   categories: [CategoryModel!]!
   category(id: Int!): CategoryModel!
   me: UserModel!
+  room(id: Int!): RoomModel!
+  rooms: [RoomModel!]!
   skill(id: Int!): SkillModel!
   skills: [SkillModel!]!
   team(id: Int!): TeamModel!
   teams: [TeamModel!]!
   user(userId: String!): UserModel!
   users: [UserModel!]!
+}
+
+type RoomModel {
+  id: Int!
+  name: String!
+  team: TeamModel!
 }
 
 input SkillInput {

@@ -12,6 +12,7 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { TeamMembersUser } from '../../team-members-user/entities/team-members-user.entity';
+import { Room } from '../../room/entities/room.entity';
 
 @Entity()
 export class Team {
@@ -52,4 +53,7 @@ export class Team {
 
   @CreateDateColumn({ type: 'timestamp' })
   createdAt?: Date;
+
+  @OneToMany(() => Room, (room) => room.team)
+  rooms: Room[];
 }

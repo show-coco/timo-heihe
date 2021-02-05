@@ -12,21 +12,21 @@ describe('TeamsResolver', () => {
   let resolver: TeamsResolver;
 
   beforeEach(async () => {
-    const team: Team = {
-      id: 1,
-      title: 'sample',
-      icon: 'sample',
-      description: 'sample',
-      skills: [],
-      owner: { id: 1 },
-      members: [],
-      categories: [],
-      repositoryUrl: 'sample',
-      recruitNumbers: 10,
-      isRequired: false,
-      createdAt: new Date(),
-    };
-
+    // const team: Team = {
+    //   id: 1,
+    //   title: 'sample',
+    //   icon: 'sample',
+    //   description: 'sample',
+    //   skills: [],
+    //   owner: { id: 1 },
+    //   members: [],
+    //   categories: [],
+    //   repositoryUrl: 'sample',
+    //   recruitNumbers: 10,
+    //   isRequired: false,
+    //   createdAt: new Date(),
+    //   rooms: []
+    // };
     // const module: TestingModule = await Test.createTestingModule({
     //   imports: [UsersModule, SkillModule, CategoryModule],
     //   providers: [
@@ -42,7 +42,6 @@ describe('TeamsResolver', () => {
     //     },
     //   ],
     // }).compile();
-
     // resolver = module.get<TeamsResolver>(TeamsResolver);
   });
 
