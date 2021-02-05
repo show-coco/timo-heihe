@@ -13,8 +13,10 @@ import { Category } from './category/entities/category.entity';
 import { Skill } from './skill/entities/skill.entity';
 import { TeamMembersUserModule } from './team-members-user/team-members-user.module';
 import { TeamMembersUser } from './team-members-user/entities/team-members-user.entity';
-import { RoomModule } from './room/room.module';
 import { Room } from './room/entities/room.entity';
+import { ThreadModule } from './thread/thread.module';
+import { RoomModule } from './room/room.module';
+import { Thread } from './thread/entities/thread.entity';
 
 @Module({
   imports: [
@@ -28,6 +30,7 @@ import { Room } from './room/entities/room.entity';
         CategoryModule,
         SkillModule,
         RoomModule,
+        ThreadModule,
       ],
       playground: true,
       autoSchemaFile: 'schema.graphql',
@@ -42,7 +45,7 @@ import { Room } from './room/entities/room.entity';
       username: 'timoheihe',
       password: 'postgres',
       database: 'postgres',
-      entities: [User, Team, Category, Skill, TeamMembersUser, Room],
+      entities: [User, Team, Category, Skill, TeamMembersUser, Room, Thread],
       synchronize: true,
     }),
     AuthModule,
@@ -52,6 +55,7 @@ import { Room } from './room/entities/room.entity';
     SkillModule,
     TeamMembersUserModule,
     RoomModule,
+    ThreadModule,
   ],
 })
 export class AppModule {}

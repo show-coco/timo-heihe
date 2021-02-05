@@ -1,12 +1,15 @@
 import { InputType, Field } from '@nestjs/graphql';
-import { UpdateTeamInput } from '../../teams/dto/update-team.input';
+import { ConnectRoomInput } from '../../room/dto/connect-room.input';
 import { ConnectUserInput } from '../../users/dto/connect-user.input';
 
 @InputType()
-export class CreateTeamMembersUserInput {
+export class CreateThreadInput {
+  @Field()
+  text: string;
+
+  @Field(() => ConnectRoomInput)
+  room: ConnectRoomInput;
+
   @Field(() => ConnectUserInput)
   user: ConnectUserInput;
-
-  @Field(() => UpdateTeamInput, { nullable: true })
-  team: UpdateTeamInput;
 }

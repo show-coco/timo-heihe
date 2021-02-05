@@ -9,6 +9,7 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { TeamMembersUser } from '../../team-members-user/entities/team-members-user.entity';
+import { Thread } from '../../thread/entities/thread.entity';
 
 @Entity()
 export class User {
@@ -50,4 +51,7 @@ export class User {
   @ManyToMany(() => Skill, (skill) => skill.users, { nullable: true })
   @JoinTable()
   skills?: Skill[];
+
+  @OneToMany(() => Thread, (thread) => thread.user, { nullable: true })
+  threads?: Thread[];
 }

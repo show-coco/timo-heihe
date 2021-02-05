@@ -1,5 +1,12 @@
 import { Team } from '../../teams/entities/teams.entity';
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  ManyToOne,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
+import { Thread } from '../../thread/entities/thread.entity';
 
 @Entity()
 export class Room {
@@ -11,4 +18,7 @@ export class Room {
 
   @ManyToOne(() => Team, (team) => team.rooms)
   team: Team;
+
+  @OneToMany(() => Thread, (thread) => thread.room, { nullable: true })
+  threads?: Thread[];
 }

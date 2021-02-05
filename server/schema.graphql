@@ -13,8 +13,24 @@ type CategoryModel {
   teams: [TeamModel!]!
 }
 
+input ConnectRoomInput {
+  id: Int!
+}
+
 input ConnectTeamInput {
   id: Int!
+}
+
+input ConnectUserInput {
+  avatar: String
+  email: String
+  githubId: String
+  id: Int!
+  introduction: String
+  name: String
+  skills: [SkillInput!]
+  twitterId: String
+  userId: String
 }
 
 input CreateCategoryInput {
@@ -39,7 +55,7 @@ input CreateTeamInput {
   icon: String
   isRequired: Boolean!
   members: [CreateTeamMembersUserInput!]!
-  owner: UserInput!
+  owner: ConnectUserInput!
   recruitNumbers: Int!
   repositoryUrl: String
   skills: [SkillInput!]!
@@ -48,7 +64,13 @@ input CreateTeamInput {
 
 input CreateTeamMembersUserInput {
   team: UpdateTeamInput
-  user: UserInput!
+  user: ConnectUserInput!
+}
+
+input CreateThreadInput {
+  room: ConnectRoomInput!
+  text: String!
+  user: ConnectUserInput!
 }
 
 """
@@ -73,15 +95,18 @@ type Mutation {
   createRoom(input: CreateRoomInput!): RoomModel!
   createSkill(createSkillInput: CreateSkillInput!): SkillModel!
   createTeam(createTeamInput: CreateTeamInput!): TeamModel!
+  createThread(input: CreateThreadInput!): ThreadModel!
   deleteRoom(id: Int!): DeleteRoomResponse!
   deleteTeam(id: Int!): TeamModel!
   joinTeam(teamId: Int!, userId: Int!): TeamModel!
   leaveTeam(teamId: Int!, userId: Int!): TeamModel!
   removeCategory(id: Int!): CategoryModel!
   removeSkill(id: Int!): SkillModel!
+  removeThread(id: Int!): ThreadModel!
   updateCategory(updateCategoryInput: UpdateCategoryInput!): CategoryModel!
   updateSkill(updateSkillInput: UpdateSkillInput!): SkillModel!
   updateTeam(updateTeamInput: UpdateTeamInput!): TeamModel!
+  updateThread(input: UpdateThreadInput!): ThreadModel!
   updateUser(updateUserInput: UpdateUserInput!): UserModel!
 }
 
@@ -95,6 +120,8 @@ type Query {
   skills: [SkillModel!]!
   team(id: Int!): TeamModel!
   teams: [TeamModel!]!
+  thread(id: Int!): ThreadModel!
+  threads: [ThreadModel!]!
   user(userId: String!): UserModel!
   users: [UserModel!]!
 }
@@ -148,6 +175,14 @@ type TeamModel {
   title: String!
 }
 
+type ThreadModel {
+  createdAt: DateTime!
+  id: Int!
+  room: RoomModel!
+  text: String!
+  user: UserModel!
+}
+
 """
 `Date` type as integer. Type represents date and time as number of milliseconds from start of UNIX epoch.
 """
@@ -172,26 +207,19 @@ input UpdateTeamInput {
   id: Int!
   isRequired: Boolean
   members: [CreateTeamMembersUserInput!]
-  owner: UserInput
+  owner: ConnectUserInput
   recruitNumbers: Int
   repositoryUrl: String
   skills: [SkillInput!]
   title: String
 }
 
-input UpdateUserInput {
-  avatar: String
-  email: String
-  githubId: String
+input UpdateThreadInput {
   id: Int!
-  introduction: String
-  name: String
-  skills: [SkillInput!]
-  twitterId: String
-  userId: String
+  text: String!
 }
 
-input UserInput {
+input UpdateUserInput {
   avatar: String
   email: String
   githubId: String
