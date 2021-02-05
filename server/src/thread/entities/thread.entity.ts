@@ -1,5 +1,5 @@
-import { Room } from 'src/room/entities/room.entity';
-import { User } from 'src/users/entities/users.entity';
+import { Room } from '../../room/entities/room.entity';
+import { User } from '../../users/entities/users.entity';
 import {
   Column,
   CreateDateColumn,

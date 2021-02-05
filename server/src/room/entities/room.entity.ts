@@ -6,7 +6,7 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { Thread } from 'src/thread/entities/thread.entity';
+import { Thread } from '../../thread/entities/thread.entity';
 
 @Entity()
 export class Room {

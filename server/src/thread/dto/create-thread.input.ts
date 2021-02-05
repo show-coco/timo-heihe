@@ -1,6 +1,6 @@
 import { InputType, Field } from '@nestjs/graphql';
-import { ConnectRoomInput } from 'src/room/dto/connect-room.input';
-import { ConnectUserInput } from 'src/users/dto/connect-user.input';
+import { ConnectRoomInput } from '../../room/dto/connect-room.input';
+import { ConnectUserInput } from '../../users/dto/connect-user.input';
 
 @InputType()
 export class CreateThreadInput {

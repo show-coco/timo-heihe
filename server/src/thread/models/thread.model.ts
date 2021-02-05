@@ -1,6 +1,6 @@
 import { Field, GraphQLISODateTime, Int, ObjectType } from '@nestjs/graphql';
-import { RoomModel } from 'src/room/models/room.model';
-import { UserModel } from 'src/users/models/user.model';
+import { RoomModel } from '../../room/models/room.model';
+import { UserModel } from '../../users/models/user.model';
 
 @ObjectType()
 export class ThreadModel {
