@@ -1,19 +1,41 @@
 import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 import { CreateThreadInput } from './dto/create-thread.input';
 import { UpdateThreadInput } from './dto/update-thread.input';
+import { Thread } from './entities/thread.entity';
 
 @Injectable()
 export class ThreadService {
-  create(createThreadInput: CreateThreadInput) {
-    return 'This action adds a new thread';
-  }
+  constructor(
+    @InjectRepository(Thread) private threadRepository: Repository<Thread>,
+  ) {}
 
-  findAll() {
-    return `This action returns all thread`;
+  findAll(): Promise<Thread[]> {
+    const res = this.threadRepository
+      .createQueryBuilder('thread')
+      .leftJoinAndSelect('thread.user', 'user.id = thread.userId')
+      .leftJoinAndSelect('thread.room', 'room.id = thread.roomId')
+      .getMany();
+
+    console.log('response on thread->service->findAll', res);
+    return res;
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} thread`;
+    const res = this.threadRepository
+      .createQueryBuilder('thread')
+      .leftJoinAndSelect('thread.user', 'user.id = thread.userId')
+      .leftJoinAndSelect('thread.room', 'room.id = thread.roomId')
+      .where({ id })
+      .getOne();
+
+    console.log('response on thread->service->findOne', res);
+    return res;
+  }
+
+  create(createThreadInput: CreateThreadInput) {
+    return 'This action adds a new thread';
   }
 
   update(id: number, updateThreadInput: UpdateThreadInput) {
