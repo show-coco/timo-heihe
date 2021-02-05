@@ -74,12 +74,20 @@ type Query {
   categories: [CategoryModel!]!
   category(id: Int!): CategoryModel!
   me: UserModel!
+  room(id: Int!): RoomModel!
+  rooms: [RoomModel!]!
   skill(id: Int!): SkillModel!
   skills: [SkillModel!]!
   team(id: Int!): TeamModel!
   teams: [TeamModel!]!
   user(userId: String!): UserModel!
   users: [UserModel!]!
+}
+
+type RoomModel {
+  id: Int!
+  name: String!
+  team: TeamModel!
 }
 
 input SkillInput {

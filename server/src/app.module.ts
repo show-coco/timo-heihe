@@ -13,6 +13,8 @@ import { Category } from './category/entities/category.entity';
 import { Skill } from './skill/entities/skill.entity';
 import { TeamMembersUserModule } from './team-members-user/team-members-user.module';
 import { TeamMembersUser } from './team-members-user/entities/team-members-user.entity';
+import { RoomModule } from './room/room.module';
+import { Room } from './room/entities/room.entity';
 
 @Module({
   imports: [
@@ -20,7 +22,13 @@ import { TeamMembersUser } from './team-members-user/entities/team-members-user.
       envFilePath: '.env.dev',
     }),
     GraphQLModule.forRoot({
-      include: [UsersModule, TeamsModule, CategoryModule, SkillModule],
+      include: [
+        UsersModule,
+        TeamsModule,
+        CategoryModule,
+        SkillModule,
+        RoomModule,
+      ],
       playground: true,
       autoSchemaFile: 'schema.graphql',
       sortSchema: true,
@@ -34,7 +42,7 @@ import { TeamMembersUser } from './team-members-user/entities/team-members-user.
       username: 'timoheihe',
       password: 'postgres',
       database: 'postgres',
-      entities: [User, Team, Category, Skill, TeamMembersUser],
+      entities: [User, Team, Category, Skill, TeamMembersUser, Room],
       synchronize: true,
     }),
     AuthModule,
@@ -43,6 +51,7 @@ import { TeamMembersUser } from './team-members-user/entities/team-members-user.
     CategoryModule,
     SkillModule,
     TeamMembersUserModule,
+    RoomModule,
   ],
 })
 export class AppModule {}
