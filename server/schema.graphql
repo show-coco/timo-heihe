@@ -13,8 +13,17 @@ type CategoryModel {
   teams: [TeamModel!]!
 }
 
+input ConnectTeamInput {
+  id: Int!
+}
+
 input CreateCategoryInput {
   name: String!
+}
+
+input CreateRoomInput {
+  name: String!
+  team: ConnectTeamInput!
 }
 
 input CreateSkillInput {
@@ -57,6 +66,7 @@ enum MemberState {
 type Mutation {
   applyTeam(teamId: Int!, userId: Int!): TeamModel!
   createCategory(createCategoryInput: CreateCategoryInput!): CategoryModel!
+  createRoom(input: CreateRoomInput!): RoomModel!
   createSkill(createSkillInput: CreateSkillInput!): SkillModel!
   createTeam(createTeamInput: CreateTeamInput!): TeamModel!
   deleteTeam(id: Int!): TeamModel!
