@@ -51,6 +51,11 @@ input CreateTeamMembersUserInput {
   user: UserInput!
 }
 
+input CreateThreadInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
 """
 A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
 """
@@ -73,15 +78,18 @@ type Mutation {
   createRoom(input: CreateRoomInput!): RoomModel!
   createSkill(createSkillInput: CreateSkillInput!): SkillModel!
   createTeam(createTeamInput: CreateTeamInput!): TeamModel!
+  createThread(input: CreateThreadInput!): ThreadModel!
   deleteRoom(id: Int!): DeleteRoomResponse!
   deleteTeam(id: Int!): TeamModel!
   joinTeam(teamId: Int!, userId: Int!): TeamModel!
   leaveTeam(teamId: Int!, userId: Int!): TeamModel!
   removeCategory(id: Int!): CategoryModel!
   removeSkill(id: Int!): SkillModel!
+  removeThread(id: Int!): ThreadModel!
   updateCategory(updateCategoryInput: UpdateCategoryInput!): CategoryModel!
   updateSkill(updateSkillInput: UpdateSkillInput!): SkillModel!
   updateTeam(updateTeamInput: UpdateTeamInput!): TeamModel!
+  updateThread(input: UpdateThreadInput!): ThreadModel!
   updateUser(updateUserInput: UpdateUserInput!): UserModel!
 }
 
@@ -95,6 +103,7 @@ type Query {
   skills: [SkillModel!]!
   team(id: Int!): TeamModel!
   teams: [TeamModel!]!
+  thread(id: Int!): ThreadModel!
   user(userId: String!): UserModel!
   users: [UserModel!]!
 }
@@ -148,6 +157,14 @@ type TeamModel {
   title: String!
 }
 
+type ThreadModel {
+  createdAt: DateTime!
+  id: Int!
+  room: RoomModel!
+  text: String!
+  user: UserModel!
+}
+
 """
 `Date` type as integer. Type represents date and time as number of milliseconds from start of UNIX epoch.
 """
@@ -177,6 +194,12 @@ input UpdateTeamInput {
   repositoryUrl: String
   skills: [SkillInput!]
   title: String
+}
+
+input UpdateThreadInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
 }
 
 input UpdateUserInput {
