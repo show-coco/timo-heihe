@@ -1,8 +1,8 @@
-import { InputType, Field, PartialType, ID, Int } from '@nestjs/graphql';
-import { UserInput } from './user.input';
+import { InputType, Field, PartialType, Int } from '@nestjs/graphql';
+import { ConnectUserInput } from './connect-user.input';
 
 @InputType()
-export class UpdateUserInput extends PartialType(UserInput) {
+export class UpdateUserInput extends PartialType(ConnectUserInput) {
   @Field(() => Int)
   id: number;
 }

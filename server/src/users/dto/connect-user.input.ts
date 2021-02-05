@@ -2,7 +2,7 @@ import { Field, InputType, Int } from '@nestjs/graphql';
 import { SkillInput } from '../../skill/dto/skill.input';
 
 @InputType()
-export class UserInput {
+export class ConnectUserInput {
   @Field(() => Int)
   id: number;
 

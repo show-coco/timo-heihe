@@ -13,8 +13,24 @@ type CategoryModel {
   teams: [TeamModel!]!
 }
 
+input ConnectRoomInput {
+  id: Int!
+}
+
 input ConnectTeamInput {
   id: Int!
+}
+
+input ConnectUserInput {
+  avatar: String
+  email: String
+  githubId: String
+  id: Int!
+  introduction: String
+  name: String
+  skills: [SkillInput!]
+  twitterId: String
+  userId: String
 }
 
 input CreateCategoryInput {
@@ -39,7 +55,7 @@ input CreateTeamInput {
   icon: String
   isRequired: Boolean!
   members: [CreateTeamMembersUserInput!]!
-  owner: UserInput!
+  owner: ConnectUserInput!
   recruitNumbers: Int!
   repositoryUrl: String
   skills: [SkillInput!]!
@@ -48,12 +64,13 @@ input CreateTeamInput {
 
 input CreateTeamMembersUserInput {
   team: UpdateTeamInput
-  user: UserInput!
+  user: ConnectUserInput!
 }
 
 input CreateThreadInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
+  room: ConnectRoomInput!
+  text: String!
+  user: ConnectUserInput!
 }
 
 """
@@ -190,7 +207,7 @@ input UpdateTeamInput {
   id: Int!
   isRequired: Boolean
   members: [CreateTeamMembersUserInput!]
-  owner: UserInput
+  owner: ConnectUserInput
   recruitNumbers: Int
   repositoryUrl: String
   skills: [SkillInput!]
@@ -198,24 +215,13 @@ input UpdateTeamInput {
 }
 
 input UpdateThreadInput {
-  """Example field (placeholder)"""
-  exampleField: Int
   id: Int!
+  room: ConnectRoomInput
+  text: String
+  user: ConnectUserInput
 }
 
 input UpdateUserInput {
-  avatar: String
-  email: String
-  githubId: String
-  id: Int!
-  introduction: String
-  name: String
-  skills: [SkillInput!]
-  twitterId: String
-  userId: String
-}
-
-input UserInput {
   avatar: String
   email: String
   githubId: String

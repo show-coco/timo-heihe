@@ -1,11 +1,11 @@
 import { InputType, Field } from '@nestjs/graphql';
 import { UpdateTeamInput } from '../../teams/dto/update-team.input';
-import { UserInput } from '../../users/dto/user.input';
+import { ConnectUserInput } from '../../users/dto/connect-user.input';
 
 @InputType()
 export class CreateTeamMembersUserInput {
-  @Field(() => UserInput)
-  user: UserInput;
+  @Field(() => ConnectUserInput)
+  user: ConnectUserInput;
 
   @Field(() => UpdateTeamInput, { nullable: true })
   team: UpdateTeamInput;

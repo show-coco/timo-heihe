@@ -34,8 +34,16 @@ export class ThreadService {
     return res;
   }
 
-  create(createThreadInput: CreateThreadInput) {
-    return 'This action adds a new thread';
+  async create(createThreadInput: CreateThreadInput): Promise<Thread> {
+    const input: CreateThreadInput = JSON.parse(
+      JSON.stringify(createThreadInput),
+    );
+    console.log('paramater on thread->service->create', input);
+
+    const res = this.threadRepository.save(input);
+
+    console.log('response on thread->service->create', res);
+    return res;
   }
 
   update(id: number, updateThreadInput: UpdateThreadInput) {
