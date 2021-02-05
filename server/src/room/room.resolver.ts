@@ -7,8 +7,8 @@ import {
   ResolveField,
   Resolver,
 } from '@nestjs/graphql';
-import { TeamModel } from 'src/teams/models/team.model';
-import { TeamsService } from 'src/teams/teams.service';
+import { TeamModel } from '../teams/models/team.model';
+import { TeamsService } from '../teams/teams.service';
 import { CreateRoomInput } from './dto/create-room.input';
 import { Room } from './entities/room.entity';
 import { DeleteRoomResponse } from './models/delete-room';
