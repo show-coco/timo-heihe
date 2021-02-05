@@ -11,6 +11,7 @@ import { TeamModel } from 'src/teams/models/team.model';
 import { TeamsService } from 'src/teams/teams.service';
 import { CreateRoomInput } from './dto/create-room.input';
 import { Room } from './entities/room.entity';
+import { DeleteRoomResponse } from './models/delete-room';
 import { RoomModel } from './models/room.model';
 import { RoomService } from './room.service';
 
@@ -33,7 +34,12 @@ export class RoomResolver {
 
   @Mutation(() => RoomModel)
   createRoom(@Args('input') input: CreateRoomInput) {
-    return this.roomService.insert(input);
+    return this.roomService.create(input);
+  }
+
+  @Mutation(() => DeleteRoomResponse)
+  deleteRoom(@Args('id', { type: () => Int }) id: number) {
+    return this.roomService.delete(id);
   }
 
   @ResolveField(() => TeamModel)

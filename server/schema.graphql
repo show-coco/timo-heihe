@@ -56,6 +56,10 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 """
 scalar DateTime
 
+type DeleteRoomResponse {
+  affected: Int
+}
+
 enum MemberState {
   EJECTED
   JOINING
@@ -69,6 +73,7 @@ type Mutation {
   createRoom(input: CreateRoomInput!): RoomModel!
   createSkill(createSkillInput: CreateSkillInput!): SkillModel!
   createTeam(createTeamInput: CreateTeamInput!): TeamModel!
+  deleteRoom(id: Int!): DeleteRoomResponse!
   deleteTeam(id: Int!): TeamModel!
   joinTeam(teamId: Int!, userId: Int!): TeamModel!
   leaveTeam(teamId: Int!, userId: Int!): TeamModel!

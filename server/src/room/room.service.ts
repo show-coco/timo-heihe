@@ -31,13 +31,20 @@ export class RoomService {
     return res;
   }
 
-  async insert(createRoomInput: CreateRoomInput): Promise<Room> {
+  async create(createRoomInput: CreateRoomInput): Promise<Room> {
     const input: CreateRoomInput = JSON.parse(JSON.stringify(createRoomInput));
-    console.log('paramater on room->service->insert', input);
+    console.log('paramater on room->service->create', input);
 
     const res = await this.roomRepository.save(input);
 
-    console.log('response on room->service->insert', res);
+    console.log('response on room->service->create', res);
+    return res;
+  }
+
+  async delete(id: number): Promise<{ affected?: number }> {
+    const res = await this.roomRepository.delete({ id });
+
+    console.log('response on room->service->delete', res);
     return res;
   }
 }
