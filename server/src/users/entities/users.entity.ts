@@ -10,6 +10,7 @@ import {
 } from 'typeorm';
 import { TeamMembersUser } from '../../team-members-user/entities/team-members-user.entity';
 import { Thread } from '../../thread/entities/thread.entity';
+import { Message } from 'src/message/entities/message.entity';
 
 @Entity()
 export class User {
@@ -54,4 +55,7 @@ export class User {
 
   @OneToMany(() => Thread, (thread) => thread.user, { nullable: true })
   threads?: Thread[];
+
+  @OneToMany(() => Message, (message) => message.user, { nullable: true })
+  messages?: Message[];
 }

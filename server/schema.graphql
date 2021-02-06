@@ -37,6 +37,11 @@ input CreateCategoryInput {
   name: String!
 }
 
+input CreateMessageInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
 input CreateRoomInput {
   name: String!
   team: ConnectTeamInput!
@@ -89,9 +94,18 @@ enum MemberState {
   PENDING
 }
 
+type MessageModel {
+  createdAt: DateTime!
+  id: Int!
+  text: String!
+  thread: ThreadModel!
+  user: UserModel!
+}
+
 type Mutation {
   applyTeam(teamId: Int!, userId: Int!): TeamModel!
   createCategory(createCategoryInput: CreateCategoryInput!): CategoryModel!
+  createMessage(createMessageInput: CreateMessageInput!): MessageModel!
   createRoom(input: CreateRoomInput!): RoomModel!
   createSkill(createSkillInput: CreateSkillInput!): SkillModel!
   createTeam(createTeamInput: CreateTeamInput!): TeamModel!
@@ -101,9 +115,11 @@ type Mutation {
   joinTeam(teamId: Int!, userId: Int!): TeamModel!
   leaveTeam(teamId: Int!, userId: Int!): TeamModel!
   removeCategory(id: Int!): CategoryModel!
+  removeMessage(id: Int!): MessageModel!
   removeSkill(id: Int!): SkillModel!
   removeThread(id: Int!): ThreadModel!
   updateCategory(updateCategoryInput: UpdateCategoryInput!): CategoryModel!
+  updateMessage(updateMessageInput: UpdateMessageInput!): MessageModel!
   updateSkill(updateSkillInput: UpdateSkillInput!): SkillModel!
   updateTeam(updateTeamInput: UpdateTeamInput!): TeamModel!
   updateThread(input: UpdateThreadInput!): ThreadModel!
@@ -114,6 +130,7 @@ type Query {
   categories: [CategoryModel!]!
   category(id: Int!): CategoryModel!
   me: UserModel!
+  message(id: Int!): MessageModel!
   room(id: Int!): RoomModel!
   rooms: [RoomModel!]!
   skill(id: Int!): SkillModel!
@@ -191,6 +208,12 @@ scalar Timestamp
 input UpdateCategoryInput {
   id: Int!
   name: String
+}
+
+input UpdateMessageInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
 }
 
 input UpdateSkillInput {
