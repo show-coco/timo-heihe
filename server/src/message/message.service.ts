@@ -11,8 +11,8 @@ export class MessageService {
     @InjectRepository(Message) private messageRepository: Repository<Message>,
   ) {}
 
-  findOne(id: number): Promise<Message> {
-    const res = this.messageRepository
+  async findOne(id: number): Promise<Message> {
+    const res = await this.messageRepository
       .createQueryBuilder('message')
       .leftJoinAndSelect('message.thread', 'thread.id = message.threadId')
       .leftJoinAndSelect('message.user', 'user.id = message.userId')
@@ -23,8 +23,8 @@ export class MessageService {
     return res;
   }
 
-  findAll() {
-    const res = this.messageRepository
+  async findAll() {
+    const res = await this.messageRepository
       .createQueryBuilder('message')
       .leftJoinAndSelect('message.thread', 'thread.id = message.threadId')
       .leftJoinAndSelect('message.user', 'user.id = message.userId')
@@ -34,8 +34,16 @@ export class MessageService {
     return res;
   }
 
-  create(createMessageInput: CreateMessageInput) {
-    return 'This action adds a new message';
+  async create(createMessageInput: CreateMessageInput) {
+    const input: CreateMessageInput = JSON.parse(
+      JSON.stringify(createMessageInput),
+    );
+    console.log('paramater on message->service->create', input);
+
+    const res = await this.messageRepository.save(input);
+
+    console.log('response on message->service->create', res);
+    return res;
   }
 
   update(id: number, updateMessageInput: UpdateMessageInput) {

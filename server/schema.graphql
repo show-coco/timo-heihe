@@ -21,6 +21,10 @@ input ConnectTeamInput {
   id: Int!
 }
 
+input ConnectThreadInput {
+  id: Int!
+}
+
 input ConnectUserInput {
   avatar: String
   email: String
@@ -38,8 +42,9 @@ input CreateCategoryInput {
 }
 
 input CreateMessageInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
+  text: String!
+  thread: ConnectThreadInput!
+  user: ConnectUserInput!
 }
 
 input CreateRoomInput {
@@ -105,7 +110,7 @@ type MessageModel {
 type Mutation {
   applyTeam(teamId: Int!, userId: Int!): TeamModel!
   createCategory(createCategoryInput: CreateCategoryInput!): CategoryModel!
-  createMessage(createMessageInput: CreateMessageInput!): MessageModel!
+  createMessage(input: CreateMessageInput!): MessageModel!
   createRoom(input: CreateRoomInput!): RoomModel!
   createSkill(createSkillInput: CreateSkillInput!): SkillModel!
   createTeam(createTeamInput: CreateTeamInput!): TeamModel!
@@ -119,7 +124,7 @@ type Mutation {
   removeSkill(id: Int!): SkillModel!
   removeThread(id: Int!): ThreadModel!
   updateCategory(updateCategoryInput: UpdateCategoryInput!): CategoryModel!
-  updateMessage(updateMessageInput: UpdateMessageInput!): MessageModel!
+  updateMessage(input: UpdateMessageInput!): MessageModel!
   updateSkill(updateSkillInput: UpdateSkillInput!): SkillModel!
   updateTeam(updateTeamInput: UpdateTeamInput!): TeamModel!
   updateThread(input: UpdateThreadInput!): ThreadModel!
@@ -212,9 +217,10 @@ input UpdateCategoryInput {
 }
 
 input UpdateMessageInput {
-  """Example field (placeholder)"""
-  exampleField: Int
   id: Int!
+  text: String
+  thread: ConnectThreadInput
+  user: ConnectUserInput
 }
 
 input UpdateSkillInput {

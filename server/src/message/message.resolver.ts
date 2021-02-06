@@ -19,16 +19,12 @@ export class MessageResolver {
   }
 
   @Mutation(() => MessageModel)
-  createMessage(
-    @Args('createMessageInput') createMessageInput: CreateMessageInput,
-  ) {
+  createMessage(@Args('input') createMessageInput: CreateMessageInput) {
     return this.messageService.create(createMessageInput);
   }
 
   @Mutation(() => MessageModel)
-  updateMessage(
-    @Args('updateMessageInput') updateMessageInput: UpdateMessageInput,
-  ) {
+  updateMessage(@Args('input') updateMessageInput: UpdateMessageInput) {
     return this.messageService.update(
       updateMessageInput.id,
       updateMessageInput,
