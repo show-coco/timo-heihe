@@ -25,10 +25,7 @@ export class MessageResolver {
 
   @Mutation(() => MessageModel)
   updateMessage(@Args('input') updateMessageInput: UpdateMessageInput) {
-    return this.messageService.update(
-      updateMessageInput.id,
-      updateMessageInput,
-    );
+    return this.messageService.update(updateMessageInput);
   }
 
   @Mutation(() => MessageModel)

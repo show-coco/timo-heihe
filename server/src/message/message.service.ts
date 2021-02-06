@@ -46,8 +46,16 @@ export class MessageService {
     return res;
   }
 
-  update(id: number, updateMessageInput: UpdateMessageInput) {
-    return `This action updates a #${id} message`;
+  async update(updateMessageInput: UpdateMessageInput) {
+    const input: UpdateMessageInput = JSON.parse(
+      JSON.stringify(updateMessageInput),
+    );
+    console.log('paramater on message->service->update', input);
+
+    const res = await this.messageRepository.save(input);
+
+    console.log('response on message->service->update', res);
+    return res;
   }
 
   remove(id: number) {
