@@ -58,7 +58,10 @@ export class MessageService {
     return res;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} message`;
+  async remove(id: number): Promise<{ affected?: number }> {
+    const res = await this.messageRepository.delete({ id });
+
+    console.log('response on message->service->remove');
+    return res;
   }
 }

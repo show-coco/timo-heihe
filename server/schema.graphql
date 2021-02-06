@@ -88,7 +88,7 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 """
 scalar DateTime
 
-type DeleteRoomResponse {
+type DeleteResponse {
   affected: Int
 }
 
@@ -115,12 +115,12 @@ type Mutation {
   createSkill(createSkillInput: CreateSkillInput!): SkillModel!
   createTeam(createTeamInput: CreateTeamInput!): TeamModel!
   createThread(input: CreateThreadInput!): ThreadModel!
-  deleteRoom(id: Int!): DeleteRoomResponse!
+  deleteRoom(id: Int!): DeleteResponse!
   deleteTeam(id: Int!): TeamModel!
   joinTeam(teamId: Int!, userId: Int!): TeamModel!
   leaveTeam(teamId: Int!, userId: Int!): TeamModel!
   removeCategory(id: Int!): CategoryModel!
-  removeMessage(id: Int!): MessageModel!
+  removeMessage(id: Int!): DeleteResponse!
   removeSkill(id: Int!): SkillModel!
   removeThread(id: Int!): ThreadModel!
   updateCategory(updateCategoryInput: UpdateCategoryInput!): CategoryModel!
