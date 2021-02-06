@@ -131,6 +131,7 @@ type Query {
   category(id: Int!): CategoryModel!
   me: UserModel!
   message(id: Int!): MessageModel!
+  messages: [MessageModel!]!
   room(id: Int!): RoomModel!
   rooms: [RoomModel!]!
   skill(id: Int!): SkillModel!

@@ -8,21 +8,21 @@ import { MessageModel } from './models/message.model';
 export class MessageResolver {
   constructor(private readonly messageService: MessageService) {}
 
+  @Query(() => MessageModel)
+  message(@Args('id', { type: () => Int }) id: number) {
+    return this.messageService.findOne(id);
+  }
+
+  @Query(() => [MessageModel])
+  messages() {
+    return this.messageService.findAll();
+  }
+
   @Mutation(() => MessageModel)
   createMessage(
     @Args('createMessageInput') createMessageInput: CreateMessageInput,
   ) {
     return this.messageService.create(createMessageInput);
-  }
-
-  @Query(() => [MessageModel], { name: 'message' })
-  findAll() {
-    return this.messageService.findAll();
-  }
-
-  @Query(() => MessageModel, { name: 'message' })
-  findOne(@Args('id', { type: () => Int }) id: number) {
-    return this.messageService.findOne(id);
   }
 
   @Mutation(() => MessageModel)
