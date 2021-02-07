@@ -1,0 +1,6 @@
+fragment RoomItem on UserMemberModel {
+  rooms {
+    id
+    name
+  }
+}
