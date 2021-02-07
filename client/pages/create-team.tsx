@@ -43,7 +43,7 @@ export default function CreateTeam() {
   console.log("selectedSkills", selectedSkills);
 
   return (
-    <Template>
+    <Template className="p-10">
       <Card className="p-8">
         <form onSubmit={onSubmit}>
           <div className="space-y-10">

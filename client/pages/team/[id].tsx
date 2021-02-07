@@ -37,7 +37,7 @@ export default function ShowTeam() {
   if (!team) return <p>データがありません</p>;
 
   return (
-    <Template>
+    <Template className="p-10">
       <Card className="p-8">
         <SimpleDialog
           isOpen={dialogState.joinTeamDialogIsOpened}

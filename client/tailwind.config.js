@@ -30,6 +30,9 @@ module.exports = {
       width: {
         "620px": "620px",
       },
+      gridTemplateColumns: {
+        chat: "80px 240px auto",
+      },
     },
     fontFamily: {
       sans: [

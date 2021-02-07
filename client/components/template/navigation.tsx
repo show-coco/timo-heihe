@@ -34,7 +34,7 @@ export const Navigation: React.FC = () => {
 
         <div className="flex items-center">
           <ChatIcon class="w-5 h-5 fill-current mr-3" />
-          <Link href="#">
+          <Link href="/chat">
             <span className={textStyle} role="button">
               チームチャット
             </span>
