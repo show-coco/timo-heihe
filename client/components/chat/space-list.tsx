@@ -4,7 +4,6 @@ import { Avatar } from "../avatar/avatar";
 
 type Props = {
   teams?: SpaceItemFragment[];
-  // eslint-disable-next-line no-unused-vars
   setSelectedSpace: React.Dispatch<React.SetStateAction<number>>;
 };
 

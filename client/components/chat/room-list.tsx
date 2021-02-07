@@ -6,7 +6,12 @@ type Props = {
 };
 
 export const RoomList: React.FC<Props> = ({ rooms }: Props) => {
-  console.log("rooms", rooms);
+  const roomDoesntExists = rooms?.length === 0;
+
+  if (roomDoesntExists) {
+    return <p className="text-center mt-2">ルームが存在しません</p>;
+  }
+
   return (
     <div className="flex-1">
       {rooms?.map((room) => (
