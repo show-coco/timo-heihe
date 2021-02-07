@@ -54,20 +54,23 @@ export class UsersService {
       .where({ userId })
       .getOne();
 
-    // console.log('response on users->service->findOne', res.teams);
+    console.log('response on users->service->findOne', res.teams);
 
     return res;
   }
 
   async findAll(): Promise<User[]> {
-    return this.userRepository
+    const res = await this.userRepository
       .createQueryBuilder('user')
       .leftJoinAndSelect('user.skills', 'skills')
       .leftJoinAndSelect('user.teams', 'teams')
       .leftJoinAndSelect('teams.team', 'team')
       .leftJoinAndSelect('team.owner', 'owner')
-      .leftJoinAndSelect('team.skills', 'skills')
+      .leftJoinAndSelect('team.skills', 'teamSkills')
       .getMany();
+
+    console.log('response on user->service->findAll', res);
+    return res;
   }
 
   async save(user: User): Promise<User> {

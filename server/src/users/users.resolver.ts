@@ -17,7 +17,7 @@ import { SkillModel } from '../skill/models/skill.model';
 import { SkillService } from '../skill/skill.service';
 import { TeamsService } from '../teams/teams.service';
 import { UpdateUserInput } from './dto/update-user.input';
-import { TeamMemberModel } from '../team-members-user/models/team-member.model';
+import { UserMemberModel } from 'src/team-members-user/models/user-member-model';
 
 @Resolver(() => UserModel)
 export class UsersResolver {
@@ -55,9 +55,15 @@ export class UsersResolver {
     });
   }
 
-  @ResolveField(() => [TeamMemberModel])
+  @ResolveField(() => [UserMemberModel])
   teams(@Parent() user: User) {
-    // console.log('request on users->resolver->teams', user);
+    console.log('request on users->resolver->teams', user);
+
+    const userDontHaveTeam = user.teams.find((team) => team.team === null);
+
+    if (userDontHaveTeam) {
+      return null;
+    }
 
     return user.teams.map((team) => {
       return {
