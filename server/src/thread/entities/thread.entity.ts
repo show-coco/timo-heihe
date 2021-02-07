@@ -5,8 +5,10 @@ import {
   CreateDateColumn,
   Entity,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
+import { Message } from 'src/message/entities/message.entity';
 
 @Entity()
 export class Thread {
@@ -24,4 +26,7 @@ export class Thread {
 
   @ManyToOne(() => User, (user) => user.threads)
   user: User;
+
+  @OneToMany(() => Message, (message) => message.thread, { nullable: true })
+  messages?: Message[];
 }

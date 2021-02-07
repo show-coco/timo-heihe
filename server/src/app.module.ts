@@ -16,7 +16,9 @@ import { TeamMembersUser } from './team-members-user/entities/team-members-user.
 import { Room } from './room/entities/room.entity';
 import { ThreadModule } from './thread/thread.module';
 import { RoomModule } from './room/room.module';
+import { MessageModule } from './message/message.module';
 import { Thread } from './thread/entities/thread.entity';
+import { Message } from './message/entities/message.entity';
 
 @Module({
   imports: [
@@ -31,6 +33,7 @@ import { Thread } from './thread/entities/thread.entity';
         SkillModule,
         RoomModule,
         ThreadModule,
+        MessageModule,
       ],
       playground: true,
       autoSchemaFile: 'schema.graphql',
@@ -45,7 +48,16 @@ import { Thread } from './thread/entities/thread.entity';
       username: 'timoheihe',
       password: 'postgres',
       database: 'postgres',
-      entities: [User, Team, Category, Skill, TeamMembersUser, Room, Thread],
+      entities: [
+        User,
+        Team,
+        Category,
+        Skill,
+        TeamMembersUser,
+        Room,
+        Thread,
+        Message,
+      ],
       synchronize: true,
     }),
     AuthModule,
@@ -56,6 +68,7 @@ import { Thread } from './thread/entities/thread.entity';
     TeamMembersUserModule,
     RoomModule,
     ThreadModule,
+    MessageModule,
   ],
 })
 export class AppModule {}
