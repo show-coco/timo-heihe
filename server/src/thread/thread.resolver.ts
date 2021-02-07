@@ -52,8 +52,11 @@ export class ThreadResolver {
     return this.threadService.remove(id);
   }
 
-  @Subscription(() => ThreadModel)
-  threadAdded() {
+  @Subscription(() => ThreadModel, {
+    filter: (payload, variables) =>
+      payload.threadAdded.room.id === variables.roomId,
+  })
+  threadAdded(@Args('roomId', { type: () => Int }) roomId: number) {
     const addedThread = this.pubSub.asyncIterator(
       subscriptionKeys.THREAD_ADDED,
     );
