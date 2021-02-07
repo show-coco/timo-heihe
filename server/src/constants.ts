@@ -4,4 +4,5 @@ export const provideKeys = {
 
 export const subscriptionKeys = {
   THREAD_ADDED: 'THREAD ADDED',
+  MESSAGE_ADDED: 'MESSAGE ADDED',
 };

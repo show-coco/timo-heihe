@@ -32,8 +32,8 @@ export class ThreadResolver {
   }
 
   @Mutation(() => ThreadModel)
-  createThread(@Args('input') createThreadInput: CreateThreadInput) {
-    const newThread = this.threadService.create(createThreadInput);
+  async createThread(@Args('input') createThreadInput: CreateThreadInput) {
+    const newThread = await this.threadService.create(createThreadInput);
     this.pubSub.publish(subscriptionKeys.THREAD_ADDED, {
       threadAdded: newThread,
     });
@@ -54,9 +54,11 @@ export class ThreadResolver {
 
   @Subscription(() => ThreadModel)
   threadAdded() {
-    const res = this.pubSub.asyncIterator(subscriptionKeys.THREAD_ADDED);
+    const addedThread = this.pubSub.asyncIterator(
+      subscriptionKeys.THREAD_ADDED,
+    );
 
-    console.log('response on thread->resolver->threadAdded', res);
-    return res;
+    console.log('response on thread->resolver->threadAdded', addedThread);
+    return addedThread;
   }
 }

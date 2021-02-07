@@ -168,6 +168,7 @@ type SkillModel {
 }
 
 type Subscription {
+  messageAdded: MessageModel!
   threadAdded: ThreadModel!
 }
 
