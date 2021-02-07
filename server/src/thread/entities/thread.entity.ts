@@ -8,7 +8,7 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { Message } from 'src/message/entities/message.entity';
+import { Message } from '../../message/entities/message.entity';
 
 @Entity()
 export class Thread {

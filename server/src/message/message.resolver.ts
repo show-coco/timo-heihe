@@ -10,8 +10,8 @@ import { MessageService } from './message.service';
 import { CreateMessageInput } from './dto/create-message.input';
 import { UpdateMessageInput } from './dto/update-message.input';
 import { MessageModel } from './models/message.model';
-import { DeleteResponse } from 'src/room/models/delete-room';
-import { provideKeys, subscriptionKeys } from 'src/constants';
+import { DeleteResponse } from '../room/models/delete-room';
+import { provideKeys, subscriptionKeys } from '../constants';
 import { PubSubEngine } from 'apollo-server-express';
 import { Inject } from '@nestjs/common';
 

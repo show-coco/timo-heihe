@@ -10,7 +10,7 @@ import {
 } from 'typeorm';
 import { TeamMembersUser } from '../../team-members-user/entities/team-members-user.entity';
 import { Thread } from '../../thread/entities/thread.entity';
-import { Message } from 'src/message/entities/message.entity';
+import { Message } from '../../message/entities/message.entity';
 
 @Entity()
 export class User {

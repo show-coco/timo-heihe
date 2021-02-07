@@ -3,7 +3,7 @@ import { MessageService } from './message.service';
 import { MessageResolver } from './message.resolver';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Message } from './entities/message.entity';
-import { provideKeys } from 'src/constants';
+import { provideKeys } from '../constants';
 import { PubSub } from 'apollo-server-express';
 
 @Module({
