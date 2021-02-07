@@ -289,9 +289,9 @@ type UserModel {
   id: Int!
   introduction: String
   name: String!
-  ownerTeams: [TeamModel!]!
-  skills: [SkillModel!]!
-  teams: [UserMemberModel!]!
+  ownerTeams: [TeamModel!]
+  skills: [SkillModel!]
+  teams: [UserMemberModel!]
   twitterId: String
   userId: String!
 }

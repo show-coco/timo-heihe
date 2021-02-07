@@ -29,12 +29,12 @@ export class UserModel {
   @Field({ nullable: true })
   twitterId: string;
 
-  @Field(() => [TeamModel])
+  @Field(() => [TeamModel], { nullable: true })
   ownerTeams: TeamModel[];
 
-  @Field(() => [UserMemberModel])
+  @Field(() => [UserMemberModel], { nullable: true })
   teams: UserMemberModel[];
 
-  @Field(() => [SkillModel])
+  @Field(() => [SkillModel], { nullable: true })
   skills: SkillModel[];
 }
