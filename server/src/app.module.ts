@@ -38,7 +38,7 @@ import { Message } from './message/entities/message.entity';
       playground: true,
       autoSchemaFile: 'schema.graphql',
       sortSchema: true,
-      context: ({ req }) => ({ headers: req.headers }),
+      context: ({ req }) => ({ headers: req && req.headers }),
       installSubscriptionHandlers: true,
     }),
     TypeOrmModule.forRoot({
