@@ -1,5 +1,5 @@
-import { Thread } from 'src/thread/entities/thread.entity';
-import { User } from 'src/users/entities/users.entity';
+import { Thread } from '../../thread/entities/thread.entity';
+import { User } from '../../users/entities/users.entity';
 import {
   Column,
   CreateDateColumn,

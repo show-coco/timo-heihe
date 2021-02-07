@@ -167,6 +167,11 @@ type SkillModel {
   name: String!
 }
 
+type Subscription {
+  messageAdded(roomId: Int!): MessageModel!
+  threadAdded(roomId: Int!): ThreadModel!
+}
+
 type TeamMemberModel {
   avatar: String
   createdAt: DateTime!
