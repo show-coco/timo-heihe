@@ -12,7 +12,7 @@ import { UpdateThreadInput } from './dto/update-thread.input';
 import { ThreadModel } from './models/thread.model';
 import { Inject } from '@nestjs/common';
 import { PubSubEngine } from 'apollo-server-express';
-import { provideKeys, subscriptionKeys } from './constants';
+import { provideKeys, subscriptionKeys } from '../constants';
 
 @Resolver(() => ThreadModel)
 export class ThreadResolver {
