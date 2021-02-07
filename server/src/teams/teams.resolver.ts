@@ -5,6 +5,7 @@ import {
   Mutation,
   Parent,
   Query,
+  ResolveField,
   ResolveProperty,
   Resolver,
 } from '@nestjs/graphql';
@@ -18,6 +19,7 @@ import { UpdateTeamInput } from './dto/update-team.input';
 import { Team } from './entities/teams.entity';
 import { TeamModel } from './models/team.model';
 import { TeamsService } from './teams.service';
+import { RoomModel } from 'src/room/models/room.model';
 
 @Resolver(() => TeamModel)
 export class TeamsResolver {
@@ -108,5 +110,10 @@ export class TeamsResolver {
     return await team.categories.map(async (category) => {
       return await this.categoryService.findOne(category.id);
     });
+  }
+
+  @ResolveField(() => RoomModel)
+  async rooms(@Parent() team: Team) {
+    console.log('request on teams->resolver->rooms', team);
   }
 }

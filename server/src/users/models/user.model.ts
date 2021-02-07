@@ -2,6 +2,7 @@ import { Field, Int, ObjectType } from '@nestjs/graphql';
 import { UserMemberModel } from '../../team-members-user/models/user-member-model';
 import { SkillModel } from '../../skill/models/skill.model';
 import { TeamModel } from '../../teams/models/team.model';
+import { RoomModel } from 'src/room/models/room.model';
 
 @ObjectType()
 export class UserModel {
@@ -37,4 +38,7 @@ export class UserModel {
 
   @Field(() => [SkillModel], { nullable: true })
   skills: SkillModel[];
+
+  @Field(() => [RoomModel], { nullable: true })
+  rooms: RoomModel[];
 }

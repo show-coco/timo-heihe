@@ -65,11 +65,13 @@ export class UsersResolver {
       return null;
     }
 
-    return user.teams.map((team) => {
+    return user.teams.map(async (team) => {
+      const returns = await this.teamsService.findOne(team.team.id);
+      console.log('hello', returns);
       return {
         createdAt: team.createdAt,
         memberState: team.memberState,
-        ...team.team,
+        ...returns,
       };
     });
   }

@@ -153,6 +153,7 @@ type RoomModel {
   id: Int!
   name: String!
   team: TeamModel!
+  user: UserModel!
 }
 
 input SkillInput {
@@ -199,6 +200,7 @@ type TeamModel {
   owner: UserModel!
   recruitNumbers: Int!
   repositoryUrl: String
+  rooms: [RoomModel!]
   skills: [SkillModel!]
   title: String!
 }
@@ -278,6 +280,7 @@ type UserMemberModel {
   owner: UserModel!
   recruitNumbers: Int!
   repositoryUrl: String
+  rooms: [RoomModel!]
   skills: [SkillModel!]
   title: String!
 }
@@ -290,6 +293,7 @@ type UserModel {
   introduction: String
   name: String!
   ownerTeams: [TeamModel!]
+  rooms: [RoomModel!]
   skills: [SkillModel!]
   teams: [UserMemberModel!]
   twitterId: String

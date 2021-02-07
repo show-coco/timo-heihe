@@ -3,6 +3,7 @@ import { TeamMemberModel } from '../../team-members-user/models/team-member.mode
 import { CategoryModel } from '../../category/models/category.model';
 import { SkillModel } from '../../skill/models/skill.model';
 import { UserModel } from '../../users/models/user.model';
+import { RoomModel } from 'src/room/models/room.model';
 
 @ObjectType()
 export class TeamModel {
@@ -41,4 +42,7 @@ export class TeamModel {
 
   @Field(() => GraphQLISODateTime, { nullable: true })
   createdAt?: Date;
+
+  @Field(() => [RoomModel], { nullable: true })
+  rooms: RoomModel[];
 }

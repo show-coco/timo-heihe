@@ -1,4 +1,5 @@
 import { Field, GraphQLISODateTime, Int, ObjectType } from '@nestjs/graphql';
+import { RoomModel } from 'src/room/models/room.model';
 import { CategoryModel } from '../../category/models/category.model';
 import { SkillModel } from '../../skill/models/skill.model';
 import { UserModel } from '../../users/models/user.model';
@@ -45,4 +46,7 @@ export class UserMemberModel {
 
   @Field(() => MemberState)
   memberState: MemberState;
+
+  @Field(() => [RoomModel], { nullable: true })
+  rooms: RoomModel[];
 }
