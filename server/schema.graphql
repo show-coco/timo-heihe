@@ -168,7 +168,7 @@ type SkillModel {
 }
 
 type Subscription {
-  messageAdded: MessageModel!
+  messageAdded(roomId: Int!): MessageModel!
   threadAdded(roomId: Int!): ThreadModel!
 }
 

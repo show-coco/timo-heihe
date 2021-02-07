@@ -53,8 +53,11 @@ export class MessageResolver {
     return this.messageService.remove(id);
   }
 
-  @Subscription(() => MessageModel)
-  messageAdded() {
+  @Subscription(() => MessageModel, {
+    filter: (payload, variables) =>
+      payload.messageAdded.thread.room.id === variables.roomId,
+  })
+  messageAdded(@Args('roomId', { type: () => Int }) roomId: number) {
     const addedMessage = this.pubSub.asyncIterator(
       subscriptionKeys.MESSAGE_ADDED,
     );

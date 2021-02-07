@@ -40,7 +40,17 @@ export class MessageService {
     );
     console.log('paramater on message->service->create', input);
 
-    const res = await this.messageRepository.save(input);
+    const returns = await this.messageRepository.save(input);
+    const res = await this.messageRepository
+      .createQueryBuilder('message')
+      .leftJoinAndSelect(
+        'message.thread',
+        'thread',
+        'thread.id = message.threadId',
+      )
+      .leftJoinAndSelect('thread.room', 'room', 'room.id = thread.roomId')
+      .where({ id: returns.id })
+      .getOne();
 
     console.log('response on message->service->create', res);
     return res;
