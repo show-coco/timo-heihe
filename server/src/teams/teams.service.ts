@@ -39,7 +39,7 @@ export class TeamsService {
       .leftJoinAndSelect('team.categories', 'categories')
       .leftJoinAndSelect('team.owner', 'owner')
       .leftJoinAndSelect('team.skills', 'skills')
-      .leftJoinAndSelect('team.room', 'room.teamId = team.id')
+      .leftJoinAndSelect('team.rooms', 'rooms.teamId = team.id')
       .getMany();
 
     console.log('res on teams->service->findAll', res);
