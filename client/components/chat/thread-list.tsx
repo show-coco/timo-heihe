@@ -1,5 +1,6 @@
 import React from "react";
 import { useThreadListQuery } from "../../generated/types";
+import { ChatItem } from "./chat-item";
 
 type Props = {
   roomId: number;
@@ -32,9 +33,9 @@ export const ThreadList: React.FC<Props> = ({ roomId }: Props) => {
     );
 
   return (
-    <div className="flex-1">
+    <div className="flex-1 overflow-hidden">
       {data.threads.map((thread) => (
-        <div key={thread.id}>{thread.text}</div>
+        <ChatItem item={thread} key={thread.id} />
       ))}
     </div>
   );

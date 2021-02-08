@@ -1,0 +1,13 @@
+fragment ChatItem on ThreadModel {
+  id
+  text
+  room {
+    id
+  }
+  user {
+    id
+    name
+    avatar
+  }
+  createdAt
+}
