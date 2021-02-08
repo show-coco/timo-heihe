@@ -11,11 +11,12 @@ export class ThreadService {
     @InjectRepository(Thread) private threadRepository: Repository<Thread>,
   ) {}
 
-  findAll(): Promise<Thread[]> {
+  findAll(roomId: number): Promise<Thread[]> {
     const res = this.threadRepository
       .createQueryBuilder('thread')
       .leftJoinAndSelect('thread.user', 'user.id = thread.userId')
       .leftJoinAndSelect('thread.room', 'room.id = thread.roomId')
+      .where({ room: { id: roomId } })
       .getMany();
 
     console.log('response on thread->service->findAll', res);

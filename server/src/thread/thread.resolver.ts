@@ -27,8 +27,8 @@ export class ThreadResolver {
   }
 
   @Query(() => [ThreadModel])
-  threads() {
-    return this.threadService.findAll();
+  threads(@Args('roomId', { type: () => Int }) roomId: number) {
+    return this.threadService.findAll(roomId);
   }
 
   @Mutation(() => ThreadModel)

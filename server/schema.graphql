@@ -144,7 +144,7 @@ type Query {
   team(id: Int!): TeamModel!
   teams: [TeamModel!]!
   thread(id: Int!): ThreadModel!
-  threads: [ThreadModel!]!
+  threads(roomId: Int!): [ThreadModel!]!
   user(userId: String!): UserModel!
   users: [UserModel!]!
 }
@@ -153,6 +153,7 @@ type RoomModel {
   id: Int!
   name: String!
   team: TeamModel!
+  threads: [ThreadModel!]!
   user: UserModel!
 }
 

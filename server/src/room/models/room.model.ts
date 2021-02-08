@@ -1,4 +1,5 @@
 import { Field, Int, ObjectType } from '@nestjs/graphql';
+import { ThreadModel } from 'src/thread/models/thread.model';
 import { UserModel } from 'src/users/models/user.model';
 import { TeamModel } from '../../teams/models/team.model';
 
@@ -15,4 +16,7 @@ export class RoomModel {
 
   @Field(() => UserModel)
   user: UserModel;
+
+  @Field(() => [ThreadModel])
+  threads: ThreadModel[];
 }
