@@ -1,9 +1,13 @@
-import { gql } from '@apollo/client';
-import * as Apollo from '@apollo/client';
+import { gql } from "@apollo/client";
+import * as Apollo from "@apollo/client";
 export type Maybe<T> = T | null;
-export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
-export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
-export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
+export type Exact<T extends { [key: string]: unknown }> = {
+  [K in keyof T]: T[K];
+};
+export type MakeOptional<T, K extends keyof T> = Omit<T, K> &
+  { [SubKey in K]?: Maybe<T[SubKey]> };
+export type MakeMaybe<T, K extends keyof T> = Omit<T, K> &
+  { [SubKey in K]: Maybe<T[SubKey]> };
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: string;
@@ -18,74 +22,74 @@ export type Scalars = {
 };
 
 export type CategoryInput = {
-  id: Scalars['Int'];
-  name?: Maybe<Scalars['String']>;
+  id: Scalars["Int"];
+  name?: Maybe<Scalars["String"]>;
 };
 
 export type CategoryModel = {
-  __typename?: 'CategoryModel';
-  id?: Maybe<Scalars['Int']>;
-  name: Scalars['String'];
+  __typename?: "CategoryModel";
+  id?: Maybe<Scalars["Int"]>;
+  name: Scalars["String"];
   teams: Array<TeamModel>;
 };
 
 export type ConnectRoomInput = {
-  id: Scalars['Int'];
+  id: Scalars["Int"];
 };
 
 export type ConnectTeamInput = {
-  id: Scalars['Int'];
+  id: Scalars["Int"];
 };
 
 export type ConnectThreadInput = {
-  id: Scalars['Int'];
+  id: Scalars["Int"];
 };
 
 export type ConnectUserInput = {
-  avatar?: Maybe<Scalars['String']>;
-  email?: Maybe<Scalars['String']>;
-  githubId?: Maybe<Scalars['String']>;
-  id: Scalars['Int'];
-  introduction?: Maybe<Scalars['String']>;
-  name?: Maybe<Scalars['String']>;
+  avatar?: Maybe<Scalars["String"]>;
+  email?: Maybe<Scalars["String"]>;
+  githubId?: Maybe<Scalars["String"]>;
+  id: Scalars["Int"];
+  introduction?: Maybe<Scalars["String"]>;
+  name?: Maybe<Scalars["String"]>;
   skills?: Maybe<Array<SkillInput>>;
-  twitterId?: Maybe<Scalars['String']>;
-  userId?: Maybe<Scalars['String']>;
+  twitterId?: Maybe<Scalars["String"]>;
+  userId?: Maybe<Scalars["String"]>;
 };
 
 export type CreateCategoryInput = {
-  name: Scalars['String'];
+  name: Scalars["String"];
 };
 
 export type CreateMessageInput = {
-  text: Scalars['String'];
+  text: Scalars["String"];
   thread: ConnectThreadInput;
   user: ConnectUserInput;
 };
 
 export type CreateRoomInput = {
-  name: Scalars['String'];
+  name: Scalars["String"];
   team: ConnectTeamInput;
 };
 
 export type CreateSkillInput = {
-  icon: Scalars['String'];
-  id: Scalars['Int'];
-  name: Scalars['String'];
+  icon: Scalars["String"];
+  id: Scalars["Int"];
+  name: Scalars["String"];
 };
 
 export type CreateTeamInput = {
   categories: Array<CategoryInput>;
-  createdAt?: Maybe<Scalars['Timestamp']>;
-  description: Scalars['String'];
-  icon?: Maybe<Scalars['String']>;
-  isRequired: Scalars['Boolean'];
+  createdAt?: Maybe<Scalars["Timestamp"]>;
+  description: Scalars["String"];
+  icon?: Maybe<Scalars["String"]>;
+  isRequired: Scalars["Boolean"];
   members: Array<CreateTeamMembersUserInput>;
   owner: ConnectUserInput;
-  recruitNumbers: Scalars['Int'];
-  repositoryUrl?: Maybe<Scalars['String']>;
+  recruitNumbers: Scalars["Int"];
+  repositoryUrl?: Maybe<Scalars["String"]>;
   skills: Array<SkillInput>;
-  title: Scalars['String'];
+  title: Scalars["String"];
 };
 
 export type CreateTeamMembersUserInput = {
@@ -95,34 +99,38 @@ export type CreateTeamMembersUserInput = {
 
 export type CreateThreadInput = {
   room: ConnectRoomInput;
-  text: Scalars['String'];
+  text: Scalars["String"];
   user: ConnectUserInput;
 };
 
-
 export type DeleteResponse = {
-  __typename?: 'DeleteResponse';
-  affected?: Maybe<Scalars['Int']>;
+  __typename?: "DeleteResponse";
+  affected?: Maybe<Scalars["Int"]>;
+};
+
+export type FetchThreadInput = {
+  createdAt: Scalars["String"];
+  roomId: Scalars["Int"];
 };
 
 export enum MemberState {
-  Ejected = 'EJECTED',
-  Joining = 'JOINING',
-  Leave = 'LEAVE',
-  Pending = 'PENDING'
+  Ejected = "EJECTED",
+  Joining = "JOINING",
+  Leave = "LEAVE",
+  Pending = "PENDING",
 }
 
 export type MessageModel = {
-  __typename?: 'MessageModel';
-  createdAt: Scalars['DateTime'];
-  id: Scalars['Int'];
-  text: Scalars['String'];
+  __typename?: "MessageModel";
+  createdAt: Scalars["DateTime"];
+  id: Scalars["Int"];
+  text: Scalars["String"];
   thread: ThreadModel;
   user: UserModel;
 };
 
 export type Mutation = {
-  __typename?: 'Mutation';
+  __typename?: "Mutation";
   applyTeam: TeamModel;
   createCategory: CategoryModel;
   createMessage: MessageModel;
@@ -146,116 +154,95 @@ export type Mutation = {
   updateUser: UserModel;
 };
 
-
 export type MutationApplyTeamArgs = {
-  teamId: Scalars['Int'];
-  userId: Scalars['Int'];
+  teamId: Scalars["Int"];
+  userId: Scalars["Int"];
 };
-
 
 export type MutationCreateCategoryArgs = {
   createCategoryInput: CreateCategoryInput;
 };
 
-
 export type MutationCreateMessageArgs = {
   input: CreateMessageInput;
 };
-
 
 export type MutationCreateRoomArgs = {
   input: CreateRoomInput;
 };
 
-
 export type MutationCreateSkillArgs = {
   createSkillInput: CreateSkillInput;
 };
-
 
 export type MutationCreateTeamArgs = {
   createTeamInput: CreateTeamInput;
 };
 
-
 export type MutationCreateThreadArgs = {
   input: CreateThreadInput;
 };
 
-
 export type MutationDeleteRoomArgs = {
-  id: Scalars['Int'];
+  id: Scalars["Int"];
 };
-
 
 export type MutationDeleteTeamArgs = {
-  id: Scalars['Int'];
+  id: Scalars["Int"];
 };
-
 
 export type MutationJoinTeamArgs = {
-  teamId: Scalars['Int'];
-  userId: Scalars['Int'];
+  teamId: Scalars["Int"];
+  userId: Scalars["Int"];
 };
-
 
 export type MutationLeaveTeamArgs = {
-  teamId: Scalars['Int'];
-  userId: Scalars['Int'];
+  teamId: Scalars["Int"];
+  userId: Scalars["Int"];
 };
-
 
 export type MutationRemoveCategoryArgs = {
-  id: Scalars['Int'];
+  id: Scalars["Int"];
 };
-
 
 export type MutationRemoveMessageArgs = {
-  id: Scalars['Int'];
+  id: Scalars["Int"];
 };
-
 
 export type MutationRemoveSkillArgs = {
-  id: Scalars['Int'];
+  id: Scalars["Int"];
 };
-
 
 export type MutationRemoveThreadArgs = {
-  id: Scalars['Int'];
+  id: Scalars["Int"];
 };
-
 
 export type MutationUpdateCategoryArgs = {
   updateCategoryInput: UpdateCategoryInput;
 };
 
-
 export type MutationUpdateMessageArgs = {
   input: UpdateMessageInput;
 };
-
 
 export type MutationUpdateSkillArgs = {
   updateSkillInput: UpdateSkillInput;
 };
 
-
 export type MutationUpdateTeamArgs = {
   updateTeamInput: UpdateTeamInput;
 };
 
-
 export type MutationUpdateThreadArgs = {
   input: UpdateThreadInput;
 };
-
 
 export type MutationUpdateUserArgs = {
   updateUserInput: UpdateUserInput;
 };
 
 export type Query = {
-  __typename?: 'Query';
+  __typename?: "Query";
   categories: Array<CategoryModel>;
   category: CategoryModel;
   me: UserModel;
@@ -273,562 +260,579 @@ export type Query = {
   users: Array<UserModel>;
 };
 
-
 export type QueryCategoryArgs = {
-  id: Scalars['Int'];
+  id: Scalars["Int"];
 };
-
 
 export type QueryMessageArgs = {
-  id: Scalars['Int'];
+  id: Scalars["Int"];
 };
-
 
 export type QueryRoomArgs = {
-  id: Scalars['Int'];
+  id: Scalars["Int"];
 };
-
 
 export type QuerySkillArgs = {
-  id: Scalars['Int'];
+  id: Scalars["Int"];
 };
-
 
 export type QueryTeamArgs = {
-  id: Scalars['Int'];
+  id: Scalars["Int"];
 };
-
 
 export type QueryThreadArgs = {
-  id: Scalars['Int'];
+  id: Scalars["Int"];
 };
-
 
 export type QueryThreadsArgs = {
-  roomId: Scalars['Int'];
+  input: FetchThreadInput;
 };
 
-
 export type QueryUserArgs = {
-  userId: Scalars['String'];
+  userId: Scalars["String"];
 };
 
 export type RoomModel = {
-  __typename?: 'RoomModel';
-  id: Scalars['Int'];
-  name: Scalars['String'];
+  __typename?: "RoomModel";
+  id: Scalars["Int"];
+  name: Scalars["String"];
   team: TeamModel;
   threads: Array<ThreadModel>;
   user: UserModel;
 };
 
 export type SkillInput = {
-  icon?: Maybe<Scalars['String']>;
-  id: Scalars['Int'];
-  name?: Maybe<Scalars['String']>;
+  icon?: Maybe<Scalars["String"]>;
+  id: Scalars["Int"];
+  name?: Maybe<Scalars["String"]>;
 };
 
 export type SkillModel = {
-  __typename?: 'SkillModel';
-  icon: Scalars['String'];
-  id: Scalars['Int'];
-  name: Scalars['String'];
+  __typename?: "SkillModel";
+  icon: Scalars["String"];
+  id: Scalars["Int"];
+  name: Scalars["String"];
 };
 
 export type Subscription = {
-  __typename?: 'Subscription';
+  __typename?: "Subscription";
   messageAdded: MessageModel;
   threadAdded: ThreadModel;
 };
 
-
 export type SubscriptionMessageAddedArgs = {
-  roomId: Scalars['Int'];
+  roomId: Scalars["Int"];
 };
 
-
 export type SubscriptionThreadAddedArgs = {
-  roomId: Scalars['Int'];
+  roomId: Scalars["Int"];
 };
 
 export type TeamMemberModel = {
-  __typename?: 'TeamMemberModel';
-  avatar?: Maybe<Scalars['String']>;
-  createdAt: Scalars['DateTime'];
-  email: Scalars['String'];
-  githubId?: Maybe<Scalars['String']>;
-  id: Scalars['Int'];
-  introduction?: Maybe<Scalars['String']>;
+  __typename?: "TeamMemberModel";
+  avatar?: Maybe<Scalars["String"]>;
+  createdAt: Scalars["DateTime"];
+  email: Scalars["String"];
+  githubId?: Maybe<Scalars["String"]>;
+  id: Scalars["Int"];
+  introduction?: Maybe<Scalars["String"]>;
   memberState: MemberState;
-  name: Scalars['String'];
+  name: Scalars["String"];
   ownerTeams: Array<TeamModel>;
   skills: Array<SkillModel>;
   teams: Array<TeamModel>;
-  twitterId?: Maybe<Scalars['String']>;
-  userId: Scalars['String'];
+  twitterId?: Maybe<Scalars["String"]>;
+  userId: Scalars["String"];
 };
 
 export type TeamModel = {
-  __typename?: 'TeamModel';
+  __typename?: "TeamModel";
   categories: Array<CategoryModel>;
-  createdAt?: Maybe<Scalars['DateTime']>;
-  description: Scalars['String'];
-  icon?: Maybe<Scalars['String']>;
-  id?: Maybe<Scalars['Int']>;
-  isRequired: Scalars['Boolean'];
+  createdAt?: Maybe<Scalars["DateTime"]>;
+  description: Scalars["String"];
+  icon?: Maybe<Scalars["String"]>;
+  id?: Maybe<Scalars["Int"]>;
+  isRequired: Scalars["Boolean"];
   members?: Maybe<Array<TeamMemberModel>>;
   owner: UserModel;
-  recruitNumbers: Scalars['Int'];
-  repositoryUrl?: Maybe<Scalars['String']>;
+  recruitNumbers: Scalars["Int"];
+  repositoryUrl?: Maybe<Scalars["String"]>;
   rooms?: Maybe<Array<RoomModel>>;
   skills?: Maybe<Array<SkillModel>>;
-  title: Scalars['String'];
+  title: Scalars["String"];
 };
 
 export type ThreadModel = {
-  __typename?: 'ThreadModel';
-  createdAt: Scalars['DateTime'];
-  id: Scalars['Int'];
+  __typename?: "ThreadModel";
+  createdAt: Scalars["DateTime"];
+  id: Scalars["Int"];
   room: RoomModel;
-  text: Scalars['String'];
+  text: Scalars["String"];
   user: UserModel;
 };
 
-
 export type UpdateCategoryInput = {
-  id: Scalars['Int'];
-  name?: Maybe<Scalars['String']>;
+  id: Scalars["Int"];
+  name?: Maybe<Scalars["String"]>;
 };
 
 export type UpdateMessageInput = {
-  id: Scalars['Int'];
-  text?: Maybe<Scalars['String']>;
+  id: Scalars["Int"];
+  text?: Maybe<Scalars["String"]>;
   thread?: Maybe<ConnectThreadInput>;
   user?: Maybe<ConnectUserInput>;
 };
 
 export type UpdateSkillInput = {
-  icon?: Maybe<Scalars['String']>;
-  id: Scalars['Int'];
-  name?: Maybe<Scalars['String']>;
+  icon?: Maybe<Scalars["String"]>;
+  id: Scalars["Int"];
+  name?: Maybe<Scalars["String"]>;
 };
 
 export type UpdateTeamInput = {
   categories?: Maybe<Array<CategoryInput>>;
-  createdAt?: Maybe<Scalars['Timestamp']>;
-  description?: Maybe<Scalars['String']>;
-  icon?: Maybe<Scalars['String']>;
-  id: Scalars['Int'];
-  isRequired?: Maybe<Scalars['Boolean']>;
+  createdAt?: Maybe<Scalars["Timestamp"]>;
+  description?: Maybe<Scalars["String"]>;
+  icon?: Maybe<Scalars["String"]>;
+  id: Scalars["Int"];
+  isRequired?: Maybe<Scalars["Boolean"]>;
   members?: Maybe<Array<CreateTeamMembersUserInput>>;
   owner?: Maybe<ConnectUserInput>;
-  recruitNumbers?: Maybe<Scalars['Int']>;
-  repositoryUrl?: Maybe<Scalars['String']>;
+  recruitNumbers?: Maybe<Scalars["Int"]>;
+  repositoryUrl?: Maybe<Scalars["String"]>;
   skills?: Maybe<Array<SkillInput>>;
-  title?: Maybe<Scalars['String']>;
+  title?: Maybe<Scalars["String"]>;
 };
 
 export type UpdateThreadInput = {
-  id: Scalars['Int'];
-  text: Scalars['String'];
+  id: Scalars["Int"];
+  text: Scalars["String"];
 };
 
 export type UpdateUserInput = {
-  avatar?: Maybe<Scalars['String']>;
-  email?: Maybe<Scalars['String']>;
-  githubId?: Maybe<Scalars['String']>;
-  id: Scalars['Int'];
-  introduction?: Maybe<Scalars['String']>;
-  name?: Maybe<Scalars['String']>;
+  avatar?: Maybe<Scalars["String"]>;
+  email?: Maybe<Scalars["String"]>;
+  githubId?: Maybe<Scalars["String"]>;
+  id: Scalars["Int"];
+  introduction?: Maybe<Scalars["String"]>;
+  name?: Maybe<Scalars["String"]>;
   skills?: Maybe<Array<SkillInput>>;
-  twitterId?: Maybe<Scalars['String']>;
-  userId?: Maybe<Scalars['String']>;
+  twitterId?: Maybe<Scalars["String"]>;
+  userId?: Maybe<Scalars["String"]>;
 };
 
 export type UserMemberModel = {
-  __typename?: 'UserMemberModel';
+  __typename?: "UserMemberModel";
   categories: Array<CategoryModel>;
-  createdAt?: Maybe<Scalars['DateTime']>;
-  description: Scalars['String'];
-  icon?: Maybe<Scalars['String']>;
-  id?: Maybe<Scalars['Int']>;
-  isRequired: Scalars['Boolean'];
+  createdAt?: Maybe<Scalars["DateTime"]>;
+  description: Scalars["String"];
+  icon?: Maybe<Scalars["String"]>;
+  id?: Maybe<Scalars["Int"]>;
+  isRequired: Scalars["Boolean"];
   members?: Maybe<Array<TeamMemberModel>>;
   memberState: MemberState;
   owner: UserModel;
-  recruitNumbers: Scalars['Int'];
-  repositoryUrl?: Maybe<Scalars['String']>;
+  recruitNumbers: Scalars["Int"];
+  repositoryUrl?: Maybe<Scalars["String"]>;
   rooms?: Maybe<Array<RoomModel>>;
   skills?: Maybe<Array<SkillModel>>;
-  title: Scalars['String'];
+  title: Scalars["String"];
 };
 
 export type UserModel = {
-  __typename?: 'UserModel';
-  avatar?: Maybe<Scalars['String']>;
-  email: Scalars['String'];
-  githubId?: Maybe<Scalars['String']>;
-  id: Scalars['Int'];
-  introduction?: Maybe<Scalars['String']>;
-  name: Scalars['String'];
+  __typename?: "UserModel";
+  avatar?: Maybe<Scalars["String"]>;
+  email: Scalars["String"];
+  githubId?: Maybe<Scalars["String"]>;
+  id: Scalars["Int"];
+  introduction?: Maybe<Scalars["String"]>;
+  name: Scalars["String"];
   ownerTeams?: Maybe<Array<TeamModel>>;
   rooms?: Maybe<Array<RoomModel>>;
   skills?: Maybe<Array<SkillModel>>;
   teams?: Maybe<Array<UserMemberModel>>;
-  twitterId?: Maybe<Scalars['String']>;
-  userId: Scalars['String'];
+  twitterId?: Maybe<Scalars["String"]>;
+  userId: Scalars["String"];
 };
 
-export type ChatItemFragment = (
-  { __typename?: 'ThreadModel' }
-  & Pick<ThreadModel, 'id' | 'text' | 'createdAt'>
-  & { room: (
-    { __typename?: 'RoomModel' }
-    & Pick<RoomModel, 'id'>
-  ), user: (
-    { __typename?: 'UserModel' }
-    & Pick<UserModel, 'id' | 'name' | 'avatar'>
-  ) }
-);
+export type ChatItemFragment = { __typename?: "ThreadModel" } & Pick<
+  ThreadModel,
+  "id" | "text" | "createdAt"
+> & {
+    room: { __typename?: "RoomModel" } & Pick<RoomModel, "id">;
+    user: { __typename?: "UserModel" } & Pick<
+      UserModel,
+      "id" | "name" | "avatar"
+    >;
+  };
 
-export type RoomItemFragment = (
-  { __typename?: 'UserMemberModel' }
-  & { rooms?: Maybe<Array<(
-    { __typename?: 'RoomModel' }
-    & Pick<RoomModel, 'id' | 'name'>
-  )>> }
-);
+export type RoomItemFragment = { __typename?: "UserMemberModel" } & {
+  rooms?: Maybe<
+    Array<{ __typename?: "RoomModel" } & Pick<RoomModel, "id" | "name">>
+  >;
+};
 
-export type SpaceItemFragment = (
-  { __typename?: 'UserMemberModel' }
-  & Pick<UserMemberModel, 'id' | 'title' | 'icon'>
-);
+export type SpaceItemFragment = { __typename?: "UserMemberModel" } & Pick<
+  UserMemberModel,
+  "id" | "title" | "icon"
+>;
 
 export type CreateTeamMutationVariables = Exact<{
   input: CreateTeamInput;
 }>;
 
-
-export type CreateTeamMutation = (
-  { __typename?: 'Mutation' }
-  & { createTeam: (
-    { __typename?: 'TeamModel' }
-    & Pick<TeamModel, 'id' | 'title'>
-  ) }
-);
+export type CreateTeamMutation = { __typename?: "Mutation" } & {
+  createTeam: { __typename?: "TeamModel" } & Pick<TeamModel, "id" | "title">;
+};
 
 export type EditTeamMutationVariables = Exact<{
   input: UpdateTeamInput;
 }>;
 
-
-export type EditTeamMutation = (
-  { __typename?: 'Mutation' }
-  & { updateTeam: (
-    { __typename?: 'TeamModel' }
-    & Pick<TeamModel, 'id' | 'title'>
-  ) }
-);
+export type EditTeamMutation = { __typename?: "Mutation" } & {
+  updateTeam: { __typename?: "TeamModel" } & Pick<TeamModel, "id" | "title">;
+};
 
 export type JoinTeamMutationVariables = Exact<{
-  teamId: Scalars['Int'];
-  userId: Scalars['Int'];
+  teamId: Scalars["Int"];
+  userId: Scalars["Int"];
 }>;
 
-
-export type JoinTeamMutation = (
-  { __typename?: 'Mutation' }
-  & { joinTeam: (
-    { __typename?: 'TeamModel' }
-    & Pick<TeamModel, 'id' | 'title'>
-    & { members?: Maybe<Array<(
-      { __typename?: 'TeamMemberModel' }
-      & Pick<TeamMemberModel, 'id' | 'name'>
-    )>> }
-  ) }
-);
+export type JoinTeamMutation = { __typename?: "Mutation" } & {
+  joinTeam: { __typename?: "TeamModel" } & Pick<TeamModel, "id" | "title"> & {
+      members?: Maybe<
+        Array<
+          { __typename?: "TeamMemberModel" } & Pick<
+            TeamMemberModel,
+            "id" | "name"
+          >
+        >
+      >;
+    };
+};
 
 export type LeaveTeamMutationVariables = Exact<{
-  teamId: Scalars['Int'];
-  userId: Scalars['Int'];
+  teamId: Scalars["Int"];
+  userId: Scalars["Int"];
 }>;
 
-
-export type LeaveTeamMutation = (
-  { __typename?: 'Mutation' }
-  & { leaveTeam: (
-    { __typename?: 'TeamModel' }
-    & Pick<TeamModel, 'id' | 'title'>
-    & { members?: Maybe<Array<(
-      { __typename?: 'TeamMemberModel' }
-      & Pick<TeamMemberModel, 'id' | 'name'>
-    )>> }
-  ) }
-);
+export type LeaveTeamMutation = { __typename?: "Mutation" } & {
+  leaveTeam: { __typename?: "TeamModel" } & Pick<TeamModel, "id" | "title"> & {
+      members?: Maybe<
+        Array<
+          { __typename?: "TeamMemberModel" } & Pick<
+            TeamMemberModel,
+            "id" | "name"
+          >
+        >
+      >;
+    };
+};
 
 export type UpdateUserMutationVariables = Exact<{
   input: UpdateUserInput;
 }>;
 
-
-export type UpdateUserMutation = (
-  { __typename?: 'Mutation' }
-  & { updateUser: (
-    { __typename?: 'UserModel' }
-    & Pick<UserModel, 'id' | 'userId'>
-  ) }
-);
+export type UpdateUserMutation = { __typename?: "Mutation" } & {
+  updateUser: { __typename?: "UserModel" } & Pick<UserModel, "id" | "userId">;
+};
 
 export type ApplyTeamMutationVariables = Exact<{
-  teamId: Scalars['Int'];
-  userId: Scalars['Int'];
+  teamId: Scalars["Int"];
+  userId: Scalars["Int"];
 }>;
 
-
-export type ApplyTeamMutation = (
-  { __typename?: 'Mutation' }
-  & { applyTeam: (
-    { __typename?: 'TeamModel' }
-    & Pick<TeamModel, 'id' | 'title'>
-  ) }
-);
+export type ApplyTeamMutation = { __typename?: "Mutation" } & {
+  applyTeam: { __typename?: "TeamModel" } & Pick<TeamModel, "id" | "title">;
+};
 
 export type ChatPageQueryVariables = Exact<{
-  userId: Scalars['String'];
+  userId: Scalars["String"];
 }>;
 
+export type ChatPageQuery = { __typename?: "Query" } & {
+  user: { __typename?: "UserModel" } & {
+    teams?: Maybe<
+      Array<
+        { __typename?: "UserMemberModel" } & SpaceItemFragment &
+          RoomItemFragment
+      >
+    >;
+  };
+};
 
-export type ChatPageQuery = (
-  { __typename?: 'Query' }
-  & { user: (
-    { __typename?: 'UserModel' }
-    & { teams?: Maybe<Array<(
-      { __typename?: 'UserMemberModel' }
-      & SpaceItemFragment
-      & RoomItemFragment
-    )>> }
-  ) }
-);
+export type CreateTeamPageQueryVariables = Exact<{ [key: string]: never }>;
 
-export type CreateTeamPageQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type CreateTeamPageQuery = (
-  { __typename?: 'Query' }
-  & { categories: Array<(
-    { __typename?: 'CategoryModel' }
-    & Pick<CategoryModel, 'id' | 'name'>
-  )>, skills: Array<(
-    { __typename?: 'SkillModel' }
-    & Pick<SkillModel, 'id' | 'name' | 'icon'>
-  )> }
-);
+export type CreateTeamPageQuery = { __typename?: "Query" } & {
+  categories: Array<
+    { __typename?: "CategoryModel" } & Pick<CategoryModel, "id" | "name">
+  >;
+  skills: Array<
+    { __typename?: "SkillModel" } & Pick<SkillModel, "id" | "name" | "icon">
+  >;
+};
 
 export type TeamEditPageQueryVariables = Exact<{
-  id: Scalars['Int'];
+  id: Scalars["Int"];
 }>;
 
-
-export type TeamEditPageQuery = (
-  { __typename?: 'Query' }
-  & { team: (
-    { __typename?: 'TeamModel' }
-    & Pick<TeamModel, 'id' | 'title' | 'description' | 'icon' | 'recruitNumbers' | 'isRequired' | 'repositoryUrl'>
-    & { members?: Maybe<Array<(
-      { __typename?: 'TeamMemberModel' }
-      & Pick<TeamMemberModel, 'id' | 'name' | 'avatar'>
-    )>>, owner: (
-      { __typename?: 'UserModel' }
-      & Pick<UserModel, 'id' | 'name' | 'avatar'>
-    ), skills?: Maybe<Array<(
-      { __typename?: 'SkillModel' }
-      & Pick<SkillModel, 'id' | 'name'>
-    )>>, categories: Array<(
-      { __typename?: 'CategoryModel' }
-      & Pick<CategoryModel, 'id' | 'name'>
-    )> }
-  ), categories: Array<(
-    { __typename?: 'CategoryModel' }
-    & Pick<CategoryModel, 'id' | 'name'>
-  )>, skills: Array<(
-    { __typename?: 'SkillModel' }
-    & Pick<SkillModel, 'id' | 'name'>
-  )> }
-);
+export type TeamEditPageQuery = { __typename?: "Query" } & {
+  team: { __typename?: "TeamModel" } & Pick<
+    TeamModel,
+    | "id"
+    | "title"
+    | "description"
+    | "icon"
+    | "recruitNumbers"
+    | "isRequired"
+    | "repositoryUrl"
+  > & {
+      members?: Maybe<
+        Array<
+          { __typename?: "TeamMemberModel" } & Pick<
+            TeamMemberModel,
+            "id" | "name" | "avatar"
+          >
+        >
+      >;
+      owner: { __typename?: "UserModel" } & Pick<
+        UserModel,
+        "id" | "name" | "avatar"
+      >;
+      skills?: Maybe<
+        Array<{ __typename?: "SkillModel" } & Pick<SkillModel, "id" | "name">>
+      >;
+      categories: Array<
+        { __typename?: "CategoryModel" } & Pick<CategoryModel, "id" | "name">
+      >;
+    };
+  categories: Array<
+    { __typename?: "CategoryModel" } & Pick<CategoryModel, "id" | "name">
+  >;
+  skills: Array<
+    { __typename?: "SkillModel" } & Pick<SkillModel, "id" | "name">
+  >;
+};
 
 export type EditUserPageQueryVariables = Exact<{
-  userId: Scalars['String'];
+  userId: Scalars["String"];
 }>;
 
+export type EditUserPageQuery = { __typename?: "Query" } & {
+  user: { __typename?: "UserModel" } & Pick<
+    UserModel,
+    | "id"
+    | "userId"
+    | "name"
+    | "avatar"
+    | "introduction"
+    | "githubId"
+    | "twitterId"
+  > & {
+      skills?: Maybe<
+        Array<{ __typename?: "SkillModel" } & Pick<SkillModel, "id" | "name">>
+      >;
+      teams?: Maybe<
+        Array<
+          { __typename?: "UserMemberModel" } & Pick<
+            UserMemberModel,
+            "id" | "title" | "description" | "createdAt" | "recruitNumbers"
+          > & {
+              skills?: Maybe<
+                Array<
+                  { __typename?: "SkillModel" } & Pick<
+                    SkillModel,
+                    "id" | "name"
+                  >
+                >
+              >;
+              owner: { __typename?: "UserModel" } & Pick<
+                UserModel,
+                "id" | "name" | "avatar" | "userId"
+              >;
+              members?: Maybe<
+                Array<
+                  { __typename?: "TeamMemberModel" } & Pick<
+                    TeamMemberModel,
+                    "id" | "userId"
+                  >
+                >
+              >;
+            }
+        >
+      >;
+    };
+  skills: Array<
+    { __typename?: "SkillModel" } & Pick<SkillModel, "id" | "name">
+  >;
+};
 
-export type EditUserPageQuery = (
-  { __typename?: 'Query' }
-  & { user: (
-    { __typename?: 'UserModel' }
-    & Pick<UserModel, 'id' | 'userId' | 'name' | 'avatar' | 'introduction' | 'githubId' | 'twitterId'>
-    & { skills?: Maybe<Array<(
-      { __typename?: 'SkillModel' }
-      & Pick<SkillModel, 'id' | 'name'>
-    )>>, teams?: Maybe<Array<(
-      { __typename?: 'UserMemberModel' }
-      & Pick<UserMemberModel, 'id' | 'title' | 'description' | 'createdAt' | 'recruitNumbers'>
-      & { skills?: Maybe<Array<(
-        { __typename?: 'SkillModel' }
-        & Pick<SkillModel, 'id' | 'name'>
-      )>>, owner: (
-        { __typename?: 'UserModel' }
-        & Pick<UserModel, 'id' | 'name' | 'avatar' | 'userId'>
-      ), members?: Maybe<Array<(
-        { __typename?: 'TeamMemberModel' }
-        & Pick<TeamMemberModel, 'id' | 'userId'>
-      )>> }
-    )>> }
-  ), skills: Array<(
-    { __typename?: 'SkillModel' }
-    & Pick<SkillModel, 'id' | 'name'>
-  )> }
-);
+export type MeQueryVariables = Exact<{ [key: string]: never }>;
 
-export type MeQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type MeQuery = (
-  { __typename?: 'Query' }
-  & { me: (
-    { __typename?: 'UserModel' }
-    & Pick<UserModel, 'id' | 'userId' | 'name'>
-  ) }
-);
+export type MeQuery = { __typename?: "Query" } & {
+  me: { __typename?: "UserModel" } & Pick<UserModel, "id" | "userId" | "name">;
+};
 
 export type TeamQueryVariables = Exact<{
-  id: Scalars['Int'];
+  id: Scalars["Int"];
 }>;
 
+export type TeamQuery = { __typename?: "Query" } & {
+  team: { __typename?: "TeamModel" } & Pick<
+    TeamModel,
+    | "id"
+    | "title"
+    | "description"
+    | "icon"
+    | "recruitNumbers"
+    | "isRequired"
+    | "repositoryUrl"
+  > & {
+      members?: Maybe<
+        Array<
+          { __typename?: "TeamMemberModel" } & Pick<
+            TeamMemberModel,
+            "id" | "userId" | "name" | "avatar" | "memberState"
+          >
+        >
+      >;
+      owner: { __typename?: "UserModel" } & Pick<
+        UserModel,
+        "id" | "userId" | "name" | "avatar"
+      >;
+      skills?: Maybe<
+        Array<{ __typename?: "SkillModel" } & Pick<SkillModel, "id" | "name">>
+      >;
+      categories: Array<
+        { __typename?: "CategoryModel" } & Pick<CategoryModel, "id" | "name">
+      >;
+    };
+};
 
-export type TeamQuery = (
-  { __typename?: 'Query' }
-  & { team: (
-    { __typename?: 'TeamModel' }
-    & Pick<TeamModel, 'id' | 'title' | 'description' | 'icon' | 'recruitNumbers' | 'isRequired' | 'repositoryUrl'>
-    & { members?: Maybe<Array<(
-      { __typename?: 'TeamMemberModel' }
-      & Pick<TeamMemberModel, 'id' | 'userId' | 'name' | 'avatar' | 'memberState'>
-    )>>, owner: (
-      { __typename?: 'UserModel' }
-      & Pick<UserModel, 'id' | 'userId' | 'name' | 'avatar'>
-    ), skills?: Maybe<Array<(
-      { __typename?: 'SkillModel' }
-      & Pick<SkillModel, 'id' | 'name'>
-    )>>, categories: Array<(
-      { __typename?: 'CategoryModel' }
-      & Pick<CategoryModel, 'id' | 'name'>
-    )> }
-  ) }
-);
+export type TeamsQueryVariables = Exact<{ [key: string]: never }>;
 
-export type TeamsQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type TeamsQuery = (
-  { __typename?: 'Query' }
-  & { teams: Array<(
-    { __typename?: 'TeamModel' }
-    & Pick<TeamModel, 'id' | 'title' | 'description' | 'createdAt' | 'recruitNumbers'>
-    & { skills?: Maybe<Array<(
-      { __typename?: 'SkillModel' }
-      & Pick<SkillModel, 'id' | 'name'>
-    )>>, owner: (
-      { __typename?: 'UserModel' }
-      & Pick<UserModel, 'id' | 'userId' | 'name' | 'avatar'>
-    ), members?: Maybe<Array<(
-      { __typename?: 'TeamMemberModel' }
-      & Pick<TeamMemberModel, 'id'>
-    )>> }
-  )> }
-);
+export type TeamsQuery = { __typename?: "Query" } & {
+  teams: Array<
+    { __typename?: "TeamModel" } & Pick<
+      TeamModel,
+      "id" | "title" | "description" | "createdAt" | "recruitNumbers"
+    > & {
+        skills?: Maybe<
+          Array<{ __typename?: "SkillModel" } & Pick<SkillModel, "id" | "name">>
+        >;
+        owner: { __typename?: "UserModel" } & Pick<
+          UserModel,
+          "id" | "userId" | "name" | "avatar"
+        >;
+        members?: Maybe<
+          Array<
+            { __typename?: "TeamMemberModel" } & Pick<TeamMemberModel, "id">
+          >
+        >;
+      }
+  >;
+};
 
 export type ThreadListQueryVariables = Exact<{
-  roomId: Scalars['Int'];
+  input: FetchThreadInput;
 }>;
 
-
-export type ThreadListQuery = (
-  { __typename?: 'Query' }
-  & { threads: Array<(
-    { __typename?: 'ThreadModel' }
-    & ChatItemFragment
-  )> }
-);
+export type ThreadListQuery = { __typename?: "Query" } & {
+  threads: Array<{ __typename?: "ThreadModel" } & ChatItemFragment>;
+};
 
 export type UserDetailPageQueryVariables = Exact<{
-  userId: Scalars['String'];
+  userId: Scalars["String"];
 }>;
 
-
-export type UserDetailPageQuery = (
-  { __typename?: 'Query' }
-  & { user: (
-    { __typename?: 'UserModel' }
-    & Pick<UserModel, 'id' | 'userId' | 'name' | 'avatar' | 'introduction' | 'githubId' | 'twitterId'>
-    & { skills?: Maybe<Array<(
-      { __typename?: 'SkillModel' }
-      & Pick<SkillModel, 'id' | 'name'>
-    )>>, teams?: Maybe<Array<(
-      { __typename?: 'UserMemberModel' }
-      & Pick<UserMemberModel, 'id' | 'title' | 'description' | 'createdAt' | 'recruitNumbers'>
-      & { skills?: Maybe<Array<(
-        { __typename?: 'SkillModel' }
-        & Pick<SkillModel, 'id' | 'name'>
-      )>>, owner: (
-        { __typename?: 'UserModel' }
-        & Pick<UserModel, 'id' | 'name' | 'avatar' | 'userId'>
-      ), members?: Maybe<Array<(
-        { __typename?: 'TeamMemberModel' }
-        & Pick<TeamMemberModel, 'id' | 'userId'>
-      )>> }
-    )>> }
-  ) }
-);
+export type UserDetailPageQuery = { __typename?: "Query" } & {
+  user: { __typename?: "UserModel" } & Pick<
+    UserModel,
+    | "id"
+    | "userId"
+    | "name"
+    | "avatar"
+    | "introduction"
+    | "githubId"
+    | "twitterId"
+  > & {
+      skills?: Maybe<
+        Array<{ __typename?: "SkillModel" } & Pick<SkillModel, "id" | "name">>
+      >;
+      teams?: Maybe<
+        Array<
+          { __typename?: "UserMemberModel" } & Pick<
+            UserMemberModel,
+            "id" | "title" | "description" | "createdAt" | "recruitNumbers"
+          > & {
+              skills?: Maybe<
+                Array<
+                  { __typename?: "SkillModel" } & Pick<
+                    SkillModel,
+                    "id" | "name"
+                  >
+                >
+              >;
+              owner: { __typename?: "UserModel" } & Pick<
+                UserModel,
+                "id" | "name" | "avatar" | "userId"
+              >;
+              members?: Maybe<
+                Array<
+                  { __typename?: "TeamMemberModel" } & Pick<
+                    TeamMemberModel,
+                    "id" | "userId"
+                  >
+                >
+              >;
+            }
+        >
+      >;
+    };
+};
 
 export const ChatItemFragmentDoc = gql`
-    fragment ChatItem on ThreadModel {
-  id
-  text
-  room {
+  fragment ChatItem on ThreadModel {
     id
+    text
+    room {
+      id
+    }
+    user {
+      id
+      name
+      avatar
+    }
+    createdAt
   }
-  user {
-    id
-    name
-    avatar
-  }
-  createdAt
-}
-    `;
+`;
 export const RoomItemFragmentDoc = gql`
-    fragment RoomItem on UserMemberModel {
-  rooms {
-    id
-    name
+  fragment RoomItem on UserMemberModel {
+    rooms {
+      id
+      name
+    }
   }
-}
-    `;
+`;
 export const SpaceItemFragmentDoc = gql`
-    fragment SpaceItem on UserMemberModel {
-  id
-  title
-  icon
-}
-    `;
-export const CreateTeamDocument = gql`
-    mutation CreateTeam($input: CreateTeamInput!) {
-  createTeam(createTeamInput: $input) {
+  fragment SpaceItem on UserMemberModel {
     id
     title
+    icon
   }
-}
-    `;
-export type CreateTeamMutationFn = Apollo.MutationFunction<CreateTeamMutation, CreateTeamMutationVariables>;
+`;
+export const CreateTeamDocument = gql`
+  mutation CreateTeam($input: CreateTeamInput!) {
+    createTeam(createTeamInput: $input) {
+      id
+      title
+    }
+  }
+`;
+export type CreateTeamMutationFn = Apollo.MutationFunction<
+  CreateTeamMutation,
+  CreateTeamMutationVariables
+>;
 
 /**
  * __useCreateTeamMutation__
@@ -847,21 +851,37 @@ export type CreateTeamMutationFn = Apollo.MutationFunction<CreateTeamMutation, C
  *   },
  * });
  */
-export function useCreateTeamMutation(baseOptions?: Apollo.MutationHookOptions<CreateTeamMutation, CreateTeamMutationVariables>) {
-        return Apollo.useMutation<CreateTeamMutation, CreateTeamMutationVariables>(CreateTeamDocument, baseOptions);
-      }
-export type CreateTeamMutationHookResult = ReturnType<typeof useCreateTeamMutation>;
-export type CreateTeamMutationResult = Apollo.MutationResult<CreateTeamMutation>;
-export type CreateTeamMutationOptions = Apollo.BaseMutationOptions<CreateTeamMutation, CreateTeamMutationVariables>;
-export const EditTeamDocument = gql`
-    mutation EditTeam($input: UpdateTeamInput!) {
-  updateTeam(updateTeamInput: $input) {
-    id
-    title
-  }
+export function useCreateTeamMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    CreateTeamMutation,
+    CreateTeamMutationVariables
+  >
+) {
+  return Apollo.useMutation<CreateTeamMutation, CreateTeamMutationVariables>(
+    CreateTeamDocument,
+    baseOptions
+  );
 }
-    `;
-export type EditTeamMutationFn = Apollo.MutationFunction<EditTeamMutation, EditTeamMutationVariables>;
+export type CreateTeamMutationHookResult = ReturnType<
+  typeof useCreateTeamMutation
+>;
+export type CreateTeamMutationResult = Apollo.MutationResult<CreateTeamMutation>;
+export type CreateTeamMutationOptions = Apollo.BaseMutationOptions<
+  CreateTeamMutation,
+  CreateTeamMutationVariables
+>;
+export const EditTeamDocument = gql`
+  mutation EditTeam($input: UpdateTeamInput!) {
+    updateTeam(updateTeamInput: $input) {
+      id
+      title
+    }
+  }
+`;
+export type EditTeamMutationFn = Apollo.MutationFunction<
+  EditTeamMutation,
+  EditTeamMutationVariables
+>;
 
 /**
  * __useEditTeamMutation__
@@ -880,25 +900,39 @@ export type EditTeamMutationFn = Apollo.MutationFunction<EditTeamMutation, EditT
  *   },
  * });
  */
-export function useEditTeamMutation(baseOptions?: Apollo.MutationHookOptions<EditTeamMutation, EditTeamMutationVariables>) {
-        return Apollo.useMutation<EditTeamMutation, EditTeamMutationVariables>(EditTeamDocument, baseOptions);
-      }
+export function useEditTeamMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    EditTeamMutation,
+    EditTeamMutationVariables
+  >
+) {
+  return Apollo.useMutation<EditTeamMutation, EditTeamMutationVariables>(
+    EditTeamDocument,
+    baseOptions
+  );
+}
 export type EditTeamMutationHookResult = ReturnType<typeof useEditTeamMutation>;
 export type EditTeamMutationResult = Apollo.MutationResult<EditTeamMutation>;
-export type EditTeamMutationOptions = Apollo.BaseMutationOptions<EditTeamMutation, EditTeamMutationVariables>;
+export type EditTeamMutationOptions = Apollo.BaseMutationOptions<
+  EditTeamMutation,
+  EditTeamMutationVariables
+>;
 export const JoinTeamDocument = gql`
-    mutation JoinTeam($teamId: Int!, $userId: Int!) {
-  joinTeam(userId: $userId, teamId: $teamId) {
-    id
-    title
-    members {
+  mutation JoinTeam($teamId: Int!, $userId: Int!) {
+    joinTeam(userId: $userId, teamId: $teamId) {
       id
-      name
+      title
+      members {
+        id
+        name
+      }
     }
   }
-}
-    `;
-export type JoinTeamMutationFn = Apollo.MutationFunction<JoinTeamMutation, JoinTeamMutationVariables>;
+`;
+export type JoinTeamMutationFn = Apollo.MutationFunction<
+  JoinTeamMutation,
+  JoinTeamMutationVariables
+>;
 
 /**
  * __useJoinTeamMutation__
@@ -918,25 +952,39 @@ export type JoinTeamMutationFn = Apollo.MutationFunction<JoinTeamMutation, JoinT
  *   },
  * });
  */
-export function useJoinTeamMutation(baseOptions?: Apollo.MutationHookOptions<JoinTeamMutation, JoinTeamMutationVariables>) {
-        return Apollo.useMutation<JoinTeamMutation, JoinTeamMutationVariables>(JoinTeamDocument, baseOptions);
-      }
+export function useJoinTeamMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    JoinTeamMutation,
+    JoinTeamMutationVariables
+  >
+) {
+  return Apollo.useMutation<JoinTeamMutation, JoinTeamMutationVariables>(
+    JoinTeamDocument,
+    baseOptions
+  );
+}
 export type JoinTeamMutationHookResult = ReturnType<typeof useJoinTeamMutation>;
 export type JoinTeamMutationResult = Apollo.MutationResult<JoinTeamMutation>;
-export type JoinTeamMutationOptions = Apollo.BaseMutationOptions<JoinTeamMutation, JoinTeamMutationVariables>;
+export type JoinTeamMutationOptions = Apollo.BaseMutationOptions<
+  JoinTeamMutation,
+  JoinTeamMutationVariables
+>;
 export const LeaveTeamDocument = gql`
-    mutation LeaveTeam($teamId: Int!, $userId: Int!) {
-  leaveTeam(userId: $userId, teamId: $teamId) {
-    id
-    title
-    members {
+  mutation LeaveTeam($teamId: Int!, $userId: Int!) {
+    leaveTeam(userId: $userId, teamId: $teamId) {
       id
-      name
+      title
+      members {
+        id
+        name
+      }
     }
   }
-}
-    `;
-export type LeaveTeamMutationFn = Apollo.MutationFunction<LeaveTeamMutation, LeaveTeamMutationVariables>;
+`;
+export type LeaveTeamMutationFn = Apollo.MutationFunction<
+  LeaveTeamMutation,
+  LeaveTeamMutationVariables
+>;
 
 /**
  * __useLeaveTeamMutation__
@@ -956,21 +1004,37 @@ export type LeaveTeamMutationFn = Apollo.MutationFunction<LeaveTeamMutation, Lea
  *   },
  * });
  */
-export function useLeaveTeamMutation(baseOptions?: Apollo.MutationHookOptions<LeaveTeamMutation, LeaveTeamMutationVariables>) {
-        return Apollo.useMutation<LeaveTeamMutation, LeaveTeamMutationVariables>(LeaveTeamDocument, baseOptions);
-      }
-export type LeaveTeamMutationHookResult = ReturnType<typeof useLeaveTeamMutation>;
-export type LeaveTeamMutationResult = Apollo.MutationResult<LeaveTeamMutation>;
-export type LeaveTeamMutationOptions = Apollo.BaseMutationOptions<LeaveTeamMutation, LeaveTeamMutationVariables>;
-export const UpdateUserDocument = gql`
-    mutation UpdateUser($input: UpdateUserInput!) {
-  updateUser(updateUserInput: $input) {
-    id
-    userId
-  }
+export function useLeaveTeamMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    LeaveTeamMutation,
+    LeaveTeamMutationVariables
+  >
+) {
+  return Apollo.useMutation<LeaveTeamMutation, LeaveTeamMutationVariables>(
+    LeaveTeamDocument,
+    baseOptions
+  );
 }
-    `;
-export type UpdateUserMutationFn = Apollo.MutationFunction<UpdateUserMutation, UpdateUserMutationVariables>;
+export type LeaveTeamMutationHookResult = ReturnType<
+  typeof useLeaveTeamMutation
+>;
+export type LeaveTeamMutationResult = Apollo.MutationResult<LeaveTeamMutation>;
+export type LeaveTeamMutationOptions = Apollo.BaseMutationOptions<
+  LeaveTeamMutation,
+  LeaveTeamMutationVariables
+>;
+export const UpdateUserDocument = gql`
+  mutation UpdateUser($input: UpdateUserInput!) {
+    updateUser(updateUserInput: $input) {
+      id
+      userId
+    }
+  }
+`;
+export type UpdateUserMutationFn = Apollo.MutationFunction<
+  UpdateUserMutation,
+  UpdateUserMutationVariables
+>;
 
 /**
  * __useUpdateUserMutation__
@@ -989,21 +1053,37 @@ export type UpdateUserMutationFn = Apollo.MutationFunction<UpdateUserMutation, U
  *   },
  * });
  */
-export function useUpdateUserMutation(baseOptions?: Apollo.MutationHookOptions<UpdateUserMutation, UpdateUserMutationVariables>) {
-        return Apollo.useMutation<UpdateUserMutation, UpdateUserMutationVariables>(UpdateUserDocument, baseOptions);
-      }
-export type UpdateUserMutationHookResult = ReturnType<typeof useUpdateUserMutation>;
-export type UpdateUserMutationResult = Apollo.MutationResult<UpdateUserMutation>;
-export type UpdateUserMutationOptions = Apollo.BaseMutationOptions<UpdateUserMutation, UpdateUserMutationVariables>;
-export const ApplyTeamDocument = gql`
-    mutation ApplyTeam($teamId: Int!, $userId: Int!) {
-  applyTeam(teamId: $teamId, userId: $userId) {
-    id
-    title
-  }
+export function useUpdateUserMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    UpdateUserMutation,
+    UpdateUserMutationVariables
+  >
+) {
+  return Apollo.useMutation<UpdateUserMutation, UpdateUserMutationVariables>(
+    UpdateUserDocument,
+    baseOptions
+  );
 }
-    `;
-export type ApplyTeamMutationFn = Apollo.MutationFunction<ApplyTeamMutation, ApplyTeamMutationVariables>;
+export type UpdateUserMutationHookResult = ReturnType<
+  typeof useUpdateUserMutation
+>;
+export type UpdateUserMutationResult = Apollo.MutationResult<UpdateUserMutation>;
+export type UpdateUserMutationOptions = Apollo.BaseMutationOptions<
+  UpdateUserMutation,
+  UpdateUserMutationVariables
+>;
+export const ApplyTeamDocument = gql`
+  mutation ApplyTeam($teamId: Int!, $userId: Int!) {
+    applyTeam(teamId: $teamId, userId: $userId) {
+      id
+      title
+    }
+  }
+`;
+export type ApplyTeamMutationFn = Apollo.MutationFunction<
+  ApplyTeamMutation,
+  ApplyTeamMutationVariables
+>;
 
 /**
  * __useApplyTeamMutation__
@@ -1023,23 +1103,37 @@ export type ApplyTeamMutationFn = Apollo.MutationFunction<ApplyTeamMutation, App
  *   },
  * });
  */
-export function useApplyTeamMutation(baseOptions?: Apollo.MutationHookOptions<ApplyTeamMutation, ApplyTeamMutationVariables>) {
-        return Apollo.useMutation<ApplyTeamMutation, ApplyTeamMutationVariables>(ApplyTeamDocument, baseOptions);
-      }
-export type ApplyTeamMutationHookResult = ReturnType<typeof useApplyTeamMutation>;
+export function useApplyTeamMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    ApplyTeamMutation,
+    ApplyTeamMutationVariables
+  >
+) {
+  return Apollo.useMutation<ApplyTeamMutation, ApplyTeamMutationVariables>(
+    ApplyTeamDocument,
+    baseOptions
+  );
+}
+export type ApplyTeamMutationHookResult = ReturnType<
+  typeof useApplyTeamMutation
+>;
 export type ApplyTeamMutationResult = Apollo.MutationResult<ApplyTeamMutation>;
-export type ApplyTeamMutationOptions = Apollo.BaseMutationOptions<ApplyTeamMutation, ApplyTeamMutationVariables>;
+export type ApplyTeamMutationOptions = Apollo.BaseMutationOptions<
+  ApplyTeamMutation,
+  ApplyTeamMutationVariables
+>;
 export const ChatPageDocument = gql`
-    query ChatPage($userId: String!) {
-  user(userId: $userId) {
-    teams {
-      ...SpaceItem
-      ...RoomItem
+  query ChatPage($userId: String!) {
+    user(userId: $userId) {
+      teams {
+        ...SpaceItem
+        ...RoomItem
+      }
     }
   }
-}
-    ${SpaceItemFragmentDoc}
-${RoomItemFragmentDoc}`;
+  ${SpaceItemFragmentDoc}
+  ${RoomItemFragmentDoc}
+`;
 
 /**
  * __useChatPageQuery__
@@ -1057,28 +1151,46 @@ ${RoomItemFragmentDoc}`;
  *   },
  * });
  */
-export function useChatPageQuery(baseOptions: Apollo.QueryHookOptions<ChatPageQuery, ChatPageQueryVariables>) {
-        return Apollo.useQuery<ChatPageQuery, ChatPageQueryVariables>(ChatPageDocument, baseOptions);
-      }
-export function useChatPageLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ChatPageQuery, ChatPageQueryVariables>) {
-          return Apollo.useLazyQuery<ChatPageQuery, ChatPageQueryVariables>(ChatPageDocument, baseOptions);
-        }
-export type ChatPageQueryHookResult = ReturnType<typeof useChatPageQuery>;
-export type ChatPageLazyQueryHookResult = ReturnType<typeof useChatPageLazyQuery>;
-export type ChatPageQueryResult = Apollo.QueryResult<ChatPageQuery, ChatPageQueryVariables>;
-export const CreateTeamPageDocument = gql`
-    query CreateTeamPage {
-  categories {
-    id
-    name
-  }
-  skills {
-    id
-    name
-    icon
-  }
+export function useChatPageQuery(
+  baseOptions: Apollo.QueryHookOptions<ChatPageQuery, ChatPageQueryVariables>
+) {
+  return Apollo.useQuery<ChatPageQuery, ChatPageQueryVariables>(
+    ChatPageDocument,
+    baseOptions
+  );
 }
-    `;
+export function useChatPageLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    ChatPageQuery,
+    ChatPageQueryVariables
+  >
+) {
+  return Apollo.useLazyQuery<ChatPageQuery, ChatPageQueryVariables>(
+    ChatPageDocument,
+    baseOptions
+  );
+}
+export type ChatPageQueryHookResult = ReturnType<typeof useChatPageQuery>;
+export type ChatPageLazyQueryHookResult = ReturnType<
+  typeof useChatPageLazyQuery
+>;
+export type ChatPageQueryResult = Apollo.QueryResult<
+  ChatPageQuery,
+  ChatPageQueryVariables
+>;
+export const CreateTeamPageDocument = gql`
+  query CreateTeamPage {
+    categories {
+      id
+      name
+    }
+    skills {
+      id
+      name
+      icon
+    }
+  }
+`;
 
 /**
  * __useCreateTeamPageQuery__
@@ -1095,54 +1207,77 @@ export const CreateTeamPageDocument = gql`
  *   },
  * });
  */
-export function useCreateTeamPageQuery(baseOptions?: Apollo.QueryHookOptions<CreateTeamPageQuery, CreateTeamPageQueryVariables>) {
-        return Apollo.useQuery<CreateTeamPageQuery, CreateTeamPageQueryVariables>(CreateTeamPageDocument, baseOptions);
-      }
-export function useCreateTeamPageLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<CreateTeamPageQuery, CreateTeamPageQueryVariables>) {
-          return Apollo.useLazyQuery<CreateTeamPageQuery, CreateTeamPageQueryVariables>(CreateTeamPageDocument, baseOptions);
-        }
-export type CreateTeamPageQueryHookResult = ReturnType<typeof useCreateTeamPageQuery>;
-export type CreateTeamPageLazyQueryHookResult = ReturnType<typeof useCreateTeamPageLazyQuery>;
-export type CreateTeamPageQueryResult = Apollo.QueryResult<CreateTeamPageQuery, CreateTeamPageQueryVariables>;
+export function useCreateTeamPageQuery(
+  baseOptions?: Apollo.QueryHookOptions<
+    CreateTeamPageQuery,
+    CreateTeamPageQueryVariables
+  >
+) {
+  return Apollo.useQuery<CreateTeamPageQuery, CreateTeamPageQueryVariables>(
+    CreateTeamPageDocument,
+    baseOptions
+  );
+}
+export function useCreateTeamPageLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    CreateTeamPageQuery,
+    CreateTeamPageQueryVariables
+  >
+) {
+  return Apollo.useLazyQuery<CreateTeamPageQuery, CreateTeamPageQueryVariables>(
+    CreateTeamPageDocument,
+    baseOptions
+  );
+}
+export type CreateTeamPageQueryHookResult = ReturnType<
+  typeof useCreateTeamPageQuery
+>;
+export type CreateTeamPageLazyQueryHookResult = ReturnType<
+  typeof useCreateTeamPageLazyQuery
+>;
+export type CreateTeamPageQueryResult = Apollo.QueryResult<
+  CreateTeamPageQuery,
+  CreateTeamPageQueryVariables
+>;
 export const TeamEditPageDocument = gql`
-    query TeamEditPage($id: Int!) {
-  team(id: $id) {
-    id
-    title
-    description
-    icon
-    recruitNumbers
-    isRequired
-    repositoryUrl
-    members {
+  query TeamEditPage($id: Int!) {
+    team(id: $id) {
       id
-      name
-      avatar
-    }
-    owner {
-      id
-      name
-      avatar
-    }
-    skills {
-      id
-      name
+      title
+      description
+      icon
+      recruitNumbers
+      isRequired
+      repositoryUrl
+      members {
+        id
+        name
+        avatar
+      }
+      owner {
+        id
+        name
+        avatar
+      }
+      skills {
+        id
+        name
+      }
+      categories {
+        id
+        name
+      }
     }
     categories {
       id
       name
     }
+    skills {
+      id
+      name
+    }
   }
-  categories {
-    id
-    name
-  }
-  skills {
-    id
-    name
-  }
-}
-    `;
+`;
 
 /**
  * __useTeamEditPageQuery__
@@ -1160,57 +1295,80 @@ export const TeamEditPageDocument = gql`
  *   },
  * });
  */
-export function useTeamEditPageQuery(baseOptions: Apollo.QueryHookOptions<TeamEditPageQuery, TeamEditPageQueryVariables>) {
-        return Apollo.useQuery<TeamEditPageQuery, TeamEditPageQueryVariables>(TeamEditPageDocument, baseOptions);
-      }
-export function useTeamEditPageLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<TeamEditPageQuery, TeamEditPageQueryVariables>) {
-          return Apollo.useLazyQuery<TeamEditPageQuery, TeamEditPageQueryVariables>(TeamEditPageDocument, baseOptions);
-        }
-export type TeamEditPageQueryHookResult = ReturnType<typeof useTeamEditPageQuery>;
-export type TeamEditPageLazyQueryHookResult = ReturnType<typeof useTeamEditPageLazyQuery>;
-export type TeamEditPageQueryResult = Apollo.QueryResult<TeamEditPageQuery, TeamEditPageQueryVariables>;
+export function useTeamEditPageQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    TeamEditPageQuery,
+    TeamEditPageQueryVariables
+  >
+) {
+  return Apollo.useQuery<TeamEditPageQuery, TeamEditPageQueryVariables>(
+    TeamEditPageDocument,
+    baseOptions
+  );
+}
+export function useTeamEditPageLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    TeamEditPageQuery,
+    TeamEditPageQueryVariables
+  >
+) {
+  return Apollo.useLazyQuery<TeamEditPageQuery, TeamEditPageQueryVariables>(
+    TeamEditPageDocument,
+    baseOptions
+  );
+}
+export type TeamEditPageQueryHookResult = ReturnType<
+  typeof useTeamEditPageQuery
+>;
+export type TeamEditPageLazyQueryHookResult = ReturnType<
+  typeof useTeamEditPageLazyQuery
+>;
+export type TeamEditPageQueryResult = Apollo.QueryResult<
+  TeamEditPageQuery,
+  TeamEditPageQueryVariables
+>;
 export const EditUserPageDocument = gql`
-    query EditUserPage($userId: String!) {
-  user(userId: $userId) {
-    id
-    userId
-    name
-    avatar
-    introduction
-    githubId
-    twitterId
-    skills {
+  query EditUserPage($userId: String!) {
+    user(userId: $userId) {
       id
+      userId
       name
-    }
-    teams {
-      id
-      title
-      description
-      createdAt
-      recruitNumbers
+      avatar
+      introduction
+      githubId
+      twitterId
       skills {
         id
         name
       }
-      owner {
+      teams {
         id
-        name
-        avatar
-        userId
-      }
-      members {
-        id
-        userId
+        title
+        description
+        createdAt
+        recruitNumbers
+        skills {
+          id
+          name
+        }
+        owner {
+          id
+          name
+          avatar
+          userId
+        }
+        members {
+          id
+          userId
+        }
       }
     }
+    skills {
+      id
+      name
+    }
   }
-  skills {
-    id
-    name
-  }
-}
-    `;
+`;
 
 /**
  * __useEditUserPageQuery__
@@ -1228,24 +1386,47 @@ export const EditUserPageDocument = gql`
  *   },
  * });
  */
-export function useEditUserPageQuery(baseOptions: Apollo.QueryHookOptions<EditUserPageQuery, EditUserPageQueryVariables>) {
-        return Apollo.useQuery<EditUserPageQuery, EditUserPageQueryVariables>(EditUserPageDocument, baseOptions);
-      }
-export function useEditUserPageLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<EditUserPageQuery, EditUserPageQueryVariables>) {
-          return Apollo.useLazyQuery<EditUserPageQuery, EditUserPageQueryVariables>(EditUserPageDocument, baseOptions);
-        }
-export type EditUserPageQueryHookResult = ReturnType<typeof useEditUserPageQuery>;
-export type EditUserPageLazyQueryHookResult = ReturnType<typeof useEditUserPageLazyQuery>;
-export type EditUserPageQueryResult = Apollo.QueryResult<EditUserPageQuery, EditUserPageQueryVariables>;
-export const MeDocument = gql`
-    query Me {
-  me {
-    id
-    userId
-    name
-  }
+export function useEditUserPageQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    EditUserPageQuery,
+    EditUserPageQueryVariables
+  >
+) {
+  return Apollo.useQuery<EditUserPageQuery, EditUserPageQueryVariables>(
+    EditUserPageDocument,
+    baseOptions
+  );
 }
-    `;
+export function useEditUserPageLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    EditUserPageQuery,
+    EditUserPageQueryVariables
+  >
+) {
+  return Apollo.useLazyQuery<EditUserPageQuery, EditUserPageQueryVariables>(
+    EditUserPageDocument,
+    baseOptions
+  );
+}
+export type EditUserPageQueryHookResult = ReturnType<
+  typeof useEditUserPageQuery
+>;
+export type EditUserPageLazyQueryHookResult = ReturnType<
+  typeof useEditUserPageLazyQuery
+>;
+export type EditUserPageQueryResult = Apollo.QueryResult<
+  EditUserPageQuery,
+  EditUserPageQueryVariables
+>;
+export const MeDocument = gql`
+  query Me {
+    me {
+      id
+      userId
+      name
+    }
+  }
+`;
 
 /**
  * __useMeQuery__
@@ -1262,49 +1443,56 @@ export const MeDocument = gql`
  *   },
  * });
  */
-export function useMeQuery(baseOptions?: Apollo.QueryHookOptions<MeQuery, MeQueryVariables>) {
-        return Apollo.useQuery<MeQuery, MeQueryVariables>(MeDocument, baseOptions);
-      }
-export function useMeLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<MeQuery, MeQueryVariables>) {
-          return Apollo.useLazyQuery<MeQuery, MeQueryVariables>(MeDocument, baseOptions);
-        }
+export function useMeQuery(
+  baseOptions?: Apollo.QueryHookOptions<MeQuery, MeQueryVariables>
+) {
+  return Apollo.useQuery<MeQuery, MeQueryVariables>(MeDocument, baseOptions);
+}
+export function useMeLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<MeQuery, MeQueryVariables>
+) {
+  return Apollo.useLazyQuery<MeQuery, MeQueryVariables>(
+    MeDocument,
+    baseOptions
+  );
+}
 export type MeQueryHookResult = ReturnType<typeof useMeQuery>;
 export type MeLazyQueryHookResult = ReturnType<typeof useMeLazyQuery>;
 export type MeQueryResult = Apollo.QueryResult<MeQuery, MeQueryVariables>;
 export const TeamDocument = gql`
-    query Team($id: Int!) {
-  team(id: $id) {
-    id
-    title
-    description
-    icon
-    recruitNumbers
-    isRequired
-    repositoryUrl
-    members {
+  query Team($id: Int!) {
+    team(id: $id) {
       id
-      userId
-      name
-      avatar
-      memberState
-    }
-    owner {
-      id
-      userId
-      name
-      avatar
-    }
-    skills {
-      id
-      name
-    }
-    categories {
-      id
-      name
+      title
+      description
+      icon
+      recruitNumbers
+      isRequired
+      repositoryUrl
+      members {
+        id
+        userId
+        name
+        avatar
+        memberState
+      }
+      owner {
+        id
+        userId
+        name
+        avatar
+      }
+      skills {
+        id
+        name
+      }
+      categories {
+        id
+        name
+      }
     }
   }
-}
-    `;
+`;
 
 /**
  * __useTeamQuery__
@@ -1322,39 +1510,49 @@ export const TeamDocument = gql`
  *   },
  * });
  */
-export function useTeamQuery(baseOptions: Apollo.QueryHookOptions<TeamQuery, TeamQueryVariables>) {
-        return Apollo.useQuery<TeamQuery, TeamQueryVariables>(TeamDocument, baseOptions);
-      }
-export function useTeamLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<TeamQuery, TeamQueryVariables>) {
-          return Apollo.useLazyQuery<TeamQuery, TeamQueryVariables>(TeamDocument, baseOptions);
-        }
+export function useTeamQuery(
+  baseOptions: Apollo.QueryHookOptions<TeamQuery, TeamQueryVariables>
+) {
+  return Apollo.useQuery<TeamQuery, TeamQueryVariables>(
+    TeamDocument,
+    baseOptions
+  );
+}
+export function useTeamLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<TeamQuery, TeamQueryVariables>
+) {
+  return Apollo.useLazyQuery<TeamQuery, TeamQueryVariables>(
+    TeamDocument,
+    baseOptions
+  );
+}
 export type TeamQueryHookResult = ReturnType<typeof useTeamQuery>;
 export type TeamLazyQueryHookResult = ReturnType<typeof useTeamLazyQuery>;
 export type TeamQueryResult = Apollo.QueryResult<TeamQuery, TeamQueryVariables>;
 export const TeamsDocument = gql`
-    query Teams {
-  teams {
-    id
-    title
-    description
-    createdAt
-    recruitNumbers
-    skills {
+  query Teams {
+    teams {
       id
-      name
-    }
-    owner {
-      id
-      userId
-      name
-      avatar
-    }
-    members {
-      id
+      title
+      description
+      createdAt
+      recruitNumbers
+      skills {
+        id
+        name
+      }
+      owner {
+        id
+        userId
+        name
+        avatar
+      }
+      members {
+        id
+      }
     }
   }
-}
-    `;
+`;
 
 /**
  * __useTeamsQuery__
@@ -1371,22 +1569,36 @@ export const TeamsDocument = gql`
  *   },
  * });
  */
-export function useTeamsQuery(baseOptions?: Apollo.QueryHookOptions<TeamsQuery, TeamsQueryVariables>) {
-        return Apollo.useQuery<TeamsQuery, TeamsQueryVariables>(TeamsDocument, baseOptions);
-      }
-export function useTeamsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<TeamsQuery, TeamsQueryVariables>) {
-          return Apollo.useLazyQuery<TeamsQuery, TeamsQueryVariables>(TeamsDocument, baseOptions);
-        }
+export function useTeamsQuery(
+  baseOptions?: Apollo.QueryHookOptions<TeamsQuery, TeamsQueryVariables>
+) {
+  return Apollo.useQuery<TeamsQuery, TeamsQueryVariables>(
+    TeamsDocument,
+    baseOptions
+  );
+}
+export function useTeamsLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<TeamsQuery, TeamsQueryVariables>
+) {
+  return Apollo.useLazyQuery<TeamsQuery, TeamsQueryVariables>(
+    TeamsDocument,
+    baseOptions
+  );
+}
 export type TeamsQueryHookResult = ReturnType<typeof useTeamsQuery>;
 export type TeamsLazyQueryHookResult = ReturnType<typeof useTeamsLazyQuery>;
-export type TeamsQueryResult = Apollo.QueryResult<TeamsQuery, TeamsQueryVariables>;
+export type TeamsQueryResult = Apollo.QueryResult<
+  TeamsQuery,
+  TeamsQueryVariables
+>;
 export const ThreadListDocument = gql`
-    query ThreadList($roomId: Int!) {
-  threads(roomId: $roomId) {
-    ...ChatItem
+  query ThreadList($input: FetchThreadInput!) {
+    threads(input: $input) {
+      ...ChatItem
+    }
   }
-}
-    ${ChatItemFragmentDoc}`;
+  ${ChatItemFragmentDoc}
+`;
 
 /**
  * __useThreadListQuery__
@@ -1400,57 +1612,78 @@ export const ThreadListDocument = gql`
  * @example
  * const { data, loading, error } = useThreadListQuery({
  *   variables: {
- *      roomId: // value for 'roomId'
+ *      input: // value for 'input'
  *   },
  * });
  */
-export function useThreadListQuery(baseOptions: Apollo.QueryHookOptions<ThreadListQuery, ThreadListQueryVariables>) {
-        return Apollo.useQuery<ThreadListQuery, ThreadListQueryVariables>(ThreadListDocument, baseOptions);
-      }
-export function useThreadListLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ThreadListQuery, ThreadListQueryVariables>) {
-          return Apollo.useLazyQuery<ThreadListQuery, ThreadListQueryVariables>(ThreadListDocument, baseOptions);
-        }
+export function useThreadListQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    ThreadListQuery,
+    ThreadListQueryVariables
+  >
+) {
+  return Apollo.useQuery<ThreadListQuery, ThreadListQueryVariables>(
+    ThreadListDocument,
+    baseOptions
+  );
+}
+export function useThreadListLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    ThreadListQuery,
+    ThreadListQueryVariables
+  >
+) {
+  return Apollo.useLazyQuery<ThreadListQuery, ThreadListQueryVariables>(
+    ThreadListDocument,
+    baseOptions
+  );
+}
 export type ThreadListQueryHookResult = ReturnType<typeof useThreadListQuery>;
-export type ThreadListLazyQueryHookResult = ReturnType<typeof useThreadListLazyQuery>;
-export type ThreadListQueryResult = Apollo.QueryResult<ThreadListQuery, ThreadListQueryVariables>;
+export type ThreadListLazyQueryHookResult = ReturnType<
+  typeof useThreadListLazyQuery
+>;
+export type ThreadListQueryResult = Apollo.QueryResult<
+  ThreadListQuery,
+  ThreadListQueryVariables
+>;
 export const UserDetailPageDocument = gql`
-    query UserDetailPage($userId: String!) {
-  user(userId: $userId) {
-    id
-    userId
-    name
-    avatar
-    introduction
-    githubId
-    twitterId
-    skills {
+  query UserDetailPage($userId: String!) {
+    user(userId: $userId) {
       id
+      userId
       name
-    }
-    teams {
-      id
-      title
-      description
-      createdAt
-      recruitNumbers
+      avatar
+      introduction
+      githubId
+      twitterId
       skills {
         id
         name
       }
-      owner {
+      teams {
         id
-        name
-        avatar
-        userId
-      }
-      members {
-        id
-        userId
+        title
+        description
+        createdAt
+        recruitNumbers
+        skills {
+          id
+          name
+        }
+        owner {
+          id
+          name
+          avatar
+          userId
+        }
+        members {
+          id
+          userId
+        }
       }
     }
   }
-}
-    `;
+`;
 
 /**
  * __useUserDetailPageQuery__
@@ -1468,12 +1701,35 @@ export const UserDetailPageDocument = gql`
  *   },
  * });
  */
-export function useUserDetailPageQuery(baseOptions: Apollo.QueryHookOptions<UserDetailPageQuery, UserDetailPageQueryVariables>) {
-        return Apollo.useQuery<UserDetailPageQuery, UserDetailPageQueryVariables>(UserDetailPageDocument, baseOptions);
-      }
-export function useUserDetailPageLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<UserDetailPageQuery, UserDetailPageQueryVariables>) {
-          return Apollo.useLazyQuery<UserDetailPageQuery, UserDetailPageQueryVariables>(UserDetailPageDocument, baseOptions);
-        }
-export type UserDetailPageQueryHookResult = ReturnType<typeof useUserDetailPageQuery>;
-export type UserDetailPageLazyQueryHookResult = ReturnType<typeof useUserDetailPageLazyQuery>;
-export type UserDetailPageQueryResult = Apollo.QueryResult<UserDetailPageQuery, UserDetailPageQueryVariables>;
+export function useUserDetailPageQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    UserDetailPageQuery,
+    UserDetailPageQueryVariables
+  >
+) {
+  return Apollo.useQuery<UserDetailPageQuery, UserDetailPageQueryVariables>(
+    UserDetailPageDocument,
+    baseOptions
+  );
+}
+export function useUserDetailPageLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    UserDetailPageQuery,
+    UserDetailPageQueryVariables
+  >
+) {
+  return Apollo.useLazyQuery<UserDetailPageQuery, UserDetailPageQueryVariables>(
+    UserDetailPageDocument,
+    baseOptions
+  );
+}
+export type UserDetailPageQueryHookResult = ReturnType<
+  typeof useUserDetailPageQuery
+>;
+export type UserDetailPageLazyQueryHookResult = ReturnType<
+  typeof useUserDetailPageLazyQuery
+>;
+export type UserDetailPageQueryResult = Apollo.QueryResult<
+  UserDetailPageQuery,
+  UserDetailPageQueryVariables
+>;

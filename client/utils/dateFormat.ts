@@ -1,4 +1,5 @@
 export const YEAR_MANTH_DAY_SLASH = "yyyy/MM/dd";
+export const YEAR_MONTH_DAY_HOUR_MIN = "yyyy/MM/dd/HH:mm";
 
 export const dateFormatter = (date: Date, format: string) => {
   format = format.replace(/yyyy/g, date.getFullYear().toString());

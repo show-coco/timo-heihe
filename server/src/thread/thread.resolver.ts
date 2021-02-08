@@ -13,6 +13,7 @@ import { ThreadModel } from './models/thread.model';
 import { Inject } from '@nestjs/common';
 import { PubSubEngine } from 'apollo-server-express';
 import { provideKeys, subscriptionKeys } from '../constants';
+import { FetchThreadInput } from './dto/fetch-thread.input';
 
 @Resolver(() => ThreadModel)
 export class ThreadResolver {
@@ -27,8 +28,8 @@ export class ThreadResolver {
   }
 
   @Query(() => [ThreadModel])
-  threads(@Args('roomId', { type: () => Int }) roomId: number) {
-    return this.threadService.findAll(roomId);
+  threads(@Args('input') input: FetchThreadInput) {
+    return this.threadService.findAll(input);
   }
 
   @Mutation(() => ThreadModel)
