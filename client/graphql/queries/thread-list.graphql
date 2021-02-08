@@ -1,0 +1,6 @@
+query ThreadList($roomId: Int!) {
+  threads(roomId: $roomId) {
+    id
+    text
+  }
+}

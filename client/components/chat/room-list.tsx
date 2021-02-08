@@ -3,9 +3,13 @@ import { RoomItemFragment } from "../../generated/types";
 
 type Props = {
   rooms: RoomItemFragment["rooms"];
+  setSelectedRoomId: React.Dispatch<React.SetStateAction<number>>;
 };
 
-export const RoomList: React.FC<Props> = ({ rooms }: Props) => {
+export const RoomList: React.FC<Props> = ({
+  rooms,
+  setSelectedRoomId,
+}: Props) => {
   const roomDoesntExists = rooms?.length === 0;
 
   if (roomDoesntExists) {
@@ -18,6 +22,7 @@ export const RoomList: React.FC<Props> = ({ rooms }: Props) => {
         <div
           key={room.id}
           className="p-3 hover:bg-opacity-20 hover:bg-black-400"
+          onClick={() => setSelectedRoomId(room.id)}
         >
           #{room.name}
         </div>

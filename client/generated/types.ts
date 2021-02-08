@@ -279,6 +279,10 @@ export type QueryThreadArgs = {
   id: Scalars["Int"];
 };
 
+export type QueryThreadsArgs = {
+  roomId: Scalars["Int"];
+};
+
 export type QueryUserArgs = {
   userId: Scalars["String"];
 };
@@ -288,6 +292,7 @@ export type RoomModel = {
   id: Scalars["Int"];
   name: Scalars["String"];
   team: TeamModel;
+  threads: Array<ThreadModel>;
   user: UserModel;
 };
 
@@ -709,6 +714,16 @@ export type TeamsQuery = { __typename?: "Query" } & {
           >
         >;
       }
+  >;
+};
+
+export type ThreadListQueryVariables = Exact<{
+  roomId: Scalars["Int"];
+}>;
+
+export type ThreadListQuery = { __typename?: "Query" } & {
+  threads: Array<
+    { __typename?: "ThreadModel" } & Pick<ThreadModel, "id" | "text">
   >;
 };
 
@@ -1546,6 +1561,61 @@ export type TeamsLazyQueryHookResult = ReturnType<typeof useTeamsLazyQuery>;
 export type TeamsQueryResult = Apollo.QueryResult<
   TeamsQuery,
   TeamsQueryVariables
+>;
+export const ThreadListDocument = gql`
+  query ThreadList($roomId: Int!) {
+    threads(roomId: $roomId) {
+      id
+      text
+    }
+  }
+`;
+
+/**
+ * __useThreadListQuery__
+ *
+ * To run a query within a React component, call `useThreadListQuery` and pass it any options that fit your needs.
+ * When your component renders, `useThreadListQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useThreadListQuery({
+ *   variables: {
+ *      roomId: // value for 'roomId'
+ *   },
+ * });
+ */
+export function useThreadListQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    ThreadListQuery,
+    ThreadListQueryVariables
+  >
+) {
+  return Apollo.useQuery<ThreadListQuery, ThreadListQueryVariables>(
+    ThreadListDocument,
+    baseOptions
+  );
+}
+export function useThreadListLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    ThreadListQuery,
+    ThreadListQueryVariables
+  >
+) {
+  return Apollo.useLazyQuery<ThreadListQuery, ThreadListQueryVariables>(
+    ThreadListDocument,
+    baseOptions
+  );
+}
+export type ThreadListQueryHookResult = ReturnType<typeof useThreadListQuery>;
+export type ThreadListLazyQueryHookResult = ReturnType<
+  typeof useThreadListLazyQuery
+>;
+export type ThreadListQueryResult = Apollo.QueryResult<
+  ThreadListQuery,
+  ThreadListQueryVariables
 >;
 export const UserDetailPageDocument = gql`
   query UserDetailPage($userId: String!) {

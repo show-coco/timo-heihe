@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { RoomList } from "../components/chat/room-list";
 import { SpaceList } from "../components/chat/space-list";
 import { ThreadList } from "../components/chat/thread-list";
@@ -15,15 +15,42 @@ export default function ChatPage() {
       userId,
     },
   });
-  const [selectedSpace, setSelectedSpace] = useState(0);
+  const [selectedSpaceId, setSelectedSpaceId] = useState(0);
+  const [selectedRoomId, setSelectedRoomId] = useState(0);
 
+  const displayedRoom = useMemo(() => {
+    if (data && data.user.teams) {
+      console.log("team", data.user.teams);
+      const team = data.user.teams.filter(
+        (team) => team.id === selectedSpaceId
+      )[0];
+
+      if (team) {
+        return team.rooms;
+      }
+    }
+  }, [data, selectedSpaceId]);
+
+  // 最初に表示されるスペースIDをセット
   useEffect(() => {
-    if (data?.user.teams && data?.user.teams[0].id) {
-      setSelectedSpace(data?.user.teams[0].id);
+    if (data?.user.teams) {
+      const firstDisplayedTeamId = data?.user.teams[0].id;
+
+      if (firstDisplayedTeamId) {
+        setSelectedSpaceId(firstDisplayedTeamId);
+      }
     } else {
       console.error("チーム情報が正常に取得できませんでした");
     }
   }, [data?.user.teams]);
+
+  useEffect(() => {
+    if (displayedRoom && displayedRoom.length !== 0) {
+      setSelectedRoomId(displayedRoom[0].id);
+    } else {
+      setSelectedRoomId(0);
+    }
+  }, [displayedRoom, selectedSpaceId]);
 
   console.log("chat page", data);
 
@@ -32,7 +59,7 @@ export default function ChatPage() {
       <div className="grid grid-cols-chat h-full border-gray-200 border bg-white">
         <SpaceList
           teams={data?.user.teams || []}
-          setSelectedSpace={setSelectedSpace}
+          setSelectedSpace={setSelectedSpaceId}
         />
 
         {/* チャンネル一覧 */}
@@ -40,12 +67,10 @@ export default function ChatPage() {
           <div className="flex items-center justify-center h-16 border-gray-200 border-b">
             <Heading as="h1Small">Hirosaa</Heading>
           </div>
-          {selectedSpace !== 0 ? (
+          {selectedSpaceId !== 0 ? (
             <RoomList
-              rooms={
-                data?.user.teams?.filter((team) => team.id === selectedSpace)[0]
-                  .rooms
-              }
+              rooms={displayedRoom}
+              setSelectedRoomId={setSelectedRoomId}
             />
           ) : null}
         </div>
@@ -58,7 +83,7 @@ export default function ChatPage() {
             </Heading>
           </div>
 
-          <ThreadList />
+          <ThreadList roomId={selectedRoomId} />
 
           <div className="h-16 items-center">
             <div className="px-10">
