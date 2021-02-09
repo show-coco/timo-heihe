@@ -2919,6 +2919,13 @@
     "@types/react" "*"
     "@types/reactcss" "*"
 
+"@types/react-infinite-scroll-component@^4.2.5":
+  version "4.2.5"
+  resolved "https://registry.yarnpkg.com/@types/react-infinite-scroll-component/-/react-infinite-scroll-component-4.2.5.tgz#63111919c7e5fd86c8f1b019889bcd1a190d45c7"
+  integrity sha512-Vo2ykqsvATeFgAAz0IBvO7fgpx9Q2kHG/KJJRNTrdWL06ghTG0t/l/+oY1Z5Zl5PJoLArEHu8D4Yq0kD8jx8ow==
+  dependencies:
+    "@types/react" "*"
+
 "@types/react-modal@^3.10.6":
   version "3.10.6"
   resolved "https://registry.yarnpkg.com/@types/react-modal/-/react-modal-3.10.6.tgz#76717220f32bc72769190692147814a540053c7e"
@@ -11181,6 +11188,13 @@ react-hotkeys@2.0.0:
   integrity sha512-3n3OU8vLX/pfcJrR3xJ1zlww6KS1kEJt0Whxc4FiGV+MJrQ1mYSYI3qS/11d2MJDFm8IhOXMTFQirfu6AVOF6Q==
   dependencies:
     prop-types "^15.6.1"
+
+react-infinite-scroll-component@^6.0.0:
+  version "6.0.0"
+  resolved "https://registry.yarnpkg.com/react-infinite-scroll-component/-/react-infinite-scroll-component-6.0.0.tgz#b5834b81dad51c764e5d217e1007b14bed0ed5e7"
+  integrity sha512-GK/amOgk4J/MLw8Kpp8K6MdDdX5QLJheVSSnhI6c2b6gvMwziCE2m1GDVrMyAyP7gDjgA0YH7pxdIoQya842LQ==
+  dependencies:
+    throttle-debounce "^2.1.0"
 
 react-inspector@^5.0.1:
   version "5.1.0"

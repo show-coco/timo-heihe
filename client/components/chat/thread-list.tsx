@@ -1,6 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { ChatItemFragment, useThreadListQuery } from "../../generated/types";
+import {
+  ChatItemFragment,
+  ThreadListQuery,
+  useThreadListQuery,
+} from "../../generated/types";
 import { ChatItem } from "./chat-item";
+import InfiniteScroll from "react-infinite-scroll-component";
 
 type Props = {
   roomId: number;
@@ -10,7 +15,7 @@ const currentDate = new Date().toISOString();
 
 export const ThreadList: React.FC<Props> = ({ roomId }: Props) => {
   const [threads, setThreads] = useState<ChatItemFragment[]>([]);
-  const { data, loading, error } = useThreadListQuery({
+  const { data, loading, error, fetchMore } = useThreadListQuery({
     variables: {
       input: {
         roomId,
@@ -22,6 +27,7 @@ export const ThreadList: React.FC<Props> = ({ roomId }: Props) => {
   useEffect(() => {
     if (data?.threads) {
       setThreads(data?.threads);
+      console.log("first threads", data.threads);
     }
   }, [data?.threads]);
 
@@ -45,10 +51,31 @@ export const ThreadList: React.FC<Props> = ({ roomId }: Props) => {
     );
 
   return (
-    <div className="flex-1 overflow-hidden">
-      {threads.map((thread) => (
-        <ChatItem item={thread} key={thread.id} />
-      ))}
+    <div id="scrollDiv" className="h-2/3 overflow-auto flex flex-col-reverse">
+      <InfiniteScroll
+        hasMore={true}
+        loader={<p>ロード中です</p>}
+        scrollableTarget="scrollDiv"
+        dataLength={threads.length}
+        style={{ display: "flex", flexDirection: "column-reverse" }}
+        inverse={true}
+        next={async () => {
+          console.log(threads);
+          const { data }: { data: ThreadListQuery } = await fetchMore({
+            variables: {
+              input: {
+                roomId,
+                createdAt: threads[threads.length - 1].createdAt,
+              },
+            },
+          });
+          setThreads([...threads, ...data.threads]);
+        }}
+      >
+        {threads.map((thread, i) => (
+          <ChatItem item={thread} key={i} />
+        ))}
+      </InfiniteScroll>
     </div>
   );
 };
