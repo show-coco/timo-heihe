@@ -485,6 +485,14 @@ export type CreateTeamMutation = { __typename?: "Mutation" } & {
   createTeam: { __typename?: "TeamModel" } & Pick<TeamModel, "id" | "title">;
 };
 
+export type CreateThreadMutationVariables = Exact<{
+  input: CreateThreadInput;
+}>;
+
+export type CreateThreadMutation = { __typename?: "Mutation" } & {
+  createThread: { __typename?: "ThreadModel" } & ChatItemFragment;
+};
+
 export type EditTeamMutationVariables = Exact<{
   input: UpdateTeamInput;
 }>;
@@ -869,6 +877,55 @@ export type CreateTeamMutationResult = Apollo.MutationResult<CreateTeamMutation>
 export type CreateTeamMutationOptions = Apollo.BaseMutationOptions<
   CreateTeamMutation,
   CreateTeamMutationVariables
+>;
+export const CreateThreadDocument = gql`
+  mutation CreateThread($input: CreateThreadInput!) {
+    createThread(input: $input) {
+      ...ChatItem
+    }
+  }
+  ${ChatItemFragmentDoc}
+`;
+export type CreateThreadMutationFn = Apollo.MutationFunction<
+  CreateThreadMutation,
+  CreateThreadMutationVariables
+>;
+
+/**
+ * __useCreateThreadMutation__
+ *
+ * To run a mutation, you first call `useCreateThreadMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateThreadMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createThreadMutation, { data, loading, error }] = useCreateThreadMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useCreateThreadMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    CreateThreadMutation,
+    CreateThreadMutationVariables
+  >
+) {
+  return Apollo.useMutation<
+    CreateThreadMutation,
+    CreateThreadMutationVariables
+  >(CreateThreadDocument, baseOptions);
+}
+export type CreateThreadMutationHookResult = ReturnType<
+  typeof useCreateThreadMutation
+>;
+export type CreateThreadMutationResult = Apollo.MutationResult<CreateThreadMutation>;
+export type CreateThreadMutationOptions = Apollo.BaseMutationOptions<
+  CreateThreadMutation,
+  CreateThreadMutationVariables
 >;
 export const EditTeamDocument = gql`
   mutation EditTeam($input: UpdateTeamInput!) {

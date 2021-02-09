@@ -1,65 +1,22 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React from "react";
 import { RoomList } from "../components/chat/room-list";
 import { SpaceList } from "../components/chat/space-list";
 import { ThreadList } from "../components/chat/thread-list";
 import { Heading } from "../components/heading/heading";
 import { Template } from "../components/template/template";
 import { TextInput } from "../components/text-input/text-input";
-import { useChatPageQuery } from "../generated/types";
-import { useAuthContext } from "../providers/useAuthContext";
+import { useChat } from "../hooks/useChat";
+import { ReactComponent as SendIcon } from "../assets/icons/send.svg";
 
 export default function ChatPage() {
-  const { userId } = useAuthContext();
-  const { data } = useChatPageQuery({
-    variables: {
-      userId,
-    },
-  });
-  const [selectedSpaceId, setSelectedSpaceId] = useState(0);
-  const [selectedRoomId, setSelectedRoomId] = useState(0);
-
-  const displayedRoom = useMemo(() => {
-    if (data && data.user.teams) {
-      console.log("team", data.user.teams);
-      const team = data.user.teams.filter(
-        (team) => team.id === selectedSpaceId
-      )[0];
-
-      if (team) {
-        return team.rooms;
-      }
-    }
-  }, [data, selectedSpaceId]);
-
-  // 最初に表示されるスペースIDをセット
-  useEffect(() => {
-    if (data?.user.teams) {
-      const firstDisplayedTeamId = data?.user.teams[0].id;
-
-      if (firstDisplayedTeamId) {
-        setSelectedSpaceId(firstDisplayedTeamId);
-      }
-    } else {
-      console.error("チーム情報が正常に取得できませんでした");
-    }
-  }, [data?.user.teams]);
-
-  useEffect(() => {
-    if (displayedRoom && displayedRoom.length !== 0) {
-      setSelectedRoomId(displayedRoom[0].id);
-    } else {
-      setSelectedRoomId(0);
-    }
-  }, [displayedRoom, selectedSpaceId]);
-
-  console.log("chat page", data);
+  const { status, setter, data, displayedRoom, onClickSendButton } = useChat();
 
   return (
     <Template>
       <div className="grid grid-cols-chat h-full border-gray-200 border bg-white">
         <SpaceList
           teams={data?.user.teams || []}
-          setSelectedSpace={setSelectedSpaceId}
+          setSelectedSpace={setter.setSelectedSpaceId}
         />
 
         {/* チャンネル一覧 */}
@@ -67,10 +24,10 @@ export default function ChatPage() {
           <div className="flex items-center justify-center h-16 border-gray-200 border-b">
             <Heading as="h1Small">Hirosaa</Heading>
           </div>
-          {selectedSpaceId !== 0 ? (
+          {status.selectedSpaceId !== 0 ? (
             <RoomList
               rooms={displayedRoom}
-              setSelectedRoomId={setSelectedRoomId}
+              setSelectedRoomId={setter.setSelectedRoomId}
             />
           ) : null}
         </div>
@@ -83,13 +40,26 @@ export default function ChatPage() {
             </Heading>
           </div>
 
-          <ThreadList roomId={selectedRoomId} />
+          <ThreadList
+            roomId={status.selectedRoomId}
+            threads={status.threads}
+            setThreads={setter.setThreads}
+          />
 
-          <div className="h-16 items-center">
+          <form className="h-16 items-center" onSubmit={onClickSendButton}>
             <div className="px-10">
-              <TextInput className="w-full p-3" />
+              <div className="relative">
+                <TextInput
+                  className="w-full p-3"
+                  onChange={setter.onChangeText}
+                  value={status.text}
+                />
+                <button className="absolute top-0.6 right-2" type="submit">
+                  <SendIcon />
+                </button>
+              </div>
             </div>
-          </div>
+          </form>
         </div>
       </div>
     </Template>

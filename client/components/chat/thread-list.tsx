@@ -9,12 +9,17 @@ import InfiniteScroll from "react-infinite-scroll-component";
 
 type Props = {
   roomId: number;
+  threads: ChatItemFragment[];
+  setThreads: React.Dispatch<React.SetStateAction<ChatItemFragment[]>>;
 };
 
 const currentDate = new Date().toISOString();
 
-export const ThreadList: React.FC<Props> = ({ roomId }: Props) => {
-  const [threads, setThreads] = useState<ChatItemFragment[]>([]);
+export const ThreadList: React.FC<Props> = ({
+  roomId,
+  threads,
+  setThreads,
+}: Props) => {
   const { data, loading, error, fetchMore } = useThreadListQuery({
     variables: {
       input: {
@@ -29,7 +34,7 @@ export const ThreadList: React.FC<Props> = ({ roomId }: Props) => {
       setThreads(data?.threads);
       console.log("first threads", data.threads);
     }
-  }, [data?.threads]);
+  }, [data?.threads, setThreads]);
 
   if (roomId === 0)
     return (
