@@ -19,7 +19,7 @@ import { UpdateTeamInput } from './dto/update-team.input';
 import { Team } from './entities/teams.entity';
 import { TeamModel } from './models/team.model';
 import { TeamsService } from './teams.service';
-import { RoomModel } from 'src/room/models/room.model';
+import { RoomModel } from '../room/models/room.model';
 
 @Resolver(() => TeamModel)
 export class TeamsResolver {

@@ -1,6 +1,6 @@
 import { Field, Int, ObjectType } from '@nestjs/graphql';
-import { ThreadModel } from 'src/thread/models/thread.model';
-import { UserModel } from 'src/users/models/user.model';
+import { ThreadModel } from '../../thread/models/thread.model';
+import { UserModel } from '../../users/models/user.model';
 import { TeamModel } from '../../teams/models/team.model';
 
 @ObjectType()

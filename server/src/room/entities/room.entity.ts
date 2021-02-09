@@ -7,7 +7,7 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Thread } from '../../thread/entities/thread.entity';
-import { User } from 'src/users/entities/users.entity';
+import { User } from '../../users/entities/users.entity';
 
 @Entity()
 export class Room {

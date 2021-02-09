@@ -2,7 +2,7 @@ import { Field, Int, ObjectType } from '@nestjs/graphql';
 import { UserMemberModel } from '../../team-members-user/models/user-member-model';
 import { SkillModel } from '../../skill/models/skill.model';
 import { TeamModel } from '../../teams/models/team.model';
-import { RoomModel } from 'src/room/models/room.model';
+import { RoomModel } from '../../room/models/room.model';
 
 @ObjectType()
 export class UserModel {
