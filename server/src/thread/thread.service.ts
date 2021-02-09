@@ -1,7 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { LessThanOrEqual, Repository } from 'typeorm';
 import { CreateThreadInput } from './dto/create-thread.input';
+import { FetchThreadInput } from './dto/fetch-thread.input';
 import { UpdateThreadInput } from './dto/update-thread.input';
 import { Thread } from './entities/thread.entity';
 
@@ -11,11 +12,17 @@ export class ThreadService {
     @InjectRepository(Thread) private threadRepository: Repository<Thread>,
   ) {}
 
-  findAll(): Promise<Thread[]> {
-    const res = this.threadRepository
+  async findAll(input: FetchThreadInput): Promise<Thread[]> {
+    const res = await this.threadRepository
       .createQueryBuilder('thread')
       .leftJoinAndSelect('thread.user', 'user.id = thread.userId')
       .leftJoinAndSelect('thread.room', 'room.id = thread.roomId')
+      .where({
+        room: { id: input.roomId },
+        createdAt: LessThanOrEqual(input.cursor),
+      })
+      .limit(10)
+      .orderBy('thread.createdAt', 'DESC')
       .getMany();
 
     console.log('response on thread->service->findAll', res);

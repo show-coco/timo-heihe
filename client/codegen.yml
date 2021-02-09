@@ -1,5 +1,10 @@
 schema: http://localhost:8080/graphql
-documents: [./graphql/queries/*.graphql, ./graphql/mutations/*.graphql]
+documents:
+  [
+    ./graphql/queries/*.graphql,
+    ./graphql/mutations/*.graphql,
+    ./graphql/fragments/*.graphql
+  ]
 generates:
   ./generated/types.ts:
     plugins:

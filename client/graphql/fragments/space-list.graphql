@@ -1,0 +1,5 @@
+fragment SpaceItem on UserMemberModel {
+  id
+  title
+  icon
+}

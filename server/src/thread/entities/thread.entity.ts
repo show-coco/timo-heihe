@@ -18,7 +18,7 @@ export class Thread {
   @Column()
   text: string;
 
-  @CreateDateColumn({ type: 'timestamp' })
+  @CreateDateColumn({ type: 'timestamp with time zone' })
   createdAt: Date;
 
   @ManyToOne(() => Room, (room) => room.threads)

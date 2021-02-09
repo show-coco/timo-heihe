@@ -39,7 +39,7 @@ export default function UserDetail() {
   const teams = convertToTeamCardObjFromTeams(data?.user.teams || []);
 
   return (
-    <Template>
+    <Template className="p-10">
       {iAmLoginUser && (
         <div className="flex justify-end mb-4">
           <Link href="/user/edit/[id]" as={`/user/edit/${id}`}>

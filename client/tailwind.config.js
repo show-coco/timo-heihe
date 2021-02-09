@@ -16,6 +16,7 @@ module.exports = {
           600: "#D88364",
         },
         black: {
+          100: "#B1B1B1",
           400: "#434343",
         },
         gray: {
@@ -26,9 +27,13 @@ module.exports = {
       height: {
         "70px": "70px",
         "450px": "450px",
+        "70vh": "70vh",
       },
       width: {
         "620px": "620px",
+      },
+      gridTemplateColumns: {
+        chat: "80px 240px auto",
       },
     },
     fontFamily: {

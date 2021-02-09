@@ -7,6 +7,7 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Thread } from '../../thread/entities/thread.entity';
+import { User } from '../../users/entities/users.entity';
 
 @Entity()
 export class Room {
@@ -21,4 +22,7 @@ export class Room {
 
   @OneToMany(() => Thread, (thread) => thread.room, { nullable: true })
   threads?: Thread[];
+
+  @OneToMany(() => User, (user) => user.rooms)
+  user: User;
 }

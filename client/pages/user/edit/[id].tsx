@@ -20,7 +20,7 @@ export default function EditUser() {
   const { formState, file, setter, skills, onSubmit } = useEditUser();
 
   return (
-    <Template>
+    <Template className="p-10">
       <form onSubmit={onSubmit}>
         <Card className="p-8 space-y-10">
           <div className="flex items-center space-x-7">

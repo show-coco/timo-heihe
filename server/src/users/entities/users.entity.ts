@@ -11,6 +11,7 @@ import {
 import { TeamMembersUser } from '../../team-members-user/entities/team-members-user.entity';
 import { Thread } from '../../thread/entities/thread.entity';
 import { Message } from '../../message/entities/message.entity';
+import { Room } from '../../room/entities/room.entity';
 
 @Entity()
 export class User {
@@ -58,4 +59,7 @@ export class User {
 
   @OneToMany(() => Message, (message) => message.user, { nullable: true })
   messages?: Message[];
+
+  @OneToMany(() => Room, (room) => room.user, { nullable: true })
+  rooms?: Room[];
 }

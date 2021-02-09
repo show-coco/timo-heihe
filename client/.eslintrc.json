@@ -25,6 +25,7 @@
     "linebreak-style": ["error", "unix"],
     "react-hooks/rules-of-hooks": "error",
     "react-hooks/exhaustive-deps": "warn",
-    "no-undef": "error"
+    "no-undef": "error",
+    "no-unused-vars": "off"
   }
 }

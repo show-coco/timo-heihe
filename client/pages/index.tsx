@@ -20,7 +20,7 @@ export default function Home() {
   if (!teams) return <p>チームがありません</p>;
 
   return (
-    <Template>
+    <Template className="p-10">
       <Heading>Board</Heading>
       <div className="space-y-5 mt-5">
         {teams.map((team, i) => (

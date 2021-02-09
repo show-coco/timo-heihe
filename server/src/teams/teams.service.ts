@@ -23,6 +23,7 @@ export class TeamsService {
       .leftJoinAndSelect('team.categories', 'categories')
       .leftJoinAndSelect('team.owner', 'owner')
       .leftJoinAndSelect('team.skills', 'skills')
+      .leftJoinAndSelect('team.rooms', 'rooms.teamId = team.id')
       .where({ id: id })
       .getOne();
 
@@ -38,6 +39,7 @@ export class TeamsService {
       .leftJoinAndSelect('team.categories', 'categories')
       .leftJoinAndSelect('team.owner', 'owner')
       .leftJoinAndSelect('team.skills', 'skills')
+      .leftJoinAndSelect('team.rooms', 'rooms.teamId = team.id')
       .getMany();
 
     console.log('res on teams->service->findAll', res);

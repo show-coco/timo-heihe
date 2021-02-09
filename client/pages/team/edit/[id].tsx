@@ -33,7 +33,7 @@ export default function EditTeam() {
   console.log(formState);
 
   return (
-    <Template>
+    <Template className="p-10">
       <Card className="p-8">
         <form onSubmit={onSubmit}>
           <div className="space-y-10">

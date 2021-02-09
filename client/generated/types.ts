@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import { gql } from "@apollo/client";
 import * as Apollo from "@apollo/client";
 export type Maybe<T> = T | null;
@@ -34,8 +33,43 @@ export type CategoryModel = {
   teams: Array<TeamModel>;
 };
 
+export type ConnectRoomInput = {
+  id: Scalars["Int"];
+};
+
+export type ConnectTeamInput = {
+  id: Scalars["Int"];
+};
+
+export type ConnectThreadInput = {
+  id: Scalars["Int"];
+};
+
+export type ConnectUserInput = {
+  avatar?: Maybe<Scalars["String"]>;
+  email?: Maybe<Scalars["String"]>;
+  githubId?: Maybe<Scalars["String"]>;
+  id: Scalars["Int"];
+  introduction?: Maybe<Scalars["String"]>;
+  name?: Maybe<Scalars["String"]>;
+  skills?: Maybe<Array<SkillInput>>;
+  twitterId?: Maybe<Scalars["String"]>;
+  userId?: Maybe<Scalars["String"]>;
+};
+
 export type CreateCategoryInput = {
   name: Scalars["String"];
+};
+
+export type CreateMessageInput = {
+  text: Scalars["String"];
+  thread: ConnectThreadInput;
+  user: ConnectUserInput;
+};
+
+export type CreateRoomInput = {
+  name: Scalars["String"];
+  team: ConnectTeamInput;
 };
 
 export type CreateSkillInput = {
@@ -51,7 +85,7 @@ export type CreateTeamInput = {
   icon?: Maybe<Scalars["String"]>;
   isRequired: Scalars["Boolean"];
   members: Array<CreateTeamMembersUserInput>;
-  owner: UserInput;
+  owner: ConnectUserInput;
   recruitNumbers: Scalars["Int"];
   repositoryUrl?: Maybe<Scalars["String"]>;
   skills: Array<SkillInput>;
@@ -60,7 +94,23 @@ export type CreateTeamInput = {
 
 export type CreateTeamMembersUserInput = {
   team?: Maybe<UpdateTeamInput>;
-  user: UserInput;
+  user: ConnectUserInput;
+};
+
+export type CreateThreadInput = {
+  room: ConnectRoomInput;
+  text: Scalars["String"];
+  user: ConnectUserInput;
+};
+
+export type DeleteResponse = {
+  __typename?: "DeleteResponse";
+  affected?: Maybe<Scalars["Int"]>;
+};
+
+export type FetchThreadInput = {
+  cursor: Scalars["String"];
+  roomId: Scalars["Int"];
 };
 
 export enum MemberState {
@@ -70,20 +120,37 @@ export enum MemberState {
   Pending = "PENDING",
 }
 
+export type MessageModel = {
+  __typename?: "MessageModel";
+  createdAt: Scalars["DateTime"];
+  id: Scalars["Int"];
+  text: Scalars["String"];
+  thread: ThreadModel;
+  user: UserModel;
+};
+
 export type Mutation = {
   __typename?: "Mutation";
   applyTeam: TeamModel;
   createCategory: CategoryModel;
+  createMessage: MessageModel;
+  createRoom: RoomModel;
   createSkill: SkillModel;
   createTeam: TeamModel;
+  createThread: ThreadModel;
+  deleteRoom: DeleteResponse;
   deleteTeam: TeamModel;
   joinTeam: TeamModel;
   leaveTeam: TeamModel;
   removeCategory: CategoryModel;
+  removeMessage: DeleteResponse;
   removeSkill: SkillModel;
+  removeThread: ThreadModel;
   updateCategory: CategoryModel;
+  updateMessage: MessageModel;
   updateSkill: SkillModel;
   updateTeam: TeamModel;
+  updateThread: ThreadModel;
   updateUser: UserModel;
 };
 
@@ -96,12 +163,28 @@ export type MutationCreateCategoryArgs = {
   createCategoryInput: CreateCategoryInput;
 };
 
+export type MutationCreateMessageArgs = {
+  input: CreateMessageInput;
+};
+
+export type MutationCreateRoomArgs = {
+  input: CreateRoomInput;
+};
+
 export type MutationCreateSkillArgs = {
   createSkillInput: CreateSkillInput;
 };
 
 export type MutationCreateTeamArgs = {
   createTeamInput: CreateTeamInput;
+};
+
+export type MutationCreateThreadArgs = {
+  input: CreateThreadInput;
+};
+
+export type MutationDeleteRoomArgs = {
+  id: Scalars["Int"];
 };
 
 export type MutationDeleteTeamArgs = {
@@ -122,12 +205,24 @@ export type MutationRemoveCategoryArgs = {
   id: Scalars["Int"];
 };
 
+export type MutationRemoveMessageArgs = {
+  id: Scalars["Int"];
+};
+
 export type MutationRemoveSkillArgs = {
+  id: Scalars["Int"];
+};
+
+export type MutationRemoveThreadArgs = {
   id: Scalars["Int"];
 };
 
 export type MutationUpdateCategoryArgs = {
   updateCategoryInput: UpdateCategoryInput;
+};
+
+export type MutationUpdateMessageArgs = {
+  input: UpdateMessageInput;
 };
 
 export type MutationUpdateSkillArgs = {
@@ -136,6 +231,10 @@ export type MutationUpdateSkillArgs = {
 
 export type MutationUpdateTeamArgs = {
   updateTeamInput: UpdateTeamInput;
+};
+
+export type MutationUpdateThreadArgs = {
+  input: UpdateThreadInput;
 };
 
 export type MutationUpdateUserArgs = {
@@ -147,15 +246,29 @@ export type Query = {
   categories: Array<CategoryModel>;
   category: CategoryModel;
   me: UserModel;
+  message: MessageModel;
+  messages: Array<MessageModel>;
+  room: RoomModel;
+  rooms: Array<RoomModel>;
   skill: SkillModel;
   skills: Array<SkillModel>;
   team: TeamModel;
   teams: Array<TeamModel>;
+  thread: ThreadModel;
+  threads: Array<ThreadModel>;
   user: UserModel;
   users: Array<UserModel>;
 };
 
 export type QueryCategoryArgs = {
+  id: Scalars["Int"];
+};
+
+export type QueryMessageArgs = {
+  id: Scalars["Int"];
+};
+
+export type QueryRoomArgs = {
   id: Scalars["Int"];
 };
 
@@ -167,8 +280,25 @@ export type QueryTeamArgs = {
   id: Scalars["Int"];
 };
 
+export type QueryThreadArgs = {
+  id: Scalars["Int"];
+};
+
+export type QueryThreadsArgs = {
+  input: FetchThreadInput;
+};
+
 export type QueryUserArgs = {
   userId: Scalars["String"];
+};
+
+export type RoomModel = {
+  __typename?: "RoomModel";
+  id: Scalars["Int"];
+  name: Scalars["String"];
+  team: TeamModel;
+  threads: Array<ThreadModel>;
+  user: UserModel;
 };
 
 export type SkillInput = {
@@ -182,6 +312,20 @@ export type SkillModel = {
   icon: Scalars["String"];
   id: Scalars["Int"];
   name: Scalars["String"];
+};
+
+export type Subscription = {
+  __typename?: "Subscription";
+  messageAdded: MessageModel;
+  threadAdded: ThreadModel;
+};
+
+export type SubscriptionMessageAddedArgs = {
+  roomId: Scalars["Int"];
+};
+
+export type SubscriptionThreadAddedArgs = {
+  roomId: Scalars["Int"];
 };
 
 export type TeamMemberModel = {
@@ -213,13 +357,30 @@ export type TeamModel = {
   owner: UserModel;
   recruitNumbers: Scalars["Int"];
   repositoryUrl?: Maybe<Scalars["String"]>;
+  rooms?: Maybe<Array<RoomModel>>;
   skills?: Maybe<Array<SkillModel>>;
   title: Scalars["String"];
+};
+
+export type ThreadModel = {
+  __typename?: "ThreadModel";
+  createdAt: Scalars["DateTime"];
+  id: Scalars["Int"];
+  room: RoomModel;
+  text: Scalars["String"];
+  user: UserModel;
 };
 
 export type UpdateCategoryInput = {
   id: Scalars["Int"];
   name?: Maybe<Scalars["String"]>;
+};
+
+export type UpdateMessageInput = {
+  id: Scalars["Int"];
+  text?: Maybe<Scalars["String"]>;
+  thread?: Maybe<ConnectThreadInput>;
+  user?: Maybe<ConnectUserInput>;
 };
 
 export type UpdateSkillInput = {
@@ -236,26 +397,19 @@ export type UpdateTeamInput = {
   id: Scalars["Int"];
   isRequired?: Maybe<Scalars["Boolean"]>;
   members?: Maybe<Array<CreateTeamMembersUserInput>>;
-  owner?: Maybe<UserInput>;
+  owner?: Maybe<ConnectUserInput>;
   recruitNumbers?: Maybe<Scalars["Int"]>;
   repositoryUrl?: Maybe<Scalars["String"]>;
   skills?: Maybe<Array<SkillInput>>;
   title?: Maybe<Scalars["String"]>;
 };
 
-export type UpdateUserInput = {
-  avatar?: Maybe<Scalars["String"]>;
-  email?: Maybe<Scalars["String"]>;
-  githubId?: Maybe<Scalars["String"]>;
+export type UpdateThreadInput = {
   id: Scalars["Int"];
-  introduction?: Maybe<Scalars["String"]>;
-  name?: Maybe<Scalars["String"]>;
-  skills?: Maybe<Array<SkillInput>>;
-  twitterId?: Maybe<Scalars["String"]>;
-  userId?: Maybe<Scalars["String"]>;
+  text: Scalars["String"];
 };
 
-export type UserInput = {
+export type UpdateUserInput = {
   avatar?: Maybe<Scalars["String"]>;
   email?: Maybe<Scalars["String"]>;
   githubId?: Maybe<Scalars["String"]>;
@@ -280,6 +434,7 @@ export type UserMemberModel = {
   owner: UserModel;
   recruitNumbers: Scalars["Int"];
   repositoryUrl?: Maybe<Scalars["String"]>;
+  rooms?: Maybe<Array<RoomModel>>;
   skills?: Maybe<Array<SkillModel>>;
   title: Scalars["String"];
 };
@@ -292,12 +447,35 @@ export type UserModel = {
   id: Scalars["Int"];
   introduction?: Maybe<Scalars["String"]>;
   name: Scalars["String"];
-  ownerTeams: Array<TeamModel>;
-  skills: Array<SkillModel>;
-  teams: Array<UserMemberModel>;
+  ownerTeams?: Maybe<Array<TeamModel>>;
+  rooms?: Maybe<Array<RoomModel>>;
+  skills?: Maybe<Array<SkillModel>>;
+  teams?: Maybe<Array<UserMemberModel>>;
   twitterId?: Maybe<Scalars["String"]>;
   userId: Scalars["String"];
 };
+
+export type ChatItemFragment = { __typename?: "ThreadModel" } & Pick<
+  ThreadModel,
+  "id" | "text" | "createdAt"
+> & {
+    room: { __typename?: "RoomModel" } & Pick<RoomModel, "id">;
+    user: { __typename?: "UserModel" } & Pick<
+      UserModel,
+      "id" | "name" | "avatar"
+    >;
+  };
+
+export type RoomItemFragment = { __typename?: "UserMemberModel" } & {
+  rooms?: Maybe<
+    Array<{ __typename?: "RoomModel" } & Pick<RoomModel, "id" | "name">>
+  >;
+};
+
+export type SpaceItemFragment = { __typename?: "UserMemberModel" } & Pick<
+  UserMemberModel,
+  "id" | "title" | "icon"
+>;
 
 export type CreateTeamMutationVariables = Exact<{
   input: CreateTeamInput;
@@ -368,6 +546,21 @@ export type ApplyTeamMutation = { __typename?: "Mutation" } & {
   applyTeam: { __typename?: "TeamModel" } & Pick<TeamModel, "id" | "title">;
 };
 
+export type ChatPageQueryVariables = Exact<{
+  userId: Scalars["String"];
+}>;
+
+export type ChatPageQuery = { __typename?: "Query" } & {
+  user: { __typename?: "UserModel" } & {
+    teams?: Maybe<
+      Array<
+        { __typename?: "UserMemberModel" } & SpaceItemFragment &
+          RoomItemFragment
+      >
+    >;
+  };
+};
+
 export type CreateTeamPageQueryVariables = Exact<{ [key: string]: never }>;
 
 export type CreateTeamPageQuery = { __typename?: "Query" } & {
@@ -436,32 +629,37 @@ export type EditUserPageQuery = { __typename?: "Query" } & {
     | "githubId"
     | "twitterId"
   > & {
-      skills: Array<
-        { __typename?: "SkillModel" } & Pick<SkillModel, "id" | "name">
+      skills?: Maybe<
+        Array<{ __typename?: "SkillModel" } & Pick<SkillModel, "id" | "name">>
       >;
-      teams: Array<
-        { __typename?: "UserMemberModel" } & Pick<
-          UserMemberModel,
-          "id" | "title" | "description" | "createdAt" | "recruitNumbers"
-        > & {
-            skills?: Maybe<
-              Array<
-                { __typename?: "SkillModel" } & Pick<SkillModel, "id" | "name">
-              >
-            >;
-            owner: { __typename?: "UserModel" } & Pick<
-              UserModel,
-              "id" | "name" | "avatar" | "userId"
-            >;
-            members?: Maybe<
-              Array<
-                { __typename?: "TeamMemberModel" } & Pick<
-                  TeamMemberModel,
-                  "id" | "userId"
+      teams?: Maybe<
+        Array<
+          { __typename?: "UserMemberModel" } & Pick<
+            UserMemberModel,
+            "id" | "title" | "description" | "createdAt" | "recruitNumbers"
+          > & {
+              skills?: Maybe<
+                Array<
+                  { __typename?: "SkillModel" } & Pick<
+                    SkillModel,
+                    "id" | "name"
+                  >
                 >
-              >
-            >;
-          }
+              >;
+              owner: { __typename?: "UserModel" } & Pick<
+                UserModel,
+                "id" | "name" | "avatar" | "userId"
+              >;
+              members?: Maybe<
+                Array<
+                  { __typename?: "TeamMemberModel" } & Pick<
+                    TeamMemberModel,
+                    "id" | "userId"
+                  >
+                >
+              >;
+            }
+        >
       >;
     };
   skills: Array<
@@ -535,6 +733,14 @@ export type TeamsQuery = { __typename?: "Query" } & {
   >;
 };
 
+export type ThreadListQueryVariables = Exact<{
+  input: FetchThreadInput;
+}>;
+
+export type ThreadListQuery = { __typename?: "Query" } & {
+  threads: Array<{ __typename?: "ThreadModel" } & ChatItemFragment>;
+};
+
 export type UserDetailPageQueryVariables = Exact<{
   userId: Scalars["String"];
 }>;
@@ -550,36 +756,71 @@ export type UserDetailPageQuery = { __typename?: "Query" } & {
     | "githubId"
     | "twitterId"
   > & {
-      skills: Array<
-        { __typename?: "SkillModel" } & Pick<SkillModel, "id" | "name">
+      skills?: Maybe<
+        Array<{ __typename?: "SkillModel" } & Pick<SkillModel, "id" | "name">>
       >;
-      teams: Array<
-        { __typename?: "UserMemberModel" } & Pick<
-          UserMemberModel,
-          "id" | "title" | "description" | "createdAt" | "recruitNumbers"
-        > & {
-            skills?: Maybe<
-              Array<
-                { __typename?: "SkillModel" } & Pick<SkillModel, "id" | "name">
-              >
-            >;
-            owner: { __typename?: "UserModel" } & Pick<
-              UserModel,
-              "id" | "name" | "avatar" | "userId"
-            >;
-            members?: Maybe<
-              Array<
-                { __typename?: "TeamMemberModel" } & Pick<
-                  TeamMemberModel,
-                  "id" | "userId"
+      teams?: Maybe<
+        Array<
+          { __typename?: "UserMemberModel" } & Pick<
+            UserMemberModel,
+            "id" | "title" | "description" | "createdAt" | "recruitNumbers"
+          > & {
+              skills?: Maybe<
+                Array<
+                  { __typename?: "SkillModel" } & Pick<
+                    SkillModel,
+                    "id" | "name"
+                  >
                 >
-              >
-            >;
-          }
+              >;
+              owner: { __typename?: "UserModel" } & Pick<
+                UserModel,
+                "id" | "name" | "avatar" | "userId"
+              >;
+              members?: Maybe<
+                Array<
+                  { __typename?: "TeamMemberModel" } & Pick<
+                    TeamMemberModel,
+                    "id" | "userId"
+                  >
+                >
+              >;
+            }
+        >
       >;
     };
 };
 
+export const ChatItemFragmentDoc = gql`
+  fragment ChatItem on ThreadModel {
+    id
+    text
+    room {
+      id
+    }
+    user {
+      id
+      name
+      avatar
+    }
+    createdAt
+  }
+`;
+export const RoomItemFragmentDoc = gql`
+  fragment RoomItem on UserMemberModel {
+    rooms {
+      id
+      name
+    }
+  }
+`;
+export const SpaceItemFragmentDoc = gql`
+  fragment SpaceItem on UserMemberModel {
+    id
+    title
+    icon
+  }
+`;
 export const CreateTeamDocument = gql`
   mutation CreateTeam($input: CreateTeamInput!) {
     createTeam(createTeamInput: $input) {
@@ -880,6 +1121,62 @@ export type ApplyTeamMutationResult = Apollo.MutationResult<ApplyTeamMutation>;
 export type ApplyTeamMutationOptions = Apollo.BaseMutationOptions<
   ApplyTeamMutation,
   ApplyTeamMutationVariables
+>;
+export const ChatPageDocument = gql`
+  query ChatPage($userId: String!) {
+    user(userId: $userId) {
+      teams {
+        ...SpaceItem
+        ...RoomItem
+      }
+    }
+  }
+  ${SpaceItemFragmentDoc}
+  ${RoomItemFragmentDoc}
+`;
+
+/**
+ * __useChatPageQuery__
+ *
+ * To run a query within a React component, call `useChatPageQuery` and pass it any options that fit your needs.
+ * When your component renders, `useChatPageQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useChatPageQuery({
+ *   variables: {
+ *      userId: // value for 'userId'
+ *   },
+ * });
+ */
+export function useChatPageQuery(
+  baseOptions: Apollo.QueryHookOptions<ChatPageQuery, ChatPageQueryVariables>
+) {
+  return Apollo.useQuery<ChatPageQuery, ChatPageQueryVariables>(
+    ChatPageDocument,
+    baseOptions
+  );
+}
+export function useChatPageLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    ChatPageQuery,
+    ChatPageQueryVariables
+  >
+) {
+  return Apollo.useLazyQuery<ChatPageQuery, ChatPageQueryVariables>(
+    ChatPageDocument,
+    baseOptions
+  );
+}
+export type ChatPageQueryHookResult = ReturnType<typeof useChatPageQuery>;
+export type ChatPageLazyQueryHookResult = ReturnType<
+  typeof useChatPageLazyQuery
+>;
+export type ChatPageQueryResult = Apollo.QueryResult<
+  ChatPageQuery,
+  ChatPageQueryVariables
 >;
 export const CreateTeamPageDocument = gql`
   query CreateTeamPage {
@@ -1293,6 +1590,61 @@ export type TeamsLazyQueryHookResult = ReturnType<typeof useTeamsLazyQuery>;
 export type TeamsQueryResult = Apollo.QueryResult<
   TeamsQuery,
   TeamsQueryVariables
+>;
+export const ThreadListDocument = gql`
+  query ThreadList($input: FetchThreadInput!) {
+    threads(input: $input) {
+      ...ChatItem
+    }
+  }
+  ${ChatItemFragmentDoc}
+`;
+
+/**
+ * __useThreadListQuery__
+ *
+ * To run a query within a React component, call `useThreadListQuery` and pass it any options that fit your needs.
+ * When your component renders, `useThreadListQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useThreadListQuery({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useThreadListQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    ThreadListQuery,
+    ThreadListQueryVariables
+  >
+) {
+  return Apollo.useQuery<ThreadListQuery, ThreadListQueryVariables>(
+    ThreadListDocument,
+    baseOptions
+  );
+}
+export function useThreadListLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    ThreadListQuery,
+    ThreadListQueryVariables
+  >
+) {
+  return Apollo.useLazyQuery<ThreadListQuery, ThreadListQueryVariables>(
+    ThreadListDocument,
+    baseOptions
+  );
+}
+export type ThreadListQueryHookResult = ReturnType<typeof useThreadListQuery>;
+export type ThreadListLazyQueryHookResult = ReturnType<
+  typeof useThreadListLazyQuery
+>;
+export type ThreadListQueryResult = Apollo.QueryResult<
+  ThreadListQuery,
+  ThreadListQueryVariables
 >;
 export const UserDetailPageDocument = gql`
   query UserDetailPage($userId: String!) {
