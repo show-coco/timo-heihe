@@ -20,7 +20,7 @@ export const useChat = () => {
   const [threads, setThreads] = useState<ChatItemFragment[]>([]);
   const [text, setText] = useState("");
 
-  const displayedRoom = useMemo(() => {
+  const displayedRooms = useMemo(() => {
     if (data && data.user.teams) {
       console.log("team", data.user.teams);
       const team = data.user.teams.filter(
@@ -32,6 +32,10 @@ export const useChat = () => {
       }
     }
   }, [data, selectedSpaceId]);
+
+  const selectedRoom = useMemo(() => {
+    return displayedRooms?.filter((room) => room.id === selectedRoomId)[0];
+  }, [displayedRooms, selectedRoomId]);
 
   const onChangeText = (event: React.ChangeEvent<HTMLInputElement>) => {
     setText(event.target.value);
@@ -89,12 +93,12 @@ export const useChat = () => {
   }, [data?.user.teams]);
 
   useEffect(() => {
-    if (displayedRoom && displayedRoom.length !== 0) {
-      setSelectedRoomId(displayedRoom[0].id);
+    if (displayedRooms && displayedRooms.length !== 0) {
+      setSelectedRoomId(displayedRooms[0].id);
     } else {
       setSelectedRoomId(0);
     }
-  }, [displayedRoom, selectedSpaceId]);
+  }, [displayedRooms, selectedSpaceId]);
 
   return {
     onClickSendButton,
@@ -110,7 +114,8 @@ export const useChat = () => {
       text,
       threads,
     },
-    displayedRoom,
+    displayedRooms,
+    selectedRoom,
     data,
   };
 };

@@ -11,7 +11,14 @@ import { ReactComponent as SendIcon } from "../assets/icons/send.svg";
 import { ReactComponent as InActiveSendIcon } from "../assets/icons/send-inactive.svg";
 
 export default function ChatPage() {
-  const { status, setter, data, displayedRoom, onClickSendButton } = useChat();
+  const {
+    status,
+    setter,
+    data,
+    displayedRooms,
+    selectedRoom,
+    onClickSendButton,
+  } = useChat();
 
   return (
     <Template>
@@ -28,7 +35,7 @@ export default function ChatPage() {
           </div>
           {status.selectedSpaceId !== 0 ? (
             <RoomList
-              rooms={displayedRoom}
+              rooms={displayedRooms}
               setSelectedRoomId={setter.setSelectedRoomId}
             />
           ) : null}
@@ -38,7 +45,7 @@ export default function ChatPage() {
         <div className="flex flex-col">
           <div className="flex items-center border-gray-200 border-b h-16">
             <Heading as="h3" className="ml-5">
-              #general
+              {selectedRoom?.name ? `#${selectedRoom.name}` : ""}
             </Heading>
           </div>
 
