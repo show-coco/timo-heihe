@@ -93,7 +93,7 @@ type DeleteResponse {
 }
 
 input FetchThreadInput {
-  createdAt: String!
+  cursor: String!
   roomId: Int!
 }
 

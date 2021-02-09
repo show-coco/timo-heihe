@@ -19,16 +19,14 @@ export class ThreadService {
       .leftJoinAndSelect('thread.room', 'room.id = thread.roomId')
       .where({
         room: { id: input.roomId },
-        createdAt: LessThanOrEqual(input.createdAt),
+        createdAt: LessThanOrEqual(input.cursor),
       })
       .limit(10)
       .orderBy('thread.createdAt', 'DESC')
       .getMany();
 
-    const reversed = res;
-
-    console.log('response on thread->service->findAll', reversed);
-    return reversed;
+    console.log('response on thread->service->findAll', res);
+    return res;
   }
 
   findOne(id: number) {

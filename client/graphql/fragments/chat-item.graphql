@@ -9,5 +9,6 @@ fragment ChatItem on ThreadModel {
     name
     avatar
   }
+  hasNext
   createdAt
 }

@@ -6,5 +6,5 @@ export class FetchThreadInput {
   roomId: number;
 
   @Field()
-  createdAt: string;
+  cursor: string;
 }

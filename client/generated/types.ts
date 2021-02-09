@@ -109,7 +109,7 @@ export type DeleteResponse = {
 };
 
 export type FetchThreadInput = {
-  createdAt: Scalars["String"];
+  cursor: Scalars["String"];
   roomId: Scalars["Int"];
 };
 

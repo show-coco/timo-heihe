@@ -19,7 +19,7 @@ export const ThreadList: React.FC<Props> = ({ roomId }: Props) => {
     variables: {
       input: {
         roomId,
-        createdAt: currentDate,
+        cursor: currentDate,
       },
     },
   });
@@ -64,7 +64,7 @@ export const ThreadList: React.FC<Props> = ({ roomId }: Props) => {
             variables: {
               input: {
                 roomId,
-                createdAt: threads[threads.length - 1].createdAt,
+                cursor: threads[threads.length - 1].createdAt,
               },
             },
           });
