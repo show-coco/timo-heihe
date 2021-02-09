@@ -51,7 +51,7 @@ export const ThreadList: React.FC<Props> = ({ roomId }: Props) => {
     );
 
   return (
-    <div id="scrollDiv" className="h-2/3 overflow-auto flex flex-col-reverse">
+    <div id="scrollDiv" className="h-70vh overflow-auto flex flex-col-reverse">
       <InfiniteScroll
         hasMore={true}
         loader={<p>ロード中です</p>}
@@ -60,7 +60,6 @@ export const ThreadList: React.FC<Props> = ({ roomId }: Props) => {
         style={{ display: "flex", flexDirection: "column-reverse" }}
         inverse={true}
         next={async () => {
-          console.log(threads);
           const { data }: { data: ThreadListQuery } = await fetchMore({
             variables: {
               input: {
