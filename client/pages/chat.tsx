@@ -7,6 +7,8 @@ import { Template } from "../components/template/template";
 import { TextInput } from "../components/text-input/text-input";
 import { useChat } from "../hooks/useChat";
 import { ReactComponent as SendIcon } from "../assets/icons/send.svg";
+// MEMO&TODO: svgのなぜか色が変えられなかったため、別のsvgファイルを使用してる
+import { ReactComponent as InActiveSendIcon } from "../assets/icons/send-inactive.svg";
 
 export default function ChatPage() {
   const { status, setter, data, displayedRoom, onClickSendButton } = useChat();
@@ -46,6 +48,7 @@ export default function ChatPage() {
             setThreads={setter.setThreads}
           />
 
+          {/* 送信フォーム */}
           <form className="h-16 items-center" onSubmit={onClickSendButton}>
             <div className="px-10">
               <div className="relative">
@@ -54,8 +57,12 @@ export default function ChatPage() {
                   onChange={setter.onChangeText}
                   value={status.text}
                 />
-                <button className="absolute top-0.6 right-2" type="submit">
-                  <SendIcon />
+                <button
+                  className="absolute top-0.6 right-2"
+                  type="submit"
+                  disabled={status.text.length === 0}
+                >
+                  {status.text ? <SendIcon /> : <InActiveSendIcon />}
                 </button>
               </div>
             </div>

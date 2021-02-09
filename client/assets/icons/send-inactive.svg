@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="31.5" height="27" viewBox="0 0 31.5 27">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #d0d0d0;
+      }
+    </style>
+  </defs>
+  <path id="Icon_material-send" data-name="Icon material-send" class="cls-1" d="M3.015,31.5,34.5,18,3.015,4.5,3,15l22.5,3L3,21Z" transform="translate(-3 -4.5)"/>
+</svg>
