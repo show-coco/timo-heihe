@@ -73,12 +73,16 @@ export const ThreadList: React.FC<Props> = ({
               },
             },
           });
-          setThreads([...threads, ...data.threads]);
+          if (data.threads) {
+            setThreads([...threads, ...data.threads]);
+          }
         }}
       >
-        {threads.map((thread, i) => (
-          <ChatItem item={thread} key={i} />
-        ))}
+        {threads.length === 0 ? (
+          <p>スレッドを送信してみましょう！</p>
+        ) : (
+          threads.map((thread, i) => <ChatItem item={thread} key={i} />)
+        )}
       </InfiniteScroll>
     </div>
   );
