@@ -255,7 +255,7 @@ export type Query = {
   team: TeamModel;
   teams: Array<TeamModel>;
   thread: ThreadModel;
-  threads: Array<ThreadModel>;
+  threads?: Maybe<Array<ThreadModel>>;
   user: UserModel;
   users: Array<UserModel>;
 };
@@ -483,6 +483,14 @@ export type CreateTeamMutationVariables = Exact<{
 
 export type CreateTeamMutation = { __typename?: "Mutation" } & {
   createTeam: { __typename?: "TeamModel" } & Pick<TeamModel, "id" | "title">;
+};
+
+export type CreateThreadMutationVariables = Exact<{
+  input: CreateThreadInput;
+}>;
+
+export type CreateThreadMutation = { __typename?: "Mutation" } & {
+  createThread: { __typename?: "ThreadModel" } & ChatItemFragment;
 };
 
 export type EditTeamMutationVariables = Exact<{
@@ -738,7 +746,7 @@ export type ThreadListQueryVariables = Exact<{
 }>;
 
 export type ThreadListQuery = { __typename?: "Query" } & {
-  threads: Array<{ __typename?: "ThreadModel" } & ChatItemFragment>;
+  threads?: Maybe<Array<{ __typename?: "ThreadModel" } & ChatItemFragment>>;
 };
 
 export type UserDetailPageQueryVariables = Exact<{
@@ -787,6 +795,23 @@ export type UserDetailPageQuery = { __typename?: "Query" } & {
               >;
             }
         >
+      >;
+    };
+};
+
+export type ThreadSubscriptionVariables = Exact<{
+  roomId: Scalars["Int"];
+}>;
+
+export type ThreadSubscription = { __typename?: "Subscription" } & {
+  threadAdded: { __typename?: "ThreadModel" } & Pick<
+    ThreadModel,
+    "id" | "text" | "createdAt"
+  > & {
+      room: { __typename?: "RoomModel" } & Pick<RoomModel, "id">;
+      user: { __typename?: "UserModel" } & Pick<
+        UserModel,
+        "id" | "name" | "avatar"
       >;
     };
 };
@@ -869,6 +894,55 @@ export type CreateTeamMutationResult = Apollo.MutationResult<CreateTeamMutation>
 export type CreateTeamMutationOptions = Apollo.BaseMutationOptions<
   CreateTeamMutation,
   CreateTeamMutationVariables
+>;
+export const CreateThreadDocument = gql`
+  mutation CreateThread($input: CreateThreadInput!) {
+    createThread(input: $input) {
+      ...ChatItem
+    }
+  }
+  ${ChatItemFragmentDoc}
+`;
+export type CreateThreadMutationFn = Apollo.MutationFunction<
+  CreateThreadMutation,
+  CreateThreadMutationVariables
+>;
+
+/**
+ * __useCreateThreadMutation__
+ *
+ * To run a mutation, you first call `useCreateThreadMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateThreadMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createThreadMutation, { data, loading, error }] = useCreateThreadMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useCreateThreadMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    CreateThreadMutation,
+    CreateThreadMutationVariables
+  >
+) {
+  return Apollo.useMutation<
+    CreateThreadMutation,
+    CreateThreadMutationVariables
+  >(CreateThreadDocument, baseOptions);
+}
+export type CreateThreadMutationHookResult = ReturnType<
+  typeof useCreateThreadMutation
+>;
+export type CreateThreadMutationResult = Apollo.MutationResult<CreateThreadMutation>;
+export type CreateThreadMutationOptions = Apollo.BaseMutationOptions<
+  CreateThreadMutation,
+  CreateThreadMutationVariables
 >;
 export const EditTeamDocument = gql`
   mutation EditTeam($input: UpdateTeamInput!) {
@@ -1733,3 +1807,52 @@ export type UserDetailPageQueryResult = Apollo.QueryResult<
   UserDetailPageQuery,
   UserDetailPageQueryVariables
 >;
+export const ThreadDocument = gql`
+  subscription Thread($roomId: Int!) {
+    threadAdded(roomId: $roomId) {
+      id
+      text
+      room {
+        id
+      }
+      user {
+        id
+        name
+        avatar
+      }
+      createdAt
+    }
+  }
+`;
+
+/**
+ * __useThreadSubscription__
+ *
+ * To run a query within a React component, call `useThreadSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useThreadSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useThreadSubscription({
+ *   variables: {
+ *      roomId: // value for 'roomId'
+ *   },
+ * });
+ */
+export function useThreadSubscription(
+  baseOptions: Apollo.SubscriptionHookOptions<
+    ThreadSubscription,
+    ThreadSubscriptionVariables
+  >
+) {
+  return Apollo.useSubscription<
+    ThreadSubscription,
+    ThreadSubscriptionVariables
+  >(ThreadDocument, baseOptions);
+}
+export type ThreadSubscriptionHookResult = ReturnType<
+  typeof useThreadSubscription
+>;
+export type ThreadSubscriptionResult = Apollo.SubscriptionResult<ThreadSubscription>;

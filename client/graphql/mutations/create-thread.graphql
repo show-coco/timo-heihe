@@ -1,0 +1,5 @@
+mutation CreateThread($input: CreateThreadInput!) {
+  createThread(input: $input) {
+    ...ChatItem
+  }
+}

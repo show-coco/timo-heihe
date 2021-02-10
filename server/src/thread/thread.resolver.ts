@@ -27,7 +27,7 @@ export class ThreadResolver {
     return this.threadService.findOne(id);
   }
 
-  @Query(() => [ThreadModel])
+  @Query(() => [ThreadModel], { nullable: true })
   threads(@Args('input') input: FetchThreadInput) {
     return this.threadService.findAll(input);
   }

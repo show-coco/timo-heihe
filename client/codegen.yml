@@ -3,6 +3,7 @@ documents:
   [
     ./graphql/queries/*.graphql,
     ./graphql/mutations/*.graphql,
+    ./graphql/subscriptions/*.graphql,
     ./graphql/fragments/*.graphql
   ]
 generates:

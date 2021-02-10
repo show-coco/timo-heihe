@@ -47,10 +47,11 @@ export class ThreadService {
     );
     console.log('paramater on thread->service->create', input);
 
-    const res = this.threadRepository.save(input);
+    const returns = await this.threadRepository.save(input);
+    const thread = this.findOne(returns.id);
 
-    console.log('response on thread->service->create', res);
-    return res;
+    console.log('response on thread->service->create', thread);
+    return thread;
   }
 
   update(updateThreadInput: UpdateThreadInput): Promise<Thread> {

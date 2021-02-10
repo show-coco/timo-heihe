@@ -3,18 +3,24 @@ import {
   ChatItemFragment,
   ThreadListQuery,
   useThreadListQuery,
+  useThreadSubscription,
 } from "../../generated/types";
 import { ChatItem } from "./chat-item";
 import InfiniteScroll from "react-infinite-scroll-component";
 
 type Props = {
   roomId: number;
+  threads: ChatItemFragment[];
+  setThreads: React.Dispatch<React.SetStateAction<ChatItemFragment[]>>;
 };
 
 const currentDate = new Date().toISOString();
 
-export const ThreadList: React.FC<Props> = ({ roomId }: Props) => {
-  const [threads, setThreads] = useState<ChatItemFragment[]>([]);
+export const ThreadList: React.FC<Props> = ({
+  roomId,
+  threads,
+  setThreads,
+}: Props) => {
   const { data, loading, error, fetchMore } = useThreadListQuery({
     variables: {
       input: {
@@ -24,12 +30,25 @@ export const ThreadList: React.FC<Props> = ({ roomId }: Props) => {
     },
   });
 
+  const { data: newThread } = useThreadSubscription({
+    variables: {
+      roomId,
+    },
+  });
+
+  useEffect(() => {
+    if (newThread) {
+      console.log("new threadssss", newThread);
+      setThreads([newThread?.threadAdded, ...threads]);
+    }
+  }, [newThread, setThreads]);
+
   useEffect(() => {
     if (data?.threads) {
       setThreads(data?.threads);
       console.log("first threads", data.threads);
     }
-  }, [data?.threads]);
+  }, [data?.threads, setThreads]);
 
   if (roomId === 0)
     return (
@@ -68,12 +87,16 @@ export const ThreadList: React.FC<Props> = ({ roomId }: Props) => {
               },
             },
           });
-          setThreads([...threads, ...data.threads]);
+          if (data.threads) {
+            setThreads([...threads, ...data.threads]);
+          }
         }}
       >
-        {threads.map((thread, i) => (
-          <ChatItem item={thread} key={i} />
-        ))}
+        {threads.length === 0 ? (
+          <p>スレッドを送信してみましょう！</p>
+        ) : (
+          threads.map((thread, i) => <ChatItem item={thread} key={i} />)
+        )}
       </InfiniteScroll>
     </div>
   );
