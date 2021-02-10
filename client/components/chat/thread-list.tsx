@@ -41,7 +41,7 @@ export const ThreadList: React.FC<Props> = ({
       console.log("new threadssss", newThread);
       setThreads([newThread?.threadAdded, ...threads]);
     }
-  }, [newThread, setThreads, threads]);
+  }, [newThread, setThreads]);
 
   useEffect(() => {
     if (data?.threads) {
