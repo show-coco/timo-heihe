@@ -1,0 +1,15 @@
+subscription Thread($roomId: Int!) {
+  threadAdded(roomId: $roomId) {
+    id
+    text
+    room {
+      id
+    }
+    user {
+      id
+      name
+      avatar
+    }
+    createdAt
+  }
+}

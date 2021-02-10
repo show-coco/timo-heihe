@@ -3,6 +3,7 @@ import {
   ChatItemFragment,
   ThreadListQuery,
   useThreadListQuery,
+  useThreadSubscription,
 } from "../../generated/types";
 import { ChatItem } from "./chat-item";
 import InfiniteScroll from "react-infinite-scroll-component";
@@ -28,6 +29,19 @@ export const ThreadList: React.FC<Props> = ({
       },
     },
   });
+
+  const { data: newThread } = useThreadSubscription({
+    variables: {
+      roomId,
+    },
+  });
+
+  useEffect(() => {
+    if (newThread) {
+      console.log("new threadssss", newThread);
+      setThreads([newThread?.threadAdded, ...threads]);
+    }
+  }, [newThread, setThreads, threads]);
 
   useEffect(() => {
     if (data?.threads) {
