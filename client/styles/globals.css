@@ -104,3 +104,15 @@ input[type="number"]::-webkit-outer-spin-button {
 .chat-item:hover .chat-operations {
   visibility: visible;
 }
+
+.tooltip {
+  visibility: hidden;
+}
+
+.tool {
+  position: relative;
+}
+
+.tool:hover .tooltip {
+  visibility: visible;
+}
