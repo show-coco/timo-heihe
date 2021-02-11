@@ -1,4 +1,5 @@
 import { Field, GraphQLISODateTime, Int, ObjectType } from '@nestjs/graphql';
+import { MessageModel } from 'src/message/models/message.model';
 import { RoomModel } from '../../room/models/room.model';
 import { UserModel } from '../../users/models/user.model';
 
@@ -18,4 +19,7 @@ export class ThreadModel {
 
   @Field(() => UserModel)
   user: UserModel;
+
+  @Field(() => Int)
+  numberOfMessages: number;
 }

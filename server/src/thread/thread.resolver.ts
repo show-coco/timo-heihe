@@ -28,8 +28,13 @@ export class ThreadResolver {
   }
 
   @Query(() => [ThreadModel], { nullable: true })
-  threads(@Args('input') input: FetchThreadInput) {
-    return this.threadService.findAll(input);
+  async threads(@Args('input') input: FetchThreadInput) {
+    const threads = await this.threadService.findAll(input);
+
+    return threads.map((thread) => ({
+      ...thread,
+      numberOfMessages: thread.messages.length,
+    }));
   }
 
   @Mutation(() => ThreadModel)

@@ -17,6 +17,7 @@ export class ThreadService {
       .createQueryBuilder('thread')
       .leftJoinAndSelect('thread.user', 'user.id = thread.userId')
       .leftJoinAndSelect('thread.room', 'room.id = thread.roomId')
+      .leftJoinAndSelect('thread.messages', 'messages.threadId = thread.id')
       .where({
         room: { id: input.roomId },
         createdAt: LessThanOrEqual(input.cursor),
