@@ -23,8 +23,13 @@ export class ThreadResolver {
   ) {}
 
   @Query(() => ThreadModel)
-  thread(@Args('id', { type: () => Int }) id: number) {
-    return this.threadService.findOne(id);
+  async thread(@Args('id', { type: () => Int }) id: number) {
+    const thread = await this.threadService.findOne(id);
+
+    return {
+      ...thread,
+      numberOfMessages: thread.messages.length,
+    };
   }
 
   @Query(() => [ThreadModel], { nullable: true })
@@ -40,12 +45,16 @@ export class ThreadResolver {
   @Mutation(() => ThreadModel)
   async createThread(@Args('input') createThreadInput: CreateThreadInput) {
     const newThread = await this.threadService.create(createThreadInput);
+    const formattedThread = {
+      ...newThread,
+      numberOfMessages: newThread.messages.length,
+    };
     this.pubSub.publish(subscriptionKeys.THREAD_ADDED, {
-      threadAdded: newThread,
+      threadAdded: formattedThread,
     });
 
-    console.log('response on thread->resolver->createThread', newThread);
-    return newThread;
+    console.log('response on thread->resolver->createThread', formattedThread);
+    return formattedThread;
   }
 
   @Mutation(() => ThreadModel)

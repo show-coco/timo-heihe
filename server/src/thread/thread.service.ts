@@ -30,11 +30,12 @@ export class ThreadService {
     return res;
   }
 
-  findOne(id: number) {
-    const res = this.threadRepository
+  async findOne(id: number) {
+    const res = await this.threadRepository
       .createQueryBuilder('thread')
       .leftJoinAndSelect('thread.user', 'user.id = thread.userId')
       .leftJoinAndSelect('thread.room', 'room.id = thread.roomId')
+      .leftJoinAndSelect('thread.messages', 'messages.threadId = thread.id')
       .where({ id })
       .getOne();
 
