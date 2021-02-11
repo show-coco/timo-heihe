@@ -96,3 +96,11 @@ input[type="number"]::-webkit-outer-spin-button {
 .editable-language:hover::after {
   opacity: 1;
 }
+
+.chat-item .chat-operations {
+  visibility: hidden;
+}
+
+.chat-item:hover .chat-operations {
+  visibility: visible;
+}

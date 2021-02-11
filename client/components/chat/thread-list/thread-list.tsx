@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import {
   ChatItemFragment,
   ThreadListQuery,
   useThreadListQuery,
   useThreadSubscription,
-} from "../../generated/types";
-import { ChatItem } from "./chat-item";
+} from "../../../generated/types";
+import { ChatItem } from "../chat-item/chat-item";
 import InfiniteScroll from "react-infinite-scroll-component";
 
 type Props = {
@@ -39,6 +39,8 @@ export const ThreadList: React.FC<Props> = ({
   useEffect(() => {
     if (newThread) {
       console.log("new threadssss", newThread);
+
+      // threadサブスクリプション返却型からChatItemFragmentへ変換
       const addedThread = newThread.threadAdded;
       const thread: ChatItemFragment = {
         id: addedThread.id,
@@ -48,6 +50,7 @@ export const ThreadList: React.FC<Props> = ({
         user: addedThread.user,
         numberOfMessages: addedThread.numberOfMessages,
       };
+
       setThreads([thread, ...threads]);
     }
   }, [newThread, setThreads]);
