@@ -366,6 +366,7 @@ export type ThreadModel = {
   __typename?: "ThreadModel";
   createdAt: Scalars["DateTime"];
   id: Scalars["Int"];
+  numberOfMessages: Scalars["Int"];
   room: RoomModel;
   text: Scalars["String"];
   user: UserModel;
@@ -457,7 +458,7 @@ export type UserModel = {
 
 export type ChatItemFragment = { __typename?: "ThreadModel" } & Pick<
   ThreadModel,
-  "id" | "text" | "createdAt"
+  "id" | "text" | "createdAt" | "numberOfMessages"
 > & {
     room: { __typename?: "RoomModel" } & Pick<RoomModel, "id">;
     user: { __typename?: "UserModel" } & Pick<
@@ -499,6 +500,17 @@ export type EditTeamMutationVariables = Exact<{
 
 export type EditTeamMutation = { __typename?: "Mutation" } & {
   updateTeam: { __typename?: "TeamModel" } & Pick<TeamModel, "id" | "title">;
+};
+
+export type EditThreadMutationVariables = Exact<{
+  input: UpdateThreadInput;
+}>;
+
+export type EditThreadMutation = { __typename?: "Mutation" } & {
+  updateThread: { __typename?: "ThreadModel" } & Pick<
+    ThreadModel,
+    "id" | "text"
+  >;
 };
 
 export type JoinTeamMutationVariables = Exact<{
@@ -806,7 +818,7 @@ export type ThreadSubscriptionVariables = Exact<{
 export type ThreadSubscription = { __typename?: "Subscription" } & {
   threadAdded: { __typename?: "ThreadModel" } & Pick<
     ThreadModel,
-    "id" | "text" | "createdAt"
+    "id" | "text" | "createdAt" | "numberOfMessages"
   > & {
       room: { __typename?: "RoomModel" } & Pick<RoomModel, "id">;
       user: { __typename?: "UserModel" } & Pick<
@@ -829,6 +841,7 @@ export const ChatItemFragmentDoc = gql`
       avatar
     }
     createdAt
+    numberOfMessages
   }
 `;
 export const RoomItemFragmentDoc = gql`
@@ -990,6 +1003,55 @@ export type EditTeamMutationResult = Apollo.MutationResult<EditTeamMutation>;
 export type EditTeamMutationOptions = Apollo.BaseMutationOptions<
   EditTeamMutation,
   EditTeamMutationVariables
+>;
+export const EditThreadDocument = gql`
+  mutation EditThread($input: UpdateThreadInput!) {
+    updateThread(input: $input) {
+      id
+      text
+    }
+  }
+`;
+export type EditThreadMutationFn = Apollo.MutationFunction<
+  EditThreadMutation,
+  EditThreadMutationVariables
+>;
+
+/**
+ * __useEditThreadMutation__
+ *
+ * To run a mutation, you first call `useEditThreadMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useEditThreadMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [editThreadMutation, { data, loading, error }] = useEditThreadMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useEditThreadMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    EditThreadMutation,
+    EditThreadMutationVariables
+  >
+) {
+  return Apollo.useMutation<EditThreadMutation, EditThreadMutationVariables>(
+    EditThreadDocument,
+    baseOptions
+  );
+}
+export type EditThreadMutationHookResult = ReturnType<
+  typeof useEditThreadMutation
+>;
+export type EditThreadMutationResult = Apollo.MutationResult<EditThreadMutation>;
+export type EditThreadMutationOptions = Apollo.BaseMutationOptions<
+  EditThreadMutation,
+  EditThreadMutationVariables
 >;
 export const JoinTeamDocument = gql`
   mutation JoinTeam($teamId: Int!, $userId: Int!) {
@@ -1821,6 +1883,7 @@ export const ThreadDocument = gql`
         avatar
       }
       createdAt
+      numberOfMessages
     }
   }
 `;

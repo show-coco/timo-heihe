@@ -4,6 +4,7 @@ module.exports = {
       "bit.ly",
       "lh3.googleusercontent.com",
       "firebasestorage.googleapis.com",
+      "flat-icon-design.com",
     ],
   },
 };

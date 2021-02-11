@@ -214,6 +214,7 @@ type TeamModel {
 type ThreadModel {
   createdAt: DateTime!
   id: Int!
+  numberOfMessages: Int!
   room: RoomModel!
   text: String!
   user: UserModel!

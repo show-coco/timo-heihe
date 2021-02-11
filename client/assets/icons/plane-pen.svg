@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 23.45 23.449">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #707070;
+      }
+    </style>
+  </defs>
+  <path id="Icon_awesome-pen" data-name="Icon awesome-pen" class="cls-1" d="M13.315,4.271l5.863,5.863L6.447,22.866l-5.228.577A1.1,1.1,0,0,1,.006,22.229L.588,17,13.315,4.271Zm9.49-.873L20.052.645a2.2,2.2,0,0,0-3.11,0l-2.59,2.59L20.215,9.1l2.59-2.59a2.2,2.2,0,0,0,0-3.11Z" transform="translate(0.001 -0.001)"/>
+</svg>
