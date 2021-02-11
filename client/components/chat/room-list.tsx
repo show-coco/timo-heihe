@@ -21,7 +21,7 @@ export const RoomList: React.FC<Props> = ({
       {rooms?.map((room) => (
         <div
           key={room.id}
-          className="pl-4 py-1 hover:bg-opacity-20 hover:bg-black-400"
+          className="pl-4 py-1 hover:bg-opacity-20 hover:bg-black-400 cursor-pointer"
           onClick={() => setSelectedRoomId(room.id)}
         >
           # {room.name}
