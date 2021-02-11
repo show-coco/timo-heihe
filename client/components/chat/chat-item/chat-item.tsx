@@ -1,41 +1,42 @@
 import React from "react";
 import { ChatItemFragment } from "../../../generated/types";
-import {
-  dateFormatter,
-  YEAR_MONTH_DAY_HOUR_MIN,
-} from "../../../utils/dateFormat";
-import { Avatar } from "../../avatar/avatar";
+import { useChatItem } from "../../../hooks/useChatItem";
 import { ChatOperations } from "../chat-operations/chat-operations";
+import { ChatItemDisplayer } from "./displayer/displayer";
+import { ChatItemEditer } from "./editer/editer";
 
 type Props = {
   item: ChatItemFragment;
+  isMe: boolean;
 };
 
-export const ChatItem: React.FC<Props> = ({ item }: Props) => {
+export const ChatItem: React.FC<Props> = ({ item, isMe }: Props) => {
+  const {
+    onClickEdit,
+    onClickCancel,
+    onEdit,
+    onChangeText,
+    text,
+  } = useChatItem(item.text);
+
   return (
     <div className="chat-item flex hover:bg-black-100 hover:bg-opacity-10 p-2 relative">
-      <ChatOperations className="absolute top-0 right-2" />
-      <div className="mr-2">
-        <Avatar
-          src={item.user.avatar || ""}
-          name={item.user.name}
-          size="small"
+      {isMe && (
+        <ChatOperations
+          className="absolute top-0 right-2"
+          onClickEdit={onClickEdit}
         />
-      </div>
+      )}
 
-      <div className="flex-1">
-        <span className="break-word font-bold">
-          <a>{item.user.name}</a>
-        </span>
-        <span className="ml-2">
-          {dateFormatter(
-            new Date(Date.parse(item.createdAt)),
-            YEAR_MONTH_DAY_HOUR_MIN
-          )}
-        </span>
-
-        <div>{item.text}</div>
-      </div>
+      {onEdit ? (
+        <ChatItemEditer
+          onClickCancel={onClickCancel}
+          text={text}
+          onChangeText={onChangeText}
+        />
+      ) : (
+        <ChatItemDisplayer item={item} />
+      )}
     </div>
   );
 };

@@ -7,6 +7,7 @@ import {
 } from "../../../generated/types";
 import { ChatItem } from "../chat-item/chat-item";
 import InfiniteScroll from "react-infinite-scroll-component";
+import { useAuthContext } from "../../../providers/useAuthContext";
 
 type Props = {
   roomId: number;
@@ -21,6 +22,8 @@ export const ThreadList: React.FC<Props> = ({
   threads,
   setThreads,
 }: Props) => {
+  const { id } = useAuthContext();
+
   const { data, loading, error, fetchMore } = useThreadListQuery({
     variables: {
       input: {
@@ -107,7 +110,9 @@ export const ThreadList: React.FC<Props> = ({
         {threads.length === 0 ? (
           <p>スレッドを送信してみましょう！</p>
         ) : (
-          threads.map((thread, i) => <ChatItem item={thread} key={i} />)
+          threads.map((thread, i) => (
+            <ChatItem item={thread} key={i} isMe={thread.user.id === id} />
+          ))
         )}
       </InfiniteScroll>
     </div>
