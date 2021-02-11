@@ -33,8 +33,12 @@ export const useChat = () => {
     }
   }, [data, selectedSpaceId]);
 
+  const selectedSpace = useMemo(() => {
+    return data?.user.teams?.find((team) => team.id === selectedSpaceId);
+  }, [data?.user.teams, selectedSpaceId]);
+
   const selectedRoom = useMemo(() => {
-    return displayedRooms?.filter((room) => room.id === selectedRoomId)[0];
+    return displayedRooms?.find((room) => room.id === selectedRoomId);
   }, [displayedRooms, selectedRoomId]);
 
   const onChangeText = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -116,6 +120,7 @@ export const useChat = () => {
       threads,
     },
     displayedRooms,
+    selectedSpace,
     selectedRoom,
     data,
   };
