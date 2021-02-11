@@ -17,6 +17,7 @@ export default function ChatPage() {
     data,
     displayedRooms,
     selectedRoom,
+    selectedSpace,
     onClickSendButton,
   } = useChat();
 
@@ -31,7 +32,9 @@ export default function ChatPage() {
         {/* チャンネル一覧 */}
         <div className="flex flex-col border-gray-200 border-r">
           <div className="flex items-center justify-center h-16 border-gray-200 border-b">
-            <Heading as="h1Small">Hirosaa</Heading>
+            <Heading as="h1Small">
+              {selectedSpace ? selectedSpace.title : ""}
+            </Heading>
           </div>
           {status.selectedSpaceId !== 0 ? (
             <RoomList
@@ -45,7 +48,7 @@ export default function ChatPage() {
         <div className="flex flex-col">
           <div className="flex items-center border-gray-200 border-b h-16">
             <Heading as="h3" className="ml-5">
-              {selectedRoom?.name ? `#${selectedRoom.name}` : ""}
+              {selectedRoom ? `#${selectedRoom.name}` : ""}
             </Heading>
           </div>
 
