@@ -818,7 +818,7 @@ export type ThreadSubscription = (
   { __typename?: 'Subscription' }
   & { threadAdded: (
     { __typename?: 'ThreadModel' }
-    & Pick<ThreadModel, 'id' | 'text' | 'createdAt'>
+    & Pick<ThreadModel, 'id' | 'text' | 'createdAt' | 'numberOfMessages'>
     & { room: (
       { __typename?: 'RoomModel' }
       & Pick<RoomModel, 'id'>
@@ -1563,6 +1563,7 @@ export const ThreadDocument = gql`
       avatar
     }
     createdAt
+    numberOfMessages
   }
 }
     `;

@@ -39,7 +39,16 @@ export const ThreadList: React.FC<Props> = ({
   useEffect(() => {
     if (newThread) {
       console.log("new threadssss", newThread);
-      setThreads([newThread?.threadAdded, ...threads]);
+      const addedThread = newThread.threadAdded;
+      const thread: ChatItemFragment = {
+        id: addedThread.id,
+        createdAt: addedThread.createdAt,
+        room: addedThread.room,
+        text: addedThread.text,
+        user: addedThread.user,
+        numberOfMessages: addedThread.numberOfMessages,
+      };
+      setThreads([thread, ...threads]);
     }
   }, [newThread, setThreads]);
 

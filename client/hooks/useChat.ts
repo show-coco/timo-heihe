@@ -68,6 +68,7 @@ export const useChat = () => {
             room: newThread.room,
             text: newThread.text,
             user: newThread.user,
+            numberOfMessages: newThread.numberOfMessages,
           };
           setThreads([thread, ...threads]);
           setText("");
