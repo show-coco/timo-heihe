@@ -14,8 +14,9 @@ export const ChatItem: React.FC<Props> = ({ item, isMe }: Props) => {
   const {
     onClickEdit,
     onClickCancel,
-    onEdit,
+    onClickSave,
     onChangeText,
+    onEdit,
     text,
   } = useChatItem(item.text);
 
@@ -31,8 +32,9 @@ export const ChatItem: React.FC<Props> = ({ item, isMe }: Props) => {
       {onEdit ? (
         <ChatItemEditer
           onClickCancel={onClickCancel}
-          text={text}
           onChangeText={onChangeText}
+          onClickSave={(e) => onClickSave(e, item.id)}
+          text={text}
         />
       ) : (
         <ChatItemDisplayer item={item} />
