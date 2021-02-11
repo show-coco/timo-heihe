@@ -468,15 +468,26 @@ export type ChatItemFragment = { __typename?: "ThreadModel" } & Pick<
   };
 
 export type RoomItemFragment = { __typename?: "UserMemberModel" } & {
-  rooms?: Maybe<
-    Array<{ __typename?: "RoomModel" } & Pick<RoomModel, "id" | "name">>
-  >;
+  rooms?: Maybe<Array<{ __typename?: "RoomModel" } & RoomFragment>>;
 };
+
+export type RoomFragment = { __typename?: "RoomModel" } & Pick<
+  RoomModel,
+  "id" | "name"
+>;
 
 export type SpaceItemFragment = { __typename?: "UserMemberModel" } & Pick<
   UserMemberModel,
   "id" | "title" | "icon"
 >;
+
+export type CreateRoomMutationVariables = Exact<{
+  input: CreateRoomInput;
+}>;
+
+export type CreateRoomMutation = { __typename?: "Mutation" } & {
+  createRoom: { __typename?: "RoomModel" } & RoomFragment;
+};
 
 export type CreateTeamMutationVariables = Exact<{
   input: CreateTeamInput;
@@ -844,13 +855,19 @@ export const ChatItemFragmentDoc = gql`
     numberOfMessages
   }
 `;
+export const RoomFragmentDoc = gql`
+  fragment Room on RoomModel {
+    id
+    name
+  }
+`;
 export const RoomItemFragmentDoc = gql`
   fragment RoomItem on UserMemberModel {
     rooms {
-      id
-      name
+      ...Room
     }
   }
+  ${RoomFragmentDoc}
 `;
 export const SpaceItemFragmentDoc = gql`
   fragment SpaceItem on UserMemberModel {
@@ -859,6 +876,55 @@ export const SpaceItemFragmentDoc = gql`
     icon
   }
 `;
+export const CreateRoomDocument = gql`
+  mutation CreateRoom($input: CreateRoomInput!) {
+    createRoom(input: $input) {
+      ...Room
+    }
+  }
+  ${RoomFragmentDoc}
+`;
+export type CreateRoomMutationFn = Apollo.MutationFunction<
+  CreateRoomMutation,
+  CreateRoomMutationVariables
+>;
+
+/**
+ * __useCreateRoomMutation__
+ *
+ * To run a mutation, you first call `useCreateRoomMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateRoomMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createRoomMutation, { data, loading, error }] = useCreateRoomMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useCreateRoomMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    CreateRoomMutation,
+    CreateRoomMutationVariables
+  >
+) {
+  return Apollo.useMutation<CreateRoomMutation, CreateRoomMutationVariables>(
+    CreateRoomDocument,
+    baseOptions
+  );
+}
+export type CreateRoomMutationHookResult = ReturnType<
+  typeof useCreateRoomMutation
+>;
+export type CreateRoomMutationResult = Apollo.MutationResult<CreateRoomMutation>;
+export type CreateRoomMutationOptions = Apollo.BaseMutationOptions<
+  CreateRoomMutation,
+  CreateRoomMutationVariables
+>;
 export const CreateTeamDocument = gql`
   mutation CreateTeam($input: CreateTeamInput!) {
     createTeam(createTeamInput: $input) {

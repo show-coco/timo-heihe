@@ -2,47 +2,77 @@ import React from "react";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import {
   ChatItemFragment,
+  RoomFragment,
+  RoomModel,
   useChatPageQuery,
+  useCreateRoomMutation,
   useCreateThreadMutation,
 } from "../generated/types";
 import { useAuthContext } from "../providers/useAuthContext";
+import { useModal } from "./useModal";
 
 export const useChat = () => {
   const { userId, id } = useAuthContext();
+  const [createThread] = useCreateThreadMutation();
+  const [selectedSpaceId, setSelectedSpaceId] = useState(0);
+  const [selectedRoomId, setSelectedRoomId] = useState(0);
+  const [threads, setThreads] = useState<ChatItemFragment[]>([]);
+  const [rooms, setRooms] = useState<RoomFragment[]>([]);
+  const [text, setText] = useState("");
+  const [roomName, setRoomName] = useState("");
+  const modal = useModal();
+
   const { data } = useChatPageQuery({
     variables: {
       userId,
     },
   });
-  const [createThread] = useCreateThreadMutation();
-  const [selectedSpaceId, setSelectedSpaceId] = useState(0);
-  const [selectedRoomId, setSelectedRoomId] = useState(0);
-  const [threads, setThreads] = useState<ChatItemFragment[]>([]);
-  const [text, setText] = useState("");
 
-  const displayedRooms = useMemo(() => {
-    if (data && data.user.teams) {
-      console.log("team", data.user.teams);
-      const team = data.user.teams.filter(
-        (team) => team.id === selectedSpaceId
-      )[0];
-
-      if (team) {
-        return team.rooms;
-      }
-    }
-  }, [data, selectedSpaceId]);
+  const [createRoom] = useCreateRoomMutation();
 
   const selectedSpace = useMemo(() => {
     return data?.user.teams?.find((team) => team.id === selectedSpaceId);
   }, [data?.user.teams, selectedSpaceId]);
 
   const selectedRoom = useMemo(() => {
-    return displayedRooms?.find((room) => room.id === selectedRoomId);
-  }, [displayedRooms, selectedRoomId]);
+    return rooms?.find((room) => room.id === selectedRoomId);
+  }, [rooms, selectedRoomId]);
 
   const onChangeText = (event: React.ChangeEvent<HTMLInputElement>) => {
     setText(event.target.value);
+  };
+
+  const onChangeRoomName = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setRoomName(event.target.value);
+  };
+
+  const onCreateRoom = async (
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    try {
+      const { data } = await createRoom({
+        variables: {
+          input: {
+            name: roomName,
+            team: {
+              id: selectedSpaceId,
+            },
+          },
+        },
+      });
+
+      // 作成したルームを表示
+      if (data) {
+        const createdRoom: RoomFragment = {
+          id: data.createRoom.id,
+          name: data.createRoom.name,
+        };
+        setRooms([...rooms, createdRoom]);
+      }
+      modal.onClose();
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const onClickSendButton = useCallback(
@@ -84,6 +114,12 @@ export const useChat = () => {
     [id, text, selectedRoomId, createThread, threads]
   );
 
+  useEffect(() => {
+    if (selectedSpace?.rooms) {
+      setRooms(selectedSpace.rooms);
+    }
+  }, [selectedSpace?.rooms]);
+
   // 最初に表示されるスペースIDをセット
   useEffect(() => {
     if (data?.user.teams) {
@@ -98,19 +134,21 @@ export const useChat = () => {
   }, [data?.user.teams]);
 
   useEffect(() => {
-    if (displayedRooms && displayedRooms.length !== 0) {
-      setSelectedRoomId(displayedRooms[0].id);
+    if (rooms && rooms.length !== 0) {
+      setSelectedRoomId(rooms[0].id);
     } else {
       setSelectedRoomId(0);
     }
-  }, [displayedRooms, selectedSpaceId]);
+  }, [rooms, selectedSpaceId]);
 
   return {
     onClickSendButton,
+    onCreateRoom,
     setter: {
       setSelectedSpaceId,
       setSelectedRoomId,
       onChangeText,
+      onChangeRoomName,
       setThreads,
     },
     status: {
@@ -118,10 +156,12 @@ export const useChat = () => {
       selectedRoomId,
       text,
       threads,
+      rooms,
+      roomName,
     },
-    displayedRooms,
     selectedSpace,
     selectedRoom,
     data,
+    modal,
   };
 };

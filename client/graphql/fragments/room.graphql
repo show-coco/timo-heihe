@@ -1,0 +1,4 @@
+fragment Room on RoomModel {
+  id
+  name
+}
