@@ -29,13 +29,21 @@ export default function ChatPage() {
           setSelectedSpace={setter.setSelectedSpaceId}
         />
 
-        {/* チャンネル一覧 */}
+        {/* ルーム一覧 */}
         <div className="flex flex-col border-gray-200 border-r">
           <div className="flex items-center justify-center h-16 border-gray-200 border-b">
             <Heading as="h1Small">
               {selectedSpace ? selectedSpace.title : ""}
             </Heading>
           </div>
+
+          <div className="py-1 px-3 flex justify-between">
+            <span>ルーム</span>
+            <button className="hover:bg-black-400 hover:bg-opacity-20 h-6 w-6 flex items-center justify-center rounded-sm">
+              +
+            </button>
+          </div>
+
           {status.selectedSpaceId !== 0 ? (
             <RoomList
               rooms={displayedRooms}
