@@ -49,12 +49,13 @@ export class UsersService {
       .leftJoinAndSelect('user.skills', 'userSkills')
       .leftJoinAndSelect('user.teams', 'teams')
       .leftJoinAndSelect('teams.team', 'team')
+      .leftJoinAndSelect('team.members', 'members', 'members.teamId = team.id')
       .leftJoinAndSelect('team.owner', 'owner')
       .leftJoinAndSelect('team.skills', 'teamSkills')
       .where({ userId })
       .getOne();
 
-    console.log('response on users->service->findOne', res.teams);
+    console.log('response on users->service->findOne', res.teams[0].team);
 
     return res;
   }

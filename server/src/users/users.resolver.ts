@@ -59,7 +59,9 @@ export class UsersResolver {
   teams(@Parent() user: User) {
     console.log('request on users->resolver->teams', user);
 
-    const userDontHaveTeam = user.teams.find((team) => team.team === null);
+    const userDontHaveTeam = user.teams.some((team) => team.team === null);
+
+    console.log('user doesnt have teams', userDontHaveTeam);
 
     if (userDontHaveTeam) {
       return null;
@@ -67,11 +69,15 @@ export class UsersResolver {
 
     return user.teams.map(async (team) => {
       const returns = await this.teamsService.findOne(team.team.id);
-      return {
+      const members = returns.members.map((member) => ({ ...member.user }));
+      const res = {
         createdAt: team.createdAt,
         memberState: team.memberState,
         ...returns,
+        members: members,
       };
+      console.log('response on', res);
+      return res;
     });
   }
 }
