@@ -20,6 +20,7 @@ import { Team } from './entities/teams.entity';
 import { TeamModel } from './models/team.model';
 import { TeamsService } from './teams.service';
 import { RoomModel } from '../room/models/room.model';
+import { SearchTeamInput } from './dto/search-teams.input';
 
 @Resolver(() => TeamModel)
 export class TeamsResolver {
@@ -36,8 +37,8 @@ export class TeamsResolver {
   }
 
   @Query(() => [TeamModel])
-  teams() {
-    return this.teamsService.findAll();
+  teams(@Args('input', { nullable: true }) input?: SearchTeamInput) {
+    return this.teamsService.findAll(input);
   }
 
   @Mutation(() => TeamModel)

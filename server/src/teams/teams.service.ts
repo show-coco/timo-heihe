@@ -6,6 +6,7 @@ import { Repository } from 'typeorm';
 import { CreateTeamInput } from './dto/create-team.input';
 import { UpdateTeamInput } from './dto/update-team.input';
 import { Team } from './entities/teams.entity';
+import { SearchTeamInput } from './dto/search-teams.input';
 
 @Injectable()
 export class TeamsService {
@@ -31,16 +32,39 @@ export class TeamsService {
     return res;
   }
 
-  async findAll(): Promise<Team[]> {
-    const res = await this.teamRepository
+  async findAll(searchTeamInput?: SearchTeamInput): Promise<Team[]> {
+    const input: SearchTeamInput | undefined =
+      searchTeamInput && JSON.parse(JSON.stringify(searchTeamInput));
+    console.log('paramater on teams->service->findAll', input);
+
+    const query = this.teamRepository
       .createQueryBuilder('team')
       .leftJoinAndSelect('team.members', 'members', 'members.teamId = team.id')
       .leftJoinAndSelect('members.user', 'user', 'members.userId = user.id')
       .leftJoinAndSelect('team.categories', 'categories')
       .leftJoinAndSelect('team.owner', 'owner')
       .leftJoinAndSelect('team.skills', 'skills')
-      .leftJoinAndSelect('team.rooms', 'rooms.teamId = team.id')
-      .getMany();
+      .leftJoinAndSelect('team.rooms', 'rooms.teamId = team.id');
+
+    if (input && input.name) {
+      query.where('team.title LIKE :name', { name: `%${input.name}%` });
+    }
+
+    if (input && input.skillIds) {
+      query.andWhere('skills.id IN (:...ids)', { ids: input.skillIds });
+    }
+
+    if (input && input.categoryIds) {
+      query.andWhere('categories.id IN (:...ids)', { ids: input.categoryIds });
+    }
+
+    if (input && input.recruitNumbers) {
+      query.andWhere('team.recruitNumbers = :number', {
+        number: input.recruitNumbers,
+      });
+    }
+
+    const res = await query.getMany();
 
     console.log('res on teams->service->findAll', res);
     return res;
