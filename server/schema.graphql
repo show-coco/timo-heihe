@@ -147,7 +147,7 @@ type Query {
   skill(id: Int!): SkillModel!
   skills: [SkillModel!]!
   team(id: Int!): TeamModel!
-  teams: [TeamModel!]!
+  teams(input: SearchTeamInput): [TeamModel!]!
   thread(id: Int!): ThreadModel!
   threads(input: FetchThreadInput!): [ThreadModel!]
   user(userId: String!): UserModel!
@@ -160,6 +160,13 @@ type RoomModel {
   team: TeamModel!
   threads: [ThreadModel!]!
   user: UserModel!
+}
+
+input SearchTeamInput {
+  categoryIds: [Int!]
+  name: String
+  recruitNumbers: Int
+  skillIds: [Int!]
 }
 
 input SkillInput {
