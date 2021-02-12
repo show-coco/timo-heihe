@@ -37,4 +37,4 @@ lerna-debug.log*
 local-data
 
 # env
-.env.dev
+.env.local
