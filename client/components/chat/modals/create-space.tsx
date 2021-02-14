@@ -1,4 +1,5 @@
 import React from "react";
+import { useCreateSpace } from "../../../hooks/useCreateSpace";
 import { useFileInput } from "../../../hooks/useFileInput";
 import { Avatar } from "../../avatar/avatar";
 import { Button } from "../../button";
@@ -17,11 +18,12 @@ export const CreateSpaceModal: React.FC<Props> = ({
   onClose,
 }: Props) => {
   const {
-    fileRef,
-    onClick: onClickFileInput,
-    onChange: onChangeFileInput,
-    imageUrl,
-  } = useFileInput();
+    fileInput,
+    onSubmit,
+    setDescription,
+    setTitle,
+    title,
+  } = useCreateSpace();
 
   return (
     <Modal
@@ -36,37 +38,43 @@ export const CreateSpaceModal: React.FC<Props> = ({
       <Heading as="h1Small" className="mb-5">
         スペースを作成する
       </Heading>
-      <div className="mt-3 space-y-5">
+      <form className="mt-3 space-y-5" onSubmit={onSubmit}>
         <div>
           <div>チームアイコン</div>
 
           <div className="flex items-center space-x-7">
-            <Avatar src={imageUrl} name="space name" />
+            <Avatar src={fileInput.imageUrl} name={title} />
 
             <FileInput
-              ref={fileRef}
-              onClick={onClickFileInput}
-              onChange={onChangeFileInput}
+              ref={fileInput.fileRef}
+              onClick={fileInput.onClick}
+              onChange={fileInput.onChange}
             />
           </div>
         </div>
         <div>
           <div className="mb-2">スペース名</div>
-          <TextInput className="w-full" />
+          <TextInput
+            className="w-full"
+            onChange={(e) => setTitle(e.target.value)}
+          />
         </div>
 
         <div>
           <div className="mb-2">説明（任意）</div>
-          <TextInput className="w-full" />
+          <TextInput
+            className="w-full"
+            onChange={(e) => setDescription(e.target.value)}
+          />
         </div>
 
         <div className="mt-4 flex justify-end space-x-3">
           <Button onClick={onClose} variant="ghost">
             キャンセル
           </Button>
-          <Button>作成</Button>
+          <Button type="submit">作成</Button>
         </div>
-      </div>
+      </form>
     </Modal>
   );
 };
