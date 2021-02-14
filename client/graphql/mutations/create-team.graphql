@@ -1,5 +1,5 @@
 mutation CreateTeam($input: CreateTeamInput!) {
-  createTeam(createTeamInput: $input) {
+  createTeam(input: $input) {
     id
     title
   }

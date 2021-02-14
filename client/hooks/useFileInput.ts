@@ -2,9 +2,17 @@ import React, { useRef, useState } from "react";
 import { storage } from "../firebase";
 import loadImage from "blueimp-load-image";
 
-export const useFileInput = () => {
+export type UseFileInputReturn = {
+  onClick: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+  onChange: (event: React.ChangeEvent<HTMLInputElement>) => Promise<void>;
+  setImageUrl: React.Dispatch<React.SetStateAction<string>>;
+  fileRef: React.RefObject<HTMLInputElement>;
+  imageUrl: string;
+};
+
+export const useFileInput = (): UseFileInputReturn => {
   const fileRef = useRef<HTMLInputElement>(null);
-  const [imageUrl, setImageUrl] = useState("/user.png");
+  const [imageUrl, setImageUrl] = useState("");
 
   const onClick = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     event.preventDefault();

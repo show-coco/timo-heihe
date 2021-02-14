@@ -25,10 +25,10 @@ export class Team {
   @Column({ nullable: true })
   icon: string;
 
-  @Column()
+  @Column({ nullable: true })
   description: string;
 
-  @ManyToMany(() => Skill, (skill) => skill.teams)
+  @ManyToMany(() => Skill, (skill) => skill.teams, { nullable: true })
   @JoinTable()
   skills: Skill[];
 
@@ -45,10 +45,10 @@ export class Team {
   @Column({ nullable: true })
   repositoryUrl?: string;
 
-  @Column()
+  @Column({ nullable: true })
   recruitNumbers: number;
 
-  @Column({ nullable: true })
+  @Column({ default: true })
   isRequired: boolean;
 
   @CreateDateColumn({ type: 'timestamp' })
@@ -56,4 +56,7 @@ export class Team {
 
   @OneToMany(() => Room, (room) => room.team)
   rooms: Room[];
+
+  @Column({ default: false })
+  recruiting: boolean;
 }

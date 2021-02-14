@@ -4,10 +4,10 @@ import {
   ThreadListQuery,
   useThreadListQuery,
   useThreadSubscription,
-} from "../../../generated/types";
-import { ChatItem } from "../chat-item/chat-item";
+} from "../../generated/types";
+import { ChatItem } from "./chat-item/chat-item";
 import InfiniteScroll from "react-infinite-scroll-component";
-import { useAuthContext } from "../../../providers/useAuthContext";
+import { useAuthContext } from "../../providers/useAuthContext";
 
 type Props = {
   roomId: number;

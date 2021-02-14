@@ -1,7 +1,7 @@
 import React from "react";
 import { RoomList } from "../components/chat/room-list";
 import { SpaceList } from "../components/chat/space-list";
-import { ThreadList } from "../components/chat/thread-list/thread-list";
+import { ThreadList } from "../components/chat/thread-list";
 import { Heading } from "../components/heading/heading";
 import { Template } from "../components/template/template";
 import { TextInput } from "../components/text-input/text-input";
@@ -10,6 +10,8 @@ import { ReactComponent as SendIcon } from "../assets/icons/send.svg";
 // MEMO&TODO: svgのなぜか色が変えられなかったため、別のsvgファイルを使用してる
 import { ReactComponent as InActiveSendIcon } from "../assets/icons/send-inactive.svg";
 import { CreateRoomModal } from "../components/chat/modals/create-room";
+import { CreateSpaceModal } from "../components/chat/modals/create-space";
+import { MoveToRecruitModal } from "../components/chat/modals/move-to-recruit";
 
 export default function ChatPage() {
   const {
@@ -20,22 +22,30 @@ export default function ChatPage() {
     selectedSpace,
     onClickSendButton,
     onCreateRoom,
-    modal,
+    createRoomModal,
+    createSpace,
   } = useChat();
 
   return (
     <>
       <CreateRoomModal
-        {...modal}
+        {...createRoomModal}
         roomName={status.roomName}
         onCreate={onCreateRoom}
         onChangeName={setter.onChangeRoomName}
       />
+      <CreateSpaceModal {...createSpace} />
+      <MoveToRecruitModal
+        {...createSpace.moveToRecruitModal}
+        onMoveToRecruit={createSpace.moveToRecruit}
+      />
+
       <Template>
         <div className="grid grid-cols-chat h-full border-gray-200 border bg-white">
           <SpaceList
-            teams={data?.user.teams || []}
+            teams={status.spaces}
             setSelectedSpace={setter.setSelectedSpaceId}
+            onOpen={createSpace.modal.onOpen}
           />
 
           {/* ルーム一覧 */}
@@ -50,7 +60,7 @@ export default function ChatPage() {
               <span>ルーム</span>
               <button
                 className="hover:bg-black-400 hover:bg-opacity-20 h-6 w-6 flex items-center justify-center rounded-sm"
-                onClick={modal.onOpen}
+                onClick={createRoomModal.onOpen}
               >
                 +
               </button>

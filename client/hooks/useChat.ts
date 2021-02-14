@@ -3,12 +3,13 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import {
   ChatItemFragment,
   RoomFragment,
-  RoomModel,
+  SpaceItemFragment,
   useChatPageQuery,
   useCreateRoomMutation,
   useCreateThreadMutation,
 } from "../generated/types";
 import { useAuthContext } from "../providers/useAuthContext";
+import { useCreateSpace } from "./useCreateSpace";
 import { useModal } from "./useModal";
 
 export const useChat = () => {
@@ -16,11 +17,15 @@ export const useChat = () => {
   const [createThread] = useCreateThreadMutation();
   const [selectedSpaceId, setSelectedSpaceId] = useState(0);
   const [selectedRoomId, setSelectedRoomId] = useState(0);
+  const [spaces, setSpaces] = useState<SpaceItemFragment[]>([]);
   const [threads, setThreads] = useState<ChatItemFragment[]>([]);
   const [rooms, setRooms] = useState<RoomFragment[]>([]);
   const [text, setText] = useState("");
   const [roomName, setRoomName] = useState("");
-  const modal = useModal();
+
+  const createSpace = useCreateSpace({ setSpaces, spaces });
+
+  const createRoomModal = useModal();
 
   const { data } = useChatPageQuery({
     variables: {
@@ -69,7 +74,7 @@ export const useChat = () => {
         };
         setRooms([...rooms, createdRoom]);
       }
-      modal.onClose();
+      createRoomModal.onClose();
     } catch (error) {
       console.error(error);
     }
@@ -120,6 +125,12 @@ export const useChat = () => {
     }
   }, [selectedSpace?.rooms]);
 
+  useEffect(() => {
+    if (data?.user.teams) {
+      setSpaces(data.user.teams);
+    }
+  }, [data?.user.teams]);
+
   // 最初に表示されるスペースIDをセット
   useEffect(() => {
     if (data?.user.teams) {
@@ -155,13 +166,15 @@ export const useChat = () => {
       selectedSpaceId,
       selectedRoomId,
       text,
+      roomName,
       threads,
       rooms,
-      roomName,
+      spaces,
     },
     selectedSpace,
     selectedRoom,
     data,
-    modal,
+    createRoomModal,
+    createSpace,
   };
 };

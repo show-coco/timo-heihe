@@ -2,11 +2,6 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-input CategoryInput {
-  id: Int!
-  name: String
-}
-
 type CategoryModel {
   id: Int
   name: String!
@@ -59,16 +54,11 @@ input CreateSkillInput {
 }
 
 input CreateTeamInput {
-  categories: [CategoryInput!]!
-  createdAt: Timestamp
-  description: String!
+  description: String
   icon: String
-  isRequired: Boolean!
   members: [CreateTeamMembersUserInput!]!
   owner: ConnectUserInput!
-  recruitNumbers: Int!
-  repositoryUrl: String
-  skills: [SkillInput!]!
+  rectuiting: Boolean
   title: String!
 }
 
@@ -118,7 +108,7 @@ type Mutation {
   createMessage(input: CreateMessageInput!): MessageModel!
   createRoom(input: CreateRoomInput!): RoomModel!
   createSkill(createSkillInput: CreateSkillInput!): SkillModel!
-  createTeam(createTeamInput: CreateTeamInput!): TeamModel!
+  createTeam(input: CreateTeamInput!): TeamModel!
   createThread(input: CreateThreadInput!): ThreadModel!
   deleteRoom(id: Int!): DeleteResponse!
   deleteTeam(id: Int!): TeamModel!
@@ -227,11 +217,6 @@ type ThreadModel {
   user: UserModel!
 }
 
-"""
-`Date` type as integer. Type represents date and time as number of milliseconds from start of UNIX epoch.
-"""
-scalar Timestamp
-
 input UpdateCategoryInput {
   id: Int!
   name: String
@@ -251,17 +236,12 @@ input UpdateSkillInput {
 }
 
 input UpdateTeamInput {
-  categories: [CategoryInput!]
-  createdAt: Timestamp
   description: String
   icon: String
   id: Int!
-  isRequired: Boolean
   members: [CreateTeamMembersUserInput!]
   owner: ConnectUserInput
-  recruitNumbers: Int
-  repositoryUrl: String
-  skills: [SkillInput!]
+  rectuiting: Boolean
   title: String
 }
 

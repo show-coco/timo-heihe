@@ -17,13 +17,6 @@ export type Scalars = {
   Float: number;
   /** A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format. */
   DateTime: any;
-  /** `Date` type as integer. Type represents date and time as number of milliseconds from start of UNIX epoch. */
-  Timestamp: any;
-};
-
-export type CategoryInput = {
-  id: Scalars["Int"];
-  name?: Maybe<Scalars["String"]>;
 };
 
 export type CategoryModel = {
@@ -79,16 +72,11 @@ export type CreateSkillInput = {
 };
 
 export type CreateTeamInput = {
-  categories: Array<CategoryInput>;
-  createdAt?: Maybe<Scalars["Timestamp"]>;
-  description: Scalars["String"];
+  description?: Maybe<Scalars["String"]>;
   icon?: Maybe<Scalars["String"]>;
-  isRequired: Scalars["Boolean"];
   members: Array<CreateTeamMembersUserInput>;
   owner: ConnectUserInput;
-  recruitNumbers: Scalars["Int"];
-  repositoryUrl?: Maybe<Scalars["String"]>;
-  skills: Array<SkillInput>;
+  rectuiting?: Maybe<Scalars["Boolean"]>;
   title: Scalars["String"];
 };
 
@@ -176,7 +164,7 @@ export type MutationCreateSkillArgs = {
 };
 
 export type MutationCreateTeamArgs = {
-  createTeamInput: CreateTeamInput;
+  input: CreateTeamInput;
 };
 
 export type MutationCreateThreadArgs = {
@@ -280,6 +268,10 @@ export type QueryTeamArgs = {
   id: Scalars["Int"];
 };
 
+export type QueryTeamsArgs = {
+  input?: Maybe<SearchTeamInput>;
+};
+
 export type QueryThreadArgs = {
   id: Scalars["Int"];
 };
@@ -299,6 +291,13 @@ export type RoomModel = {
   team: TeamModel;
   threads: Array<ThreadModel>;
   user: UserModel;
+};
+
+export type SearchTeamInput = {
+  categoryIds?: Maybe<Array<Scalars["Int"]>>;
+  name?: Maybe<Scalars["String"]>;
+  recruitNumbers?: Maybe<Scalars["Int"]>;
+  skillIds?: Maybe<Array<Scalars["Int"]>>;
 };
 
 export type SkillInput = {
@@ -391,17 +390,12 @@ export type UpdateSkillInput = {
 };
 
 export type UpdateTeamInput = {
-  categories?: Maybe<Array<CategoryInput>>;
-  createdAt?: Maybe<Scalars["Timestamp"]>;
   description?: Maybe<Scalars["String"]>;
   icon?: Maybe<Scalars["String"]>;
   id: Scalars["Int"];
-  isRequired?: Maybe<Scalars["Boolean"]>;
   members?: Maybe<Array<CreateTeamMembersUserInput>>;
   owner?: Maybe<ConnectUserInput>;
-  recruitNumbers?: Maybe<Scalars["Int"]>;
-  repositoryUrl?: Maybe<Scalars["String"]>;
-  skills?: Maybe<Array<SkillInput>>;
+  rectuiting?: Maybe<Scalars["Boolean"]>;
   title?: Maybe<Scalars["String"]>;
 };
 
@@ -927,7 +921,7 @@ export type CreateRoomMutationOptions = Apollo.BaseMutationOptions<
 >;
 export const CreateTeamDocument = gql`
   mutation CreateTeam($input: CreateTeamInput!) {
-    createTeam(createTeamInput: $input) {
+    createTeam(input: $input) {
       id
       title
     }

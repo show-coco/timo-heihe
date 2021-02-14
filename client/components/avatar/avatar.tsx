@@ -1,17 +1,19 @@
 import React from "react";
 import Image from "next/image";
+import { getNameInitials } from "../../utils/getNameInitials";
 
 export type AvatarProps = {
-  src: string;
+  src?: string;
   name?: string;
   size?: "small" | "medium" | "large";
   variant?: "square" | "round";
   className?: string;
-  // eslint-disable-next-line no-unused-vars
   onClick?: (event: React.MouseEvent<HTMLSpanElement, MouseEvent>) => void;
+  role?: "button";
+  tabIndex?: number;
 };
 
-const defaultStyle = "inline-flex items-center justify-center ";
+const defaultStyle = "inline-flex items-center justify-center";
 
 const sizes = {
   small: "w-8 h-8",
@@ -29,21 +31,31 @@ export const Avatar: React.FC<AvatarProps> = ({
   size = "medium",
   variant = "round",
   className,
+  name = "",
+  role,
+  tabIndex,
   ...props
 }: AvatarProps) => {
   const SizeStyle = sizes[size];
   const Variant = variants[variant];
 
-  return (
+  return src ? (
     <span
       className={`${defaultStyle} ${SizeStyle} ${className} ${Variant}`}
+      role={role}
+      tabIndex={tabIndex}
       {...props}
     >
-      {src ? (
-        <Image src={src} width="100%" height="100%" className={`${Variant}`} />
-      ) : (
-        <img src={src} width="100%" height="100%" className={`${Variant}`} />
-      )}
+      <Image src={src} width="100%" height="100%" className={`${Variant}`} />
     </span>
+  ) : (
+    <div
+      role={role}
+      tabIndex={tabIndex}
+      {...props}
+      className={`${Variant} ${SizeStyle} bg-red-200 inline-flex items-center justify-center`}
+    >
+      {getNameInitials(name)}
+    </div>
   );
 };
