@@ -47,9 +47,9 @@ export class TeamsResolver {
   }
 
   @Mutation(() => TeamModel)
-  createTeam(@Args('createTeamInput') createTeamInput: CreateTeamInput) {
-    console.log('request on teams->resolver->createTeam', createTeamInput);
-    return this.teamsService.insert(createTeamInput);
+  createTeam(@Args('input') input: CreateTeamInput) {
+    console.log('request on teams->resolver->createTeam', input);
+    return this.teamsService.insert(input);
   }
 
   @Mutation(() => TeamModel)
