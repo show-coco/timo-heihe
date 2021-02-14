@@ -52,6 +52,7 @@ export const Avatar: React.FC<AvatarProps> = ({
     <div
       role={role}
       tabIndex={tabIndex}
+      {...props}
       className={`${Variant} ${SizeStyle} bg-red-200 inline-flex items-center justify-center`}
     >
       {getNameInitials(name)}
