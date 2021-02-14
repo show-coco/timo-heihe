@@ -62,7 +62,7 @@ export const useCreateSpace = ({
           title: data.createTeam.title,
         };
 
-        setSpaces([newSpace, ...spaces]);
+        setSpaces([...spaces, newSpace]);
       }
     } catch (e) {
       console.log(e);

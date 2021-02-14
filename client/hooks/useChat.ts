@@ -125,6 +125,12 @@ export const useChat = () => {
     }
   }, [selectedSpace?.rooms]);
 
+  useEffect(() => {
+    if (data?.user.teams) {
+      setSpaces(data.user.teams);
+    }
+  }, [data?.user.teams]);
+
   // 最初に表示されるスペースIDをセット
   useEffect(() => {
     if (data?.user.teams) {
@@ -160,9 +166,10 @@ export const useChat = () => {
       selectedSpaceId,
       selectedRoomId,
       text,
+      roomName,
       threads,
       rooms,
-      roomName,
+      spaces,
     },
     selectedSpace,
     selectedRoom,

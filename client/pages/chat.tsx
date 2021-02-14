@@ -38,7 +38,7 @@ export default function ChatPage() {
       <Template>
         <div className="grid grid-cols-chat h-full border-gray-200 border bg-white">
           <SpaceList
-            teams={data?.user.teams || []}
+            teams={status.spaces}
             setSelectedSpace={setter.setSelectedSpaceId}
             onOpen={createSpace.modal.onOpen}
           />
