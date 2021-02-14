@@ -3,11 +3,13 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import {
   ChatItemFragment,
   RoomFragment,
+  SpaceItemFragment,
   useChatPageQuery,
   useCreateRoomMutation,
   useCreateThreadMutation,
 } from "../generated/types";
 import { useAuthContext } from "../providers/useAuthContext";
+import { useCreateSpace } from "./useCreateSpace";
 import { useModal } from "./useModal";
 
 export const useChat = () => {
@@ -15,13 +17,15 @@ export const useChat = () => {
   const [createThread] = useCreateThreadMutation();
   const [selectedSpaceId, setSelectedSpaceId] = useState(0);
   const [selectedRoomId, setSelectedRoomId] = useState(0);
+  const [spaces, setSpaces] = useState<SpaceItemFragment[]>([]);
   const [threads, setThreads] = useState<ChatItemFragment[]>([]);
   const [rooms, setRooms] = useState<RoomFragment[]>([]);
   const [text, setText] = useState("");
   const [roomName, setRoomName] = useState("");
 
+  const createSpace = useCreateSpace({ setSpaces, spaces });
+
   const createRoomModal = useModal();
-  const createSpaceModal = useModal();
 
   const { data } = useChatPageQuery({
     variables: {
@@ -164,6 +168,6 @@ export const useChat = () => {
     selectedRoom,
     data,
     createRoomModal,
-    createSpaceModal,
+    createSpace,
   };
 };

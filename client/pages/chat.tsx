@@ -22,7 +22,7 @@ export default function ChatPage() {
     onClickSendButton,
     onCreateRoom,
     createRoomModal,
-    createSpaceModal,
+    createSpace,
   } = useChat();
 
   return (
@@ -33,14 +33,14 @@ export default function ChatPage() {
         onCreate={onCreateRoom}
         onChangeName={setter.onChangeRoomName}
       />
-      <CreateSpaceModal {...createSpaceModal} />
+      <CreateSpaceModal {...createSpace} />
 
       <Template>
         <div className="grid grid-cols-chat h-full border-gray-200 border bg-white">
           <SpaceList
             teams={data?.user.teams || []}
             setSelectedSpace={setter.setSelectedSpaceId}
-            onOpen={createSpaceModal.onOpen}
+            onOpen={createSpace.modal.onOpen}
           />
 
           {/* ルーム一覧 */}
