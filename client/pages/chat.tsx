@@ -1,7 +1,7 @@
 import React from "react";
 import { RoomList } from "../components/chat/room-list";
 import { SpaceList } from "../components/chat/space-list";
-import { ThreadList } from "../components/chat/thread-list/thread-list";
+import { ThreadList } from "../components/chat/thread-list";
 import { Heading } from "../components/heading/heading";
 import { Template } from "../components/template/template";
 import { TextInput } from "../components/text-input/text-input";
