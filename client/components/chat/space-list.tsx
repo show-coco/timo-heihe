@@ -15,15 +15,16 @@ export const SpaceList: React.FC<Props> = ({
     <>
       <div className="flex items-center flex-col border-gray-200 border-r space-y-3 py-5">
         {teams?.map((team) => (
-          <button key={team.id}>
-            <Avatar
-              src={team.icon || ""}
-              name={team.title}
-              variant="square"
-              onClick={() => setSelectedSpace(team.id || 0)}
-              className="cursor-pointer"
-            />
-          </button>
+          <Avatar
+            src={team.icon || ""}
+            key={team.id}
+            name={team.title}
+            variant="square"
+            onClick={() => setSelectedSpace(team.id || 0)}
+            className="cursor-pointer"
+            role="button"
+            tabIndex={0}
+          />
         ))}
 
         <button className="h-12 w-12 rounded-md bg-gray-300">
