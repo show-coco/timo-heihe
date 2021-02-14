@@ -39,22 +39,22 @@ export const Avatar: React.FC<AvatarProps> = ({
   const SizeStyle = sizes[size];
   const Variant = variants[variant];
 
-  return (
+  return src ? (
     <span
       className={`${defaultStyle} ${SizeStyle} ${className} ${Variant}`}
       role={role}
       tabIndex={tabIndex}
       {...props}
     >
-      {src ? (
-        <Image src={src} width="100%" height="100%" className={`${Variant}`} />
-      ) : (
-        <div
-          className={`${Variant} ${SizeStyle} bg-red-200 inline-flex items-center justify-center`}
-        >
-          {getNameInitials(name)}
-        </div>
-      )}
+      <Image src={src} width="100%" height="100%" className={`${Variant}`} />
     </span>
+  ) : (
+    <div
+      role={role}
+      tabIndex={tabIndex}
+      className={`${Variant} ${SizeStyle} bg-red-200 inline-flex items-center justify-center`}
+    >
+      {getNameInitials(name)}
+    </div>
   );
 };
