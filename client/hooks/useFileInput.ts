@@ -4,7 +4,7 @@ import loadImage from "blueimp-load-image";
 
 export const useFileInput = () => {
   const fileRef = useRef<HTMLInputElement>(null);
-  const [imageUrl, setImageUrl] = useState("/user.png");
+  const [imageUrl, setImageUrl] = useState("");
 
   const onClick = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     event.preventDefault();
