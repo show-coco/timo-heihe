@@ -22,7 +22,7 @@ export default function Home() {
   return (
     <Template className="p-10">
       <Heading>Board</Heading>
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-2 ">
         <div className="space-y-5 mt-5">
           {teams.map((team, i) => (
             <TeamCard {...team} key={i} />

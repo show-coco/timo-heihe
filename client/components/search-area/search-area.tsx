@@ -4,15 +4,21 @@ import { Heading } from "../heading/heading";
 import { Button } from "../button";
 import { Checkbox } from "../checkbox/checkbox";
 import { NumberInput } from "../number-input/number-input";
-
+import {
+  useFetchCategoryQuery,
+  useFetchSkillQuery,
+} from "../../generated/types";
 type SearchAreaPros = {};
-
 export const SearchArea = () => {
+  const { data: dataR } = useFetchCategoryQuery();
+
+  const { data } = useFetchSkillQuery();
   const [RecruitNumber, setRecruitNumber] = useState(0);
+  console.log(data);
   return (
-    <div className="mt-5">
+    <div className="mt-5 pl-10">
       {/* テキストインプットと背景青 */}
-      <div className="bg-indigo-900 text-center rounded-t-md">
+      <div className="bg-blue-550 text-center rounded-t-md">
         <TextInput className="w-9/12 my-6" placeholder="チーム名で検索する" />
       </div>
       <div className="bg-white px-8">
@@ -27,23 +33,31 @@ export const SearchArea = () => {
         <Heading as="h2" className="py-4">
           技術で絞る
         </Heading>
-        <Checkbox>GraphQL</Checkbox>
-        <Checkbox>GraphQL</Checkbox>
-        <Checkbox>GraphQL</Checkbox>
-        <Checkbox>GraphQL</Checkbox>
-        <Checkbox>GraphQL</Checkbox>
-        <Checkbox>GraphQL</Checkbox>
-        <Checkbox>GraphQL</Checkbox>
-        {/* かてごリーで絞る */}
+        <div>
+          {data?.skills.map((skill) => (
+            <Checkbox className="pr-6" key={skill.id}>
+              {skill.name}
+            </Checkbox>
+          ))}
+        </div>
+
+        {/* カテゴリーで絞るで絞る */}
         <Heading as="h2" className="py-4">
           カテゴリーで絞る
         </Heading>
-        <Checkbox>ios</Checkbox>
-        <Checkbox>ios</Checkbox>
-        <Checkbox>ios</Checkbox>
+        <div>
+          {dataR?.categories.map((category) => (
+            <Checkbox className="pr-6" key={category.id}>
+              {category.name}
+            </Checkbox>
+          ))}
+        </div>
+
         {/* 検索ボタン */}
         <div className="text-center p-8">
-          <Button type="submit">検索</Button>
+          <Button size="medium" className="px-10" type="submit">
+            検索
+          </Button>
         </div>
       </div>
     </div>

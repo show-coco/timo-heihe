@@ -1,0 +1,7 @@
+query FetchSkill {
+  skills {
+    icon
+    id
+    name
+  }
+}
