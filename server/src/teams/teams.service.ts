@@ -44,10 +44,11 @@ export class TeamsService {
       .leftJoinAndSelect('team.categories', 'categories')
       .leftJoinAndSelect('team.owner', 'owner')
       .leftJoinAndSelect('team.skills', 'skills')
-      .leftJoinAndSelect('team.rooms', 'rooms.teamId = team.id');
+      .leftJoinAndSelect('team.rooms', 'rooms.teamId = team.id')
+      .where({ recruiting: true });
 
     if (input && input.name) {
-      query.where('team.title LIKE :name', { name: `%${input.name}%` });
+      query.andWhere('team.title LIKE :name', { name: `%${input.name}%` });
     }
 
     if (input && input.skillIds) {
