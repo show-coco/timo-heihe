@@ -19,7 +19,9 @@ export const useChat = () => {
   const [rooms, setRooms] = useState<RoomFragment[]>([]);
   const [text, setText] = useState("");
   const [roomName, setRoomName] = useState("");
-  const modal = useModal();
+
+  const createRoomModal = useModal();
+  const createSpaceModal = useModal();
 
   const { data } = useChatPageQuery({
     variables: {
@@ -68,7 +70,7 @@ export const useChat = () => {
         };
         setRooms([...rooms, createdRoom]);
       }
-      modal.onClose();
+      createRoomModal.onClose();
     } catch (error) {
       console.error(error);
     }
@@ -161,6 +163,7 @@ export const useChat = () => {
     selectedSpace,
     selectedRoom,
     data,
-    modal,
+    createRoomModal,
+    createSpaceModal,
   };
 };

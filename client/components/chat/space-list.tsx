@@ -5,11 +5,13 @@ import { Avatar } from "../avatar/avatar";
 type Props = {
   teams?: SpaceItemFragment[];
   setSelectedSpace: React.Dispatch<React.SetStateAction<number>>;
+  onOpen: () => void;
 };
 
 export const SpaceList: React.FC<Props> = ({
   teams,
   setSelectedSpace,
+  onOpen,
 }: Props) => {
   return (
     <>
@@ -27,7 +29,7 @@ export const SpaceList: React.FC<Props> = ({
           />
         ))}
 
-        <button className="h-12 w-12 rounded-md bg-gray-300">
+        <button className="h-12 w-12 rounded-md bg-gray-300" onClick={onOpen}>
           <span className="text-white">＋</span>
         </button>
       </div>

@@ -10,6 +10,7 @@ import { ReactComponent as SendIcon } from "../assets/icons/send.svg";
 // MEMO&TODO: svgのなぜか色が変えられなかったため、別のsvgファイルを使用してる
 import { ReactComponent as InActiveSendIcon } from "../assets/icons/send-inactive.svg";
 import { CreateRoomModal } from "../components/chat/modals/create-room";
+import { CreateSpaceModal } from "../components/chat/modals/create-space";
 
 export default function ChatPage() {
   const {
@@ -20,22 +21,26 @@ export default function ChatPage() {
     selectedSpace,
     onClickSendButton,
     onCreateRoom,
-    modal,
+    createRoomModal,
+    createSpaceModal,
   } = useChat();
 
   return (
     <>
       <CreateRoomModal
-        {...modal}
+        {...createRoomModal}
         roomName={status.roomName}
         onCreate={onCreateRoom}
         onChangeName={setter.onChangeRoomName}
       />
+      <CreateSpaceModal {...createSpaceModal} />
+
       <Template>
         <div className="grid grid-cols-chat h-full border-gray-200 border bg-white">
           <SpaceList
             teams={data?.user.teams || []}
             setSelectedSpace={setter.setSelectedSpaceId}
+            onOpen={createSpaceModal.onOpen}
           />
 
           {/* ルーム一覧 */}
@@ -50,7 +55,7 @@ export default function ChatPage() {
               <span>ルーム</span>
               <button
                 className="hover:bg-black-400 hover:bg-opacity-20 h-6 w-6 flex items-center justify-center rounded-sm"
-                onClick={modal.onOpen}
+                onClick={createRoomModal.onOpen}
               >
                 +
               </button>
