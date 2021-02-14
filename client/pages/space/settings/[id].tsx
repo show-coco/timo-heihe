@@ -6,16 +6,16 @@ import React from "react";
 // import { Heading } from "../components/heading/heading";
 // import { NumberInput } from "../components/number-input/number-input";
 // import { Radio } from "../components/radio/radio";
-import { Template } from "../components/template/template";
+import { Template } from "../../../components/template/template";
 // import GithubIcon from "../assets/icons/github.svg";
 // import { TextInput } from "../components/text-input/text-input";
 // import { FileInput } from "../components/file-input/file-inpute";
 // import { useCreateTeam } from "../hooks/useCreateTeam";
-// import { SkillModel, useCreateTeamPageQuery } from "../generated/types";
-// import {
-//   ACSelectedData,
-//   AutoComplate,
-// } from "../components/auto-complate/auto-complate";
+import { SkillModel, useCreateTeamPageQuery } from "../../../generated/types";
+import {
+  ACSelectedData,
+  AutoComplate,
+} from "../../../components/auto-complate/auto-complate";
 // import { LanguagePochiSet } from "../components/language/language-pochi-set";
 
 // const betweenH2 = "space-y-2";
@@ -185,16 +185,16 @@ import { Template } from "../components/template/template";
 //   );
 // }
 
-// export const convertToACData = (skills: Pick<SkillModel, "id" | "name">[]) => {
-//   return skills.map((skill) => ({
-//     id: skill.id.toString(),
-//     name: skill.name,
-//   }));
-// };
+export const convertToACData = (skills: Pick<SkillModel, "id" | "name">[]) => {
+  return skills.map((skill) => ({
+    id: skill.id.toString(),
+    name: skill.name,
+  }));
+};
 
-// export const convertToSkillPochiSetArray = (skills: ACSelectedData[]) => {
-//   return skills.map((skill) => skill.name);
-// };
+export const convertToSkillPochiSetArray = (skills: ACSelectedData[]) => {
+  return skills.map((skill) => skill.name);
+};
 
 // // const categoriesMock = [
 // //   "iOS",
@@ -212,5 +212,5 @@ import { Template } from "../components/template/template";
 // // ];
 
 export default function CreateTeam() {
-  return <Template className="p-10">アップデート中</Template>;
+  return <Template className="p-10">スペース設定ページ</Template>;
 }

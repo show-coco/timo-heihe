@@ -1,3 +1,4 @@
+import { useRouter } from "next/router";
 import React from "react";
 import { useState } from "react";
 import { SpaceItemFragment, useCreateTeamMutation } from "../generated/types";
@@ -18,18 +19,23 @@ export type UseCreateSpaceReturn = {
   setDescription: React.Dispatch<React.SetStateAction<string>>;
   onSubmit: (e: React.FormEvent<HTMLFormElement>) => Promise<void>;
   modal: UseModalReturn;
+  moveToRecruitModal: UseModalReturn;
+  moveToRecruit: () => void;
 };
 
 export const useCreateSpace = ({
   setSpaces,
   spaces,
 }: Props): UseCreateSpaceReturn => {
+  const router = useRouter();
   const { id } = useAuthContext();
   const [createTeam, { loading }] = useCreateTeamMutation();
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const fileInput = useFileInput();
   const modal = useModal();
+  const [newSpaceId, setNewSpaceId] = useState(0);
+  const moveToRecruitModal = useModal();
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -63,11 +69,22 @@ export const useCreateSpace = ({
         };
 
         setSpaces([...spaces, newSpace]);
+        modal.onClose();
+        moveToRecruitModal.onOpen();
+        setNewSpaceId(newSpace.id || 0);
       }
     } catch (e) {
       console.log(e);
     }
-    modal.onClose();
+  };
+
+  const moveToRecruit = () => {
+    router.push({
+      pathname: "/space/settings/[spaceId]",
+      query: {
+        spaceId: newSpaceId,
+      },
+    });
   };
 
   return {
@@ -77,6 +94,8 @@ export const useCreateSpace = ({
     setTitle,
     setDescription,
     onSubmit,
+    moveToRecruit,
     modal,
+    moveToRecruitModal,
   };
 };

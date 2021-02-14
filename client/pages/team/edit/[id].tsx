@@ -15,7 +15,7 @@ import { useEditTeam } from "../../../hooks/useEditTeam";
 import {
   convertToACData,
   convertToSkillPochiSetArray,
-} from "../../create-team";
+} from "../../space/settings/[id]";
 import { EditableLanguagePochiSet } from "../../../components/language/editable-language-pochi-set";
 
 const betweenH2 = "space-y-2";

@@ -11,6 +11,7 @@ import { ReactComponent as SendIcon } from "../assets/icons/send.svg";
 import { ReactComponent as InActiveSendIcon } from "../assets/icons/send-inactive.svg";
 import { CreateRoomModal } from "../components/chat/modals/create-room";
 import { CreateSpaceModal } from "../components/chat/modals/create-space";
+import { MoveToRecruitModal } from "../components/chat/modals/move-to-recruit";
 
 export default function ChatPage() {
   const {
@@ -34,6 +35,10 @@ export default function ChatPage() {
         onChangeName={setter.onChangeRoomName}
       />
       <CreateSpaceModal {...createSpace} />
+      <MoveToRecruitModal
+        {...createSpace.moveToRecruitModal}
+        onMoveToRecruit={createSpace.moveToRecruit}
+      />
 
       <Template>
         <div className="grid grid-cols-chat h-full border-gray-200 border bg-white">
