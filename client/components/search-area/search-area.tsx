@@ -4,81 +4,21 @@ import { Heading } from "../heading/heading";
 import { Button } from "../button";
 import { Checkbox } from "../checkbox/checkbox";
 import { NumberInput } from "../number-input/number-input";
-import {
-  useFetchCategoryQuery,
-  useFetchSkillQuery,
-  useSearchTeamQuery,
-  SearchTeamQuery,
-} from "../../generated/types";
+
 import { useSearch } from "../../hooks/useSeach";
-type SearchAreaPros = {};
+
 export const SearchArea = () => {
-  const { data: dataR } = useFetchCategoryQuery();
-  const { data } = useFetchSkillQuery();
-
-  const [recruitNumbers, setRecruitNumbers] = useState(0);
-  const [name, setName] = useState<string>("");
-  const [searchedTeams, setSearchedTemas] = useState<SearchTeamQuery>();
-  const [categoryIds, setCategoryIds] = useState<number[]>([]);
-  const [skillIds, setSkillIds] = useState<number[]>([]);
-  const [searchData, setSeacrhData] = useState({});
-  const { data: dataS } = useSearchTeamQuery(searchData);
-
-  const handleSubmit = () => {
-    const Data = {
-      variables: {
-        input: {
-          recruitNumbers,
-          name,
-          categoryIds: categoryIds.length ? categoryIds : null,
-          skillIds: skillIds.length ? skillIds : null,
-        },
-      },
-    };
-    setSeacrhData(Data);
-    setName("");
-    setRecruitNumbers(0);
-  };
-
-  useEffect(() => {
-    setSearchedTemas(dataS);
-  }, [dataS]);
-
-  const handleChangeCategories = (e: React.FormEvent<HTMLInputElement>) => {
-    // チェック入れた挙動
-    if ((e.target as HTMLInputElement).checked === true) {
-      const duplicateDelteCategories = new Set([...categoryIds]);
-      setCategoryIds([
-        ...duplicateDelteCategories,
-        Number(e.currentTarget.value),
-      ]);
-      // チェックを外した挙動
-    } else if ((e.target as HTMLInputElement).checked === false) {
-      const removeCheck = Number(e.currentTarget.value);
-      const newCategories = categoryIds.filter((value) => value != removeCheck);
-      setCategoryIds(newCategories);
-    }
-  };
-
-  const handleChangeSkills = (e: React.FormEvent<HTMLInputElement>) => {
-    // チェックを外した挙動
-    if ((e.target as HTMLInputElement).checked === true) {
-      const duplicateDelteSkill = new Set([...skillIds]);
-      setSkillIds([...duplicateDelteSkill, Number(e.currentTarget.value)]);
-      // チェック入れた挙動
-    } else if ((e.target as HTMLInputElement).checked === false) {
-      const removeCheck = Number(e.currentTarget.value);
-      const newSkills = skillIds.filter((value) => value != removeCheck);
-      setSkillIds(newSkills);
-    }
-  };
-
-  // デバック
-  console.log("checkedItems: ", categoryIds);
-  console.log("checkedItems(スキル): ", skillIds);
-  console.log("チームネーム: ", name);
-  console.log("所属人数: ", recruitNumbers);
-
+  const {
+    handleSubmit,
+    handleChangeCategories,
+    handleChangeSkills,
+    setName,
+    name,
+    data,
+    dataR,
+    setRecruitNumbers,
+    recruitNumbers,
+  } = useSearch();
   return (
     <div className="mt-5 pl-10">
       {/* テキストインプットと背景青 */}

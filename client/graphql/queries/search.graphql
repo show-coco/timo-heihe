@@ -1,9 +1,0 @@
-query SearchTeam($input: SearchTeamInput) {
-  teams(input: $input) {
-    id
-    title
-    members {
-      id
-    }
-  }
-}
