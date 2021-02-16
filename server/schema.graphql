@@ -2,6 +2,11 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+input CategoryInput {
+  id: Int!
+  name: String
+}
+
 type CategoryModel {
   id: Int
   name: String!
@@ -54,11 +59,16 @@ input CreateSkillInput {
 }
 
 input CreateTeamInput {
+  categories: [CategoryInput!]!
   description: String
   icon: String
+  isRequired: Boolean!
   members: [CreateTeamMembersUserInput!]!
   owner: ConnectUserInput!
+  recruitNumbers: Int!
   rectuiting: Boolean
+  repositoryUrl: String
+  skills: [SkillInput!]!
   title: String!
 }
 
@@ -236,12 +246,17 @@ input UpdateSkillInput {
 }
 
 input UpdateTeamInput {
+  categories: [CategoryInput!]
   description: String
   icon: String
   id: Int!
+  isRequired: Boolean
   members: [CreateTeamMembersUserInput!]
   owner: ConnectUserInput
+  recruitNumbers: Int
   rectuiting: Boolean
+  repositoryUrl: String
+  skills: [SkillInput!]
   title: String
 }
 

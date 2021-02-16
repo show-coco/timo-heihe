@@ -11,7 +11,7 @@ import { FileInput } from "../../../components/file-input/file-inpute";
 import {
   convertToACData,
   convertToSkillPochiSetArray,
-} from "../../space/settings/[id]";
+} from "../../create-space";
 import { AutoComplate } from "../../../components/auto-complate/auto-complate";
 import { Button } from "../../../components/button";
 import { EditableLanguagePochiSet } from "../../../components/language/editable-language-pochi-set";
