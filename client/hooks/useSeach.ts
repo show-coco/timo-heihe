@@ -1,20 +1,17 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   useFetchCategoryQuery,
   useFetchSkillQuery,
   useTeamsQuery,
-  TeamQuery,
 } from "../generated/types";
 export const useSearch = () => {
   const { data: categoryData } = useFetchCategoryQuery();
-  const { data } = useFetchSkillQuery();
+  const { data: skillData } = useFetchSkillQuery();
   const [recruitNumbers, setRecruitNumbers] = useState(0);
   const [name, setName] = useState<string>("");
-  const [searchedTeams, setSearchedTemas] = useState<TeamQuery>();
   const [categoryIds, setCategoryIds] = useState<number[]>([]);
   const [skillIds, setSkillIds] = useState<number[]>([]);
-  const [searchData, setSeacrhData] = useState({});
-
+  const [searchedResult, setSearchedResult] = useState("");
   const { data: teamsData, refetch, loading, error } = useTeamsQuery();
 
   const handleSubmit = () => {
@@ -28,21 +25,13 @@ export const useSearch = () => {
     });
   };
 
-  console.log("検索: ", teamsData);
-  // useEffect(() => {
-  //   setSearchedTemas(dataS);
-  //   console.log("検索結果: ", searchedTeams);
-  // }, [searchData, dataS]);
-
   const handleChangeCategories = (e: React.FormEvent<HTMLInputElement>) => {
-    // チェック入れた挙動
     if ((e.target as HTMLInputElement).checked === true) {
-      const duplicateDelteCategories = new Set([...categoryIds]);
+      const delteDuplicateCategories = new Set([...categoryIds]);
       setCategoryIds([
-        ...duplicateDelteCategories,
+        ...delteDuplicateCategories,
         Number(e.currentTarget.value),
       ]);
-      // チェックを外した挙動
     } else if ((e.target as HTMLInputElement).checked === false) {
       const removeCheck = Number(e.currentTarget.value);
       const newCategories = categoryIds.filter((value) => value != removeCheck);
@@ -51,11 +40,9 @@ export const useSearch = () => {
   };
 
   const handleChangeSkills = (e: React.FormEvent<HTMLInputElement>) => {
-    // チェックを外した挙動
     if ((e.target as HTMLInputElement).checked === true) {
-      const duplicateDelteSkill = new Set([...skillIds]);
-      setSkillIds([...duplicateDelteSkill, Number(e.currentTarget.value)]);
-      // チェック入れた挙動
+      const delteDuplicateSkills = new Set([...skillIds]);
+      setSkillIds([...delteDuplicateSkills, Number(e.currentTarget.value)]);
     } else if ((e.target as HTMLInputElement).checked === false) {
       const removeCheck = Number(e.currentTarget.value);
       const newSkills = skillIds.filter((value) => value != removeCheck);
@@ -69,13 +56,16 @@ export const useSearch = () => {
     handleChangeSkills,
     setName,
     name,
-    data,
-    dataR: categoryData,
-    teamsData,
+    skillData,
+    categoryData,
     loading,
     error,
     setRecruitNumbers,
     recruitNumbers,
-    searchedTeams,
+    teamsData,
+    setSearchedResult,
+    skillIds,
+    categoryIds,
+    searchedResult,
   };
 };

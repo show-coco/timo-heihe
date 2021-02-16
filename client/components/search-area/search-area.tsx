@@ -1,27 +1,34 @@
-import React, { useState, useEffect } from "react";
+import React, { FC } from "react";
 import { TextInput } from "../text-input/text-input";
 import { Heading } from "../heading/heading";
 import { Button } from "../button";
 import { Checkbox } from "../checkbox/checkbox";
 import { NumberInput } from "../number-input/number-input";
-
-import { useSearch } from "../../hooks/useSeach";
-
-export const SearchArea = () => {
-  const {
-    handleSubmit,
-    handleChangeCategories,
-    handleChangeSkills,
-    setName,
-    name,
-    data,
-    dataR,
-    setRecruitNumbers,
-    recruitNumbers,
-  } = useSearch();
+import { FetchSkillQuery, FetchCategoryQuery } from "../../generated/types";
+type UseSearch = {
+  handleSubmit: () => void;
+  handleChangeCategories: (e: React.FormEvent<HTMLInputElement>) => void;
+  handleChangeSkills: (e: React.FormEvent<HTMLInputElement>) => void;
+  setName: React.Dispatch<React.SetStateAction<string>>;
+  name: string;
+  skillData?: FetchSkillQuery;
+  categoryData?: FetchCategoryQuery;
+  setRecruitNumbers: React.Dispatch<React.SetStateAction<number>>;
+  recruitNumbers: number;
+};
+export const SearchArea: FC<UseSearch> = ({
+  handleSubmit,
+  handleChangeCategories,
+  handleChangeSkills,
+  setName,
+  name,
+  skillData,
+  categoryData,
+  setRecruitNumbers,
+  recruitNumbers,
+}: UseSearch) => {
   return (
     <div className="mt-5 pl-10">
-      {/* テキストインプットと背景青 */}
       <div className="bg-blue-550 text-center rounded-t-md">
         <TextInput
           onChange={(e) => setName(e.target.value)}
@@ -31,19 +38,18 @@ export const SearchArea = () => {
         />
       </div>
       <div className="bg-white px-8">
-        {/* 人数で絞る */}
         <Heading as="h2" className="py-4">
           所属人数で絞る
         </Heading>
         <div className="flex flex-row h-10 w-full rounded-lg relative bg-transparent mt-1">
           <NumberInput value={recruitNumbers} setValue={setRecruitNumbers} />
         </div>
-        {/* 技術で絞る */}
+
         <Heading as="h2" className="py-4">
           技術で絞る
         </Heading>
         <div>
-          {data?.skills.map((skill, i) => (
+          {skillData?.skills.map((skill, i) => (
             <Checkbox
               key={i}
               className="mr-4 mt-4"
@@ -55,12 +61,11 @@ export const SearchArea = () => {
           ))}
         </div>
 
-        {/* カテゴリーで絞るで絞る */}
         <Heading as="h2" className="py-4">
           カテゴリーで絞る
         </Heading>
         <div>
-          {dataR?.categories.map((category, i) => (
+          {categoryData?.categories.map((category, i) => (
             <Checkbox
               key={i}
               className="mr-4 mt-4"
@@ -72,7 +77,6 @@ export const SearchArea = () => {
           ))}
         </div>
 
-        {/* 検索ボタン */}
         <div className="text-center p-8">
           <Button
             onClick={handleSubmit}
