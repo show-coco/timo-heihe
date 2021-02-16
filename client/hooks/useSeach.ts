@@ -11,7 +11,6 @@ export const useSearch = () => {
   const [name, setName] = useState<string>("");
   const [categoryIds, setCategoryIds] = useState<number[]>([]);
   const [skillIds, setSkillIds] = useState<number[]>([]);
-  const [searchedResult, setSearchedResult] = useState("");
   const { data: teamsData, refetch, loading, error } = useTeamsQuery();
 
   const handleSubmit = () => {
@@ -54,18 +53,16 @@ export const useSearch = () => {
     handleSubmit,
     handleChangeCategories,
     handleChangeSkills,
-    setName,
-    name,
+    teamsData,
     skillData,
     categoryData,
     loading,
     error,
+    setName,
+    name,
     setRecruitNumbers,
     recruitNumbers,
-    teamsData,
-    setSearchedResult,
     skillIds,
     categoryIds,
-    searchedResult,
   };
 };
