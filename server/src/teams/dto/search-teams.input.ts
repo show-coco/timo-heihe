@@ -12,5 +12,11 @@ export class SearchTeamInput {
   categoryIds?: number[];
 
   @Field(() => Int, { nullable: true })
-  recruitNumbers: number;
+  recruitNumbers?: number;
+
+  @Field({ nullable: true })
+  userId?: string;
+
+  @Field()
+  recommend: boolean;
 }

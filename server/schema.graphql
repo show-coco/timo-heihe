@@ -165,8 +165,10 @@ type RoomModel {
 input SearchTeamInput {
   categoryIds: [Int!]
   name: String
+  recommend: Boolean!
   recruitNumbers: Int
   skillIds: [Int!]
+  userId: String
 }
 
 input SkillInput {

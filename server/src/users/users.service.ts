@@ -43,6 +43,19 @@ export class UsersService {
     return res;
   }
 
+  async getUserSkillIds(userId: string): Promise<number[]> {
+    const user = await this.userRepository
+      .createQueryBuilder('user')
+      .leftJoinAndSelect('user.skills', 'skills')
+      .where({ userId })
+      .getOne();
+
+    const skillIds = user.skills.map((skill) => skill.id);
+
+    console.log('response on users->service->getUserSkills', skillIds);
+    return skillIds;
+  }
+
   async findOne(userId: string): Promise<User> {
     console.log('userId', userId);
     const res = await this.userRepository
