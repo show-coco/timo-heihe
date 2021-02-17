@@ -44,6 +44,7 @@ export class UsersService {
   }
 
   async findOne(userId: string): Promise<User> {
+    console.log('userId', userId);
     const res = await this.userRepository
       .createQueryBuilder('user')
       .leftJoinAndSelect('user.skills', 'userSkills')
@@ -55,7 +56,7 @@ export class UsersService {
       .where({ userId })
       .getOne();
 
-    console.log('response on users->service->findOne', res.teams[0].team);
+    console.log('response on users->service->findOne', res);
 
     return res;
   }

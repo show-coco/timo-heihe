@@ -24,11 +24,13 @@ export default function UserDetail() {
   const id = router.query.id;
   const { id: loginUserId } = useAuthContext();
 
-  const { data } = useUserDetailPageQuery({
+  const { data, error } = useUserDetailPageQuery({
     variables: {
       userId: id?.toString() || "",
     },
   });
+
+  console.error(error);
 
   const iAmLoginUser = useMemo(() => data?.user.id === loginUserId, [
     data?.user.id,

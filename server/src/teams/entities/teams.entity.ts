@@ -57,6 +57,6 @@ export class Team {
   @OneToMany(() => Room, (room) => room.team)
   rooms: Room[];
 
-  @Column({ default: false })
+  @Column({ default: true })
   recruiting: boolean;
 }
