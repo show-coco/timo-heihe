@@ -6,7 +6,7 @@ import {
 import { Heading } from "../components/heading/heading";
 import { Template } from "../components/template/template";
 import { SearchArea } from "../components/search-area/search-area";
-import { useSearch } from "../hooks/useSeach";
+import { useSearchTeams } from "../hooks/useSearchTeams";
 
 export default function Home() {
   const {
@@ -17,12 +17,11 @@ export default function Home() {
     setName,
     name,
     recruitNumbers,
-    skillData,
-    categoryData,
+    categoryAndSkillData,
     teamsData,
     error,
     loading,
-  } = useSearch();
+  } = useSearchTeams();
 
   const teams = useMemo(() => {
     // FIXME
@@ -52,8 +51,7 @@ export default function Home() {
           handleChangeSkills={handleChangeSkills}
           setName={setName}
           name={name}
-          skillData={skillData}
-          categoryData={categoryData}
+          categoryAndSkillData={categoryAndSkillData}
           setRecruitNumbers={setRecruitNumbers}
           recruitNumbers={recruitNumbers}
         />

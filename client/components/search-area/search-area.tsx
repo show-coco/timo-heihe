@@ -4,26 +4,14 @@ import { Heading } from "../heading/heading";
 import { Button } from "../button";
 import { Checkbox } from "../checkbox/checkbox";
 import { NumberInput } from "../number-input/number-input";
-import { FetchSkillQuery, FetchCategoryQuery } from "../../generated/types";
-type UseSearch = {
-  handleSubmit: () => void;
-  handleChangeCategories: (e: React.FormEvent<HTMLInputElement>) => void;
-  handleChangeSkills: (e: React.FormEvent<HTMLInputElement>) => void;
-  setName: React.Dispatch<React.SetStateAction<string>>;
-  name: string;
-  skillData?: FetchSkillQuery;
-  categoryData?: FetchCategoryQuery;
-  setRecruitNumbers: React.Dispatch<React.SetStateAction<number>>;
-  recruitNumbers: number;
-};
+import { UseSearch } from "../../hooks/useSearchTeams";
 export const SearchArea: FC<UseSearch> = ({
   handleSubmit,
   handleChangeCategories,
   handleChangeSkills,
   setName,
   name,
-  skillData,
-  categoryData,
+  categoryAndSkillData,
   setRecruitNumbers,
   recruitNumbers,
 }: UseSearch) => {
@@ -49,7 +37,7 @@ export const SearchArea: FC<UseSearch> = ({
           技術で絞る
         </Heading>
         <div>
-          {skillData?.skills.map((skill, i) => (
+          {categoryAndSkillData?.skills.map((skill, i) => (
             <Checkbox
               key={i}
               className="mr-4 mt-4"
@@ -65,7 +53,7 @@ export const SearchArea: FC<UseSearch> = ({
           カテゴリーで絞る
         </Heading>
         <div>
-          {categoryData?.categories.map((category, i) => (
+          {categoryAndSkillData?.categories.map((category, i) => (
             <Checkbox
               key={i}
               className="mr-4 mt-4"

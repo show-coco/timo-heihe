@@ -1,12 +1,23 @@
 import React, { useState } from "react";
 import {
-  useFetchCategoryQuery,
-  useFetchSkillQuery,
+  useSearchConditionsQuery,
+  SearchConditionsQuery,
   useTeamsQuery,
 } from "../generated/types";
-export const useSearch = () => {
-  const { data: categoryData } = useFetchCategoryQuery();
-  const { data: skillData } = useFetchSkillQuery();
+
+export type UseSearch = {
+  handleSubmit: () => void;
+  handleChangeCategories: (e: React.FormEvent<HTMLInputElement>) => void;
+  handleChangeSkills: (e: React.FormEvent<HTMLInputElement>) => void;
+  setName: React.Dispatch<React.SetStateAction<string>>;
+  name: string;
+  categoryAndSkillData?: SearchConditionsQuery;
+  setRecruitNumbers: React.Dispatch<React.SetStateAction<number>>;
+  recruitNumbers: number;
+};
+
+export const useSearchTeams = () => {
+  const { data: categoryAndSkillData } = useSearchConditionsQuery();
   const [recruitNumbers, setRecruitNumbers] = useState(0);
   const [name, setName] = useState<string>("");
   const [categoryIds, setCategoryIds] = useState<number[]>([]);
@@ -54,15 +65,12 @@ export const useSearch = () => {
     handleChangeCategories,
     handleChangeSkills,
     teamsData,
-    skillData,
-    categoryData,
+    categoryAndSkillData,
     loading,
     error,
     setName,
     name,
     setRecruitNumbers,
     recruitNumbers,
-    skillIds,
-    categoryIds,
   };
 };

@@ -588,14 +588,6 @@ export type ApplyTeamMutation = { __typename?: "Mutation" } & {
   applyTeam: { __typename?: "TeamModel" } & Pick<TeamModel, "id" | "title">;
 };
 
-export type FetchCategoryQueryVariables = Exact<{ [key: string]: never }>;
-
-export type FetchCategoryQuery = { __typename?: "Query" } & {
-  categories: Array<
-    { __typename?: "CategoryModel" } & Pick<CategoryModel, "id" | "name">
-  >;
-};
-
 export type ChatPageQueryVariables = Exact<{
   userId: Scalars["String"];
 }>;
@@ -723,9 +715,12 @@ export type MeQuery = { __typename?: "Query" } & {
   me: { __typename?: "UserModel" } & Pick<UserModel, "id" | "userId" | "name">;
 };
 
-export type FetchSkillQueryVariables = Exact<{ [key: string]: never }>;
+export type SearchConditionsQueryVariables = Exact<{ [key: string]: never }>;
 
-export type FetchSkillQuery = { __typename?: "Query" } & {
+export type SearchConditionsQuery = { __typename?: "Query" } & {
+  categories: Array<
+    { __typename?: "CategoryModel" } & Pick<CategoryModel, "id" | "name">
+  >;
   skills: Array<
     { __typename?: "SkillModel" } & Pick<SkillModel, "icon" | "id" | "name">
   >;
@@ -1353,62 +1348,6 @@ export type ApplyTeamMutationOptions = Apollo.BaseMutationOptions<
   ApplyTeamMutation,
   ApplyTeamMutationVariables
 >;
-export const FetchCategoryDocument = gql`
-  query FetchCategory {
-    categories {
-      id
-      name
-    }
-  }
-`;
-
-/**
- * __useFetchCategoryQuery__
- *
- * To run a query within a React component, call `useFetchCategoryQuery` and pass it any options that fit your needs.
- * When your component renders, `useFetchCategoryQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useFetchCategoryQuery({
- *   variables: {
- *   },
- * });
- */
-export function useFetchCategoryQuery(
-  baseOptions?: Apollo.QueryHookOptions<
-    FetchCategoryQuery,
-    FetchCategoryQueryVariables
-  >
-) {
-  return Apollo.useQuery<FetchCategoryQuery, FetchCategoryQueryVariables>(
-    FetchCategoryDocument,
-    baseOptions
-  );
-}
-export function useFetchCategoryLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    FetchCategoryQuery,
-    FetchCategoryQueryVariables
-  >
-) {
-  return Apollo.useLazyQuery<FetchCategoryQuery, FetchCategoryQueryVariables>(
-    FetchCategoryDocument,
-    baseOptions
-  );
-}
-export type FetchCategoryQueryHookResult = ReturnType<
-  typeof useFetchCategoryQuery
->;
-export type FetchCategoryLazyQueryHookResult = ReturnType<
-  typeof useFetchCategoryLazyQuery
->;
-export type FetchCategoryQueryResult = Apollo.QueryResult<
-  FetchCategoryQuery,
-  FetchCategoryQueryVariables
->;
 export const ChatPageDocument = gql`
   query ChatPage($userId: String!) {
     user(userId: $userId) {
@@ -1746,8 +1685,12 @@ export function useMeLazyQuery(
 export type MeQueryHookResult = ReturnType<typeof useMeQuery>;
 export type MeLazyQueryHookResult = ReturnType<typeof useMeLazyQuery>;
 export type MeQueryResult = Apollo.QueryResult<MeQuery, MeQueryVariables>;
-export const FetchSkillDocument = gql`
-  query FetchSkill {
+export const SearchConditionsDocument = gql`
+  query SearchConditions {
+    categories {
+      id
+      name
+    }
     skills {
       icon
       id
@@ -1757,49 +1700,51 @@ export const FetchSkillDocument = gql`
 `;
 
 /**
- * __useFetchSkillQuery__
+ * __useSearchConditionsQuery__
  *
- * To run a query within a React component, call `useFetchSkillQuery` and pass it any options that fit your needs.
- * When your component renders, `useFetchSkillQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useSearchConditionsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useSearchConditionsQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useFetchSkillQuery({
+ * const { data, loading, error } = useSearchConditionsQuery({
  *   variables: {
  *   },
  * });
  */
-export function useFetchSkillQuery(
+export function useSearchConditionsQuery(
   baseOptions?: Apollo.QueryHookOptions<
-    FetchSkillQuery,
-    FetchSkillQueryVariables
+    SearchConditionsQuery,
+    SearchConditionsQueryVariables
   >
 ) {
-  return Apollo.useQuery<FetchSkillQuery, FetchSkillQueryVariables>(
-    FetchSkillDocument,
+  return Apollo.useQuery<SearchConditionsQuery, SearchConditionsQueryVariables>(
+    SearchConditionsDocument,
     baseOptions
   );
 }
-export function useFetchSkillLazyQuery(
+export function useSearchConditionsLazyQuery(
   baseOptions?: Apollo.LazyQueryHookOptions<
-    FetchSkillQuery,
-    FetchSkillQueryVariables
+    SearchConditionsQuery,
+    SearchConditionsQueryVariables
   >
 ) {
-  return Apollo.useLazyQuery<FetchSkillQuery, FetchSkillQueryVariables>(
-    FetchSkillDocument,
-    baseOptions
-  );
+  return Apollo.useLazyQuery<
+    SearchConditionsQuery,
+    SearchConditionsQueryVariables
+  >(SearchConditionsDocument, baseOptions);
 }
-export type FetchSkillQueryHookResult = ReturnType<typeof useFetchSkillQuery>;
-export type FetchSkillLazyQueryHookResult = ReturnType<
-  typeof useFetchSkillLazyQuery
+export type SearchConditionsQueryHookResult = ReturnType<
+  typeof useSearchConditionsQuery
 >;
-export type FetchSkillQueryResult = Apollo.QueryResult<
-  FetchSkillQuery,
-  FetchSkillQueryVariables
+export type SearchConditionsLazyQueryHookResult = ReturnType<
+  typeof useSearchConditionsLazyQuery
+>;
+export type SearchConditionsQueryResult = Apollo.QueryResult<
+  SearchConditionsQuery,
+  SearchConditionsQueryVariables
 >;
 export const TeamDocument = gql`
   query Team($id: Int!) {

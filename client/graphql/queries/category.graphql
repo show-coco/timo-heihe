@@ -1,6 +1,0 @@
-query FetchCategory {
-  categories {
-    id
-    name
-  }
-}
