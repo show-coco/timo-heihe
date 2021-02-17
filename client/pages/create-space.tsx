@@ -1,36 +1,46 @@
 import React from "react";
-import { AutoComplate } from "../../../components/auto-complate/auto-complate";
-import { Avatar } from "../../../components/avatar/avatar";
-import { Card } from "../../../components/card/card";
-import { Checkbox } from "../../../components/checkbox/checkbox";
-import { FileInput } from "../../../components/file-input/file-inpute";
-import { Heading } from "../../../components/heading/heading";
-import { NumberInput } from "../../../components/number-input/number-input";
-import { Radio } from "../../../components/radio/radio";
-import { Template } from "../../../components/template/template";
-import { TextInput } from "../../../components/text-input/text-input";
-import GithubIcon from "../../../assets/icons/github.svg";
-import { Button } from "../../../components/button";
-import { useEditTeam } from "../../../hooks/useEditTeam";
+import { Template } from "../components/template/template";
+import { SkillModel, useCreateTeamPageQuery } from "../generated/types";
 import {
-  convertToACData,
-  convertToSkillPochiSetArray,
-} from "../../create-space";
-import { EditableLanguagePochiSet } from "../../../components/language/editable-language-pochi-set";
+  ACSelectedData,
+  AutoComplate,
+} from "../components/auto-complate/auto-complate";
+import { Card } from "../components/card/card";
+import { useCreateTeam } from "../hooks/useCreateTeam";
+import { Heading } from "../components/heading/heading";
+import { Avatar } from "../components/avatar/avatar";
+import { FileInput } from "../components/file-input/file-inpute";
+import { TextInput } from "../components/text-input/text-input";
+import { NumberInput } from "../components/number-input/number-input";
+import { Radio } from "../components/radio/radio";
+import { Checkbox } from "../components/checkbox/checkbox";
+import { LanguagePochiSet } from "../components/language/language-pochi-set";
+import { Button } from "../components/button";
+import GithubIcon from "../assets/icons/github.svg";
 
 const betweenH2 = "space-y-2";
 
-export default function EditTeam() {
+export default function CreateTeam() {
   const {
-    formState,
-    file,
-    setter,
-    skills,
-    categories,
+    setTitle,
+    setRespositoryUrl,
+    setSkills,
+    setDescription,
+    setRecruitNumber,
+    onClickFileInput,
+    onChangeFileInput,
     onSubmit,
-  } = useEditTeam();
+    setIsRequired,
+    onChangeCategories,
+    recruitNumber,
+    selectedSkills,
+    fileRef,
+    imageUrl,
+  } = useCreateTeam();
+  const { data } = useCreateTeamPageQuery();
 
-  console.log(formState);
+  const skills = data?.skills || [];
+  console.log("selectedSkills", selectedSkills);
 
   return (
     <Template className="p-10">
@@ -43,11 +53,11 @@ export default function EditTeam() {
               <Heading as="h2">チームアイコン</Heading>
 
               <div className="flex items-center space-x-7">
-                <Avatar src={formState.imageUrl || ""} />
+                <Avatar src={imageUrl} />
                 <FileInput
-                  ref={file.fileRef}
-                  onClick={file.onClickFileInput}
-                  onChange={file.onChangeFileInput}
+                  ref={fileRef}
+                  onClick={onClickFileInput}
+                  onChange={onChangeFileInput}
                 />
               </div>
             </div>
@@ -61,8 +71,7 @@ export default function EditTeam() {
               <TextInput
                 placeholder="チーム名を入力"
                 name="title"
-                value={formState.title}
-                onChange={(e) => setter.setTitle(e.target.value)}
+                onChange={(e) => setTitle(e.target.value)}
               />
             </div>
 
@@ -75,9 +84,8 @@ export default function EditTeam() {
               <TextInput
                 placeholder="チームの説明を入力"
                 name="description"
-                value={formState.description}
                 className="w-2/3"
-                onChange={(e) => setter.setDescription(e.target.value)}
+                onChange={(e) => setDescription(e.target.value)}
               />
             </div>
 
@@ -89,8 +97,8 @@ export default function EditTeam() {
 
               <div className="flex flex-row h-10 w-full rounded-lg relative bg-transparent mt-1">
                 <NumberInput
-                  value={formState.recruitNumber}
-                  setValue={setter.setRecruitNumber}
+                  value={recruitNumber}
+                  setValue={setRecruitNumber}
                 />
               </div>
             </div>
@@ -103,18 +111,16 @@ export default function EditTeam() {
 
               <div className="space-x-8 flex">
                 <Radio
-                  checked={formState.isRequired === "1"}
                   text="なし"
                   name="apply"
                   value="1"
-                  onChange={(e) => setter.setIsRequired(e.target.value)}
+                  onChange={(e) => setIsRequired(e.target.value)}
                 />
                 <Radio
-                  checked={formState.isRequired === "2"}
                   text="あり"
                   name="apply"
                   value="2"
-                  onChange={(e) => setter.setIsRequired(e.target.value)}
+                  onChange={(e) => setIsRequired(e.target.value)}
                 />
               </div>
             </div>
@@ -123,17 +129,13 @@ export default function EditTeam() {
               <Heading as="h2">カテゴリー</Heading>
 
               <div>
-                {categories.map((category, i) => (
+                {data?.categories.map((category, i) => (
                   <Checkbox
                     key={i}
                     className="mr-4 mt-4"
                     value={category.id?.toString()}
-                    checked={formState.categories.includes(category.id || -1)}
                     onChange={(e) =>
-                      setter.onChangeCategories(
-                        e,
-                        Number(e.currentTarget.value)
-                      )
+                      onChangeCategories(e, Number(e.currentTarget.value))
                     }
                   >
                     {category.name}
@@ -145,19 +147,20 @@ export default function EditTeam() {
             <div className={betweenH2}>
               <Heading as="h2">使用するスキル</Heading>
 
+              {/* <TextInput
+                placeholder="検索する"
+                name="skills"
+                onChange={(e) => setSkills(e.target.value)}
+              /> */}
               <AutoComplate
                 data={convertToACData(skills)}
                 placeholder="スキルを検索"
-                setSelected={setter.setSkills}
-                selectedData={formState.selectedSkills}
+                setSelected={setSkills}
+                selectedData={selectedSkills}
               />
               <div>
-                <EditableLanguagePochiSet
-                  languages={convertToSkillPochiSetArray(
-                    formState.selectedSkills
-                  )}
-                  setSelected={setter.setSkills}
-                  selectedData={formState.selectedSkills}
+                <LanguagePochiSet
+                  languages={convertToSkillPochiSetArray(selectedSkills)}
                 />
               </div>
             </div>
@@ -169,17 +172,41 @@ export default function EditTeam() {
                 <GithubIcon height="30px" />
                 <TextInput
                   placeholder="URLを入力"
-                  className="w-1/2"
-                  value={formState.repositoryUrl}
-                  onChange={(e) => setter.setRespositoryUrl(e.target.value)}
+                  onChange={(e) => setRespositoryUrl(e.target.value)}
                 />
               </div>
             </div>
 
-            <Button type="submit">保存する</Button>
+            <Button type="submit">作成する</Button>
           </div>
         </form>
       </Card>
     </Template>
   );
 }
+
+export const convertToACData = (skills: Pick<SkillModel, "id" | "name">[]) => {
+  return skills.map((skill) => ({
+    id: skill.id.toString(),
+    name: skill.name,
+  }));
+};
+
+export const convertToSkillPochiSetArray = (skills: ACSelectedData[]) => {
+  return skills.map((skill) => skill.name);
+};
+
+// // const categoriesMock = [
+// //   "iOS",
+// //   "Android",
+// //   "Web",
+// //   "ゲーム",
+// //   "iOS",
+// //   "Android",
+// //   "Web",
+// //   "ゲーム",
+// //   "iOS",
+// //   "Android",
+// //   "Web",
+// //   "ゲーム",
+// // ];

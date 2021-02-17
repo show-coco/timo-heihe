@@ -19,6 +19,11 @@ export type Scalars = {
   DateTime: any;
 };
 
+export type CategoryInput = {
+  id: Scalars["Int"];
+  name?: Maybe<Scalars["String"]>;
+};
+
 export type CategoryModel = {
   __typename?: "CategoryModel";
   id?: Maybe<Scalars["Int"]>;
@@ -72,11 +77,16 @@ export type CreateSkillInput = {
 };
 
 export type CreateTeamInput = {
+  categories: Array<CategoryInput>;
   description?: Maybe<Scalars["String"]>;
   icon?: Maybe<Scalars["String"]>;
+  isRequired: Scalars["Boolean"];
   members: Array<CreateTeamMembersUserInput>;
   owner: ConnectUserInput;
+  recruitNumbers: Scalars["Int"];
   rectuiting?: Maybe<Scalars["Boolean"]>;
+  repositoryUrl?: Maybe<Scalars["String"]>;
+  skills: Array<SkillInput>;
   title: Scalars["String"];
 };
 
@@ -390,12 +400,17 @@ export type UpdateSkillInput = {
 };
 
 export type UpdateTeamInput = {
+  categories?: Maybe<Array<CategoryInput>>;
   description?: Maybe<Scalars["String"]>;
   icon?: Maybe<Scalars["String"]>;
   id: Scalars["Int"];
+  isRequired?: Maybe<Scalars["Boolean"]>;
   members?: Maybe<Array<CreateTeamMembersUserInput>>;
   owner?: Maybe<ConnectUserInput>;
+  recruitNumbers?: Maybe<Scalars["Int"]>;
   rectuiting?: Maybe<Scalars["Boolean"]>;
+  repositoryUrl?: Maybe<Scalars["String"]>;
+  skills?: Maybe<Array<SkillInput>>;
   title?: Maybe<Scalars["String"]>;
 };
 
