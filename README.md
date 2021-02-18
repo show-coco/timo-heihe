@@ -1,5 +1,6 @@
 # Timo Heihe
-Timo Heiheはエンジニアのためのアウトプットプラットフォームです。
+
+Timo Heihe はエンジニアのためのアウトプットプラットフォームです。
 
 ## 使用技術
 
@@ -19,5 +20,6 @@ cd server && yarn install
 
 ```bash
 cd client && yarn dev
+docker-compose up -d
 cd server && yarn start:dev
 ```

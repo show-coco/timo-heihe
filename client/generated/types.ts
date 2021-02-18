@@ -713,6 +713,17 @@ export type MeQuery = { __typename?: "Query" } & {
   me: { __typename?: "UserModel" } & Pick<UserModel, "id" | "userId" | "name">;
 };
 
+export type SearchConditionsQueryVariables = Exact<{ [key: string]: never }>;
+
+export type SearchConditionsQuery = { __typename?: "Query" } & {
+  categories: Array<
+    { __typename?: "CategoryModel" } & Pick<CategoryModel, "id" | "name">
+  >;
+  skills: Array<
+    { __typename?: "SkillModel" } & Pick<SkillModel, "icon" | "id" | "name">
+  >;
+};
+
 export type TeamQueryVariables = Exact<{
   id: Scalars["Int"];
 }>;
@@ -749,7 +760,9 @@ export type TeamQuery = { __typename?: "Query" } & {
     };
 };
 
-export type TeamsQueryVariables = Exact<{ [key: string]: never }>;
+export type TeamsQueryVariables = Exact<{
+  input?: Maybe<SearchTeamInput>;
+}>;
 
 export type TeamsQuery = { __typename?: "Query" } & {
   teams: Array<
@@ -1670,6 +1683,67 @@ export function useMeLazyQuery(
 export type MeQueryHookResult = ReturnType<typeof useMeQuery>;
 export type MeLazyQueryHookResult = ReturnType<typeof useMeLazyQuery>;
 export type MeQueryResult = Apollo.QueryResult<MeQuery, MeQueryVariables>;
+export const SearchConditionsDocument = gql`
+  query SearchConditions {
+    categories {
+      id
+      name
+    }
+    skills {
+      icon
+      id
+      name
+    }
+  }
+`;
+
+/**
+ * __useSearchConditionsQuery__
+ *
+ * To run a query within a React component, call `useSearchConditionsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useSearchConditionsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useSearchConditionsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useSearchConditionsQuery(
+  baseOptions?: Apollo.QueryHookOptions<
+    SearchConditionsQuery,
+    SearchConditionsQueryVariables
+  >
+) {
+  return Apollo.useQuery<SearchConditionsQuery, SearchConditionsQueryVariables>(
+    SearchConditionsDocument,
+    baseOptions
+  );
+}
+export function useSearchConditionsLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    SearchConditionsQuery,
+    SearchConditionsQueryVariables
+  >
+) {
+  return Apollo.useLazyQuery<
+    SearchConditionsQuery,
+    SearchConditionsQueryVariables
+  >(SearchConditionsDocument, baseOptions);
+}
+export type SearchConditionsQueryHookResult = ReturnType<
+  typeof useSearchConditionsQuery
+>;
+export type SearchConditionsLazyQueryHookResult = ReturnType<
+  typeof useSearchConditionsLazyQuery
+>;
+export type SearchConditionsQueryResult = Apollo.QueryResult<
+  SearchConditionsQuery,
+  SearchConditionsQueryVariables
+>;
 export const TeamDocument = gql`
   query Team($id: Int!) {
     team(id: $id) {
@@ -1741,8 +1815,8 @@ export type TeamQueryHookResult = ReturnType<typeof useTeamQuery>;
 export type TeamLazyQueryHookResult = ReturnType<typeof useTeamLazyQuery>;
 export type TeamQueryResult = Apollo.QueryResult<TeamQuery, TeamQueryVariables>;
 export const TeamsDocument = gql`
-  query Teams {
-    teams {
+  query Teams($input: SearchTeamInput) {
+    teams(input: $input) {
       id
       title
       description
@@ -1777,6 +1851,7 @@ export const TeamsDocument = gql`
  * @example
  * const { data, loading, error } = useTeamsQuery({
  *   variables: {
+ *      input: // value for 'input'
  *   },
  * });
  */
