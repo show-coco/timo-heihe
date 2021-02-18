@@ -24,24 +24,21 @@ export type UseSearch = {
 };
 
 export const useSearchTeams = (): UseSearch => {
-  const { userId, skillIds: mySkillIds } = useAuthContext();
+  const { skillIds: mySkillIds } = useAuthContext();
   const { data: categoryAndSkillData } = useSearchConditionsQuery();
   const [recruitNumbers, setRecruitNumbers] = useState(0);
   const [name, setName] = useState<string>("");
   const [categoryIds, setCategoryIds] = useState<number[]>([]);
-  const [skillIds, setSkillIds] = useState<number[]>(mySkillIds);
-  const [isRecommended, setIsRecommend] = useState(true);
+  const [skillIds, setSkillIds] = useState<number[]>([]);
   const { data: teamsData, refetch, loading, error } = useTeamsQuery({
     variables: {
       input: {
-        recommend: isRecommended,
-        userId,
+        skillIds: mySkillIds,
       },
     },
   });
 
-  console.log("myskillids", mySkillIds);
-  console.log("skillIds", skillIds);
+  console.log("myskills", mySkillIds);
 
   useEffect(() => {
     setSkillIds(mySkillIds);
@@ -54,8 +51,6 @@ export const useSearchTeams = (): UseSearch => {
         name,
         categoryIds: categoryIds.length ? categoryIds : null,
         skillIds: skillIds.length ? skillIds : null,
-        recommend: isRecommended,
-        userId,
       },
     });
   };

@@ -17,6 +17,7 @@ type AuthContextType = {
   name: string;
   isAuthenticated: boolean;
   skillIds: number[];
+  loading: boolean;
   login: (token: string, { name, id, userId }: AuthUser) => void;
   logout: () => void;
 };
@@ -31,6 +32,7 @@ const LoginUserContext = createContext<AuthContextType>({
   name: "",
   isAuthenticated: false,
   skillIds: [],
+  loading: true,
   login: () => {},
   logout: () => {},
 });
@@ -45,27 +47,7 @@ export const AuthProvider: React.FC<Props> = ({ children }: Props) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [skillIds, setSkillIds] = useState<number[]>([]);
   const router = useRouter();
-  const { data, error } = useMeQuery();
-
-  console.log(error);
-
-  const login = (token: string, { name, id, userId }: AuthUser) => {
-    jwtManager.setJwt(token);
-    setIsAuthenticated(true);
-    setId(id);
-    setUserId(userId);
-    setName(name);
-    router.push("/");
-  };
-
-  const logout = () => {
-    jwtManager.clear();
-    setIsAuthenticated(false);
-    setId(0);
-    setUserId("");
-    setName("");
-    router.push("/login");
-  };
+  const { data, error, loading } = useMeQuery();
 
   useEffect(() => {
     const token = jwtManager.getJwt();
@@ -88,9 +70,39 @@ export const AuthProvider: React.FC<Props> = ({ children }: Props) => {
     setIsAuthenticated(hasToken);
   }, [data, data?.me]);
 
+  console.log(error);
+  if (loading) return <p>Loading...</p>;
+
+  const login = (token: string, { name, id, userId }: AuthUser) => {
+    jwtManager.setJwt(token);
+    setIsAuthenticated(true);
+    setId(id);
+    setUserId(userId);
+    setName(name);
+    router.push("/");
+  };
+
+  const logout = () => {
+    jwtManager.clear();
+    setIsAuthenticated(false);
+    setId(0);
+    setUserId("");
+    setName("");
+    router.push("/login");
+  };
+
   return (
     <LoginUserContext.Provider
-      value={{ id, userId, name, skillIds, login, logout, isAuthenticated }}
+      value={{
+        id,
+        userId,
+        name,
+        skillIds,
+        loading,
+        login,
+        logout,
+        isAuthenticated,
+      }}
     >
       {children}
     </LoginUserContext.Provider>
