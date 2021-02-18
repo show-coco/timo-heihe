@@ -23,28 +23,30 @@ export type UseSearch = {
   error: ApolloError | undefined;
 };
 
+const DEFAULT_RECRUIT_NUMBERS = 5;
+
 export const useSearchTeams = (): UseSearch => {
   const { skillIds: mySkillIds } = useAuthContext();
   const { data: categoryAndSkillData } = useSearchConditionsQuery();
-  const [recruitNumbers, setRecruitNumbers] = useState(0);
+  const [recruitNumbers, setRecruitNumbers] = useState(DEFAULT_RECRUIT_NUMBERS);
   const [name, setName] = useState<string>("");
   const [categoryIds, setCategoryIds] = useState<number[]>([]);
-  const [skillIds, setSkillIds] = useState<number[]>([]);
+  const [skillIds, setSkillIds] = useState<number[]>(mySkillIds);
   const { data: teamsData, refetch, loading, error } = useTeamsQuery({
     variables: {
       input: {
         skillIds: mySkillIds,
+        recruitNumbers: DEFAULT_RECRUIT_NUMBERS,
       },
     },
   });
-
-  console.log("myskills", mySkillIds);
 
   useEffect(() => {
     setSkillIds(mySkillIds);
   }, [mySkillIds]);
 
   const handleSubmit = () => {
+    console.log("aaa");
     refetch({
       input: {
         recruitNumbers,

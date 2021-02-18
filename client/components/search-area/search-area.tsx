@@ -34,7 +34,11 @@ export const SearchArea: FC<Props> = ({
           所属人数で絞る
         </Heading>
         <div className="flex flex-row h-10 w-full rounded-lg relative bg-transparent mt-1">
-          <NumberInput value={recruitNumbers} setValue={setRecruitNumbers} />
+          <NumberInput
+            value={recruitNumbers}
+            setValue={setRecruitNumbers}
+            step={5}
+          />
         </div>
 
         <Heading as="h2" className="py-4">
