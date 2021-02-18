@@ -306,8 +306,10 @@ export type RoomModel = {
 export type SearchTeamInput = {
   categoryIds?: Maybe<Array<Scalars["Int"]>>;
   name?: Maybe<Scalars["String"]>;
+  recommend: Scalars["Boolean"];
   recruitNumbers?: Maybe<Scalars["Int"]>;
   skillIds?: Maybe<Array<Scalars["Int"]>>;
+  userId?: Maybe<Scalars["String"]>;
 };
 
 export type SkillInput = {

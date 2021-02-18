@@ -4,6 +4,7 @@ import {
   SearchConditionsQuery,
   useTeamsQuery,
 } from "../generated/types";
+import { useAuthContext } from "../providers/useAuthContext";
 
 export type UseSearch = {
   handleSubmit: () => void;
@@ -17,12 +18,21 @@ export type UseSearch = {
 };
 
 export const useSearchTeams = () => {
+  const { userId } = useAuthContext();
   const { data: categoryAndSkillData } = useSearchConditionsQuery();
   const [recruitNumbers, setRecruitNumbers] = useState(0);
   const [name, setName] = useState<string>("");
   const [categoryIds, setCategoryIds] = useState<number[]>([]);
   const [skillIds, setSkillIds] = useState<number[]>([]);
-  const { data: teamsData, refetch, loading, error } = useTeamsQuery();
+  const [isRecommended, setIsRecommend] = useState(true);
+  const { data: teamsData, refetch, loading, error } = useTeamsQuery({
+    variables: {
+      input: {
+        recommend: isRecommended,
+        userId,
+      },
+    },
+  });
 
   const handleSubmit = () => {
     refetch({
@@ -31,6 +41,8 @@ export const useSearchTeams = () => {
         name,
         categoryIds: categoryIds.length ? categoryIds : null,
         skillIds: skillIds.length ? skillIds : null,
+        recommend: isRecommended,
+        userId,
       },
     });
   };
