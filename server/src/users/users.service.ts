@@ -38,7 +38,7 @@ export class UsersService {
       .where({ id })
       .getOne();
 
-    // console.log('response on users->service->findById', res.teams);
+    console.log('response on users->service->findById', res.teams);
 
     return res;
   }

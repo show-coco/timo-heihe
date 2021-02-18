@@ -13,10 +13,4 @@ export class SearchTeamInput {
 
   @Field(() => Int, { nullable: true })
   recruitNumbers?: number;
-
-  @Field({ nullable: true })
-  userId?: string;
-
-  @Field()
-  recommend: boolean;
 }

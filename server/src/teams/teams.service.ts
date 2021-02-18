@@ -7,7 +7,6 @@ import { CreateTeamInput } from './dto/create-team.input';
 import { UpdateTeamInput } from './dto/update-team.input';
 import { Team } from './entities/teams.entity';
 import { SearchTeamInput } from './dto/search-teams.input';
-import { UsersService } from 'src/users/users.service';
 
 @Injectable()
 export class TeamsService {
@@ -15,7 +14,6 @@ export class TeamsService {
     @InjectRepository(Team)
     private teamRepository: Repository<Team>,
     private teamMembersUserService: TeamMembersUserService,
-    private userService: UsersService,
   ) {}
 
   async findOne(id: number): Promise<Team> {
@@ -53,13 +51,7 @@ export class TeamsService {
       query.andWhere('team.title LIKE :name', { name: `%${input.name}%` });
     }
 
-    if (input && input.recommend && input.userId) {
-      const userSkillIds = await this.userService.getUserSkillIds(input.userId);
-
-      query.andWhere('skills.id IN (:...ids)', {
-        ids: userSkillIds,
-      });
-    } else if (input && input.skillIds) {
+    if (input && input.skillIds) {
       query.andWhere('skills.id IN (:...ids)', {
         ids: input.skillIds,
       });
