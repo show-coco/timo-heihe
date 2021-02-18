@@ -1,0 +1,11 @@
+query SearchConditions {
+  categories {
+    id
+    name
+  }
+  skills {
+    icon
+    id
+    name
+  }
+}

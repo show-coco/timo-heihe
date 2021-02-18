@@ -1,5 +1,5 @@
-query Teams {
-  teams {
+query Teams($input: SearchTeamInput) {
+  teams(input: $input) {
     id
     title
     description
