@@ -5,16 +5,20 @@ import { Button } from "../button";
 import { Checkbox } from "../checkbox/checkbox";
 import { NumberInput } from "../number-input/number-input";
 import { UseSearch } from "../../hooks/useSearchTeams";
-export const SearchArea: FC<UseSearch> = ({
+
+type Props = Omit<UseSearch, "error" | "loading" | "teamsData">;
+
+export const SearchArea: FC<Props> = ({
+  setName,
   handleSubmit,
   handleChangeCategories,
   handleChangeSkills,
-  setName,
-  name,
-  categoryAndSkillData,
   setRecruitNumbers,
+  name,
+  skillIds,
+  categoryAndSkillData,
   recruitNumbers,
-}: UseSearch) => {
+}: Props) => {
   return (
     <div className="mt-5 pl-10">
       <div className="bg-blue-550 text-center rounded-t-md">
@@ -43,6 +47,9 @@ export const SearchArea: FC<UseSearch> = ({
               className="mr-4 mt-4"
               value={skill.id?.toString()}
               onChange={(e) => handleChangeSkills(e)}
+              checked={skillIds.some(
+                (selectedSkillId) => selectedSkillId === skill.id
+              )}
             >
               {skill.name}
             </Checkbox>

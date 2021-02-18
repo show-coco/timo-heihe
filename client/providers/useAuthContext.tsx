@@ -16,6 +16,7 @@ type AuthContextType = {
   userId: string;
   name: string;
   isAuthenticated: boolean;
+  skillIds: number[];
   login: (token: string, { name, id, userId }: AuthUser) => void;
   logout: () => void;
 };
@@ -29,6 +30,7 @@ const LoginUserContext = createContext<AuthContextType>({
   userId: "",
   name: "",
   isAuthenticated: false,
+  skillIds: [],
   login: () => {},
   logout: () => {},
 });
@@ -41,8 +43,11 @@ export const AuthProvider: React.FC<Props> = ({ children }: Props) => {
   const [userId, setUserId] = useState("");
   const [name, setName] = useState("");
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [skillIds, setSkillIds] = useState<number[]>([]);
   const router = useRouter();
   const { data, error } = useMeQuery();
+
+  console.log(error);
 
   const login = (token: string, { name, id, userId }: AuthUser) => {
     jwtManager.setJwt(token);
@@ -63,20 +68,29 @@ export const AuthProvider: React.FC<Props> = ({ children }: Props) => {
   };
 
   useEffect(() => {
-    const hasToken = Boolean(jwtManager.getJwt());
+    const token = jwtManager.getJwt();
+    const hasToken = Boolean(token);
+
+    console.log("token", token);
     console.log(data);
+
     if (data?.me) {
-      const { id, userId, name } = data?.me;
+      const { id, userId, name, skills } = data?.me;
+      const skillIds = skills?.map((skill) => skill.id);
+
       setName(name);
       setId(id);
       setUserId(userId);
+      if (skillIds) {
+        setSkillIds(skillIds);
+      }
     }
     setIsAuthenticated(hasToken);
   }, [data, data?.me]);
 
   return (
     <LoginUserContext.Provider
-      value={{ id, userId, name, login, logout, isAuthenticated }}
+      value={{ id, userId, name, skillIds, login, logout, isAuthenticated }}
     >
       {children}
     </LoginUserContext.Provider>

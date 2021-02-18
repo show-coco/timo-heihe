@@ -487,6 +487,11 @@ export type RoomFragment = { __typename?: "RoomModel" } & Pick<
   "id" | "name"
 >;
 
+export type SkillItemFragment = { __typename?: "SkillModel" } & Pick<
+  SkillModel,
+  "id" | "name"
+>;
+
 export type SpaceItemFragment = { __typename?: "UserMemberModel" } & Pick<
   UserMemberModel,
   "id" | "title" | "icon"
@@ -712,7 +717,12 @@ export type EditUserPageQuery = { __typename?: "Query" } & {
 export type MeQueryVariables = Exact<{ [key: string]: never }>;
 
 export type MeQuery = { __typename?: "Query" } & {
-  me: { __typename?: "UserModel" } & Pick<UserModel, "id" | "userId" | "name">;
+  me: { __typename?: "UserModel" } & Pick<
+    UserModel,
+    "id" | "userId" | "name"
+  > & {
+      skills?: Maybe<Array<{ __typename?: "SkillModel" } & SkillItemFragment>>;
+    };
 };
 
 export type SearchConditionsQueryVariables = Exact<{ [key: string]: never }>;
@@ -892,6 +902,12 @@ export const RoomItemFragmentDoc = gql`
     }
   }
   ${RoomFragmentDoc}
+`;
+export const SkillItemFragmentDoc = gql`
+  fragment SkillItem on SkillModel {
+    id
+    name
+  }
 `;
 export const SpaceItemFragmentDoc = gql`
   fragment SpaceItem on UserMemberModel {
@@ -1650,8 +1666,12 @@ export const MeDocument = gql`
       id
       userId
       name
+      skills {
+        ...SkillItem
+      }
     }
   }
+  ${SkillItemFragmentDoc}
 `;
 
 /**

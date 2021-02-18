@@ -3,5 +3,8 @@ query Me {
     id
     userId
     name
+    skills {
+      ...SkillItem
+    }
   }
 }

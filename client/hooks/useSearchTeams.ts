@@ -1,8 +1,10 @@
-import React, { useState } from "react";
+import { ApolloError } from "@apollo/client";
+import React, { useEffect, useState } from "react";
 import {
   useSearchConditionsQuery,
   SearchConditionsQuery,
   useTeamsQuery,
+  TeamsQuery,
 } from "../generated/types";
 import { useAuthContext } from "../providers/useAuthContext";
 
@@ -11,19 +13,23 @@ export type UseSearch = {
   handleChangeCategories: (e: React.FormEvent<HTMLInputElement>) => void;
   handleChangeSkills: (e: React.FormEvent<HTMLInputElement>) => void;
   setName: React.Dispatch<React.SetStateAction<string>>;
+  setRecruitNumbers: React.Dispatch<React.SetStateAction<number>>;
   name: string;
   categoryAndSkillData?: SearchConditionsQuery;
-  setRecruitNumbers: React.Dispatch<React.SetStateAction<number>>;
   recruitNumbers: number;
+  skillIds: number[];
+  teamsData: TeamsQuery | undefined;
+  loading: boolean;
+  error: ApolloError | undefined;
 };
 
-export const useSearchTeams = () => {
-  const { userId } = useAuthContext();
+export const useSearchTeams = (): UseSearch => {
+  const { userId, skillIds: mySkillIds } = useAuthContext();
   const { data: categoryAndSkillData } = useSearchConditionsQuery();
   const [recruitNumbers, setRecruitNumbers] = useState(0);
   const [name, setName] = useState<string>("");
   const [categoryIds, setCategoryIds] = useState<number[]>([]);
-  const [skillIds, setSkillIds] = useState<number[]>([]);
+  const [skillIds, setSkillIds] = useState<number[]>(mySkillIds);
   const [isRecommended, setIsRecommend] = useState(true);
   const { data: teamsData, refetch, loading, error } = useTeamsQuery({
     variables: {
@@ -33,6 +39,13 @@ export const useSearchTeams = () => {
       },
     },
   });
+
+  console.log("myskillids", mySkillIds);
+  console.log("skillIds", skillIds);
+
+  useEffect(() => {
+    setSkillIds(mySkillIds);
+  }, [mySkillIds]);
 
   const handleSubmit = () => {
     refetch({
@@ -76,6 +89,7 @@ export const useSearchTeams = () => {
     handleSubmit,
     handleChangeCategories,
     handleChangeSkills,
+    skillIds,
     teamsData,
     categoryAndSkillData,
     loading,

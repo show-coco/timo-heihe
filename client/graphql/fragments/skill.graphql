@@ -1,0 +1,4 @@
+fragment SkillItem on SkillModel {
+  id
+  name
+}
