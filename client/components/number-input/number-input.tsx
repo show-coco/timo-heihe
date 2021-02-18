@@ -3,6 +3,7 @@ import React from "react";
 type NumberInputProps = {
   className?: string;
   value: number;
+  step?: number;
   setValue: React.Dispatch<React.SetStateAction<number>>;
 };
 
@@ -11,6 +12,7 @@ const defaultStyle = "w-32 flex";
 export const NumberInput: React.FC<NumberInputProps> = ({
   className,
   value,
+  step = 1,
   setValue,
 }: NumberInputProps) => {
   return (
@@ -20,8 +22,8 @@ export const NumberInput: React.FC<NumberInputProps> = ({
         className=" bg-gray-300 text-gray-600 hover:text-gray-700 hover:bg-gray-400 h-full w-20 rounded-l cursor-pointer outline-none"
         onClick={(e) => {
           e.preventDefault();
-          if (value >= 1) {
-            setValue(value - 1);
+          if (value >= step) {
+            setValue(value - step);
           }
         }}
       >
@@ -39,7 +41,7 @@ export const NumberInput: React.FC<NumberInputProps> = ({
         className="bg-gray-300 text-gray-600 hover:text-gray-700 hover:bg-gray-400 h-full w-20 rounded-r cursor-pointer"
         onClick={(e) => {
           e.preventDefault();
-          setValue((value) => value + 1);
+          setValue((value) => value + step);
         }}
       >
         <span className="m-auto text-2xl font-thin">+</span>

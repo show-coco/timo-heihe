@@ -12,5 +12,5 @@ export class SearchTeamInput {
   categoryIds?: number[];
 
   @Field(() => Int, { nullable: true })
-  recruitNumbers: number;
+  recruitNumbers?: number;
 }

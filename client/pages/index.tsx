@@ -9,19 +9,7 @@ import { SearchArea } from "../components/search-area/search-area";
 import { useSearchTeams } from "../hooks/useSearchTeams";
 
 export default function Home() {
-  const {
-    handleSubmit,
-    handleChangeCategories,
-    handleChangeSkills,
-    setRecruitNumbers,
-    setName,
-    name,
-    recruitNumbers,
-    categoryAndSkillData,
-    teamsData,
-    error,
-    loading,
-  } = useSearchTeams();
+  const { teamsData, error, loading, ...searchArea } = useSearchTeams();
 
   const teams = useMemo(() => {
     // FIXME
@@ -38,23 +26,14 @@ export default function Home() {
 
   return (
     <Template className="p-10">
-      <Heading>Board</Heading>
+      <Heading as="h1Small">おすすめ</Heading>
       <div className="grid grid-cols-2 ">
         <div className="space-y-5 mt-5">
           {teams.map((team, i) => (
             <TeamCard {...team} key={i} />
           ))}
         </div>
-        <SearchArea
-          handleSubmit={handleSubmit}
-          handleChangeCategories={handleChangeCategories}
-          handleChangeSkills={handleChangeSkills}
-          setName={setName}
-          name={name}
-          categoryAndSkillData={categoryAndSkillData}
-          setRecruitNumbers={setRecruitNumbers}
-          recruitNumbers={recruitNumbers}
-        />
+        <SearchArea {...searchArea} />
       </div>
     </Template>
   );

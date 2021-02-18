@@ -52,7 +52,9 @@ export class TeamsService {
     }
 
     if (input && input.skillIds) {
-      query.andWhere('skills.id IN (:...ids)', { ids: input.skillIds });
+      query.andWhere('skills.id IN (:...ids)', {
+        ids: input.skillIds,
+      });
     }
 
     if (input && input.categoryIds) {
@@ -60,9 +62,13 @@ export class TeamsService {
     }
 
     if (input && input.recruitNumbers) {
-      query.andWhere('team.recruitNumbers = :number', {
-        number: input.recruitNumbers,
-      });
+      query.andWhere(
+        'team.recruitNumbers > :lower AND team.recruitNumbers < :upper',
+        {
+          lower: input.recruitNumbers - 5,
+          upper: input.recruitNumbers + 5,
+        },
+      );
     }
 
     const res = await query.getMany();
