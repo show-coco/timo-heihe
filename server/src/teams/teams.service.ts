@@ -53,13 +53,13 @@ export class TeamsService {
       query.andWhere('team.title LIKE :name', { name: `%${input.name}%` });
     }
 
-    if (input && input.recommend) {
+    if (input && input.recommend && input.userId) {
       const userSkillIds = await this.userService.getUserSkillIds(input.userId);
 
       query.andWhere('skills.id IN (:...ids)', {
         ids: userSkillIds,
       });
-    } else {
+    } else if (input && input.skillIds) {
       query.andWhere('skills.id IN (:...ids)', {
         ids: input.skillIds,
       });
