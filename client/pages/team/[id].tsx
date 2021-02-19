@@ -17,6 +17,7 @@ import Link from "next/link";
 import { AvatarWithName } from "../../components/avatar/avatar-with-name";
 import { useTeamDetail } from "../../hooks/useTeamDetail";
 import { SimpleDialog } from "../../components/dialog/simple-dialog";
+import { AvatarLink } from "../../components/avatar/avatar-link";
 
 export default function ShowTeam() {
   const {
@@ -155,17 +156,7 @@ export default function ShowTeam() {
 
             <div className="flex flex-wrap">
               {team.members?.map((member) => (
-                <span key={member.id} className="mr-2">
-                  <Link href="/user/[id]" as={`/user/${member.userId}`}>
-                    <Avatar
-                      src={member.avatar || ""}
-                      name={member.name}
-                      size="small"
-                      role="button"
-                      tabIndex={0}
-                    />
-                  </Link>
-                </span>
+                <AvatarLink {...member} key={member.id} />
               ))}
             </div>
           </div>
