@@ -6,7 +6,7 @@ import {
   AvatarWithName,
   AvatarWithNameProps,
 } from "../avatar/avatar-with-name";
-import { SkillModel, UserMemberModel } from "../../generated/types";
+import { SkillModel, TeamCardFragment } from "../../generated/types";
 import { dateFormatter, YEAR_MANTH_DAY_SLASH } from "../../utils/dateFormat";
 import Link from "next/link";
 
@@ -27,7 +27,7 @@ export type TeamCardProps = {
 };
 
 export const convertToTeamCardObjFromTeams = (
-  queryObj: UserMemberModel[]
+  queryObj: TeamCardFragment[]
 ): TeamCardProps[] => {
   return queryObj.map((team) => ({
     ...team,

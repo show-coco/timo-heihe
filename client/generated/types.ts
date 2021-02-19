@@ -495,6 +495,37 @@ export type SpaceItemFragment = { __typename?: "UserMemberModel" } & Pick<
   "id" | "title" | "icon"
 >;
 
+export type TeamCardFragment = { __typename?: "TeamModel" } & Pick<
+  TeamModel,
+  | "id"
+  | "title"
+  | "description"
+  | "icon"
+  | "recruitNumbers"
+  | "isRequired"
+  | "repositoryUrl"
+  | "createdAt"
+> & {
+    members?: Maybe<
+      Array<
+        { __typename?: "TeamMemberModel" } & Pick<
+          TeamMemberModel,
+          "id" | "userId" | "name" | "avatar" | "memberState"
+        >
+      >
+    >;
+    owner: { __typename?: "UserModel" } & Pick<
+      UserModel,
+      "id" | "userId" | "name" | "avatar"
+    >;
+    skills?: Maybe<
+      Array<{ __typename?: "SkillModel" } & Pick<SkillModel, "id" | "name">>
+    >;
+    categories: Array<
+      { __typename?: "CategoryModel" } & Pick<CategoryModel, "id" | "name">
+    >;
+  };
+
 export type CreateRoomMutationVariables = Exact<{
   input: CreateRoomInput;
 }>;
@@ -775,25 +806,7 @@ export type TeamsQueryVariables = Exact<{
 }>;
 
 export type TeamsQuery = { __typename?: "Query" } & {
-  teams: Array<
-    { __typename?: "TeamModel" } & Pick<
-      TeamModel,
-      "id" | "title" | "description" | "createdAt" | "recruitNumbers"
-    > & {
-        skills?: Maybe<
-          Array<{ __typename?: "SkillModel" } & Pick<SkillModel, "id" | "name">>
-        >;
-        owner: { __typename?: "UserModel" } & Pick<
-          UserModel,
-          "id" | "userId" | "name" | "avatar"
-        >;
-        members?: Maybe<
-          Array<
-            { __typename?: "TeamMemberModel" } & Pick<TeamMemberModel, "id">
-          >
-        >;
-      }
-  >;
+  teams: Array<{ __typename?: "TeamModel" } & TeamCardFragment>;
 };
 
 export type ThreadListQueryVariables = Exact<{
@@ -912,6 +925,39 @@ export const SpaceItemFragmentDoc = gql`
     id
     title
     icon
+  }
+`;
+export const TeamCardFragmentDoc = gql`
+  fragment TeamCard on TeamModel {
+    id
+    title
+    description
+    icon
+    recruitNumbers
+    isRequired
+    repositoryUrl
+    createdAt
+    members {
+      id
+      userId
+      name
+      avatar
+      memberState
+    }
+    owner {
+      id
+      userId
+      name
+      avatar
+    }
+    skills {
+      id
+      name
+    }
+    categories {
+      id
+      name
+    }
   }
 `;
 export const CreateRoomDocument = gql`
@@ -1837,26 +1883,10 @@ export type TeamQueryResult = Apollo.QueryResult<TeamQuery, TeamQueryVariables>;
 export const TeamsDocument = gql`
   query Teams($input: SearchTeamInput) {
     teams(input: $input) {
-      id
-      title
-      description
-      createdAt
-      recruitNumbers
-      skills {
-        id
-        name
-      }
-      owner {
-        id
-        userId
-        name
-        avatar
-      }
-      members {
-        id
-      }
+      ...TeamCard
     }
   }
+  ${TeamCardFragmentDoc}
 `;
 
 /**
