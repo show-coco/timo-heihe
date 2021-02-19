@@ -20,6 +20,9 @@ export class Team {
   id?: number;
 
   @Column()
+  name: string;
+
+  @Column()
   title: string;
 
   @Column({ nullable: true })
