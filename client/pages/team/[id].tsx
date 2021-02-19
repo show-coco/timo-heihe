@@ -17,7 +17,6 @@ import Link from "next/link";
 import { AvatarWithName } from "../../components/avatar/avatar-with-name";
 import { useTeamDetail } from "../../hooks/useTeamDetail";
 import { SimpleDialog } from "../../components/dialog/simple-dialog";
-import { TeamMemberModel } from "../../generated/types";
 
 export default function ShowTeam() {
   const {
@@ -158,20 +157,19 @@ export default function ShowTeam() {
               {team.members?.map((member) => (
                 <span key={member.id} className="mr-2">
                   <Link href="/user/[id]" as={`/user/${member.userId}`}>
-                    <span>
-                      <Avatar
-                        src={member.avatar || ""}
-                        name={member.name}
-                        size="small"
-                        role="button"
-                        tabIndex={0}
-                      />
-                    </span>
+                    <Avatar
+                      src={member.avatar || ""}
+                      name={member.name}
+                      size="small"
+                      role="button"
+                      tabIndex={0}
+                    />
                   </Link>
                 </span>
               ))}
             </div>
           </div>
+
           <div></div>
         </div>
       </div>
