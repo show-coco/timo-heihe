@@ -6,13 +6,18 @@ module.exports = {
       colors: {
         blue: {
           100: "#F0F2F8",
+          150: "#BAE3C7",
           300: "#94B0E6",
+          350: "#356D86",
           450: "#1ea7fd",
           550: "#536D8B",
         },
+
         orange: {
           200: "#FFF4EB",
           300: "#FFCEBC",
+          350: "#E8C26B",
+          400: "#FF9831",
           500: "#E89C80",
           600: "#D88364",
         },
@@ -23,6 +28,12 @@ module.exports = {
         gray: {
           300: "#cdd4d8",
           700: "#4B4D5C",
+        },
+        purple: {
+          100: "#483586",
+        },
+        pink: {
+          100: "#E3BABA",
         },
       },
       height: {

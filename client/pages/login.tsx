@@ -1,49 +1,39 @@
 import React from "react";
-import { Button } from "../components/button/button";
-import { Card } from "../components/card/card";
-
+import { LoginHeader } from "../components/header";
+import { Heading } from "../components/heading/heading";
+import { Circle } from "../components/circle";
 function Login() {
   return (
-    <div className="flex flex-col lg:flex-row  h-screen w-full">
-      <div className="flex flex-col items-center w-full p-20">
-        <div className="mb-16 w-full">
-          <h1 className="mb-5 text-center text-2xl">Timo Heiheとは</h1>
-          <p>
-            Timo Heiheとは、エンジニアのためのアウトプットプラットフォームです。
-            Timo Heiheには、様々なアウトプットのためのサービスがあります。
-          </p>
-        </div>
-
-        <div className="w-full">
-          <h2 className="mb-5 text-xl">Hirosaa</h2>
-          <p>
-            Hriosaaはチーム開発のためのサービスです。チームを募集し、研究・開発を
-            行いましょう。
-          </p>
-        </div>
+    <div className="bg-gradient-to-t from-yellow-100 h-screen w-screen relative  overflow-hidden block">
+      <Circle
+        parentWith="w-10/12"
+        className="absolute -top-24 -right-1/4 w-1/2 h-5/6 bg-gradient-to-t from-yellow-400 z-1"
+      />
+      <LoginHeader />
+      <div className="w-2/5 ml-16">
+        <Heading className="ml-4 py-10 font-bold " as="h1Big">
+          アウトプットを価値化しよう
+        </Heading>
+        <Heading className="ml-4" as="h1Small">
+          このサービスで、執筆した記事や開発でアウトプットしたモノを<br></br>
+          可視化・価値化することができます。
+        </Heading>
       </div>
-
-      <div className="flex justify-center items-center w-full bg-orange-200 px-10">
-        <Card className="text-center">
-          <h2 className="text-4xl my-6">Log in</h2>
-          <div className="w-3/4 mx-auto">
-            <p className="my-7 text-left">
-              Googleアカウントを使用して、下のボタンからログイン、新規登録を行う事ができます。
-              <a href="#" className="underline">
-                利用規約
-              </a>
-              、
-              <a href="#" className="underline">
-                プライバシーポリシー
-              </a>
-              に同意した上でログインしてください。
-            </p>
-          </div>
-          <a href="http://localhost:8080/google">
-            <Button className="my-4">Log in with Google</Button>
-          </a>
-        </Card>
-      </div>
+      <a href="http://localhost:8080/google">
+        <button className="shadow-md py-1 px-3 align-middle ml-20 my-12 bg-gradient-to-r from-orange-400 to-orange-350 rounded-md text-white">
+          <span className="text-white align-middle pr-1 font-bold text-2xl">
+            G
+          </span>
+          Googleでログイン
+        </button>
+      </a>
+      <Circle
+        parentWith="w-7/12"
+        className="w-16 h-16 bg-gradient-to-t from-purple-100 to-pink-100
+        my-14 
+        "
+      />
+      <Circle className="w-20 h-20 bg-gradient-to-t from-blue-350 mr-96 to-blue-150" />
     </div>
   );
 }
