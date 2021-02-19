@@ -33,8 +33,10 @@ export default function ShowTeam() {
     teamId,
     dialogState,
     dialogSetter,
+    loading,
   } = useTeamDetail();
 
+  if (loading) return <p>Loading...</p>;
   if (!team) return <p>データがありません</p>;
 
   return (
@@ -64,19 +66,21 @@ export default function ShowTeam() {
           />
 
           <div className="flex justify-between">
-            <div>
+            <div className="flex-1">
               <CategorySet
                 categories={convertToCategoryArray(team.categories)}
                 className="mb-4"
               />
 
               <div className="flex items-center space-x-3">
-                <Avatar src={team.icon || ""} size="large" />
+                <div>
+                  <Avatar src={team.icon || ""} size="large" />
+                </div>
                 <Heading as="h1Big">{team.title}</Heading>
               </div>
             </div>
 
-            <div className="flex flex-col space-y-3">
+            <div className="flex flex-col space-y-3 w-32">
               {iCanEdit && (
                 <Link href="/team/edit/[id]" as={`/team/edit/${teamId}`}>
                   <Button>編集する</Button>
@@ -111,6 +115,8 @@ export default function ShowTeam() {
             </div>
           </div>
 
+          <hr className="my-4" />
+
           <div className="flex items-center space-x-8">
             <span className="flex items-center space-x-3">
               <p className="font-bold">人数</p>
@@ -123,13 +129,18 @@ export default function ShowTeam() {
             </span>
 
             <span className="flex items-center space-x-3">
-              <p className="font-bold">リーダー</p>
+              <p className="font-bold">オーナー</p>
               <AvatarWithName
                 src={team.owner.avatar || ""}
                 userId={team.owner.userId}
                 name={team.owner.name}
                 size="small"
               />
+            </span>
+
+            <span className="flex items-center space-x-3">
+              <p className="font-bold">チーム名</p>
+              <span>{team.name}</span>
             </span>
           </div>
 
