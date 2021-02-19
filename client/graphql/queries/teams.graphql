@@ -1,22 +1,5 @@
 query Teams($input: SearchTeamInput) {
   teams(input: $input) {
-    id
-    title
-    description
-    createdAt
-    recruitNumbers
-    skills {
-      id
-      name
-    }
-    owner {
-      id
-      userId
-      name
-      avatar
-    }
-    members {
-      id
-    }
+    ...TeamCard
   }
 }
