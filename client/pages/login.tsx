@@ -1,7 +1,6 @@
 import React from "react";
 import { LoginHeader } from "../components/header";
 import { Heading } from "../components/heading/heading";
-import { LoginButton } from "../components/button/login-button";
 import { Circle } from "../components/circle";
 function Login() {
   return (
@@ -21,7 +20,12 @@ function Login() {
         </Heading>
       </div>
       <a href="http://localhost:8080/google">
-        <LoginButton />
+        <button className="shadow-md py-1 px-3 align-middle ml-20 my-12 bg-gradient-to-r from-orange-400 to-orange-350 rounded-md text-white">
+          <span className="text-white align-middle pr-1 font-bold text-2xl">
+            G
+          </span>
+          Googleでログイン
+        </button>
       </a>
       <Circle
         parentWith="w-7/12"
