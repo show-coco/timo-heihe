@@ -12,7 +12,6 @@ export default function Home() {
   const { teamsData, error, loading, ...searchArea } = useSearchTeams();
 
   const teams = useMemo(() => {
-    // FIXME
     return (
       teamsData &&
       teamsData.teams &&

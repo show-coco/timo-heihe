@@ -210,6 +210,7 @@ type TeamModel {
   id: Int
   isRequired: Boolean!
   members: [TeamMemberModel!]
+  name: String!
   owner: UserModel!
   recruitNumbers: Int!
   repositoryUrl: String

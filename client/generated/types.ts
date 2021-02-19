@@ -363,6 +363,7 @@ export type TeamModel = {
   id?: Maybe<Scalars["Int"]>;
   isRequired: Scalars["Boolean"];
   members?: Maybe<Array<TeamMemberModel>>;
+  name: Scalars["String"];
   owner: UserModel;
   recruitNumbers: Scalars["Int"];
   repositoryUrl?: Maybe<Scalars["String"]>;
@@ -774,6 +775,7 @@ export type TeamQuery = { __typename?: "Query" } & {
     TeamModel,
     | "id"
     | "title"
+    | "name"
     | "description"
     | "icon"
     | "recruitNumbers"
@@ -1815,6 +1817,7 @@ export const TeamDocument = gql`
     team(id: $id) {
       id
       title
+      name
       description
       icon
       recruitNumbers

@@ -13,6 +13,9 @@ export class TeamModel {
   @Field()
   title: string;
 
+  @Field()
+  name: string;
+
   @Field({ nullable: true })
   icon?: string;
 
