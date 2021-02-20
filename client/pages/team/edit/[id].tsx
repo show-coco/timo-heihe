@@ -37,10 +37,10 @@ export default function EditTeam() {
       <Card className="p-8">
         <form onSubmit={onSubmit}>
           <div className="space-y-10">
-            <Heading as="h1Small">新しいチームを作成する</Heading>
+            <Heading as="h1Small">ルーム情報を編集する</Heading>
 
             <div className={betweenH2}>
-              <Heading as="h2">チームアイコン</Heading>
+              <Heading as="h2">ルームアイコン</Heading>
 
               <div className="flex items-center space-x-7">
                 <Avatar src={formState.imageUrl || ""} />
@@ -54,13 +54,25 @@ export default function EditTeam() {
 
             <div className={betweenH2}>
               <span className="flex">
-                <Heading as="h2">チーム名</Heading>
+                <Heading as="h2">ルーム名</Heading>
                 <span className="text-red-500">*</span>
               </span>
 
               <TextInput
-                placeholder="チーム名を入力"
-                name="title"
+                placeholder="ルーム名を入力"
+                value={formState.name}
+                onChange={(e) => setter.setName(e.target.value)}
+              />
+            </div>
+
+            <div className={betweenH2}>
+              <span className="flex">
+                <Heading as="h2">ルーム名</Heading>
+                <span className="text-red-500">*</span>
+              </span>
+
+              <TextInput
+                placeholder="メンバー募集タイトル"
                 value={formState.title}
                 onChange={(e) => setter.setTitle(e.target.value)}
               />
@@ -68,12 +80,12 @@ export default function EditTeam() {
 
             <div className={betweenH2}>
               <span className="flex">
-                <Heading as="h2">チームの説明</Heading>
+                <Heading as="h2">ルームの説明</Heading>
                 <span className="text-red-500">*</span>
               </span>
 
               <TextInput
-                placeholder="チームの説明を入力"
+                placeholder="ルームの説明を入力"
                 name="description"
                 value={formState.description}
                 className="w-2/3"

@@ -86,7 +86,7 @@ export default function CreateTeam() {
                 placeholder="メンバー募集タイトル"
                 name="title"
                 className="w-2/3"
-                onChange={(e) => setName(e.target.value)}
+                onChange={(e) => setTitle(e.target.value)}
               />
             </div>
 

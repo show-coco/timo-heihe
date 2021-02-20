@@ -2,6 +2,7 @@ query TeamEditPage($id: Int!) {
   team(id: $id) {
     id
     title
+    name
     description
     icon
     recruitNumbers

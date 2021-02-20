@@ -660,6 +660,7 @@ export type TeamEditPageQuery = { __typename?: "Query" } & {
     TeamModel,
     | "id"
     | "title"
+    | "name"
     | "description"
     | "icon"
     | "recruitNumbers"
@@ -1534,6 +1535,7 @@ export const TeamEditPageDocument = gql`
     team(id: $id) {
       id
       title
+      name
       description
       icon
       recruitNumbers
