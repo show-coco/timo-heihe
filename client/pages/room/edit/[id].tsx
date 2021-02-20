@@ -67,12 +67,13 @@ export default function EditRoom() {
 
             <div className={betweenH2}>
               <span className="flex">
-                <Heading as="h2">ルーム名</Heading>
+                <Heading as="h2">メンバー募集タイトル</Heading>
                 <span className="text-red-500">*</span>
               </span>
 
               <TextInput
                 placeholder="メンバー募集タイトル"
+                className="w-2/3"
                 value={formState.title}
                 onChange={(e) => setter.setTitle(e.target.value)}
               />
