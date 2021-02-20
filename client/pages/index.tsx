@@ -21,7 +21,7 @@ export default function Home() {
 
   if (loading) return <p>Loading</p>;
   if (error) return <p>{error.message}</p>;
-  if (!teams) return <p>チームがありません</p>;
+  if (!teams) return <p>ルームがありません</p>;
 
   return (
     <Template className="p-10">

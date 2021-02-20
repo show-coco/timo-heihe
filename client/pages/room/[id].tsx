@@ -48,21 +48,21 @@ export default function ShowRoom() {
             onClose={dialogSetter.onCloseJoinDialog}
             onClick={onJoinTeam}
             buttonText="参加する"
-            title="このチームに参加しますか"
+            title="このルームに参加しますか"
           />
           <SimpleDialog
             isOpen={dialogState.leaveTeamDialogIsOpened}
             onClose={dialogSetter.onCloseLeaveDialog}
             onClick={onLeaveTeam}
             buttonText="脱退する"
-            title="このチームから脱退しますか"
+            title="このルームから脱退しますか"
           />
           <SimpleDialog
             isOpen={dialogState.applyTeamDialogIsOpened}
             onClose={dialogSetter.onCloseApplyDialog}
             onClick={onApplyTeam}
             buttonText="申請する"
-            title="このチームに参加申請しますか"
+            title="このルームに参加申請しますか"
           />
 
           <div className="flex justify-between">
@@ -139,13 +139,13 @@ export default function ShowRoom() {
             </span>
 
             <span className="flex items-center space-x-3">
-              <p className="font-bold">チーム名</p>
+              <p className="font-bold">ルーム名</p>
               <span>{team.name}</span>
             </span>
           </div>
 
           <div className="space-y-2 mt-8">
-            <Heading as="h2">チームの説明</Heading>
+            <Heading as="h2">ルームの説明</Heading>
 
             <p>{team.description}</p>
           </div>

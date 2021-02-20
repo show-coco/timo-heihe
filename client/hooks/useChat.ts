@@ -140,7 +140,7 @@ export const useChat = () => {
         setSelectedSpaceId(firstDisplayedTeamId);
       }
     } else {
-      console.error("チーム情報が正常に取得できませんでした");
+      console.error("ルーム情報が正常に取得できませんでした");
     }
   }, [data?.user.teams]);
 
