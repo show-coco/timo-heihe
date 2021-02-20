@@ -69,7 +69,7 @@ export const useCreateTeam = () => {
           input: getVariables(),
         },
       });
-      router.push(`/team/${res.data?.createTeam.id}`);
+      router.push(`/room/${res.data?.createTeam.id}`);
     } catch (e) {
       console.log(e);
     }

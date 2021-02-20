@@ -105,7 +105,7 @@ export const useEditTeam = () => {
           input: getVariables(),
         },
       });
-      router.push(`/team/${id}`);
+      router.push(`/room/${id}`);
     } catch (e) {
       console.log(e);
     }
