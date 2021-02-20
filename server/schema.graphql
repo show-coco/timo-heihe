@@ -64,6 +64,7 @@ input CreateTeamInput {
   icon: String
   isRequired: Boolean!
   members: [CreateTeamMembersUserInput!]!
+  name: String!
   owner: ConnectUserInput!
   recruitNumbers: Int!
   rectuiting: Boolean
@@ -253,6 +254,7 @@ input UpdateTeamInput {
   id: Int!
   isRequired: Boolean
   members: [CreateTeamMembersUserInput!]
+  name: String
   owner: ConnectUserInput
   recruitNumbers: Int
   rectuiting: Boolean
