@@ -12,7 +12,6 @@ export default function Home() {
   const { teamsData, error, loading, ...searchArea } = useSearchTeams();
 
   const teams = useMemo(() => {
-    // FIXME
     return (
       teamsData &&
       teamsData.teams &&
@@ -22,7 +21,7 @@ export default function Home() {
 
   if (loading) return <p>Loading</p>;
   if (error) return <p>{error.message}</p>;
-  if (!teams) return <p>チームがありません</p>;
+  if (!teams) return <p>ルームがありません</p>;
 
   return (
     <Template className="p-10">

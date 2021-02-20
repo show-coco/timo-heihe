@@ -82,6 +82,7 @@ export type CreateTeamInput = {
   icon?: Maybe<Scalars["String"]>;
   isRequired: Scalars["Boolean"];
   members: Array<CreateTeamMembersUserInput>;
+  name: Scalars["String"];
   owner: ConnectUserInput;
   recruitNumbers: Scalars["Int"];
   rectuiting?: Maybe<Scalars["Boolean"]>;
@@ -363,6 +364,7 @@ export type TeamModel = {
   id?: Maybe<Scalars["Int"]>;
   isRequired: Scalars["Boolean"];
   members?: Maybe<Array<TeamMemberModel>>;
+  name: Scalars["String"];
   owner: UserModel;
   recruitNumbers: Scalars["Int"];
   repositoryUrl?: Maybe<Scalars["String"]>;
@@ -406,6 +408,7 @@ export type UpdateTeamInput = {
   id: Scalars["Int"];
   isRequired?: Maybe<Scalars["Boolean"]>;
   members?: Maybe<Array<CreateTeamMembersUserInput>>;
+  name?: Maybe<Scalars["String"]>;
   owner?: Maybe<ConnectUserInput>;
   recruitNumbers?: Maybe<Scalars["Int"]>;
   rectuiting?: Maybe<Scalars["Boolean"]>;
@@ -657,6 +660,7 @@ export type TeamEditPageQuery = { __typename?: "Query" } & {
     TeamModel,
     | "id"
     | "title"
+    | "name"
     | "description"
     | "icon"
     | "recruitNumbers"
@@ -774,6 +778,7 @@ export type TeamQuery = { __typename?: "Query" } & {
     TeamModel,
     | "id"
     | "title"
+    | "name"
     | "description"
     | "icon"
     | "recruitNumbers"
@@ -1530,6 +1535,7 @@ export const TeamEditPageDocument = gql`
     team(id: $id) {
       id
       title
+      name
       description
       icon
       recruitNumbers
@@ -1815,6 +1821,7 @@ export const TeamDocument = gql`
     team(id: $id) {
       id
       title
+      name
       description
       icon
       recruitNumbers

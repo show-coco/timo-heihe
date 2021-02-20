@@ -25,7 +25,7 @@ export const CreateSpaceModal: React.FC<Props> = (props: Props) => {
       </Heading>
       <form className="mt-3 space-y-5" onSubmit={props.onSubmit}>
         <div>
-          <div>チームアイコン</div>
+          <div>ルームアイコン</div>
 
           <div className="flex items-center space-x-7">
             <Avatar src={props.fileInput.imageUrl} name={props.title} />

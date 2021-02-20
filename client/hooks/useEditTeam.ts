@@ -32,6 +32,7 @@ export const useEditTeam = () => {
   const router = useRouter();
   const id = router.query.id;
   const [title, setTitle] = useState("");
+  const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [recruitNumber, setRecruitNumber] = useState(0);
   const [repositoryUrl, setRespositoryUrl] = useState("");
@@ -59,6 +60,7 @@ export const useEditTeam = () => {
       const team = data.team;
 
       setTitle(team.title);
+      setName(team.name);
       setDescription(team.description);
       setRecruitNumber(team.recruitNumbers);
       setRespositoryUrl(team.repositoryUrl || "");
@@ -103,7 +105,7 @@ export const useEditTeam = () => {
           input: getVariables(),
         },
       });
-      router.push(`/team/${id}`);
+      router.push(`/room/${id}`);
     } catch (e) {
       console.log(e);
     }
@@ -112,6 +114,7 @@ export const useEditTeam = () => {
   return {
     formState: {
       title,
+      name,
       description,
       recruitNumber,
       repositoryUrl,
@@ -127,6 +130,7 @@ export const useEditTeam = () => {
     },
     setter: {
       setTitle,
+      setName,
       setDescription,
       setRecruitNumber,
       setRespositoryUrl,

@@ -12,6 +12,9 @@ export class CreateTeamInput {
   @Field({ nullable: true })
   icon?: string;
 
+  @Field()
+  name: string;
+
   @Field({ nullable: true })
   description: string;
 

@@ -100,7 +100,7 @@ export default function UserDetail() {
       </div>
 
       <div className="space-y-2 mt-10">
-        <Heading as="h1Small">所属しているチーム</Heading>
+        <Heading as="h1Small">所属しているルーム</Heading>
 
         <div className="space-y-5">
           {teams.map((team) => (

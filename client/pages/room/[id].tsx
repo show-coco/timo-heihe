@@ -19,7 +19,7 @@ import { useTeamDetail } from "../../hooks/useTeamDetail";
 import { SimpleDialog } from "../../components/dialog/simple-dialog";
 import { AvatarLink } from "../../components/avatar/avatar-link";
 
-export default function ShowTeam() {
+export default function ShowRoom() {
   const {
     onJoinTeam,
     onLeaveTeam,
@@ -33,8 +33,10 @@ export default function ShowTeam() {
     teamId,
     dialogState,
     dialogSetter,
+    loading,
   } = useTeamDetail();
 
+  if (loading) return <p>Loading...</p>;
   if (!team) return <p>データがありません</p>;
 
   return (
@@ -46,39 +48,41 @@ export default function ShowTeam() {
             onClose={dialogSetter.onCloseJoinDialog}
             onClick={onJoinTeam}
             buttonText="参加する"
-            title="このチームに参加しますか"
+            title="このルームに参加しますか"
           />
           <SimpleDialog
             isOpen={dialogState.leaveTeamDialogIsOpened}
             onClose={dialogSetter.onCloseLeaveDialog}
             onClick={onLeaveTeam}
             buttonText="脱退する"
-            title="このチームから脱退しますか"
+            title="このルームから脱退しますか"
           />
           <SimpleDialog
             isOpen={dialogState.applyTeamDialogIsOpened}
             onClose={dialogSetter.onCloseApplyDialog}
             onClick={onApplyTeam}
             buttonText="申請する"
-            title="このチームに参加申請しますか"
+            title="このルームに参加申請しますか"
           />
 
           <div className="flex justify-between">
-            <div>
+            <div className="flex-1">
               <CategorySet
                 categories={convertToCategoryArray(team.categories)}
                 className="mb-4"
               />
 
               <div className="flex items-center space-x-3">
-                <Avatar src={team.icon || ""} size="large" />
+                <div>
+                  <Avatar src={team.icon || ""} size="large" />
+                </div>
                 <Heading as="h1Big">{team.title}</Heading>
               </div>
             </div>
 
-            <div className="flex flex-col space-y-3">
+            <div className="flex flex-col space-y-3 w-32">
               {iCanEdit && (
-                <Link href="/team/edit/[id]" as={`/team/edit/${teamId}`}>
+                <Link href="/room/edit/[id]" as={`/room/edit/${teamId}`}>
                   <Button>編集する</Button>
                 </Link>
               )}
@@ -111,6 +115,8 @@ export default function ShowTeam() {
             </div>
           </div>
 
+          <hr className="my-4" />
+
           <div className="flex items-center space-x-8">
             <span className="flex items-center space-x-3">
               <p className="font-bold">人数</p>
@@ -123,7 +129,7 @@ export default function ShowTeam() {
             </span>
 
             <span className="flex items-center space-x-3">
-              <p className="font-bold">リーダー</p>
+              <p className="font-bold">オーナー</p>
               <AvatarWithName
                 src={team.owner.avatar || ""}
                 userId={team.owner.userId}
@@ -131,10 +137,15 @@ export default function ShowTeam() {
                 size="small"
               />
             </span>
+
+            <span className="flex items-center space-x-3">
+              <p className="font-bold">ルーム名</p>
+              <span>{team.name}</span>
+            </span>
           </div>
 
           <div className="space-y-2 mt-8">
-            <Heading as="h2">チームの説明</Heading>
+            <Heading as="h2">ルームの説明</Heading>
 
             <p>{team.description}</p>
           </div>

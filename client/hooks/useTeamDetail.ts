@@ -17,7 +17,7 @@ export const useTeamDetail = () => {
   const [leaveTeamDialogIsOpened, setLeaveTeamDialogIsOpened] = useState(false);
   const [applyTeamDialogIsOpened, setApplyTeamDialogIsOpened] = useState(false);
 
-  const { data } = useTeamQuery({
+  const { data, loading } = useTeamQuery({
     variables: {
       id: Number(teamId),
     },
@@ -174,6 +174,7 @@ export const useTeamDetail = () => {
     iAmApplying,
     team: data?.team,
     teamId,
+    loading,
     dialogState: {
       joinTeamDialogIsOpened,
       leaveTeamDialogIsOpened,
