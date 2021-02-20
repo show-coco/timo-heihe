@@ -19,7 +19,7 @@ import { useTeamDetail } from "../../hooks/useTeamDetail";
 import { SimpleDialog } from "../../components/dialog/simple-dialog";
 import { AvatarLink } from "../../components/avatar/avatar-link";
 
-export default function ShowTeam() {
+export default function ShowRoom() {
   const {
     onJoinTeam,
     onLeaveTeam,
@@ -82,7 +82,7 @@ export default function ShowTeam() {
 
             <div className="flex flex-col space-y-3 w-32">
               {iCanEdit && (
-                <Link href="/team/edit/[id]" as={`/team/edit/${teamId}`}>
+                <Link href="/room/edit/[id]" as={`/room/edit/${teamId}`}>
                   <Button>編集する</Button>
                 </Link>
               )}

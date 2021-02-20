@@ -68,7 +68,7 @@ export const TeamCard: React.FC<TeamCardProps> = ({
 }: TeamCardProps) => {
   return (
     <div className={`max-w-xl`}>
-      <Link href="/team/[id]" as={`/team/${id.toString()}`}>
+      <Link href="/room/[id]" as={`/room/${id.toString()}`}>
         <div>
           <Card variant="none" className={`p-5 cursor-pointer ${className}`}>
             <div className="flex items-center">

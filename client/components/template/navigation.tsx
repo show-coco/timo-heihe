@@ -25,7 +25,7 @@ export const Navigation: React.FC = () => {
 
         <div className="flex items-center">
           <PenIcon class="w-5 h-5 fill-current mr-3" />
-          <Link href="/create-space">
+          <Link href="/create-room">
             <span className={textStyle} role="button">
               スペース募集を作成
             </span>
