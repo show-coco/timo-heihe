@@ -23,6 +23,7 @@ export const useCreateTeam = () => {
   const { id } = useAuthContext();
   const [createTeam, { loading }] = useCreateTeamMutation();
   const [title, setTitle] = useState("");
+  const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [recruitNumber, setRecruitNumber] = useState(0);
   const [repositoryUrl, setRespositoryUrl] = useState("");
@@ -38,6 +39,7 @@ export const useCreateTeam = () => {
 
   const getVariables = (): CreateTeamInput => ({
     title,
+    name,
     owner: {
       id,
     },
@@ -98,6 +100,7 @@ export const useCreateTeam = () => {
     setRespositoryUrl,
     setIsRequired,
     onChangeCategories,
+    setName,
     selectedSkills,
     recruitNumber,
     fileRef,

@@ -82,6 +82,7 @@ export type CreateTeamInput = {
   icon?: Maybe<Scalars["String"]>;
   isRequired: Scalars["Boolean"];
   members: Array<CreateTeamMembersUserInput>;
+  name: Scalars["String"];
   owner: ConnectUserInput;
   recruitNumbers: Scalars["Int"];
   rectuiting?: Maybe<Scalars["Boolean"]>;
@@ -407,6 +408,7 @@ export type UpdateTeamInput = {
   id: Scalars["Int"];
   isRequired?: Maybe<Scalars["Boolean"]>;
   members?: Maybe<Array<CreateTeamMembersUserInput>>;
+  name?: Maybe<Scalars["String"]>;
   owner?: Maybe<ConnectUserInput>;
   recruitNumbers?: Maybe<Scalars["Int"]>;
   rectuiting?: Maybe<Scalars["Boolean"]>;
