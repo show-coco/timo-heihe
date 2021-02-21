@@ -13,7 +13,7 @@ import {
 } from 'typeorm';
 import { TeamMembersUser } from '../../team-members-user/entities/team-members-user.entity';
 import { Room } from '../../room/entities/room.entity';
-import { TeamType } from 'src/team-type/entities/team-type.entity';
+import { TeamType } from '../../team-type/entities/team-type.entity';
 
 @Entity()
 export class Team {

@@ -1,6 +1,6 @@
 import { InputType, Field, Int } from '@nestjs/graphql';
-import { CategoryInput } from 'src/category/dto/category.input';
-import { SkillInput } from 'src/skill/dto/skill.input';
+import { CategoryInput } from '../../category/dto/category.input';
+import { SkillInput } from '../../skill/dto/skill.input';
 import { CreateTeamMembersUserInput } from '../../team-members-user/dto/create-team-members-user.input';
 import { ConnectUserInput } from '../../users/dto/connect-user.input';
 
