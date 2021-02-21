@@ -311,6 +311,7 @@ export type SearchTeamInput = {
   name?: Maybe<Scalars["String"]>;
   recruitNumbers?: Maybe<Scalars["Int"]>;
   skillIds?: Maybe<Array<Scalars["Int"]>>;
+  typeId?: Maybe<Scalars["Int"]>;
 };
 
 export type SkillInput = {
@@ -538,6 +539,11 @@ export type TeamCardFragment = { __typename?: "TeamModel" } & Pick<
       { __typename?: "CategoryModel" } & Pick<CategoryModel, "id" | "name">
     >;
   };
+
+export type TeamTypesFragment = { __typename?: "TeamTypeModel" } & Pick<
+  TeamTypeModel,
+  "id" | "name"
+>;
 
 export type CreateRoomMutationVariables = Exact<{
   input: CreateRoomInput;
@@ -831,6 +837,7 @@ export type TeamsQueryVariables = Exact<{
 
 export type TeamsQuery = { __typename?: "Query" } & {
   teams: Array<{ __typename?: "TeamModel" } & TeamCardFragment>;
+  teamTypes: Array<{ __typename?: "TeamTypeModel" } & TeamTypesFragment>;
 };
 
 export type ThreadListQueryVariables = Exact<{
@@ -982,6 +989,12 @@ export const TeamCardFragmentDoc = gql`
       id
       name
     }
+  }
+`;
+export const TeamTypesFragmentDoc = gql`
+  fragment TeamTypes on TeamTypeModel {
+    id
+    name
   }
 `;
 export const CreateRoomDocument = gql`
@@ -1923,8 +1936,12 @@ export const TeamsDocument = gql`
     teams(input: $input) {
       ...TeamCard
     }
+    teamTypes {
+      ...TeamTypes
+    }
   }
   ${TeamCardFragmentDoc}
+  ${TeamTypesFragmentDoc}
 `;
 
 /**

@@ -1,5 +1,6 @@
 import { ApolloError } from "@apollo/client";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
+import { TeamType } from "../constants";
 import {
   useSearchConditionsQuery,
   SearchConditionsQuery,
@@ -14,6 +15,7 @@ export type UseSearch = {
   handleChangeSkills: (e: React.FormEvent<HTMLInputElement>) => void;
   setName: React.Dispatch<React.SetStateAction<string>>;
   setRecruitNumbers: React.Dispatch<React.SetStateAction<number>>;
+  setTypeId: React.Dispatch<React.SetStateAction<number>>;
   name: string;
   categoryAndSkillData?: SearchConditionsQuery;
   recruitNumbers: number;
@@ -21,6 +23,7 @@ export type UseSearch = {
   teamsData: TeamsQuery | undefined;
   loading: boolean;
   error: ApolloError | undefined;
+  typeId: number;
 };
 
 const DEFAULT_RECRUIT_NUMBERS = 5;
@@ -32,11 +35,13 @@ export const useSearchTeams = (): UseSearch => {
   const [name, setName] = useState<string>("");
   const [categoryIds, setCategoryIds] = useState<number[]>([]);
   const [skillIds, setSkillIds] = useState<number[]>(mySkillIds);
+  const [typeId, setTypeId] = useState(TeamType.DEVELOPMENT);
   const { data: teamsData, refetch, loading, error } = useTeamsQuery({
     variables: {
       input: {
         skillIds: mySkillIds,
         recruitNumbers: DEFAULT_RECRUIT_NUMBERS,
+        typeId: TeamType.DEVELOPMENT,
       },
     },
   });
@@ -45,16 +50,25 @@ export const useSearchTeams = (): UseSearch => {
     setSkillIds(mySkillIds);
   }, [mySkillIds]);
 
-  const handleSubmit = () => {
-    console.log("aaa");
+  useEffect(() => {
+    refetchRooms();
+  }, [typeId]);
+
+  const refetchRooms = useCallback(() => {
     refetch({
       input: {
         recruitNumbers,
         name,
         categoryIds: categoryIds.length ? categoryIds : null,
         skillIds: skillIds.length ? skillIds : null,
+        typeId,
       },
     });
+  }, [categoryIds, name, recruitNumbers, refetch, skillIds, typeId]);
+
+  const handleSubmit = () => {
+    console.log("aaa");
+    refetchRooms();
   };
 
   const handleChangeCategories = (e: React.FormEvent<HTMLInputElement>) => {
@@ -86,14 +100,16 @@ export const useSearchTeams = (): UseSearch => {
     handleSubmit,
     handleChangeCategories,
     handleChangeSkills,
+    setName,
+    setRecruitNumbers,
+    setTypeId,
     skillIds,
     teamsData,
     categoryAndSkillData,
     loading,
     error,
-    setName,
     name,
-    setRecruitNumbers,
     recruitNumbers,
+    typeId,
   };
 };
