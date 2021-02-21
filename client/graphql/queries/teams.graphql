@@ -2,4 +2,7 @@ query Teams($input: SearchTeamInput) {
   teams(input: $input) {
     ...TeamCard
   }
+  teamTypes {
+    ...TeamTypes
+  }
 }

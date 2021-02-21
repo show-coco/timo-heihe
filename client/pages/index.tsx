@@ -3,13 +3,20 @@ import {
   convertToTeamCardObjFromTeams,
   TeamCard,
 } from "../components/card/team-card";
-import { Heading } from "../components/heading/heading";
 import { Template } from "../components/template/template";
 import { SearchArea } from "../components/search-area/search-area";
 import { useSearchTeams } from "../hooks/useSearchTeams";
+import { HomeHeader } from "../components/template/header/home";
 
 export default function Home() {
-  const { teamsData, error, loading, ...searchArea } = useSearchTeams();
+  const {
+    teamsData,
+    error,
+    loading,
+    typeId,
+    setTypeId,
+    ...searchArea
+  } = useSearchTeams();
 
   const teams = useMemo(() => {
     return (
@@ -24,8 +31,16 @@ export default function Home() {
   if (!teams) return <p>ルームがありません</p>;
 
   return (
-    <Template className="p-10">
-      <Heading as="h1Small">おすすめ</Heading>
+    <Template
+      className="p-10"
+      header={
+        <HomeHeader
+          teamTypes={teamsData?.teamTypes}
+          setTypeId={setTypeId}
+          typeId={typeId}
+        />
+      }
+    >
       <div className="grid grid-cols-2 ">
         <div className="space-y-5 mt-5">
           {teams.map((team, i) => (

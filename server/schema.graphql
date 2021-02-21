@@ -71,6 +71,7 @@ input CreateTeamInput {
   repositoryUrl: String
   skills: [SkillInput!]!
   title: String!
+  typeIds: [Int!]!
 }
 
 input CreateTeamMembersUserInput {
@@ -149,6 +150,7 @@ type Query {
   skills: [SkillModel!]!
   team(id: Int!): TeamModel!
   teams(input: SearchTeamInput): [TeamModel!]!
+  teamTypes: [TeamTypeModel!]!
   thread(id: Int!): ThreadModel!
   threads(input: FetchThreadInput!): [ThreadModel!]
   user(userId: String!): UserModel!
@@ -168,6 +170,7 @@ input SearchTeamInput {
   name: String
   recruitNumbers: Int
   skillIds: [Int!]
+  typeId: Int
 }
 
 input SkillInput {
@@ -218,6 +221,12 @@ type TeamModel {
   rooms: [RoomModel!]
   skills: [SkillModel!]
   title: String!
+  types: [TeamTypeModel!]!
+}
+
+type TeamTypeModel {
+  id: Int!
+  name: String!
 }
 
 type ThreadModel {
@@ -261,6 +270,7 @@ input UpdateTeamInput {
   repositoryUrl: String
   skills: [SkillInput!]
   title: String
+  typeIds: [Int!]
 }
 
 input UpdateThreadInput {

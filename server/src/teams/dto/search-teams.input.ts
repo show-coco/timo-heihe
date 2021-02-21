@@ -13,4 +13,7 @@ export class SearchTeamInput {
 
   @Field(() => Int, { nullable: true })
   recruitNumbers?: number;
+
+  @Field(() => Int, { nullable: true })
+  typeId: number;
 }

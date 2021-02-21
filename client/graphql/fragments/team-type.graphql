@@ -1,0 +1,4 @@
+fragment TeamTypes on TeamTypeModel {
+  id
+  name
+}

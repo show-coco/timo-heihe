@@ -13,6 +13,7 @@ import {
 } from 'typeorm';
 import { TeamMembersUser } from '../../team-members-user/entities/team-members-user.entity';
 import { Room } from '../../room/entities/room.entity';
+import { TeamType } from '../../team-type/entities/team-type.entity';
 
 @Entity()
 export class Team {
@@ -62,4 +63,8 @@ export class Team {
 
   @Column({ default: true })
   recruiting: boolean;
+
+  @ManyToMany(() => TeamType, (teamType) => teamType.team)
+  @JoinTable()
+  types: TeamType[];
 }

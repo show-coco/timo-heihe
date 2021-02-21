@@ -25,6 +25,7 @@ export class TeamsService {
       .leftJoinAndSelect('team.owner', 'owner')
       .leftJoinAndSelect('team.skills', 'skills')
       .leftJoinAndSelect('team.rooms', 'rooms.teamId = team.id')
+      .leftJoinAndSelect('team.types', 'types')
       .where({ id: id })
       .getOne();
 
@@ -45,6 +46,7 @@ export class TeamsService {
       .leftJoinAndSelect('team.owner', 'owner')
       .leftJoinAndSelect('team.skills', 'skills')
       .leftJoinAndSelect('team.rooms', 'rooms.teamId = team.id')
+      .leftJoinAndSelect('team.types', 'types')
       .where({ recruiting: true });
 
     if (input && input.name) {
@@ -59,6 +61,10 @@ export class TeamsService {
 
     if (input && input.categoryIds) {
       query.andWhere('categories.id IN (:...ids)', { ids: input.categoryIds });
+    }
+
+    if (input && input.typeId) {
+      query.andWhere('types.id = :id', { id: input.typeId });
     }
 
     if (input && input.recruitNumbers) {
@@ -80,7 +86,16 @@ export class TeamsService {
   async update(updateTeamInput: UpdateTeamInput): Promise<Team> {
     const input: UpdateTeamInput = JSON.parse(JSON.stringify(updateTeamInput));
 
-    const returns = await this.teamRepository.save(input);
+    console.log('paramater on teams->service->update', input);
+
+    const formattedInput = {
+      ...input,
+      types: input.typeIds.map((id) => ({ id })),
+    };
+
+    const newTeam = this.teamRepository.create(formattedInput);
+
+    const returns = await this.teamRepository.save(newTeam);
 
     const res = await this.findOne(returns.id);
     console.log('response on teams->service->update', res);
@@ -92,7 +107,14 @@ export class TeamsService {
 
     console.log('paramater on teams->service->insert', input);
 
-    const returns = await this.teamRepository.save(input);
+    const formattedInput = {
+      ...input,
+      types: input.typeIds.map((id) => ({ id })),
+    };
+
+    const newTeam = this.teamRepository.create(formattedInput);
+
+    const returns = await this.teamRepository.save(newTeam);
 
     const teamId = returns.id;
     input.members.forEach((member) =>

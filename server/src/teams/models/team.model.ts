@@ -4,6 +4,7 @@ import { CategoryModel } from '../../category/models/category.model';
 import { SkillModel } from '../../skill/models/skill.model';
 import { UserModel } from '../../users/models/user.model';
 import { RoomModel } from '../../room/models/room.model';
+import { TeamTypeModel } from '../../team-type/models/team-type.model';
 
 @ObjectType()
 export class TeamModel {
@@ -48,4 +49,7 @@ export class TeamModel {
 
   @Field(() => [RoomModel], { nullable: true })
   rooms: RoomModel[];
+
+  @Field(() => [TeamTypeModel])
+  types: TeamTypeModel[];
 }

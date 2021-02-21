@@ -31,6 +31,7 @@ export default function CreateRoom() {
     onChangeFileInput,
     onSubmit,
     setIsRequired,
+    onChangeType,
     onChangeCategories,
     setName,
     recruitNumber,
@@ -115,6 +116,23 @@ export default function CreateRoom() {
                   value={recruitNumber}
                   setValue={setRecruitNumber}
                 />
+              </div>
+            </div>
+
+            <div className={`flex flex-col flex-wrap w-2/3`}>
+              <Heading as="h2">ルームタイプ</Heading>
+
+              <div>
+                {data?.teamTypes.map((type, i) => (
+                  <Checkbox
+                    key={i}
+                    className="mr-4 mt-4"
+                    value={type.id}
+                    onChange={(e) => onChangeType(e, type.id)}
+                  >
+                    {type.name}
+                  </Checkbox>
+                ))}
               </div>
             </div>
 

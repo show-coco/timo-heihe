@@ -26,12 +26,20 @@ query TeamEditPage($id: Int!) {
       id
       name
     }
+    types {
+      id
+      name
+    }
   }
   categories {
     id
     name
   }
   skills {
+    id
+    name
+  }
+  teamTypes {
     id
     name
   }

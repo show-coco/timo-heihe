@@ -6,7 +6,10 @@ import { Checkbox } from "../checkbox/checkbox";
 import { NumberInput } from "../number-input/number-input";
 import { UseSearch } from "../../hooks/useSearchTeams";
 
-type Props = Omit<UseSearch, "error" | "loading" | "teamsData">;
+type Props = Omit<
+  UseSearch,
+  "error" | "loading" | "teamsData" | "typeId" | "setTypeId"
+>;
 
 export const SearchArea: FC<Props> = ({
   setName,
