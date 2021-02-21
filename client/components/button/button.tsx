@@ -1,7 +1,7 @@
 import React from "react";
 
 export type ButtonProps = {
-  variant?: "primary" | "outline" | "ghost";
+  variant?: "primary" | "outline" | "ghost" | "underline";
   size?: "small" | "medium" | "large";
   isIcon?: boolean;
   // eslint-disable-next-line no-unused-vars
@@ -10,10 +10,11 @@ export type ButtonProps = {
   className?: string;
   disabled?: boolean;
   type?: "submit";
+  roundedTop?: boolean;
 };
 
 const defaultStyle =
-  "font-bold rounded-md w-auto inline-flex justify-center items-center relative border-box";
+  "font-bold w-auto inline-flex justify-center items-center relative border-box";
 
 const sizes = {
   small: "h-8 min-w-8",
@@ -37,6 +38,7 @@ const variants = {
   primary: `text-white bg-orange-500 ${hoverAnimation["orange"]}`,
   outline: `text-red-500 bg-transparent border border-red-500 hover:bg-black-400 ${hoverAnimation["black"]}`,
   ghost: `hover:bg-black-400 ${hoverAnimation["black"]}`,
+  underline: `hover:bg-black-400 ${hoverAnimation["black"]} border-b-2 border-orange-300`,
 };
 
 // eslint-disable-next-line react/display-name
@@ -48,6 +50,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       children,
       className,
       isIcon,
+      roundedTop,
       ...props
     }: ButtonProps,
     ref
@@ -56,11 +59,12 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     const buttonType = variants[variant];
     const disabledStyle = props.disabled ? "opacity-50" : "";
     const paddingClass = isIcon ? paddings["icon"] : paddings[size];
+    const rounded = roundedTop ? "rounded-t-md" : "rounded-md";
 
     return (
       <button
         type="button"
-        className={`${buttonType} ${defaultStyle} ${sizeMode} ${paddingClass} ${disabledStyle} ${className}`}
+        className={`${buttonType} ${defaultStyle} ${sizeMode} ${paddingClass} ${disabledStyle} ${className} ${rounded}`}
         ref={ref}
         {...props}
       >

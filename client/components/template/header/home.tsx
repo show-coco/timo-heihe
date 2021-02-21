@@ -2,7 +2,6 @@ import React from "react";
 import { IconButton } from "../../button/icon-button";
 import DotIcon from "../../../assets/icons/dot-set.svg";
 import MorningIcon from "../../../assets/icons/morning.svg";
-import { Avatar } from "../../avatar/avatar";
 import { Button } from "../../button";
 import { TeamTypesFragment } from "../../../generated/types";
 import { Card } from "../../card/card";
@@ -28,7 +27,7 @@ export const HomeHeader: React.FC<Props> = ({
             className="flex flex-1 items-center pl-6 h-20 justify-between"
           >
             <p className="text-lg">
-              おはようございます！今日も1日頑張りましょう
+              x月xx日にハッカソンが開催されます！腕試ししてみませんか
             </p>
             <MorningIcon class="h-full" />
           </Card>
@@ -51,8 +50,9 @@ export const HomeHeader: React.FC<Props> = ({
       <div className="space-x-3 bg-white w-full px-6">
         {teamTypes?.map((type) => (
           <Button
+            roundedTop={true}
             key={type.id}
-            variant={typeId === type.id ? "primary" : "ghost"}
+            variant={typeId === type.id ? "underline" : "ghost"}
             onClick={() => setTypeId(type.id)}
           >
             {type.name}
