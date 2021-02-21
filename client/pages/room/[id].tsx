@@ -167,7 +167,7 @@ export default function ShowRoom() {
 
             <div className="flex flex-wrap">
               {team.members?.map((member) => (
-                <AvatarLink {...member} key={member.id} />
+                <AvatarLink {...member} key={member.id} size="small" />
               ))}
             </div>
           </div>

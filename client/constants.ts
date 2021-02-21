@@ -4,4 +4,4 @@ export const TeamType = {
   RESEARCH: 2,
   HACKATHON: 3,
   FREE: 4,
-}
+};

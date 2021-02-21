@@ -6,7 +6,7 @@ import {
 import { Template } from "../components/template/template";
 import { SearchArea } from "../components/search-area/search-area";
 import { useSearchTeams } from "../hooks/useSearchTeams";
-import { Button } from "../components/button";
+import { HomeHeader } from "../components/template/header/home";
 
 export default function Home() {
   const {
@@ -31,19 +31,16 @@ export default function Home() {
   if (!teams) return <p>ルームがありません</p>;
 
   return (
-    <Template className="p-10">
-      <div className="space-x-3">
-        {teamsData?.teamTypes.map((type) => (
-          <Button
-            key={type.id}
-            variant={typeId === type.id ? "primary" : "ghost"}
-            onClick={() => setTypeId(type.id)}
-          >
-            {type.name}
-          </Button>
-        ))}
-      </div>
-
+    <Template
+      className="p-10"
+      header={
+        <HomeHeader
+          teamTypes={teamsData?.teamTypes}
+          setTypeId={setTypeId}
+          typeId={typeId}
+        />
+      }
+    >
       <div className="grid grid-cols-2 ">
         <div className="space-y-5 mt-5">
           {teams.map((team, i) => (

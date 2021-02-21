@@ -1,5 +1,4 @@
 import React from "react";
-import ChatIcon from "../../assets/icons/chat.svg";
 import PenIcon from "../../assets/icons/pen.svg";
 import BoardIcon from "../../assets/icons/board.svg";
 import LogoutIcon from "../../assets/icons/logout.svg";
