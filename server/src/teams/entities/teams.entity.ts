@@ -14,6 +14,12 @@ import {
 import { TeamMembersUser } from '../../team-members-user/entities/team-members-user.entity';
 import { Room } from '../../room/entities/room.entity';
 
+export enum TeamType {
+  DEVELOPMENT = 'development',
+  RESEARCH = 'research',
+  HACKATHON = 'hackathon',
+}
+
 @Entity()
 export class Team {
   @PrimaryGeneratedColumn()
@@ -62,4 +68,11 @@ export class Team {
 
   @Column({ default: true })
   recruiting: boolean;
+
+  @Column({
+    type: 'enum',
+    enum: TeamType,
+    default: TeamType.DEVELOPMENT,
+  })
+  type: TeamType;
 }
