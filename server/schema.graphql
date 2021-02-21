@@ -150,6 +150,7 @@ type Query {
   skills: [SkillModel!]!
   team(id: Int!): TeamModel!
   teams(input: SearchTeamInput): [TeamModel!]!
+  teamTypes: [TeamTypeModel!]!
   thread(id: Int!): ThreadModel!
   threads(input: FetchThreadInput!): [ThreadModel!]
   user(userId: String!): UserModel!

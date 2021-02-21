@@ -36,6 +36,7 @@ import { TeamType } from './team-type/entities/team-type.entity';
         RoomModule,
         ThreadModule,
         MessageModule,
+        TeamTypeModule,
       ],
       playground: true,
       autoSchemaFile: 'schema.graphql',

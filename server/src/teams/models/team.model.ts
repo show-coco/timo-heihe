@@ -4,7 +4,6 @@ import { CategoryModel } from '../../category/models/category.model';
 import { SkillModel } from '../../skill/models/skill.model';
 import { UserModel } from '../../users/models/user.model';
 import { RoomModel } from '../../room/models/room.model';
-import { TeamType } from 'src/team-type/entities/team-type.entity';
 import { TeamTypeModel } from 'src/team-type/models/team-type.model';
 
 @ObjectType()
