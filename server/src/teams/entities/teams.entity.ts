@@ -13,12 +13,7 @@ import {
 } from 'typeorm';
 import { TeamMembersUser } from '../../team-members-user/entities/team-members-user.entity';
 import { Room } from '../../room/entities/room.entity';
-
-export enum TeamType {
-  DEVELOPMENT = 'development',
-  RESEARCH = 'research',
-  HACKATHON = 'hackathon',
-}
+import { TeamType } from 'src/team-type/entities/team-type.entity';
 
 @Entity()
 export class Team {
@@ -69,10 +64,6 @@ export class Team {
   @Column({ default: true })
   recruiting: boolean;
 
-  @Column({
-    type: 'enum',
-    array: true,
-    enum: TeamType,
-  })
-  type: TeamType[];
+  @OneToMany(() => TeamType, (teamType) => teamType.team)
+  types: TeamType[];
 }

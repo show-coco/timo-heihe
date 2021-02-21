@@ -19,6 +19,8 @@ import { RoomModule } from './room/room.module';
 import { MessageModule } from './message/message.module';
 import { Thread } from './thread/entities/thread.entity';
 import { Message } from './message/entities/message.entity';
+import { TeamTypeModule } from './team-type/team-type.module';
+import { TeamType } from './team-type/entities/team-type.entity';
 
 @Module({
   imports: [
@@ -57,6 +59,7 @@ import { Message } from './message/entities/message.entity';
         Room,
         Thread,
         Message,
+        TeamType,
       ],
       synchronize: true,
     }),
@@ -69,6 +72,7 @@ import { Message } from './message/entities/message.entity';
     RoomModule,
     ThreadModule,
     MessageModule,
+    TeamTypeModule,
   ],
 })
 export class AppModule {}

@@ -3,7 +3,6 @@ import { CategoryInput } from 'src/category/dto/category.input';
 import { SkillInput } from 'src/skill/dto/skill.input';
 import { CreateTeamMembersUserInput } from '../../team-members-user/dto/create-team-members-user.input';
 import { ConnectUserInput } from '../../users/dto/connect-user.input';
-import { TeamType } from '../entities/teams.entity';
 
 @InputType()
 export class CreateTeamInput {
@@ -43,6 +42,6 @@ export class CreateTeamInput {
   @Field()
   isRequired: boolean;
 
-  @Field(() => [TeamType])
-  type: TeamType[];
+  @Field(() => [Int])
+  typeIds: number[];
 }

@@ -71,7 +71,7 @@ input CreateTeamInput {
   repositoryUrl: String
   skills: [SkillInput!]!
   title: String!
-  type: [TeamType!]!
+  typeIds: [Int!]!
 }
 
 input CreateTeamMembersUserInput {
@@ -219,13 +219,12 @@ type TeamModel {
   rooms: [RoomModel!]
   skills: [SkillModel!]
   title: String!
-  type: [TeamType!]!
+  types: [TeamTypeModel!]!
 }
 
-enum TeamType {
-  DEVELOPMENT
-  HACKATHON
-  RESEARCH
+type TeamTypeModel {
+  id: Int!
+  name: String!
 }
 
 type ThreadModel {
@@ -269,7 +268,7 @@ input UpdateTeamInput {
   repositoryUrl: String
   skills: [SkillInput!]
   title: String
-  type: [TeamType!]
+  typeIds: [Int!]
 }
 
 input UpdateThreadInput {

@@ -92,7 +92,14 @@ export class TeamsService {
 
     console.log('paramater on teams->service->insert', input);
 
-    const returns = await this.teamRepository.save(input);
+    const formattedInput = {
+      ...input,
+      types: input.typeIds.map((id) => ({ id })),
+    };
+
+    const newTeam = this.teamRepository.create(formattedInput);
+
+    const returns = await this.teamRepository.save(newTeam);
 
     const teamId = returns.id;
     input.members.forEach((member) =>
