@@ -63,6 +63,10 @@ export class TeamsService {
       query.andWhere('categories.id IN (:...ids)', { ids: input.categoryIds });
     }
 
+    if (input && input.typeId) {
+      query.andWhere('types.id = :id', { id: input.typeId });
+    }
+
     if (input && input.recruitNumbers) {
       query.andWhere(
         'team.recruitNumbers > :lower AND team.recruitNumbers < :upper',

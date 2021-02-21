@@ -170,6 +170,7 @@ input SearchTeamInput {
   name: String
   recruitNumbers: Int
   skillIds: [Int!]
+  typeId: Int
 }
 
 input SkillInput {
