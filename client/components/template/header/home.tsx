@@ -48,16 +48,20 @@ export const HomeHeader: React.FC<Props> = ({
       </div>
 
       <div className="space-x-3 bg-white w-full px-6">
-        {teamTypes?.map((type) => (
-          <Button
-            roundedTop={true}
-            key={type.id}
-            variant={typeId === type.id ? "underline" : "ghost"}
-            onClick={() => setTypeId(type.id)}
-          >
-            {type.name}
-          </Button>
-        ))}
+        {teamTypes?.map((type) => {
+          const isSelected = typeId === type.id;
+          return (
+            <Button
+              roundedTop={true}
+              key={type.id}
+              variant={isSelected ? "underline" : "ghost"}
+              className={isSelected ? "text-black-400" : "text-black-100"}
+              onClick={() => setTypeId(type.id)}
+            >
+              {type.name}
+            </Button>
+          );
+        })}
       </div>
     </>
   );
