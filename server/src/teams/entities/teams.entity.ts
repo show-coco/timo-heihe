@@ -71,8 +71,8 @@ export class Team {
 
   @Column({
     type: 'enum',
+    array: true,
     enum: TeamType,
-    default: TeamType.DEVELOPMENT,
   })
-  type: TeamType;
+  type: TeamType[];
 }

@@ -43,6 +43,6 @@ export class CreateTeamInput {
   @Field()
   isRequired: boolean;
 
-  @Field(() => TeamType)
-  type: TeamType;
+  @Field(() => [TeamType])
+  type: TeamType[];
 }

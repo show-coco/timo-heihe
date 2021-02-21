@@ -71,7 +71,7 @@ input CreateTeamInput {
   repositoryUrl: String
   skills: [SkillInput!]!
   title: String!
-  type: TeamType!
+  type: [TeamType!]!
 }
 
 input CreateTeamMembersUserInput {
@@ -219,7 +219,7 @@ type TeamModel {
   rooms: [RoomModel!]
   skills: [SkillModel!]
   title: String!
-  type: TeamType!
+  type: [TeamType!]!
 }
 
 enum TeamType {
@@ -269,7 +269,7 @@ input UpdateTeamInput {
   repositoryUrl: String
   skills: [SkillInput!]
   title: String
-  type: TeamType
+  type: [TeamType!]
 }
 
 input UpdateThreadInput {

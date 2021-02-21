@@ -60,6 +60,6 @@ export class TeamModel {
   @Field(() => [RoomModel], { nullable: true })
   rooms: RoomModel[];
 
-  @Field(() => TeamType)
-  type: TeamType;
+  @Field(() => [TeamType])
+  type: TeamType[];
 }
