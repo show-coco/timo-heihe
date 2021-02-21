@@ -55,7 +55,11 @@ export const HomeHeader: React.FC<Props> = ({
               roundedTop={true}
               key={type.id}
               variant={isSelected ? "underline" : "ghost"}
-              className={isSelected ? "text-black-400" : "text-black-100"}
+              className={
+                isSelected
+                  ? "text-black-400"
+                  : "text-black-100 hover:text-black-400"
+              }
               onClick={() => setTypeId(type.id)}
             >
               {type.name}
