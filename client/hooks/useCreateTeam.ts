@@ -36,6 +36,9 @@ export const useCreateTeam = () => {
     onChange: onChangeFileInput,
     imageUrl,
   } = useFileInput();
+  const [types, setTypes] = useState<number[]>([]);
+
+  console.log(types);
 
   const getVariables = (): CreateTeamInput => ({
     title,
@@ -57,6 +60,7 @@ export const useCreateTeam = () => {
     recruitNumbers: recruitNumber,
     isRequired: isRequired === "2",
     categories: convertToCategoriesObj(categories),
+    typeIds: types,
   });
 
   console.log(getVariables());
@@ -72,6 +76,19 @@ export const useCreateTeam = () => {
       router.push(`/room/${res.data?.createTeam.id}`);
     } catch (e) {
       console.log(e);
+    }
+  };
+
+  const onChangeType = (
+    event: React.FormEvent<HTMLInputElement>,
+    clickedTypeId: number
+  ) => {
+    const valueExists = types.includes(clickedTypeId);
+    if (valueExists) {
+      const newTypes = types.filter((type) => type !== clickedTypeId);
+      setTypes(newTypes);
+    } else {
+      setTypes([...types, clickedTypeId]);
     }
   };
 
@@ -100,6 +117,7 @@ export const useCreateTeam = () => {
     setRespositoryUrl,
     setIsRequired,
     onChangeCategories,
+    onChangeType,
     setName,
     selectedSkills,
     recruitNumber,
