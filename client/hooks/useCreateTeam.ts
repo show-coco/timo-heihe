@@ -38,8 +38,6 @@ export const useCreateTeam = () => {
   } = useFileInput();
   const [types, setTypes] = useState<number[]>([]);
 
-  console.log(types);
-
   const getVariables = (): CreateTeamInput => ({
     title,
     name,

@@ -5,6 +5,7 @@ import { ACSelectedData } from "../components/auto-complate/auto-complate";
 import {
   SkillModel,
   TeamEditPageQuery,
+  UpdateTeamInput,
   useEditTeamMutation,
   useTeamEditPageQuery,
 } from "../generated/types";
@@ -39,6 +40,7 @@ export const useEditTeam = () => {
   const [isRequired, setIsRequired] = useState("1");
   const [selectedSkills, setSkills] = useState<ACSelectedData[]>([]);
   const [categories, setCategories] = useState<number[]>([]);
+  const [types, setTypes] = useState<number[]>([]);
   const {
     fileRef,
     onClick: onClickFileInput,
@@ -53,11 +55,14 @@ export const useEditTeam = () => {
     },
   });
 
+  console.log("typesss", types);
+
   const [updateTeam] = useEditTeamMutation();
 
   useEffect(() => {
     if (!loading && data) {
       const team = data.team;
+      const typeIds = team.types.map((type) => type.id);
 
       setTitle(team.title);
       setName(team.name);
@@ -68,6 +73,7 @@ export const useEditTeam = () => {
       setSkills(convertToACSelectedData(team.skills || []));
       setCategories(convertToCategoryArray(team.categories));
       setImageUrl(team.icon || "");
+      setTypes(typeIds);
     }
   }, [data, loading, setImageUrl]);
 
@@ -85,24 +91,38 @@ export const useEditTeam = () => {
     setCategories(newCategories);
   };
 
-  const getVariables = () => ({
-    id: Number(id),
-    title,
-    icon: imageUrl,
-    skills: convertToSkillsObj(selectedSkills),
-    description,
-    repositoryUrl,
-    recruitNumbers: recruitNumber,
-    isRequired: isRequired === "2",
-    categories: convertToCategoriesObj(categories),
-  });
+  const onChangeType = (
+    event: React.FormEvent<HTMLInputElement>,
+    clickedTypeId: number
+  ) => {
+    const valueExists = types.includes(clickedTypeId);
+    if (valueExists) {
+      const newTypes = types.filter((type) => type !== clickedTypeId);
+      setTypes(newTypes);
+    } else {
+      setTypes([...types, clickedTypeId]);
+    }
+  };
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    console.log("typvavenvejnveianv", types);
     try {
       await updateTeam({
         variables: {
-          input: getVariables(),
+          input: {
+            id: Number(id),
+            name,
+            title,
+            icon: imageUrl,
+            skills: convertToSkillsObj(selectedSkills),
+            description,
+            repositoryUrl,
+            recruitNumbers: recruitNumber,
+            isRequired: isRequired === "2",
+            categories: convertToCategoriesObj(categories),
+            typeIds: types,
+          },
         },
       });
       router.push(`/room/${id}`);
@@ -122,6 +142,7 @@ export const useEditTeam = () => {
       selectedSkills,
       categories,
       imageUrl,
+      types,
     },
     file: {
       fileRef,
@@ -138,9 +159,11 @@ export const useEditTeam = () => {
       setSkills,
       onChangeCategories,
       setImageUrl,
+      onChangeType,
     },
     onSubmit,
     categories: data?.categories || [],
     skills: data?.skills || [],
+    teamTypes: data?.teamTypes || [],
   };
 };

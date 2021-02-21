@@ -27,6 +27,7 @@ export default function EditRoom() {
     setter,
     skills,
     categories,
+    teamTypes,
     onSubmit,
   } = useEditTeam();
 
@@ -105,6 +106,24 @@ export default function EditRoom() {
                   value={formState.recruitNumber}
                   setValue={setter.setRecruitNumber}
                 />
+              </div>
+            </div>
+
+            <div className={`flex flex-col flex-wrap w-2/3`}>
+              <Heading as="h2">ルームタイプ</Heading>
+
+              <div>
+                {teamTypes.map((type, i) => (
+                  <Checkbox
+                    key={i}
+                    className="mr-4 mt-4"
+                    value={type.id}
+                    checked={formState.types.includes(type.id)}
+                    onChange={(e) => setter.onChangeType(e, type.id)}
+                  >
+                    {type.name}
+                  </Checkbox>
+                ))}
               </div>
             </div>
 

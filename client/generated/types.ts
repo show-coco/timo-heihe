@@ -698,12 +698,18 @@ export type TeamEditPageQuery = { __typename?: "Query" } & {
       categories: Array<
         { __typename?: "CategoryModel" } & Pick<CategoryModel, "id" | "name">
       >;
+      types: Array<
+        { __typename?: "TeamTypeModel" } & Pick<TeamTypeModel, "id" | "name">
+      >;
     };
   categories: Array<
     { __typename?: "CategoryModel" } & Pick<CategoryModel, "id" | "name">
   >;
   skills: Array<
     { __typename?: "SkillModel" } & Pick<SkillModel, "id" | "name">
+  >;
+  teamTypes: Array<
+    { __typename?: "TeamTypeModel" } & Pick<TeamTypeModel, "id" | "name">
   >;
 };
 
@@ -1576,12 +1582,20 @@ export const TeamEditPageDocument = gql`
         id
         name
       }
+      types {
+        id
+        name
+      }
     }
     categories {
       id
       name
     }
     skills {
+      id
+      name
+    }
+    teamTypes {
       id
       name
     }
