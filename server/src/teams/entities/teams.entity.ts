@@ -64,6 +64,7 @@ export class Team {
   @Column({ default: true })
   recruiting: boolean;
 
-  @OneToMany(() => TeamType, (teamType) => teamType.team)
+  @ManyToMany(() => TeamType, (teamType) => teamType.team)
+  @JoinTable()
   types: TeamType[];
 }
