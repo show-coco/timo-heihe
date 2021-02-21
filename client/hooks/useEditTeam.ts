@@ -55,8 +55,6 @@ export const useEditTeam = () => {
     },
   });
 
-  console.log("typesss", types);
-
   const [updateTeam] = useEditTeamMutation();
 
   useEffect(() => {
@@ -106,7 +104,6 @@ export const useEditTeam = () => {
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log("typvavenvejnveianv", types);
     try {
       await updateTeam({
         variables: {
