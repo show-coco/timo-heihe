@@ -124,6 +124,13 @@ export const useTeamDetail = () => {
 
   const team = data?.team;
 
+  // HACK
+  const isLimitOfRecruit = useMemo(() => {
+    if (team && team.members) {
+      return team.members.length >= team.recruitNumbers;
+    }
+  }, [team]);
+
   const iAmOwner = useMemo(() => {
     return userId === team?.owner.id;
   }, [team?.owner.id, userId]);
@@ -147,12 +154,16 @@ export const useTeamDetail = () => {
   }, [team?.members, userId]);
 
   const iCanJoin = useMemo(() => {
-    return !iAmIn && !team?.isRequired;
-  }, [iAmIn, team?.isRequired]);
+    if (team && team.members) {
+      return !iAmIn && !team.isRequired && !isLimitOfRecruit;
+    }
+  }, [iAmIn, isLimitOfRecruit, team]);
 
   const iCanApply = useMemo(() => {
-    return !iAmIn && !iAmJoining && team?.isRequired;
-  }, [iAmIn, iAmJoining, team?.isRequired]);
+    if (team && team.members) {
+      return !iAmIn && team.isRequired && !isLimitOfRecruit;
+    }
+  }, [iAmIn, isLimitOfRecruit, team]);
 
   const iCanEdit = useMemo(() => {
     return iAmOwner;
@@ -172,6 +183,7 @@ export const useTeamDetail = () => {
     iCanLeave,
     iAmJoining,
     iAmApplying,
+    isLimitOfRecruit,
     team: data?.team,
     teamId,
     loading,

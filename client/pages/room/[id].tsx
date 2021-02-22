@@ -29,6 +29,7 @@ export default function ShowRoom() {
     iCanJoin,
     iCanLeave,
     iAmApplying,
+    isLimitOfRecruit,
     team,
     teamId,
     dialogState,
@@ -81,6 +82,11 @@ export default function ShowRoom() {
             </div>
 
             <div className="flex flex-col space-y-3 w-32">
+              {isLimitOfRecruit && (
+                <Button disabled={true} className="h-16">
+                  現在参加できません
+                </Button>
+              )}
               {iCanEdit && (
                 <Link href="/room/edit/[id]" as={`/room/edit/${teamId}`}>
                   <Button>編集する</Button>

@@ -132,12 +132,20 @@ export class TeamsService {
 
   async join(userId: number, teamId: number): Promise<Team> {
     const targetTeam = await this.findOne(teamId);
-    const userExistsInThisTeam = targetTeam.members.some(
-      (member) => member.user.id === userId,
-    );
+    for (const member of targetTeam.members) {
+      const exists = member.user.id === userId;
+      if (exists && member.memberState === MemberState.JOINING) {
+        throw new Error('User already exists in this team');
+      }
+    }
 
-    if (userExistsInThisTeam) {
-      throw new Error('user already exists in this team');
+    const isLimitOfRecruit =
+      targetTeam.members.length >= targetTeam.recruitNumbers;
+
+    if (isLimitOfRecruit) {
+      throw new Error(
+        'The upper limit of the number of recruit has been reached.',
+      );
     }
 
     await this.teamMembersUserService.create(
@@ -153,12 +161,14 @@ export class TeamsService {
 
   async apply(userId: number, teamId: number): Promise<Team> {
     const targetTeam = await this.findOne(teamId);
-    const userExistsInThisTeam = targetTeam.members.some(
-      (member) => member.user.id === userId,
-    );
-
-    if (userExistsInThisTeam) {
-      throw new Error('user already exists in this team');
+    for (const member of targetTeam.members) {
+      const exists = member.user.id === userId;
+      if (exists && member.memberState === MemberState.JOINING) {
+        throw new Error('User already exists in this team');
+      }
+      if (exists && member.memberState === MemberState.PENDING) {
+        throw new Error('User has already applied to this team');
+      }
     }
 
     await this.teamMembersUserService.create(
