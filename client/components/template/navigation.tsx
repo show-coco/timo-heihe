@@ -31,12 +31,20 @@ export const Navigation: React.FC = () => {
         <div className="flex items-center">
           <div className="pr-10">
             <Link href="/create-room">
-              <Button variant="outline" className="rounded-full mr-10">
+              <Button
+                variant="outline"
+                size="small"
+                className="rounded-full mr-10 align-middle font-medium"
+              >
                 ルームを作成
               </Button>
             </Link>
             <Link href="/create-room">
-              <Button variant="outline" className="rounded-full">
+              <Button
+                variant="outline"
+                size="small"
+                className="rounded-full align-middle font-medium"
+              >
                 イベントを作成
               </Button>
             </Link>
@@ -45,12 +53,12 @@ export const Navigation: React.FC = () => {
             <IconButton
               icon={<DotIcon width="30px" height="30px" fill="#555555" />}
               variant="ghost"
-              className="mr-10 -mt3"
+              className="mr-10 align-middle "
             />
             <AvatarLink
               avatar="https://bit.ly/kent-c-dodds"
               name="sho"
-              className="hover:opacity-80 cursor-pointer"
+              className="hover:opacity-80 cursor-pointer align-middle "
               userId="show-coco"
             />
           </div>
