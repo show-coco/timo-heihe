@@ -127,7 +127,7 @@ export const useTeamDetail = () => {
   // HACK
   const isLimitOfRecruit = useMemo(() => {
     if (team && team.members) {
-      return team.members.length > team.recruitNumbers;
+      return team.members.length >= team.recruitNumbers;
     }
   }, [team]);
 
