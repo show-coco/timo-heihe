@@ -20,7 +20,7 @@ export const HomeHeader: React.FC<Props> = ({
 }: Props) => {
   return (
     <>
-      <div className="h-44 flex flex-row px-6">
+      <div className="w-10/12 m-auto h-44 flex flex-row px-6">
         <div className="flex items-center flex-1 mr-5">
           <Card
             variant="shadow"
@@ -31,19 +31,6 @@ export const HomeHeader: React.FC<Props> = ({
             </p>
             <MorningIcon class="h-full" />
           </Card>
-        </div>
-
-        <div className="flex space-x-6 items-center h-70px">
-          <IconButton
-            icon={<DotIcon width="30px" height="30px" fill="#555555" />}
-            variant="ghost"
-          />
-          <AvatarLink
-            avatar="https://bit.ly/kent-c-dodds"
-            name="sho"
-            className="hover:opacity-80 cursor-pointer"
-            userId="show-coco"
-          />
         </div>
       </div>
 

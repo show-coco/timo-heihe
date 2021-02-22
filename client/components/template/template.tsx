@@ -14,13 +14,17 @@ export const Template: React.FC<TemplateProps> = ({
   header = <DefaultHeader />,
 }: TemplateProps) => {
   return (
-    <div className="flex flex-row min-h-screen">
-      <Navigation />
-
-      <div className="flex flex-col flex-1">
+    <>
+      <header className="min-h-20">
+        <Navigation />
         {header}
-        <main className={`flex-1 bg-blue-100 ${className}`}>{children}</main>
+      </header>
+
+      <div className="flex flex-row min-h-screen">
+        <div className="flex flex-col flex-1">
+          <main className={`flex-1 bg-blue-100 ${className}`}>{children}</main>
+        </div>
       </div>
-    </div>
+    </>
   );
 };

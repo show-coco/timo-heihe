@@ -1,34 +1,59 @@
 import React from "react";
-import PenIcon from "../../assets/icons/pen.svg";
-import BoardIcon from "../../assets/icons/board.svg";
+
 import LogoutIcon from "../../assets/icons/logout.svg";
 import Link from "next/link";
 import { useAuthContext } from "../../providers/useAuthContext";
 
 const textStyle = "font-semibold text-base text-gray-700 cursor-pointer";
-
+import { IconButton } from "../button/icon-button";
+import DotIcon from "../../assets/icons/dot-set.svg";
+import { AvatarLink } from "../avatar/avatar-link";
+import { Button } from "../button/button";
 export const Navigation: React.FC = () => {
   const { logout } = useAuthContext();
 
   return (
-    <div className="w-1/5 items-center">
-      <div className="w-3/5 mx-auto space-y-10 mt-12">
-        <div className="flex items-center">
-          <BoardIcon class="w-5 h-5 fill-current mr-3" />
+    <div className="w-full h-3/5 p-4 px-12">
+      <div className="w-full flex mx-auto justify-between ">
+        <div className="text-orange-400 align-middle text-3xl font-bold">
+          <Link href="/">Cloud Circle</Link>
           <Link href="/">
-            <span className={`${textStyle} pt-0.5`} role="button">
-              募集掲示板
+            <span className={`${textStyle} pl-16 align-middle`} role="button">
+              ルームを探す
+            </span>
+          </Link>
+          <Link href="/">
+            <span className={`${textStyle} pl-16 align-middle`} role="button">
+              イベントを探す
             </span>
           </Link>
         </div>
-
         <div className="flex items-center">
-          <PenIcon class="w-5 h-5 fill-current mr-3" />
-          <Link href="/create-room">
-            <span className={textStyle} role="button">
-              スペース募集を作成
-            </span>
-          </Link>
+          <div className="pr-10">
+            <Link href="/create-room">
+              <Button variant="outline" className="rounded-full mr-10">
+                ルームを作成
+              </Button>
+            </Link>
+            <Link href="/create-room">
+              <Button variant="outline" className="rounded-full">
+                イベントを作成
+              </Button>
+            </Link>
+          </div>
+          <div className="flex items-center">
+            <IconButton
+              icon={<DotIcon width="30px" height="30px" fill="#555555" />}
+              variant="ghost"
+              className="mr-10 -mt3"
+            />
+            <AvatarLink
+              avatar="https://bit.ly/kent-c-dodds"
+              name="sho"
+              className="hover:opacity-80 cursor-pointer"
+              userId="show-coco"
+            />
+          </div>
         </div>
 
         {/* <div className="flex items-center">
@@ -40,12 +65,12 @@ export const Navigation: React.FC = () => {
           </Link>
         </div> */}
 
-        <div className="flex items-center">
+        {/* <div className="flex items-center">
           <LogoutIcon class="w-5 h-5 fill-current mr-3" />
           <span className={textStyle} onClick={logout} role="button">
             ログアウト
           </span>
-        </div>
+        </div> */}
       </div>
     </div>
   );
