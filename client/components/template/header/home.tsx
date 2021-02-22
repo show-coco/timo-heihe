@@ -1,11 +1,8 @@
 import React from "react";
-import { IconButton } from "../../button/icon-button";
-import DotIcon from "../../../assets/icons/dot-set.svg";
 import MorningIcon from "../../../assets/icons/morning.svg";
 import { Button } from "../../button";
 import { TeamTypesFragment } from "../../../generated/types";
 import { Card } from "../../card/card";
-import { AvatarLink } from "../../avatar/avatar-link";
 
 type Props = {
   teamTypes?: TeamTypesFragment[];

@@ -1,5 +1,4 @@
 import React from "react";
-import { DefaultHeader } from "./header/default";
 import { Navigation } from "./navigation";
 
 type TemplateProps = {
@@ -11,7 +10,7 @@ type TemplateProps = {
 export const Template: React.FC<TemplateProps> = ({
   children,
   className,
-  header = <DefaultHeader />,
+  header,
 }: TemplateProps) => {
   return (
     <>
