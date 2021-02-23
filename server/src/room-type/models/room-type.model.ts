@@ -1,7 +1,7 @@
 import { Field, Int, ObjectType } from '@nestjs/graphql';
 
 @ObjectType()
-export class TeamTypeModel {
+export class RoomTypeModel {
   @Field(() => Int)
   id: number;
 

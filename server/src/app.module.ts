@@ -19,8 +19,8 @@ import { ChannelModule } from './channel/channel.module';
 import { MessageModule } from './message/message.module';
 import { Thread } from './thread/entities/thread.entity';
 import { Message } from './message/entities/message.entity';
-import { TeamTypeModule } from './room-type/team-type.module';
-import { TeamType } from './room-type/entities/team-type.entity';
+import { RoomTypeModule } from './room-type/room-type.module';
+import { RoomType } from './room-type/entities/room-type.entity';
 
 @Module({
   imports: [
@@ -36,7 +36,7 @@ import { TeamType } from './room-type/entities/team-type.entity';
         ChannelModule,
         ThreadModule,
         MessageModule,
-        TeamTypeModule,
+        RoomTypeModule,
       ],
       playground: true,
       autoSchemaFile: 'schema.graphql',
@@ -60,7 +60,7 @@ import { TeamType } from './room-type/entities/team-type.entity';
         Channel,
         Thread,
         Message,
-        TeamType,
+        RoomType,
       ],
       synchronize: true,
     }),
@@ -73,7 +73,7 @@ import { TeamType } from './room-type/entities/team-type.entity';
     ChannelModule,
     ThreadModule,
     MessageModule,
-    TeamTypeModule,
+    RoomTypeModule,
   ],
 })
 export class AppModule {}

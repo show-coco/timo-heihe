@@ -4,7 +4,7 @@ import { CategoryModel } from '../../category/models/category.model';
 import { SkillModel } from '../../skill/models/skill.model';
 import { UserModel } from '../../users/models/user.model';
 import { ChannelModel } from '../../channel/models/channel.model';
-import { TeamTypeModel } from '../../room-type/models/team-type.model';
+import { RoomTypeModel } from '../../room-type/models/room-type.model';
 
 @ObjectType()
 export class RoomModel {
@@ -50,6 +50,6 @@ export class RoomModel {
   @Field(() => [ChannelModel], { nullable: true })
   channels: ChannelModel[];
 
-  @Field(() => [TeamTypeModel])
-  types: TeamTypeModel[];
+  @Field(() => [RoomTypeModel])
+  types: RoomTypeModel[];
 }

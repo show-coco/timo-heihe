@@ -2,7 +2,7 @@ import { Room } from '../../room/entities/room.entity';
 import { Column, Entity, ManyToMany, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
-export class TeamType {
+export class RoomType {
   @PrimaryGeneratedColumn()
   id: number;
 

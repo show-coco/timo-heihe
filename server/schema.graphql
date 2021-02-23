@@ -155,11 +155,11 @@ type Query {
   me: UserModel!
   message(id: Int!): MessageModel!
   messages: [MessageModel!]!
+  roomTypes: [RoomTypeModel!]!
   skill(id: Int!): SkillModel!
   skills: [SkillModel!]!
   team(id: Int!): RoomModel!
   teams(input: SearchRoomInput): [RoomModel!]!
-  teamTypes: [TeamTypeModel!]!
   thread(id: Int!): ThreadModel!
   threads(input: FetchThreadInput!): [ThreadModel!]
   user(userId: String!): UserModel!
@@ -198,7 +198,12 @@ type RoomModel {
   rooms: ChannelModel!
   skills: [SkillModel!]
   title: String!
-  types: [TeamTypeModel!]!
+  types: [RoomTypeModel!]!
+}
+
+type RoomTypeModel {
+  id: Int!
+  name: String!
 }
 
 input SearchRoomInput {
@@ -224,11 +229,6 @@ type SkillModel {
 type Subscription {
   messageAdded(roomId: Int!): MessageModel!
   threadAdded(roomId: Int!): ThreadModel!
-}
-
-type TeamTypeModel {
-  id: Int!
-  name: String!
 }
 
 type ThreadModel {

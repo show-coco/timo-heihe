@@ -13,7 +13,7 @@ import {
 } from 'typeorm';
 import { RoomMembersUser } from '../../room-members-user/entities/room-members-user.entity';
 import { Channel } from '../../channel/entities/channel.entity';
-import { TeamType } from '../../room-type/entities/team-type.entity';
+import { RoomType } from '../../room-type/entities/room-type.entity';
 
 @Entity()
 export class Room {
@@ -64,7 +64,7 @@ export class Room {
   @Column({ default: true })
   recruiting: boolean;
 
-  @ManyToMany(() => TeamType, (teamType) => teamType.room)
+  @ManyToMany(() => RoomType, (roomType) => roomType.room)
   @JoinTable()
-  types: TeamType[];
+  types: RoomType[];
 }
