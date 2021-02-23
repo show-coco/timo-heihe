@@ -1,0 +1,10 @@
+mutation JoinRoom($roomId: Int!, $userId: Int!) {
+  joinRoom(userId: $userId, roomId: $roomId) {
+    id
+    title
+    members {
+      id
+      name
+    }
+  }
+}
