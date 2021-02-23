@@ -11,7 +11,7 @@ query EditUserPage($userId: String!) {
       id
       name
     }
-    teams {
+    rooms {
       id
       title
       description
