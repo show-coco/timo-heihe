@@ -56,14 +56,14 @@ export class UsersResolver {
   }
 
   @ResolveField(() => [UserMemberModel])
-  teams(@Parent() user: User) {
-    console.log('request on users->resolver->teams', user);
+  rooms(@Parent() user: User) {
+    console.log('request on users->resolver->rooms', user);
 
-    const userDontHaveTeam = user.rooms.some((room) => room.room === null);
+    const userDontHaveRoom = user.rooms.some((room) => room.room === null);
 
-    console.log('user doesnt have teams', userDontHaveTeam);
+    console.log('user doesnt have rooms', userDontHaveRoom);
 
-    if (userDontHaveTeam) {
+    if (userDontHaveRoom) {
       return null;
     }
 

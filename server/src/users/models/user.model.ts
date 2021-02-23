@@ -34,11 +34,11 @@ export class UserModel {
   ownerTeams: RoomModel[];
 
   @Field(() => [UserMemberModel], { nullable: true })
-  teams: UserMemberModel[];
+  rooms: UserMemberModel[];
 
   @Field(() => [SkillModel], { nullable: true })
   skills: SkillModel[];
 
   @Field(() => [ChannelModel], { nullable: true })
-  rooms: ChannelModel[];
+  channels?: ChannelModel[];
 }

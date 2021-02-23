@@ -301,6 +301,7 @@ type UserMemberModel {
   isRequired: Boolean!
   members: [RoomMemberModel!]
   memberState: MemberState!
+  name: String!
   owner: UserModel!
   recruitNumbers: Int!
   repositoryUrl: String
@@ -311,15 +312,15 @@ type UserMemberModel {
 
 type UserModel {
   avatar: String
+  channels: [ChannelModel!]
   email: String!
   githubId: String
   id: Int!
   introduction: String
   name: String!
   ownerTeams: [RoomModel!]
-  rooms: [ChannelModel!]
+  rooms: [UserMemberModel!]
   skills: [SkillModel!]
-  teams: [UserMemberModel!]
   twitterId: String
   userId: String!
 }
