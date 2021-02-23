@@ -1,10 +1,10 @@
 import { Field, GraphQLISODateTime, Int, ObjectType } from '@nestjs/graphql';
-import { TeamMemberModel } from '../../team-members-user/models/team-member.model';
+import { RoomMemberModel } from '../../room-members-user/models/room-member.model';
 import { CategoryModel } from '../../category/models/category.model';
 import { SkillModel } from '../../skill/models/skill.model';
 import { UserModel } from '../../users/models/user.model';
 import { ChannelModel } from '../../channel/models/channel.model';
-import { TeamTypeModel } from '../../team-type/models/team-type.model';
+import { TeamTypeModel } from '../../room-type/models/team-type.model';
 
 @ObjectType()
 export class RoomModel {
@@ -29,8 +29,8 @@ export class RoomModel {
   @Field(() => UserModel)
   owner: UserModel;
 
-  @Field(() => [TeamMemberModel], { nullable: true })
-  members?: TeamMemberModel[];
+  @Field(() => [RoomMemberModel], { nullable: true })
+  members?: RoomMemberModel[];
 
   @Field(() => [CategoryModel])
   categories: CategoryModel[];

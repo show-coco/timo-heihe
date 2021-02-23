@@ -1,6 +1,6 @@
 import { forwardRef, Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { TeamMembersUserModule } from '../team-members-user/team-members-user.module';
+import { RoomMembersUserModule } from '../room-members-user/room-members-user.module';
 import { CategoryModule } from '../category/category.module';
 import { SkillModule } from '../skill/skill.module';
 import { UsersModule } from '../users/users.module';
@@ -12,7 +12,7 @@ import { RoomService } from './room.service';
   imports: [
     TypeOrmModule.forFeature([Room]),
     forwardRef(() => UsersModule),
-    TeamMembersUserModule,
+    RoomMembersUserModule,
     SkillModule,
     CategoryModule,
   ],

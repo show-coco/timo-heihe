@@ -7,14 +7,14 @@ import {
 } from '@nestjs/graphql';
 import { SkillModel } from '../../skill/models/skill.model';
 import { RoomModel } from '../../room/models/room.model';
-import { MemberState } from '../entities/team-members-user.entity';
+import { MemberState } from '../entities/room-members-user.entity';
 
 registerEnumType(MemberState, {
   name: 'MemberState',
 });
 
 @ObjectType()
-export class TeamMemberModel {
+export class RoomMemberModel {
   @Field(() => Int)
   id: number;
 

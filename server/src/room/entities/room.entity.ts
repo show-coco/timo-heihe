@@ -11,9 +11,9 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { TeamMembersUser } from '../../team-members-user/entities/team-members-user.entity';
+import { RoomMembersUser } from '../../room-members-user/entities/room-members-user.entity';
 import { Channel } from '../../channel/entities/channel.entity';
-import { TeamType } from '../../team-type/entities/team-type.entity';
+import { TeamType } from '../../room-type/entities/team-type.entity';
 
 @Entity()
 export class Room {
@@ -39,8 +39,8 @@ export class Room {
   @ManyToOne(() => User, (user) => user.ownerRooms)
   owner: Partial<User>;
 
-  @OneToMany(() => TeamMembersUser, (tmu) => tmu.room)
-  members?: TeamMembersUser[];
+  @OneToMany(() => RoomMembersUser, (rmu) => rmu.room)
+  members?: RoomMembersUser[];
 
   @ManyToMany(() => Category, (category) => category.rooms)
   @JoinTable()

@@ -1,21 +1,21 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { UpdateTeamMembersUserInput } from './dto/update-team-members-user.input';
+import { UpdateRoomMembersUserInput } from './dto/update-room-members-user.input';
 import {
   MemberState,
-  TeamMembersUser,
-} from './entities/team-members-user.entity';
+  RoomMembersUser,
+} from './entities/room-members-user.entity';
 
 @Injectable()
-export class TeamMembersUserService {
+export class RoomMembersUserService {
   constructor(
-    @InjectRepository(TeamMembersUser)
-    private teamRepository: Repository<TeamMembersUser>,
+    @InjectRepository(RoomMembersUser)
+    private roomMembersUserRepository: Repository<RoomMembersUser>,
   ) {}
 
   create(roomId: number, userId: number, memberState: MemberState) {
-    this.teamRepository.insert({
+    this.roomMembersUserRepository.insert({
       user: { id: userId },
       room: { id: roomId },
       memberState: memberState,
@@ -31,13 +31,13 @@ export class TeamMembersUserService {
   }
 
   remove(roomId: number, userId: number) {
-    this.teamRepository.delete({
+    this.roomMembersUserRepository.delete({
       user: { id: userId },
       room: { id: roomId },
     });
   }
 
-  update(id: number, input: UpdateTeamMembersUserInput) {
+  update(id: number, input: UpdateRoomMembersUserInput) {
     return `This action removes a #${id} teamMembersUser`;
   }
 }

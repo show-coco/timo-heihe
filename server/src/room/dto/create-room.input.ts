@@ -1,7 +1,7 @@
 import { InputType, Field, Int } from '@nestjs/graphql';
 import { CategoryInput } from '../../category/dto/category.input';
 import { SkillInput } from '../../skill/dto/skill.input';
-import { CreateTeamMembersUserInput } from '../../team-members-user/dto/create-team-members-user.input';
+import { CreateRoomMembersUserInput } from '../../room-members-user/dto/create-room-members-user.input';
 import { ConnectUserInput } from '../../users/dto/connect-user.input';
 
 @InputType()
@@ -21,8 +21,8 @@ export class CreateRoomInput {
   @Field()
   owner: ConnectUserInput;
 
-  @Field(() => [CreateTeamMembersUserInput])
-  members: CreateTeamMembersUserInput[];
+  @Field(() => [CreateRoomMembersUserInput])
+  members: CreateRoomMembersUserInput[];
 
   @Field({ nullable: true })
   rectuiting: boolean;

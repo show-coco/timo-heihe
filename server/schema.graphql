@@ -70,7 +70,7 @@ input CreateRoomInput {
   description: String
   icon: String
   isRequired: Boolean!
-  members: [CreateTeamMembersUserInput!]!
+  members: [CreateRoomMembersUserInput!]!
   name: String!
   owner: ConnectUserInput!
   recruitNumbers: Int!
@@ -81,15 +81,15 @@ input CreateRoomInput {
   typeIds: [Int!]!
 }
 
+input CreateRoomMembersUserInput {
+  room: UpdateRoomInput
+  user: ConnectUserInput!
+}
+
 input CreateSkillInput {
   icon: String!
   id: Int!
   name: String!
-}
-
-input CreateTeamMembersUserInput {
-  team: UpdateRoomInput
-  user: ConnectUserInput!
 }
 
 input CreateThreadInput {
@@ -166,6 +166,22 @@ type Query {
   users: [UserModel!]!
 }
 
+type RoomMemberModel {
+  avatar: String
+  createdAt: DateTime!
+  email: String!
+  githubId: String
+  id: Int!
+  introduction: String
+  memberState: MemberState!
+  name: String!
+  ownerTeams: [RoomModel!]!
+  skills: [SkillModel!]!
+  teams: [RoomModel!]!
+  twitterId: String
+  userId: String!
+}
+
 type RoomModel {
   categories: [CategoryModel!]!
   channels: [ChannelModel!]
@@ -174,7 +190,7 @@ type RoomModel {
   icon: String
   id: Int
   isRequired: Boolean!
-  members: [TeamMemberModel!]
+  members: [RoomMemberModel!]
   name: String!
   owner: UserModel!
   recruitNumbers: Int!
@@ -210,22 +226,6 @@ type Subscription {
   threadAdded(roomId: Int!): ThreadModel!
 }
 
-type TeamMemberModel {
-  avatar: String
-  createdAt: DateTime!
-  email: String!
-  githubId: String
-  id: Int!
-  introduction: String
-  memberState: MemberState!
-  name: String!
-  ownerTeams: [RoomModel!]!
-  skills: [SkillModel!]!
-  teams: [RoomModel!]!
-  twitterId: String
-  userId: String!
-}
-
 type TeamTypeModel {
   id: Int!
   name: String!
@@ -258,7 +258,7 @@ input UpdateRoomInput {
   icon: String
   id: Int!
   isRequired: Boolean
-  members: [CreateTeamMembersUserInput!]
+  members: [CreateRoomMembersUserInput!]
   name: String
   owner: ConnectUserInput
   recruitNumbers: Int
@@ -299,7 +299,7 @@ type UserMemberModel {
   icon: String
   id: Int
   isRequired: Boolean!
-  members: [TeamMemberModel!]
+  members: [RoomMemberModel!]
   memberState: MemberState!
   owner: UserModel!
   recruitNumbers: Int!

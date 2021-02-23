@@ -11,16 +11,16 @@ import { SkillModule } from './skill/skill.module';
 import { Room } from './room/entities/room.entity';
 import { Category } from './category/entities/category.entity';
 import { Skill } from './skill/entities/skill.entity';
-import { TeamMembersUserModule } from './team-members-user/team-members-user.module';
-import { TeamMembersUser } from './team-members-user/entities/team-members-user.entity';
+import { RoomMembersUserModule } from './room-members-user/room-members-user.module';
+import { RoomMembersUser } from './room-members-user/entities/room-members-user.entity';
 import { Channel } from './channel/entities/channel.entity';
 import { ThreadModule } from './thread/thread.module';
 import { ChannelModule } from './channel/channel.module';
 import { MessageModule } from './message/message.module';
 import { Thread } from './thread/entities/thread.entity';
 import { Message } from './message/entities/message.entity';
-import { TeamTypeModule } from './team-type/team-type.module';
-import { TeamType } from './team-type/entities/team-type.entity';
+import { TeamTypeModule } from './room-type/team-type.module';
+import { TeamType } from './room-type/entities/team-type.entity';
 
 @Module({
   imports: [
@@ -56,7 +56,7 @@ import { TeamType } from './team-type/entities/team-type.entity';
         Room,
         Category,
         Skill,
-        TeamMembersUser,
+        RoomMembersUser,
         Channel,
         Thread,
         Message,
@@ -69,7 +69,7 @@ import { TeamType } from './team-type/entities/team-type.entity';
     RoomModule,
     CategoryModule,
     SkillModule,
-    TeamMembersUserModule,
+    RoomMembersUserModule,
     ChannelModule,
     ThreadModule,
     MessageModule,

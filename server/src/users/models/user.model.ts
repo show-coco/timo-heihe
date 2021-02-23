@@ -1,5 +1,5 @@
 import { Field, Int, ObjectType } from '@nestjs/graphql';
-import { UserMemberModel } from '../../team-members-user/models/user-member-model';
+import { UserMemberModel } from '../../room-members-user/models/user-member-model';
 import { SkillModel } from '../../skill/models/skill.model';
 import { RoomModel } from '../../room/models/room.model';
 import { ChannelModel } from '../../channel/models/channel.model';

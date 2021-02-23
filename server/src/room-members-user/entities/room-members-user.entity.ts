@@ -10,7 +10,7 @@ export enum MemberState {
 }
 
 @Entity()
-export class TeamMembersUser {
+export class RoomMembersUser {
   @ManyToOne(() => User, (user) => user.rooms, { primary: true })
   user: User;
 

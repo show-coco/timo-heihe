@@ -3,8 +3,8 @@ import { ChannelModel } from '../../channel/models/channel.model';
 import { CategoryModel } from '../../category/models/category.model';
 import { SkillModel } from '../../skill/models/skill.model';
 import { UserModel } from '../../users/models/user.model';
-import { MemberState } from '../entities/team-members-user.entity';
-import { TeamMemberModel } from './team-member.model';
+import { MemberState } from '../entities/room-members-user.entity';
+import { RoomMemberModel } from './room-member.model';
 
 @ObjectType()
 export class UserMemberModel {
@@ -26,8 +26,8 @@ export class UserMemberModel {
   @Field(() => UserModel)
   owner: UserModel;
 
-  @Field(() => [TeamMemberModel], { nullable: true })
-  members?: TeamMemberModel[];
+  @Field(() => [RoomMemberModel], { nullable: true })
+  members?: RoomMemberModel[];
 
   @Field(() => [CategoryModel])
   categories: CategoryModel[];

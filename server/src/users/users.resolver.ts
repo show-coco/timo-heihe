@@ -17,7 +17,7 @@ import { SkillModel } from '../skill/models/skill.model';
 import { SkillService } from '../skill/skill.service';
 import { RoomService } from '../room/room.service';
 import { UpdateUserInput } from './dto/update-user.input';
-import { UserMemberModel } from '../team-members-user/models/user-member-model';
+import { UserMemberModel } from '../room-members-user/models/user-member-model';
 
 @Resolver(() => UserModel)
 export class UsersResolver {

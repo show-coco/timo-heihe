@@ -3,10 +3,10 @@ import { UpdateRoomInput } from '../../room/dto/update-room.input';
 import { ConnectUserInput } from '../../users/dto/connect-user.input';
 
 @InputType()
-export class CreateTeamMembersUserInput {
+export class CreateRoomMembersUserInput {
   @Field(() => ConnectUserInput)
   user: ConnectUserInput;
 
   @Field(() => UpdateRoomInput, { nullable: true })
-  team: UpdateRoomInput;
+  room: UpdateRoomInput;
 }

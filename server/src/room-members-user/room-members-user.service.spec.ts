@@ -1,8 +1,8 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { TeamMembersUserService } from './team-members-user.service';
+import { RoomMembersUserService } from './room-members-user.service';
 
 describe('TeamMembersUserService', () => {
-  let service: TeamMembersUserService;
+  let service: RoomMembersUserService;
 
   // beforeEach(async () => {
   //   const module: TestingModule = await Test.createTestingModule({

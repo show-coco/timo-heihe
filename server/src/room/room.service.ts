@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { MemberState } from '../team-members-user/entities/team-members-user.entity';
-import { TeamMembersUserService } from '../team-members-user/team-members-user.service';
+import { MemberState } from '../room-members-user/entities/room-members-user.entity';
+import { RoomMembersUserService } from '../room-members-user/room-members-user.service';
 import { Repository } from 'typeorm';
 import { CreateRoomInput } from './dto/create-room.input';
 import { UpdateRoomInput } from './dto/update-room.input';
@@ -12,45 +12,45 @@ import { SearchRoomInput } from './dto/search-room.input';
 export class RoomService {
   constructor(
     @InjectRepository(Room)
-    private teamRepository: Repository<Room>,
-    private teamMembersUserService: TeamMembersUserService,
+    private roomRepository: Repository<Room>,
+    private roomMembersUserService: RoomMembersUserService,
   ) {}
 
   async findOne(id: number): Promise<Room> {
-    const res = await this.teamRepository
-      .createQueryBuilder('team')
-      .leftJoinAndSelect('team.members', 'members', 'members.teamId = team.id')
+    const res = await this.roomRepository
+      .createQueryBuilder('room')
+      .leftJoinAndSelect('room.members', 'members', 'members.roomId = room.id')
       .leftJoinAndSelect('members.user', 'user', 'members.userId = user.id')
-      .leftJoinAndSelect('team.categories', 'categories')
-      .leftJoinAndSelect('team.owner', 'owner')
-      .leftJoinAndSelect('team.skills', 'skills')
-      .leftJoinAndSelect('team.rooms', 'rooms.teamId = team.id')
-      .leftJoinAndSelect('team.types', 'types')
+      .leftJoinAndSelect('room.categories', 'categories')
+      .leftJoinAndSelect('room.owner', 'owner')
+      .leftJoinAndSelect('room.skills', 'skills')
+      .leftJoinAndSelect('room.rooms', 'rooms.roomId = room.id')
+      .leftJoinAndSelect('room.types', 'types')
       .where({ id: id })
       .getOne();
 
-    console.log('response on teams->service->findOne', res);
+    console.log('response on rooms->service->findOne', res);
     return res;
   }
 
-  async findAll(searchTeamInput?: SearchRoomInput): Promise<Room[]> {
+  async findAll(searchRoomInput?: SearchRoomInput): Promise<Room[]> {
     const input: SearchRoomInput | undefined =
-      searchTeamInput && JSON.parse(JSON.stringify(searchTeamInput));
-    console.log('paramater on teams->service->findAll', input);
+      searchRoomInput && JSON.parse(JSON.stringify(searchRoomInput));
+    console.log('paramater on rooms->service->findAll', input);
 
-    const query = this.teamRepository
-      .createQueryBuilder('team')
-      .leftJoinAndSelect('team.members', 'members', 'members.teamId = team.id')
+    const query = this.roomRepository
+      .createQueryBuilder('room')
+      .leftJoinAndSelect('room.members', 'members', 'members.roomId = room.id')
       .leftJoinAndSelect('members.user', 'user', 'members.userId = user.id')
-      .leftJoinAndSelect('team.categories', 'categories')
-      .leftJoinAndSelect('team.owner', 'owner')
-      .leftJoinAndSelect('team.skills', 'skills')
-      .leftJoinAndSelect('team.rooms', 'rooms.teamId = team.id')
-      .leftJoinAndSelect('team.types', 'types')
+      .leftJoinAndSelect('room.categories', 'categories')
+      .leftJoinAndSelect('room.owner', 'owner')
+      .leftJoinAndSelect('room.skills', 'skills')
+      .leftJoinAndSelect('room.rooms', 'rooms.roomId = room.id')
+      .leftJoinAndSelect('room.types', 'types')
       .where({ recruiting: true });
 
     if (input && input.name) {
-      query.andWhere('team.title LIKE :name', { name: `%${input.name}%` });
+      query.andWhere('room.title LIKE :name', { name: `%${input.name}%` });
     }
 
     if (input && input.skillIds) {
@@ -69,7 +69,7 @@ export class RoomService {
 
     if (input && input.recruitNumbers) {
       query.andWhere(
-        'team.recruitNumbers > :lower AND team.recruitNumbers < :upper',
+        'room.recruitNumbers > :lower AND room.recruitNumbers < :upper',
         {
           lower: input.recruitNumbers - 5,
           upper: input.recruitNumbers + 5,
@@ -79,68 +79,68 @@ export class RoomService {
 
     const res = await query.getMany();
 
-    console.log('res on teams->service->findAll', res);
+    console.log('res on rooms->service->findAll', res);
     return res;
   }
 
-  async update(updateTeamInput: UpdateRoomInput): Promise<Room> {
-    const input: UpdateRoomInput = JSON.parse(JSON.stringify(updateTeamInput));
+  async update(updateRoomInput: UpdateRoomInput): Promise<Room> {
+    const input: UpdateRoomInput = JSON.parse(JSON.stringify(updateRoomInput));
 
-    console.log('paramater on teams->service->update', input);
+    console.log('paramater on rooms->service->update', input);
 
     const formattedInput = {
       ...input,
       types: input.typeIds.map((id) => ({ id })),
     };
 
-    const newTeam = this.teamRepository.create(formattedInput);
+    const newRoom = this.roomRepository.create(formattedInput);
 
-    const returns = await this.teamRepository.save(newTeam);
+    const returns = await this.roomRepository.save(newRoom);
 
     const res = await this.findOne(returns.id);
-    console.log('response on teams->service->update', res);
+    console.log('response on rooms->service->update', res);
     return res;
   }
 
-  async insert(createTeamInput: CreateRoomInput): Promise<Room> {
-    const input: CreateRoomInput = JSON.parse(JSON.stringify(createTeamInput));
+  async insert(createRoomInput: CreateRoomInput): Promise<Room> {
+    const input: CreateRoomInput = JSON.parse(JSON.stringify(createRoomInput));
 
-    console.log('paramater on teams->service->insert', input);
+    console.log('paramater on rooms->service->insert', input);
 
     const formattedInput = {
       ...input,
       types: input.typeIds.map((id) => ({ id })),
     };
 
-    const newTeam = this.teamRepository.create(formattedInput);
+    const newRoom = this.roomRepository.create(formattedInput);
 
-    const returns = await this.teamRepository.save(newTeam);
+    const returns = await this.roomRepository.save(newRoom);
 
-    const teamId = returns.id;
+    const roomId = returns.id;
     input.members.forEach((member) =>
-      this.teamMembersUserService.create(
-        teamId,
+      this.roomMembersUserService.create(
+        roomId,
         member.user.id,
         MemberState.JOINING,
       ),
     );
 
-    const res = await this.findOne(teamId);
-    console.log('response on teams->setvice->insert', res);
+    const res = await this.findOne(roomId);
+    console.log('response on rooms->setvice->insert', res);
     return res;
   }
 
-  async join(userId: number, teamId: number): Promise<Room> {
-    const targetTeam = await this.findOne(teamId);
-    for (const member of targetTeam.members) {
+  async join(userId: number, roomId: number): Promise<Room> {
+    const targetRoom = await this.findOne(roomId);
+    for (const member of targetRoom.members) {
       const exists = member.user.id === userId;
       if (exists && member.memberState === MemberState.JOINING) {
-        throw new Error('User already exists in this team');
+        throw new Error('User already exists in this room');
       }
     }
 
     const isLimitOfRecruit =
-      targetTeam.members.length >= targetTeam.recruitNumbers;
+      targetRoom.members.length >= targetRoom.recruitNumbers;
 
     if (isLimitOfRecruit) {
       throw new Error(
@@ -148,62 +148,62 @@ export class RoomService {
       );
     }
 
-    await this.teamMembersUserService.create(
-      teamId,
+    await this.roomMembersUserService.create(
+      roomId,
       userId,
       MemberState.JOINING,
     );
 
-    const res = await this.findOne(teamId);
-    console.log('response on teams->service->join', res);
+    const res = await this.findOne(roomId);
+    console.log('response on rooms->service->join', res);
     return res;
   }
 
-  async apply(userId: number, teamId: number): Promise<Room> {
-    const targetTeam = await this.findOne(teamId);
-    for (const member of targetTeam.members) {
+  async apply(userId: number, roomId: number): Promise<Room> {
+    const targetRoom = await this.findOne(roomId);
+    for (const member of targetRoom.members) {
       const exists = member.user.id === userId;
       if (exists && member.memberState === MemberState.JOINING) {
-        throw new Error('User already exists in this team');
+        throw new Error('User already exists in this room');
       }
       if (exists && member.memberState === MemberState.PENDING) {
-        throw new Error('User has already applied to this team');
+        throw new Error('User has already applied to this room');
       }
     }
 
-    await this.teamMembersUserService.create(
-      teamId,
+    await this.roomMembersUserService.create(
+      roomId,
       userId,
       MemberState.PENDING,
     );
 
-    const res = await this.findOne(teamId);
-    console.log('response on teams->service->apply', res);
+    const res = await this.findOne(roomId);
+    console.log('response on rooms->service->apply', res);
     return res;
   }
 
-  async leave(userId: number, teamId: number): Promise<Room> {
-    const targetTeam = await this.findOne(teamId);
-    const userNotExistsInThisTeam = !targetTeam.members.some(
+  async leave(userId: number, roomId: number): Promise<Room> {
+    const targetRoom = await this.findOne(roomId);
+    const userNotExistsInThisRoom = !targetRoom.members.some(
       (member) => member.user.id === userId,
     );
 
-    if (userNotExistsInThisTeam) {
-      throw new Error('user does not exsts in this team');
+    if (userNotExistsInThisRoom) {
+      throw new Error('user does not exsts in this room');
     }
 
-    await this.teamMembersUserService.remove(teamId, userId);
+    await this.roomMembersUserService.remove(roomId, userId);
 
-    const res = await this.findOne(teamId);
-    console.log('response on teams->service->leave', res);
+    const res = await this.findOne(roomId);
+    console.log('response on rooms->service->leave', res);
     return res;
   }
 
   async remove(id: number): Promise<{ affected?: number }> {
-    const returns = await this.teamRepository.delete({ id });
+    const returns = await this.roomRepository.delete({ id });
 
     const res = returns;
-    console.log('response on teams->service->remove', res);
+    console.log('response on rooms->service->remove', res);
     return res;
   }
 }

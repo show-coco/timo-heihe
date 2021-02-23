@@ -8,7 +8,7 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { TeamMembersUser } from '../../team-members-user/entities/team-members-user.entity';
+import { RoomMembersUser } from '../../room-members-user/entities/room-members-user.entity';
 import { Thread } from '../../thread/entities/thread.entity';
 import { Message } from '../../message/entities/message.entity';
 import { Channel } from '../../channel/entities/channel.entity';
@@ -45,10 +45,10 @@ export class User {
   @OneToMany(() => Room, (room) => room.owner, { nullable: true })
   ownerRooms?: Room[];
 
-  @OneToMany(() => TeamMembersUser, (tmu) => tmu.user, {
+  @OneToMany(() => RoomMembersUser, (rmu) => rmu.user, {
     nullable: true,
   })
-  rooms?: TeamMembersUser[];
+  rooms?: RoomMembersUser[];
 
   @ManyToMany(() => Skill, (skill) => skill.users, { nullable: true })
   @JoinTable()
