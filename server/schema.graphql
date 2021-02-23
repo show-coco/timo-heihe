@@ -93,7 +93,7 @@ input CreateSkillInput {
 }
 
 input CreateThreadInput {
-  room: ConnectChannelInput!
+  channel: ConnectChannelInput!
   text: String!
   user: ConnectUserInput!
 }
@@ -104,8 +104,8 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 scalar DateTime
 
 input FetchThreadInput {
+  channelId: Int!
   cursor: String!
-  roomId: Int!
 }
 
 enum MemberState {

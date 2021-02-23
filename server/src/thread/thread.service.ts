@@ -19,7 +19,7 @@ export class ThreadService {
       .leftJoinAndSelect('thread.room', 'room.id = thread.roomId')
       .leftJoinAndSelect('thread.messages', 'messages.threadId = thread.id')
       .where({
-        room: { id: input.roomId },
+        room: { id: input.channelId },
         createdAt: LessThanOrEqual(input.cursor),
       })
       .limit(10)

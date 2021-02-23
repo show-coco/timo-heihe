@@ -1,5 +1,6 @@
-mutation CreateChannel($input: CreateChannelInput!) {
-  createChannel(input: $input) {
-    ...ChannelItem
+mutation CreateRoom($input: CreateRoomInput!) {
+  createRoom(input: $input) {
+    id
+    title
   }
 }
