@@ -41,9 +41,11 @@ export const AvatarLink: React.FC<Props> = ({
           </div>
           <div className="pt-3">
             <ul>
-              <li onClick={logout}>ログアウト</li>
+              <li className="cursor-pointer" onClick={logout}>
+                ログアウト
+              </li>
               <Link href="/user/[id]" as={`/user/${userId}`}>
-                <li>プロフィール</li>
+                <li className="cursor-pointer">プロフィール</li>
               </Link>
             </ul>
           </div>

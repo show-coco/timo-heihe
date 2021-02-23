@@ -30,7 +30,7 @@ export const Navigation: React.FC = () => {
           <div className="pr-10">
             <Link href="/create-room">
               <Button
-                variant="outline"
+                variant="secoundary"
                 size="small"
                 className="rounded-full mr-10 align-middle font-medium"
               >
@@ -39,9 +39,9 @@ export const Navigation: React.FC = () => {
             </Link>
             <Link href="/create-room">
               <Button
-                variant="outline"
+                variant="secoundary"
                 size="small"
-                className="rounded-full align-middle font-medium"
+                className="rounded-full align-middle font-medium "
               >
                 イベントを作成
               </Button>
