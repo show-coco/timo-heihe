@@ -13,7 +13,19 @@ type CategoryModel {
   teams: [TeamModel!]!
 }
 
-input ConnectRoomInput {
+type ChannelModel {
+  id: Int!
+  name: String!
+  team: TeamModel!
+  threads: [ThreadModel!]!
+  user: UserModel!
+}
+
+type ChannelResponse {
+  affected: Int
+}
+
+input ConnectChannelInput {
   id: Int!
 }
 
@@ -41,15 +53,15 @@ input CreateCategoryInput {
   name: String!
 }
 
+input CreateChannelInput {
+  name: String!
+  team: ConnectTeamInput!
+}
+
 input CreateMessageInput {
   text: String!
   thread: ConnectThreadInput!
   user: ConnectUserInput!
-}
-
-input CreateRoomInput {
-  name: String!
-  team: ConnectTeamInput!
 }
 
 input CreateSkillInput {
@@ -80,7 +92,7 @@ input CreateTeamMembersUserInput {
 }
 
 input CreateThreadInput {
-  room: ConnectRoomInput!
+  room: ConnectChannelInput!
   text: String!
   user: ConnectUserInput!
 }
@@ -89,10 +101,6 @@ input CreateThreadInput {
 A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
 """
 scalar DateTime
-
-type DeleteResponse {
-  affected: Int
-}
 
 input FetchThreadInput {
   cursor: String!
@@ -117,17 +125,17 @@ type MessageModel {
 type Mutation {
   applyTeam(teamId: Int!, userId: Int!): TeamModel!
   createCategory(createCategoryInput: CreateCategoryInput!): CategoryModel!
+  createChannel(input: CreateChannelInput!): ChannelModel!
   createMessage(input: CreateMessageInput!): MessageModel!
-  createRoom(input: CreateRoomInput!): RoomModel!
   createSkill(createSkillInput: CreateSkillInput!): SkillModel!
   createTeam(input: CreateTeamInput!): TeamModel!
   createThread(input: CreateThreadInput!): ThreadModel!
-  deleteRoom(id: Int!): DeleteResponse!
+  deleteChannel(id: Int!): ChannelResponse!
   deleteTeam(id: Int!): TeamModel!
   joinTeam(teamId: Int!, userId: Int!): TeamModel!
   leaveTeam(teamId: Int!, userId: Int!): TeamModel!
   removeCategory(id: Int!): CategoryModel!
-  removeMessage(id: Int!): DeleteResponse!
+  removeMessage(id: Int!): ChannelResponse!
   removeSkill(id: Int!): SkillModel!
   removeThread(id: Int!): ThreadModel!
   updateCategory(updateCategoryInput: UpdateCategoryInput!): CategoryModel!
@@ -141,11 +149,11 @@ type Mutation {
 type Query {
   categories: [CategoryModel!]!
   category(id: Int!): CategoryModel!
+  channel(id: Int!): ChannelModel!
+  channels: [ChannelModel!]!
   me: UserModel!
   message(id: Int!): MessageModel!
   messages: [MessageModel!]!
-  room(id: Int!): RoomModel!
-  rooms: [RoomModel!]!
   skill(id: Int!): SkillModel!
   skills: [SkillModel!]!
   team(id: Int!): TeamModel!
@@ -155,14 +163,6 @@ type Query {
   threads(input: FetchThreadInput!): [ThreadModel!]
   user(userId: String!): UserModel!
   users: [UserModel!]!
-}
-
-type RoomModel {
-  id: Int!
-  name: String!
-  team: TeamModel!
-  threads: [ThreadModel!]!
-  user: UserModel!
 }
 
 input SearchTeamInput {
@@ -218,7 +218,7 @@ type TeamModel {
   owner: UserModel!
   recruitNumbers: Int!
   repositoryUrl: String
-  rooms: [RoomModel!]
+  rooms: [ChannelModel!]
   skills: [SkillModel!]
   title: String!
   types: [TeamTypeModel!]!
@@ -230,10 +230,10 @@ type TeamTypeModel {
 }
 
 type ThreadModel {
+  channel: ChannelModel!
   createdAt: DateTime!
   id: Int!
   numberOfMessages: Int!
-  room: RoomModel!
   text: String!
   user: UserModel!
 }
@@ -302,7 +302,7 @@ type UserMemberModel {
   owner: UserModel!
   recruitNumbers: Int!
   repositoryUrl: String
-  rooms: [RoomModel!]
+  rooms: [ChannelModel!]
   skills: [SkillModel!]
   title: String!
 }
@@ -315,7 +315,7 @@ type UserModel {
   introduction: String
   name: String!
   ownerTeams: [TeamModel!]
-  rooms: [RoomModel!]
+  rooms: [ChannelModel!]
   skills: [SkillModel!]
   teams: [UserMemberModel!]
   twitterId: String

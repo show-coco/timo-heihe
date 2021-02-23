@@ -4,7 +4,7 @@ import { UserModel } from '../../users/models/user.model';
 import { TeamModel } from '../../teams/models/team.model';
 
 @ObjectType()
-export class RoomModel {
+export class ChannelModel {
   @Field(() => Int)
   id: number;
 

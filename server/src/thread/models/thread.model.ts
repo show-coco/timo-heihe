@@ -1,5 +1,5 @@
 import { Field, GraphQLISODateTime, Int, ObjectType } from '@nestjs/graphql';
-import { RoomModel } from '../../room/models/room.model';
+import { ChannelModel } from '../../channel/models/channel.model';
 import { UserModel } from '../../users/models/user.model';
 
 @ObjectType()
@@ -13,8 +13,8 @@ export class ThreadModel {
   @Field(() => GraphQLISODateTime)
   createdAt: Date;
 
-  @Field(() => RoomModel)
-  room: RoomModel;
+  @Field(() => ChannelModel)
+  channel: ChannelModel;
 
   @Field(() => UserModel)
   user: UserModel;

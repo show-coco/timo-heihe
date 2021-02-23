@@ -19,7 +19,7 @@ import { UpdateTeamInput } from './dto/update-team.input';
 import { Team } from './entities/teams.entity';
 import { TeamModel } from './models/team.model';
 import { TeamsService } from './teams.service';
-import { RoomModel } from '../room/models/room.model';
+import { ChannelModel } from '../channel/models/channel.model';
 import { SearchTeamInput } from './dto/search-teams.input';
 
 @Resolver(() => TeamModel)
@@ -113,7 +113,7 @@ export class TeamsResolver {
     });
   }
 
-  @ResolveField(() => RoomModel)
+  @ResolveField(() => ChannelModel)
   async rooms(@Parent() team: Team) {
     console.log('request on teams->resolver->rooms', team);
   }

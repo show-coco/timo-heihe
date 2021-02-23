@@ -3,7 +3,7 @@ import { TeamMemberModel } from '../../team-members-user/models/team-member.mode
 import { CategoryModel } from '../../category/models/category.model';
 import { SkillModel } from '../../skill/models/skill.model';
 import { UserModel } from '../../users/models/user.model';
-import { RoomModel } from '../../room/models/room.model';
+import { ChannelModel } from '../../channel/models/channel.model';
 import { TeamTypeModel } from '../../team-type/models/team-type.model';
 
 @ObjectType()
@@ -47,8 +47,8 @@ export class TeamModel {
   @Field(() => GraphQLISODateTime, { nullable: true })
   createdAt?: Date;
 
-  @Field(() => [RoomModel], { nullable: true })
-  rooms: RoomModel[];
+  @Field(() => [ChannelModel], { nullable: true })
+  rooms: ChannelModel[];
 
   @Field(() => [TeamTypeModel])
   types: TeamTypeModel[];

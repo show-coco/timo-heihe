@@ -12,7 +12,7 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { TeamMembersUser } from '../../team-members-user/entities/team-members-user.entity';
-import { Room } from '../../room/entities/room.entity';
+import { Channel } from '../../channel/entities/channel.entity';
 import { TeamType } from '../../team-type/entities/team-type.entity';
 
 @Entity()
@@ -58,8 +58,8 @@ export class Team {
   @CreateDateColumn({ type: 'timestamp' })
   createdAt?: Date;
 
-  @OneToMany(() => Room, (room) => room.team)
-  rooms: Room[];
+  @OneToMany(() => Channel, (room) => room.team)
+  rooms: Channel[];
 
   @Column({ default: true })
   recruiting: boolean;

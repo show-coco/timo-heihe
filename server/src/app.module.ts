@@ -13,9 +13,9 @@ import { Category } from './category/entities/category.entity';
 import { Skill } from './skill/entities/skill.entity';
 import { TeamMembersUserModule } from './team-members-user/team-members-user.module';
 import { TeamMembersUser } from './team-members-user/entities/team-members-user.entity';
-import { Room } from './room/entities/room.entity';
+import { Channel } from './channel/entities/channel.entity';
 import { ThreadModule } from './thread/thread.module';
-import { RoomModule } from './room/room.module';
+import { ChannelModule } from './channel/channel.module';
 import { MessageModule } from './message/message.module';
 import { Thread } from './thread/entities/thread.entity';
 import { Message } from './message/entities/message.entity';
@@ -33,7 +33,7 @@ import { TeamType } from './team-type/entities/team-type.entity';
         TeamsModule,
         CategoryModule,
         SkillModule,
-        RoomModule,
+        ChannelModule,
         ThreadModule,
         MessageModule,
         TeamTypeModule,
@@ -57,7 +57,7 @@ import { TeamType } from './team-type/entities/team-type.entity';
         Category,
         Skill,
         TeamMembersUser,
-        Room,
+        Channel,
         Thread,
         Message,
         TeamType,
@@ -70,7 +70,7 @@ import { TeamType } from './team-type/entities/team-type.entity';
     CategoryModule,
     SkillModule,
     TeamMembersUserModule,
-    RoomModule,
+    ChannelModule,
     ThreadModule,
     MessageModule,
     TeamTypeModule,

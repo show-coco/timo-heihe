@@ -10,7 +10,7 @@ import { Thread } from '../../thread/entities/thread.entity';
 import { User } from '../../users/entities/users.entity';
 
 @Entity()
-export class Room {
+export class Channel {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -20,7 +20,7 @@ export class Room {
   @ManyToOne(() => Team, (team) => team.rooms)
   team: Team;
 
-  @OneToMany(() => Thread, (thread) => thread.room, { nullable: true })
+  @OneToMany(() => Thread, (thread) => thread.channel, { nullable: true })
   threads?: Thread[];
 
   @OneToMany(() => User, (user) => user.rooms)

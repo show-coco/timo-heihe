@@ -2,7 +2,7 @@ import { Field, Int, ObjectType } from '@nestjs/graphql';
 import { UserMemberModel } from '../../team-members-user/models/user-member-model';
 import { SkillModel } from '../../skill/models/skill.model';
 import { TeamModel } from '../../teams/models/team.model';
-import { RoomModel } from '../../room/models/room.model';
+import { ChannelModel } from '../../channel/models/channel.model';
 
 @ObjectType()
 export class UserModel {
@@ -39,6 +39,6 @@ export class UserModel {
   @Field(() => [SkillModel], { nullable: true })
   skills: SkillModel[];
 
-  @Field(() => [RoomModel], { nullable: true })
-  rooms: RoomModel[];
+  @Field(() => [ChannelModel], { nullable: true })
+  rooms: ChannelModel[];
 }
