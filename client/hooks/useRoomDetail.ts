@@ -2,34 +2,34 @@ import { useRouter } from "next/router";
 import React, { useMemo, useState } from "react";
 import {
   MemberState,
-  useApplyTeamMutation,
-  useJoinTeamMutation,
-  useLeaveTeamMutation,
-  useTeamQuery,
+  useApplyRoomMutation,
+  useJoinRoomMutation,
+  useLeaveRoomMutation,
+  useRoomQuery,
 } from "../generated/types";
 import { useAuthContext } from "../providers/useAuthContext";
 
 export const useTeamDetail = () => {
   const router = useRouter();
-  const teamId = router.query.id;
+  const roomId = router.query.id;
   const { id: userId } = useAuthContext();
-  const [joinTeamDialogIsOpened, setJoinTeamDialogIsOpened] = useState(false);
-  const [leaveTeamDialogIsOpened, setLeaveTeamDialogIsOpened] = useState(false);
-  const [applyTeamDialogIsOpened, setApplyTeamDialogIsOpened] = useState(false);
+  const [joinRoomDialogIsOpened, setJoinRoomDialogIsOpened] = useState(false);
+  const [leaveRoomDialogIsOpened, setLeaveRoomDialogIsOpened] = useState(false);
+  const [applyRoomDialogIsOpened, setApplyRoomDialogIsOpened] = useState(false);
 
-  const { data, loading } = useTeamQuery({
+  const { data, loading } = useRoomQuery({
     variables: {
-      id: Number(teamId),
+      id: Number(roomId),
     },
   });
 
-  const [joinTeam] = useJoinTeamMutation();
+  const [joinTeam] = useJoinRoomMutation();
 
-  const [leaveTeam] = useLeaveTeamMutation();
+  const [leaveTeam] = useLeaveRoomMutation();
 
-  const [applyTeam] = useApplyTeamMutation();
+  const [applyTeam] = useApplyRoomMutation();
 
-  const onJoinTeam = async (
+  const onJoin = async (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     event.preventDefault();
@@ -37,16 +37,16 @@ export const useTeamDetail = () => {
       await joinTeam({
         variables: {
           userId,
-          teamId: Number(teamId),
+          roomId: Number(roomId),
         },
       });
     } catch (e) {
       console.error(e);
     }
-    setJoinTeamDialogIsOpened(false);
+    setJoinRoomDialogIsOpened(false);
   };
 
-  const onLeaveTeam = async (
+  const onLeave = async (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     event.preventDefault();
@@ -54,16 +54,16 @@ export const useTeamDetail = () => {
       await leaveTeam({
         variables: {
           userId,
-          teamId: Number(teamId),
+          roomId: Number(roomId),
         },
       });
     } catch (e) {
       console.error(e);
     }
-    setLeaveTeamDialogIsOpened(false);
+    setLeaveRoomDialogIsOpened(false);
   };
 
-  const onApplyTeam = async (
+  const onApply = async (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     event.preventDefault();
@@ -71,99 +71,99 @@ export const useTeamDetail = () => {
       await applyTeam({
         variables: {
           userId,
-          teamId: Number(teamId),
+          roomId: Number(roomId),
         },
       });
     } catch (e) {
       console.error(e);
     }
-    setApplyTeamDialogIsOpened(false);
+    setApplyRoomDialogIsOpened(false);
   };
 
   const onClickJoinButton = (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     event.preventDefault();
-    setJoinTeamDialogIsOpened(true);
+    setJoinRoomDialogIsOpened(true);
   };
 
   const onClickApplyButton = (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     event.preventDefault();
-    setApplyTeamDialogIsOpened(true);
+    setApplyRoomDialogIsOpened(true);
   };
 
   const onClickLeaveButton = (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     event.preventDefault();
-    setLeaveTeamDialogIsOpened(true);
+    setLeaveRoomDialogIsOpened(true);
   };
 
   const onCloseLeaveDialog = (
     event: React.MouseEvent<Element, MouseEvent> | React.KeyboardEvent<Element>
   ) => {
     event.preventDefault();
-    setLeaveTeamDialogIsOpened(false);
+    setLeaveRoomDialogIsOpened(false);
   };
 
   const onCloseApplyDialog = (
     event: React.MouseEvent<Element, MouseEvent> | React.KeyboardEvent<Element>
   ) => {
     event.preventDefault();
-    setApplyTeamDialogIsOpened(false);
+    setApplyRoomDialogIsOpened(false);
   };
 
   const onCloseJoinDialog = (
     event: React.MouseEvent<Element, MouseEvent> | React.KeyboardEvent<Element>
   ) => {
     event.preventDefault();
-    setJoinTeamDialogIsOpened(false);
+    setJoinRoomDialogIsOpened(false);
   };
 
-  const team = data?.team;
+  const room = data?.room;
 
   // HACK
   const isLimitOfRecruit = useMemo(() => {
-    if (team && team.members) {
-      return team.members.length >= team.recruitNumbers;
+    if (room && room.members) {
+      return room.members.length >= room.recruitNumbers;
     }
-  }, [team]);
+  }, [room]);
 
   const iAmOwner = useMemo(() => {
-    return userId === team?.owner.id;
-  }, [team?.owner.id, userId]);
+    return userId === room?.owner.id;
+  }, [room?.owner.id, userId]);
 
   const iAmJoining = useMemo(() => {
-    return team?.members?.find(
+    return room?.members?.find(
       (member) =>
         member.id === userId && member.memberState === MemberState.Joining
     );
-  }, [team?.members, userId]);
+  }, [room?.members, userId]);
 
   const iAmApplying = useMemo(() => {
-    return team?.members?.find(
+    return room?.members?.find(
       (member) =>
         member.id === userId && member.memberState === MemberState.Pending
     );
-  }, [team?.members, userId]);
+  }, [room?.members, userId]);
 
   const iAmIn = useMemo(() => {
-    return team?.members?.find((member) => member.id === userId);
-  }, [team?.members, userId]);
+    return room?.members?.find((member) => member.id === userId);
+  }, [room?.members, userId]);
 
   const iCanJoin = useMemo(() => {
-    if (team && team.members) {
-      return !iAmIn && !team.isRequired && !isLimitOfRecruit;
+    if (room && room.members) {
+      return !iAmIn && !room.isRequired && !isLimitOfRecruit;
     }
-  }, [iAmIn, isLimitOfRecruit, team]);
+  }, [iAmIn, isLimitOfRecruit, room]);
 
   const iCanApply = useMemo(() => {
-    if (team && team.members) {
-      return !iAmIn && team.isRequired && !isLimitOfRecruit;
+    if (room && room.members) {
+      return !iAmIn && room.isRequired && !isLimitOfRecruit;
     }
-  }, [iAmIn, isLimitOfRecruit, team]);
+  }, [iAmIn, isLimitOfRecruit, room]);
 
   const iCanEdit = useMemo(() => {
     return iAmOwner;
@@ -174,9 +174,9 @@ export const useTeamDetail = () => {
   }, [iAmJoining, iAmOwner]);
 
   return {
-    onJoinTeam,
-    onLeaveTeam,
-    onApplyTeam,
+    onJoin,
+    onLeave,
+    onApply,
     iCanJoin,
     iCanApply,
     iCanEdit,
@@ -184,13 +184,13 @@ export const useTeamDetail = () => {
     iAmJoining,
     iAmApplying,
     isLimitOfRecruit,
-    team: data?.team,
-    teamId,
+    room: data?.room,
+    roomId,
     loading,
     dialogState: {
-      joinTeamDialogIsOpened,
-      leaveTeamDialogIsOpened,
-      applyTeamDialogIsOpened,
+      joinRoomDialogIsOpened,
+      leaveRoomDialogIsOpened,
+      applyRoomDialogIsOpened,
     },
     dialogSetter: {
       onClickJoinButton,
