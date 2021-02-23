@@ -1,5 +1,5 @@
-query TeamEditPage($id: Int!) {
-  team(id: $id) {
+query RoomEditPage($id: Int!) {
+  room(id: $id) {
     id
     title
     name
@@ -39,7 +39,7 @@ query TeamEditPage($id: Int!) {
     id
     name
   }
-  teamTypes {
+  roomTypes {
     id
     name
   }
