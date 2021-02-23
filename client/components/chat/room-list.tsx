@@ -1,30 +1,30 @@
 import React from "react";
-import { RoomItemFragment } from "../../generated/types";
+import { ChannelListFragment, RoomItemFragment } from "../../generated/types";
 
 type Props = {
-  rooms: RoomItemFragment["rooms"];
-  setSelectedRoomId: React.Dispatch<React.SetStateAction<number>>;
+  channels: ChannelListFragment["channels"];
+  setSelectedChannelId: React.Dispatch<React.SetStateAction<number>>;
 };
 
-export const RoomList: React.FC<Props> = ({
-  rooms,
-  setSelectedRoomId,
+export const ChannelList: React.FC<Props> = ({
+  channels,
+  setSelectedChannelId,
 }: Props) => {
-  const roomDoesntExists = rooms?.length === 0;
+  const channelDoesntExists = channels?.length === 0;
 
-  if (roomDoesntExists) {
-    return <p className="text-center mt-2">ルームが存在しません</p>;
+  if (channelDoesntExists) {
+    return <p className="text-center mt-2">チャンネルが存在しません</p>;
   }
 
   return (
     <div className="flex-1">
-      {rooms?.map((room) => (
+      {channels?.map((channel) => (
         <div
-          key={room.id}
+          key={channel.id}
           className="pl-4 py-1 hover:bg-opacity-20 hover:bg-black-400 cursor-pointer"
-          onClick={() => setSelectedRoomId(room.id)}
+          onClick={() => setSelectedChannelId(channel.id)}
         >
-          # {room.name}
+          # {channel.name}
         </div>
       ))}
     </div>

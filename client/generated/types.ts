@@ -28,14 +28,29 @@ export type CategoryModel = {
   __typename?: "CategoryModel";
   id?: Maybe<Scalars["Int"]>;
   name: Scalars["String"];
-  teams: Array<TeamModel>;
+  rooms: Array<RoomModel>;
 };
 
-export type ConnectRoomInput = {
+export type ChannelModel = {
+  __typename?: "ChannelModel";
+  id: Scalars["Int"];
+  name: Scalars["String"];
+  room: RoomModel;
+  team: RoomModel;
+  threads: Array<ThreadModel>;
+  user: UserModel;
+};
+
+export type ChannelResponse = {
+  __typename?: "ChannelResponse";
+  affected?: Maybe<Scalars["Int"]>;
+};
+
+export type ConnectChannelInput = {
   id: Scalars["Int"];
 };
 
-export type ConnectTeamInput = {
+export type ConnectRoomInput = {
   id: Scalars["Int"];
 };
 
@@ -59,6 +74,11 @@ export type CreateCategoryInput = {
   name: Scalars["String"];
 };
 
+export type CreateChannelInput = {
+  name: Scalars["String"];
+  room: ConnectRoomInput;
+};
+
 export type CreateMessageInput = {
   text: Scalars["String"];
   thread: ConnectThreadInput;
@@ -66,22 +86,11 @@ export type CreateMessageInput = {
 };
 
 export type CreateRoomInput = {
-  name: Scalars["String"];
-  team: ConnectTeamInput;
-};
-
-export type CreateSkillInput = {
-  icon: Scalars["String"];
-  id: Scalars["Int"];
-  name: Scalars["String"];
-};
-
-export type CreateTeamInput = {
   categories: Array<CategoryInput>;
   description?: Maybe<Scalars["String"]>;
   icon?: Maybe<Scalars["String"]>;
   isRequired: Scalars["Boolean"];
-  members: Array<CreateTeamMembersUserInput>;
+  members: Array<CreateRoomMembersUserInput>;
   name: Scalars["String"];
   owner: ConnectUserInput;
   recruitNumbers: Scalars["Int"];
@@ -92,25 +101,26 @@ export type CreateTeamInput = {
   typeIds: Array<Scalars["Int"]>;
 };
 
-export type CreateTeamMembersUserInput = {
-  team?: Maybe<UpdateTeamInput>;
+export type CreateRoomMembersUserInput = {
+  room?: Maybe<UpdateRoomInput>;
   user: ConnectUserInput;
 };
 
+export type CreateSkillInput = {
+  icon: Scalars["String"];
+  id: Scalars["Int"];
+  name: Scalars["String"];
+};
+
 export type CreateThreadInput = {
-  room: ConnectRoomInput;
+  channel: ConnectChannelInput;
   text: Scalars["String"];
   user: ConnectUserInput;
 };
 
-export type DeleteResponse = {
-  __typename?: "DeleteResponse";
-  affected?: Maybe<Scalars["Int"]>;
-};
-
 export type FetchThreadInput = {
+  channelId: Scalars["Int"];
   cursor: Scalars["String"];
-  roomId: Scalars["Int"];
 };
 
 export enum MemberState {
@@ -131,36 +141,40 @@ export type MessageModel = {
 
 export type Mutation = {
   __typename?: "Mutation";
-  applyTeam: TeamModel;
+  applyRoom: RoomModel;
   createCategory: CategoryModel;
+  createChannel: ChannelModel;
   createMessage: MessageModel;
   createRoom: RoomModel;
   createSkill: SkillModel;
-  createTeam: TeamModel;
   createThread: ThreadModel;
-  deleteRoom: DeleteResponse;
-  deleteTeam: TeamModel;
-  joinTeam: TeamModel;
-  leaveTeam: TeamModel;
+  deleteChannel: ChannelResponse;
+  deleteRoom: RoomModel;
+  joinRoom: RoomModel;
+  leaveRoom: RoomModel;
   removeCategory: CategoryModel;
-  removeMessage: DeleteResponse;
+  removeMessage: ChannelResponse;
   removeSkill: SkillModel;
   removeThread: ThreadModel;
   updateCategory: CategoryModel;
   updateMessage: MessageModel;
+  updateRoom: RoomModel;
   updateSkill: SkillModel;
-  updateTeam: TeamModel;
   updateThread: ThreadModel;
   updateUser: UserModel;
 };
 
-export type MutationApplyTeamArgs = {
-  teamId: Scalars["Int"];
+export type MutationApplyRoomArgs = {
+  roomId: Scalars["Int"];
   userId: Scalars["Int"];
 };
 
 export type MutationCreateCategoryArgs = {
   createCategoryInput: CreateCategoryInput;
+};
+
+export type MutationCreateChannelArgs = {
+  input: CreateChannelInput;
 };
 
 export type MutationCreateMessageArgs = {
@@ -175,29 +189,25 @@ export type MutationCreateSkillArgs = {
   createSkillInput: CreateSkillInput;
 };
 
-export type MutationCreateTeamArgs = {
-  input: CreateTeamInput;
-};
-
 export type MutationCreateThreadArgs = {
   input: CreateThreadInput;
+};
+
+export type MutationDeleteChannelArgs = {
+  id: Scalars["Int"];
 };
 
 export type MutationDeleteRoomArgs = {
   id: Scalars["Int"];
 };
 
-export type MutationDeleteTeamArgs = {
-  id: Scalars["Int"];
-};
-
-export type MutationJoinTeamArgs = {
-  teamId: Scalars["Int"];
+export type MutationJoinRoomArgs = {
+  roomId: Scalars["Int"];
   userId: Scalars["Int"];
 };
 
-export type MutationLeaveTeamArgs = {
-  teamId: Scalars["Int"];
+export type MutationLeaveRoomArgs = {
+  roomId: Scalars["Int"];
   userId: Scalars["Int"];
 };
 
@@ -225,12 +235,12 @@ export type MutationUpdateMessageArgs = {
   input: UpdateMessageInput;
 };
 
-export type MutationUpdateSkillArgs = {
-  updateSkillInput: UpdateSkillInput;
+export type MutationUpdateRoomArgs = {
+  updateRoomInput: UpdateRoomInput;
 };
 
-export type MutationUpdateTeamArgs = {
-  updateTeamInput: UpdateTeamInput;
+export type MutationUpdateSkillArgs = {
+  updateSkillInput: UpdateSkillInput;
 };
 
 export type MutationUpdateThreadArgs = {
@@ -245,16 +255,16 @@ export type Query = {
   __typename?: "Query";
   categories: Array<CategoryModel>;
   category: CategoryModel;
+  channel: ChannelModel;
+  channels: Array<ChannelModel>;
   me: UserModel;
   message: MessageModel;
   messages: Array<MessageModel>;
   room: RoomModel;
   rooms: Array<RoomModel>;
+  roomTypes: Array<RoomTypeModel>;
   skill: SkillModel;
   skills: Array<SkillModel>;
-  team: TeamModel;
-  teams: Array<TeamModel>;
-  teamTypes: Array<TeamTypeModel>;
   thread: ThreadModel;
   threads?: Maybe<Array<ThreadModel>>;
   user: UserModel;
@@ -262,6 +272,10 @@ export type Query = {
 };
 
 export type QueryCategoryArgs = {
+  id: Scalars["Int"];
+};
+
+export type QueryChannelArgs = {
   id: Scalars["Int"];
 };
 
@@ -273,16 +287,12 @@ export type QueryRoomArgs = {
   id: Scalars["Int"];
 };
 
+export type QueryRoomsArgs = {
+  input?: Maybe<SearchRoomInput>;
+};
+
 export type QuerySkillArgs = {
   id: Scalars["Int"];
-};
-
-export type QueryTeamArgs = {
-  id: Scalars["Int"];
-};
-
-export type QueryTeamsArgs = {
-  input?: Maybe<SearchTeamInput>;
 };
 
 export type QueryThreadArgs = {
@@ -297,16 +307,49 @@ export type QueryUserArgs = {
   userId: Scalars["String"];
 };
 
-export type RoomModel = {
-  __typename?: "RoomModel";
+export type RoomMemberModel = {
+  __typename?: "RoomMemberModel";
+  avatar?: Maybe<Scalars["String"]>;
+  createdAt: Scalars["DateTime"];
+  email: Scalars["String"];
+  githubId?: Maybe<Scalars["String"]>;
   id: Scalars["Int"];
+  introduction?: Maybe<Scalars["String"]>;
+  memberState: MemberState;
   name: Scalars["String"];
-  team: TeamModel;
-  threads: Array<ThreadModel>;
-  user: UserModel;
+  ownerTeams: Array<RoomModel>;
+  skills: Array<SkillModel>;
+  teams: Array<RoomModel>;
+  twitterId?: Maybe<Scalars["String"]>;
+  userId: Scalars["String"];
 };
 
-export type SearchTeamInput = {
+export type RoomModel = {
+  __typename?: "RoomModel";
+  categories: Array<CategoryModel>;
+  channels?: Maybe<Array<ChannelModel>>;
+  createdAt?: Maybe<Scalars["DateTime"]>;
+  description: Scalars["String"];
+  icon?: Maybe<Scalars["String"]>;
+  id?: Maybe<Scalars["Int"]>;
+  isRequired: Scalars["Boolean"];
+  members?: Maybe<Array<RoomMemberModel>>;
+  name: Scalars["String"];
+  owner: UserModel;
+  recruitNumbers: Scalars["Int"];
+  repositoryUrl?: Maybe<Scalars["String"]>;
+  skills?: Maybe<Array<SkillModel>>;
+  title: Scalars["String"];
+  types: Array<RoomTypeModel>;
+};
+
+export type RoomTypeModel = {
+  __typename?: "RoomTypeModel";
+  id: Scalars["Int"];
+  name: Scalars["String"];
+};
+
+export type SearchRoomInput = {
   categoryIds?: Maybe<Array<Scalars["Int"]>>;
   name?: Maybe<Scalars["String"]>;
   recruitNumbers?: Maybe<Scalars["Int"]>;
@@ -338,57 +381,15 @@ export type SubscriptionMessageAddedArgs = {
 };
 
 export type SubscriptionThreadAddedArgs = {
-  roomId: Scalars["Int"];
-};
-
-export type TeamMemberModel = {
-  __typename?: "TeamMemberModel";
-  avatar?: Maybe<Scalars["String"]>;
-  createdAt: Scalars["DateTime"];
-  email: Scalars["String"];
-  githubId?: Maybe<Scalars["String"]>;
-  id: Scalars["Int"];
-  introduction?: Maybe<Scalars["String"]>;
-  memberState: MemberState;
-  name: Scalars["String"];
-  ownerTeams: Array<TeamModel>;
-  skills: Array<SkillModel>;
-  teams: Array<TeamModel>;
-  twitterId?: Maybe<Scalars["String"]>;
-  userId: Scalars["String"];
-};
-
-export type TeamModel = {
-  __typename?: "TeamModel";
-  categories: Array<CategoryModel>;
-  createdAt?: Maybe<Scalars["DateTime"]>;
-  description: Scalars["String"];
-  icon?: Maybe<Scalars["String"]>;
-  id?: Maybe<Scalars["Int"]>;
-  isRequired: Scalars["Boolean"];
-  members?: Maybe<Array<TeamMemberModel>>;
-  name: Scalars["String"];
-  owner: UserModel;
-  recruitNumbers: Scalars["Int"];
-  repositoryUrl?: Maybe<Scalars["String"]>;
-  rooms?: Maybe<Array<RoomModel>>;
-  skills?: Maybe<Array<SkillModel>>;
-  title: Scalars["String"];
-  types: Array<TeamTypeModel>;
-};
-
-export type TeamTypeModel = {
-  __typename?: "TeamTypeModel";
-  id: Scalars["Int"];
-  name: Scalars["String"];
+  channelId: Scalars["Int"];
 };
 
 export type ThreadModel = {
   __typename?: "ThreadModel";
+  channel: ChannelModel;
   createdAt: Scalars["DateTime"];
   id: Scalars["Int"];
   numberOfMessages: Scalars["Int"];
-  room: RoomModel;
   text: Scalars["String"];
   user: UserModel;
 };
@@ -405,19 +406,13 @@ export type UpdateMessageInput = {
   user?: Maybe<ConnectUserInput>;
 };
 
-export type UpdateSkillInput = {
-  icon?: Maybe<Scalars["String"]>;
-  id: Scalars["Int"];
-  name?: Maybe<Scalars["String"]>;
-};
-
-export type UpdateTeamInput = {
+export type UpdateRoomInput = {
   categories?: Maybe<Array<CategoryInput>>;
   description?: Maybe<Scalars["String"]>;
   icon?: Maybe<Scalars["String"]>;
   id: Scalars["Int"];
   isRequired?: Maybe<Scalars["Boolean"]>;
-  members?: Maybe<Array<CreateTeamMembersUserInput>>;
+  members?: Maybe<Array<CreateRoomMembersUserInput>>;
   name?: Maybe<Scalars["String"]>;
   owner?: Maybe<ConnectUserInput>;
   recruitNumbers?: Maybe<Scalars["Int"]>;
@@ -426,6 +421,12 @@ export type UpdateTeamInput = {
   skills?: Maybe<Array<SkillInput>>;
   title?: Maybe<Scalars["String"]>;
   typeIds?: Maybe<Array<Scalars["Int"]>>;
+};
+
+export type UpdateSkillInput = {
+  icon?: Maybe<Scalars["String"]>;
+  id: Scalars["Int"];
+  name?: Maybe<Scalars["String"]>;
 };
 
 export type UpdateThreadInput = {
@@ -448,17 +449,18 @@ export type UpdateUserInput = {
 export type UserMemberModel = {
   __typename?: "UserMemberModel";
   categories: Array<CategoryModel>;
+  channels?: Maybe<Array<ChannelModel>>;
   createdAt?: Maybe<Scalars["DateTime"]>;
   description: Scalars["String"];
   icon?: Maybe<Scalars["String"]>;
   id?: Maybe<Scalars["Int"]>;
   isRequired: Scalars["Boolean"];
-  members?: Maybe<Array<TeamMemberModel>>;
+  members?: Maybe<Array<RoomMemberModel>>;
   memberState: MemberState;
+  name: Scalars["String"];
   owner: UserModel;
   recruitNumbers: Scalars["Int"];
   repositoryUrl?: Maybe<Scalars["String"]>;
-  rooms?: Maybe<Array<RoomModel>>;
   skills?: Maybe<Array<SkillModel>>;
   title: Scalars["String"];
 };
@@ -466,51 +468,43 @@ export type UserMemberModel = {
 export type UserModel = {
   __typename?: "UserModel";
   avatar?: Maybe<Scalars["String"]>;
+  channels?: Maybe<Array<ChannelModel>>;
   email: Scalars["String"];
   githubId?: Maybe<Scalars["String"]>;
   id: Scalars["Int"];
   introduction?: Maybe<Scalars["String"]>;
   name: Scalars["String"];
-  ownerTeams?: Maybe<Array<TeamModel>>;
-  rooms?: Maybe<Array<RoomModel>>;
+  ownerTeams?: Maybe<Array<RoomModel>>;
+  rooms?: Maybe<Array<UserMemberModel>>;
   skills?: Maybe<Array<SkillModel>>;
-  teams?: Maybe<Array<UserMemberModel>>;
   twitterId?: Maybe<Scalars["String"]>;
   userId: Scalars["String"];
+};
+
+export type ChannelItemFragment = { __typename?: "ChannelModel" } & Pick<
+  ChannelModel,
+  "id" | "name"
+>;
+
+export type ChannelListFragment = { __typename?: "UserMemberModel" } & {
+  channels?: Maybe<
+    Array<{ __typename?: "ChannelModel" } & ChannelItemFragment>
+  >;
 };
 
 export type ChatItemFragment = { __typename?: "ThreadModel" } & Pick<
   ThreadModel,
   "id" | "text" | "createdAt" | "numberOfMessages"
 > & {
-    room: { __typename?: "RoomModel" } & Pick<RoomModel, "id">;
+    channel: { __typename?: "ChannelModel" } & Pick<ChannelModel, "id">;
     user: { __typename?: "UserModel" } & Pick<
       UserModel,
       "id" | "name" | "avatar"
     >;
   };
 
-export type RoomItemFragment = { __typename?: "UserMemberModel" } & {
-  rooms?: Maybe<Array<{ __typename?: "RoomModel" } & RoomFragment>>;
-};
-
-export type RoomFragment = { __typename?: "RoomModel" } & Pick<
+export type RoomCardFragment = { __typename?: "RoomModel" } & Pick<
   RoomModel,
-  "id" | "name"
->;
-
-export type SkillItemFragment = { __typename?: "SkillModel" } & Pick<
-  SkillModel,
-  "id" | "name"
->;
-
-export type SpaceItemFragment = { __typename?: "UserMemberModel" } & Pick<
-  UserMemberModel,
-  "id" | "title" | "icon"
->;
-
-export type TeamCardFragment = { __typename?: "TeamModel" } & Pick<
-  TeamModel,
   | "id"
   | "title"
   | "description"
@@ -522,8 +516,8 @@ export type TeamCardFragment = { __typename?: "TeamModel" } & Pick<
 > & {
     members?: Maybe<
       Array<
-        { __typename?: "TeamMemberModel" } & Pick<
-          TeamMemberModel,
+        { __typename?: "RoomMemberModel" } & Pick<
+          RoomMemberModel,
           "id" | "userId" | "name" | "avatar" | "memberState"
         >
       >
@@ -540,25 +534,35 @@ export type TeamCardFragment = { __typename?: "TeamModel" } & Pick<
     >;
   };
 
-export type TeamTypesFragment = { __typename?: "TeamTypeModel" } & Pick<
-  TeamTypeModel,
+export type RoomItemFragment = { __typename?: "UserMemberModel" } & Pick<
+  UserMemberModel,
+  "id" | "title" | "icon"
+>;
+
+export type RoomTypesFragment = { __typename?: "RoomTypeModel" } & Pick<
+  RoomTypeModel,
   "id" | "name"
 >;
+
+export type SkillItemFragment = { __typename?: "SkillModel" } & Pick<
+  SkillModel,
+  "id" | "name"
+>;
+
+export type CreateChannelMutationVariables = Exact<{
+  input: CreateChannelInput;
+}>;
+
+export type CreateChannelMutation = { __typename?: "Mutation" } & {
+  createChannel: { __typename?: "ChannelModel" } & ChannelItemFragment;
+};
 
 export type CreateRoomMutationVariables = Exact<{
   input: CreateRoomInput;
 }>;
 
 export type CreateRoomMutation = { __typename?: "Mutation" } & {
-  createRoom: { __typename?: "RoomModel" } & RoomFragment;
-};
-
-export type CreateTeamMutationVariables = Exact<{
-  input: CreateTeamInput;
-}>;
-
-export type CreateTeamMutation = { __typename?: "Mutation" } & {
-  createTeam: { __typename?: "TeamModel" } & Pick<TeamModel, "id" | "title">;
+  createRoom: { __typename?: "RoomModel" } & Pick<RoomModel, "id" | "title">;
 };
 
 export type CreateThreadMutationVariables = Exact<{
@@ -569,12 +573,12 @@ export type CreateThreadMutation = { __typename?: "Mutation" } & {
   createThread: { __typename?: "ThreadModel" } & ChatItemFragment;
 };
 
-export type EditTeamMutationVariables = Exact<{
-  input: UpdateTeamInput;
+export type EditRoomMutationVariables = Exact<{
+  input: UpdateRoomInput;
 }>;
 
-export type EditTeamMutation = { __typename?: "Mutation" } & {
-  updateTeam: { __typename?: "TeamModel" } & Pick<TeamModel, "id" | "title">;
+export type EditRoomMutation = { __typename?: "Mutation" } & {
+  updateRoom: { __typename?: "RoomModel" } & Pick<RoomModel, "id" | "title">;
 };
 
 export type EditThreadMutationVariables = Exact<{
@@ -588,17 +592,17 @@ export type EditThreadMutation = { __typename?: "Mutation" } & {
   >;
 };
 
-export type JoinTeamMutationVariables = Exact<{
-  teamId: Scalars["Int"];
+export type JoinRoomMutationVariables = Exact<{
+  roomId: Scalars["Int"];
   userId: Scalars["Int"];
 }>;
 
-export type JoinTeamMutation = { __typename?: "Mutation" } & {
-  joinTeam: { __typename?: "TeamModel" } & Pick<TeamModel, "id" | "title"> & {
+export type JoinRoomMutation = { __typename?: "Mutation" } & {
+  joinRoom: { __typename?: "RoomModel" } & Pick<RoomModel, "id" | "title"> & {
       members?: Maybe<
         Array<
-          { __typename?: "TeamMemberModel" } & Pick<
-            TeamMemberModel,
+          { __typename?: "RoomMemberModel" } & Pick<
+            RoomMemberModel,
             "id" | "name"
           >
         >
@@ -606,17 +610,17 @@ export type JoinTeamMutation = { __typename?: "Mutation" } & {
     };
 };
 
-export type LeaveTeamMutationVariables = Exact<{
-  teamId: Scalars["Int"];
+export type LeaveRoomMutationVariables = Exact<{
+  roomId: Scalars["Int"];
   userId: Scalars["Int"];
 }>;
 
-export type LeaveTeamMutation = { __typename?: "Mutation" } & {
-  leaveTeam: { __typename?: "TeamModel" } & Pick<TeamModel, "id" | "title"> & {
+export type LeaveRoomMutation = { __typename?: "Mutation" } & {
+  leaveRoom: { __typename?: "RoomModel" } & Pick<RoomModel, "id" | "title"> & {
       members?: Maybe<
         Array<
-          { __typename?: "TeamMemberModel" } & Pick<
-            TeamMemberModel,
+          { __typename?: "RoomMemberModel" } & Pick<
+            RoomMemberModel,
             "id" | "name"
           >
         >
@@ -632,13 +636,13 @@ export type UpdateUserMutation = { __typename?: "Mutation" } & {
   updateUser: { __typename?: "UserModel" } & Pick<UserModel, "id" | "userId">;
 };
 
-export type ApplyTeamMutationVariables = Exact<{
-  teamId: Scalars["Int"];
+export type ApplyRoomMutationVariables = Exact<{
+  roomId: Scalars["Int"];
   userId: Scalars["Int"];
 }>;
 
-export type ApplyTeamMutation = { __typename?: "Mutation" } & {
-  applyTeam: { __typename?: "TeamModel" } & Pick<TeamModel, "id" | "title">;
+export type ApplyRoomMutation = { __typename?: "Mutation" } & {
+  applyRoom: { __typename?: "RoomModel" } & Pick<RoomModel, "id" | "title">;
 };
 
 export type ChatPageQueryVariables = Exact<{
@@ -647,36 +651,36 @@ export type ChatPageQueryVariables = Exact<{
 
 export type ChatPageQuery = { __typename?: "Query" } & {
   user: { __typename?: "UserModel" } & {
-    teams?: Maybe<
+    rooms?: Maybe<
       Array<
-        { __typename?: "UserMemberModel" } & SpaceItemFragment &
-          RoomItemFragment
+        { __typename?: "UserMemberModel" } & RoomItemFragment &
+          ChannelListFragment
       >
     >;
   };
 };
 
-export type CreateTeamPageQueryVariables = Exact<{ [key: string]: never }>;
+export type CreateRoomPageQueryVariables = Exact<{ [key: string]: never }>;
 
-export type CreateTeamPageQuery = { __typename?: "Query" } & {
+export type CreateRoomPageQuery = { __typename?: "Query" } & {
   categories: Array<
     { __typename?: "CategoryModel" } & Pick<CategoryModel, "id" | "name">
   >;
   skills: Array<
     { __typename?: "SkillModel" } & Pick<SkillModel, "id" | "name" | "icon">
   >;
-  teamTypes: Array<
-    { __typename?: "TeamTypeModel" } & Pick<TeamTypeModel, "id" | "name">
+  roomTypes: Array<
+    { __typename?: "RoomTypeModel" } & Pick<RoomTypeModel, "id" | "name">
   >;
 };
 
-export type TeamEditPageQueryVariables = Exact<{
+export type RoomEditPageQueryVariables = Exact<{
   id: Scalars["Int"];
 }>;
 
-export type TeamEditPageQuery = { __typename?: "Query" } & {
-  team: { __typename?: "TeamModel" } & Pick<
-    TeamModel,
+export type RoomEditPageQuery = { __typename?: "Query" } & {
+  room: { __typename?: "RoomModel" } & Pick<
+    RoomModel,
     | "id"
     | "title"
     | "name"
@@ -688,8 +692,8 @@ export type TeamEditPageQuery = { __typename?: "Query" } & {
   > & {
       members?: Maybe<
         Array<
-          { __typename?: "TeamMemberModel" } & Pick<
-            TeamMemberModel,
+          { __typename?: "RoomMemberModel" } & Pick<
+            RoomMemberModel,
             "id" | "name" | "avatar"
           >
         >
@@ -705,7 +709,7 @@ export type TeamEditPageQuery = { __typename?: "Query" } & {
         { __typename?: "CategoryModel" } & Pick<CategoryModel, "id" | "name">
       >;
       types: Array<
-        { __typename?: "TeamTypeModel" } & Pick<TeamTypeModel, "id" | "name">
+        { __typename?: "RoomTypeModel" } & Pick<RoomTypeModel, "id" | "name">
       >;
     };
   categories: Array<
@@ -714,8 +718,8 @@ export type TeamEditPageQuery = { __typename?: "Query" } & {
   skills: Array<
     { __typename?: "SkillModel" } & Pick<SkillModel, "id" | "name">
   >;
-  teamTypes: Array<
-    { __typename?: "TeamTypeModel" } & Pick<TeamTypeModel, "id" | "name">
+  roomTypes: Array<
+    { __typename?: "RoomTypeModel" } & Pick<RoomTypeModel, "id" | "name">
   >;
 };
 
@@ -737,7 +741,7 @@ export type EditUserPageQuery = { __typename?: "Query" } & {
       skills?: Maybe<
         Array<{ __typename?: "SkillModel" } & Pick<SkillModel, "id" | "name">>
       >;
-      teams?: Maybe<
+      rooms?: Maybe<
         Array<
           { __typename?: "UserMemberModel" } & Pick<
             UserMemberModel,
@@ -757,8 +761,8 @@ export type EditUserPageQuery = { __typename?: "Query" } & {
               >;
               members?: Maybe<
                 Array<
-                  { __typename?: "TeamMemberModel" } & Pick<
-                    TeamMemberModel,
+                  { __typename?: "RoomMemberModel" } & Pick<
+                    RoomMemberModel,
                     "id" | "userId"
                   >
                 >
@@ -783,24 +787,13 @@ export type MeQuery = { __typename?: "Query" } & {
     };
 };
 
-export type SearchConditionsQueryVariables = Exact<{ [key: string]: never }>;
-
-export type SearchConditionsQuery = { __typename?: "Query" } & {
-  categories: Array<
-    { __typename?: "CategoryModel" } & Pick<CategoryModel, "id" | "name">
-  >;
-  skills: Array<
-    { __typename?: "SkillModel" } & Pick<SkillModel, "icon" | "id" | "name">
-  >;
-};
-
-export type TeamQueryVariables = Exact<{
+export type RoomQueryVariables = Exact<{
   id: Scalars["Int"];
 }>;
 
-export type TeamQuery = { __typename?: "Query" } & {
-  team: { __typename?: "TeamModel" } & Pick<
-    TeamModel,
+export type RoomQuery = { __typename?: "Query" } & {
+  room: { __typename?: "RoomModel" } & Pick<
+    RoomModel,
     | "id"
     | "title"
     | "name"
@@ -812,8 +805,8 @@ export type TeamQuery = { __typename?: "Query" } & {
   > & {
       members?: Maybe<
         Array<
-          { __typename?: "TeamMemberModel" } & Pick<
-            TeamMemberModel,
+          { __typename?: "RoomMemberModel" } & Pick<
+            RoomMemberModel,
             "id" | "userId" | "name" | "avatar" | "memberState"
           >
         >
@@ -831,13 +824,24 @@ export type TeamQuery = { __typename?: "Query" } & {
     };
 };
 
-export type TeamsQueryVariables = Exact<{
-  input?: Maybe<SearchTeamInput>;
+export type RoomsQueryVariables = Exact<{
+  input?: Maybe<SearchRoomInput>;
 }>;
 
-export type TeamsQuery = { __typename?: "Query" } & {
-  teams: Array<{ __typename?: "TeamModel" } & TeamCardFragment>;
-  teamTypes: Array<{ __typename?: "TeamTypeModel" } & TeamTypesFragment>;
+export type RoomsQuery = { __typename?: "Query" } & {
+  rooms: Array<{ __typename?: "RoomModel" } & RoomCardFragment>;
+  roomTypes: Array<{ __typename?: "RoomTypeModel" } & RoomTypesFragment>;
+};
+
+export type SearchConditionsQueryVariables = Exact<{ [key: string]: never }>;
+
+export type SearchConditionsQuery = { __typename?: "Query" } & {
+  categories: Array<
+    { __typename?: "CategoryModel" } & Pick<CategoryModel, "id" | "name">
+  >;
+  skills: Array<
+    { __typename?: "SkillModel" } & Pick<SkillModel, "icon" | "id" | "name">
+  >;
 };
 
 export type ThreadListQueryVariables = Exact<{
@@ -866,7 +870,7 @@ export type UserDetailPageQuery = { __typename?: "Query" } & {
       skills?: Maybe<
         Array<{ __typename?: "SkillModel" } & Pick<SkillModel, "id" | "name">>
       >;
-      teams?: Maybe<
+      rooms?: Maybe<
         Array<
           { __typename?: "UserMemberModel" } & Pick<
             UserMemberModel,
@@ -886,8 +890,8 @@ export type UserDetailPageQuery = { __typename?: "Query" } & {
               >;
               members?: Maybe<
                 Array<
-                  { __typename?: "TeamMemberModel" } & Pick<
-                    TeamMemberModel,
+                  { __typename?: "RoomMemberModel" } & Pick<
+                    RoomMemberModel,
                     "id" | "userId"
                   >
                 >
@@ -899,7 +903,7 @@ export type UserDetailPageQuery = { __typename?: "Query" } & {
 };
 
 export type ThreadSubscriptionVariables = Exact<{
-  roomId: Scalars["Int"];
+  channelId: Scalars["Int"];
 }>;
 
 export type ThreadSubscription = { __typename?: "Subscription" } & {
@@ -907,7 +911,7 @@ export type ThreadSubscription = { __typename?: "Subscription" } & {
     ThreadModel,
     "id" | "text" | "createdAt" | "numberOfMessages"
   > & {
-      room: { __typename?: "RoomModel" } & Pick<RoomModel, "id">;
+      channel: { __typename?: "ChannelModel" } & Pick<ChannelModel, "id">;
       user: { __typename?: "UserModel" } & Pick<
         UserModel,
         "id" | "name" | "avatar"
@@ -915,11 +919,25 @@ export type ThreadSubscription = { __typename?: "Subscription" } & {
     };
 };
 
+export const ChannelItemFragmentDoc = gql`
+  fragment ChannelItem on ChannelModel {
+    id
+    name
+  }
+`;
+export const ChannelListFragmentDoc = gql`
+  fragment ChannelList on UserMemberModel {
+    channels {
+      ...ChannelItem
+    }
+  }
+  ${ChannelItemFragmentDoc}
+`;
 export const ChatItemFragmentDoc = gql`
   fragment ChatItem on ThreadModel {
     id
     text
-    room {
+    channel {
       id
     }
     user {
@@ -931,35 +949,8 @@ export const ChatItemFragmentDoc = gql`
     numberOfMessages
   }
 `;
-export const RoomFragmentDoc = gql`
-  fragment Room on RoomModel {
-    id
-    name
-  }
-`;
-export const RoomItemFragmentDoc = gql`
-  fragment RoomItem on UserMemberModel {
-    rooms {
-      ...Room
-    }
-  }
-  ${RoomFragmentDoc}
-`;
-export const SkillItemFragmentDoc = gql`
-  fragment SkillItem on SkillModel {
-    id
-    name
-  }
-`;
-export const SpaceItemFragmentDoc = gql`
-  fragment SpaceItem on UserMemberModel {
-    id
-    title
-    icon
-  }
-`;
-export const TeamCardFragmentDoc = gql`
-  fragment TeamCard on TeamModel {
+export const RoomCardFragmentDoc = gql`
+  fragment RoomCard on RoomModel {
     id
     title
     description
@@ -991,19 +982,81 @@ export const TeamCardFragmentDoc = gql`
     }
   }
 `;
-export const TeamTypesFragmentDoc = gql`
-  fragment TeamTypes on TeamTypeModel {
+export const RoomItemFragmentDoc = gql`
+  fragment RoomItem on UserMemberModel {
+    id
+    title
+    icon
+  }
+`;
+export const RoomTypesFragmentDoc = gql`
+  fragment RoomTypes on RoomTypeModel {
     id
     name
   }
 `;
+export const SkillItemFragmentDoc = gql`
+  fragment SkillItem on SkillModel {
+    id
+    name
+  }
+`;
+export const CreateChannelDocument = gql`
+  mutation CreateChannel($input: CreateChannelInput!) {
+    createChannel(input: $input) {
+      ...ChannelItem
+    }
+  }
+  ${ChannelItemFragmentDoc}
+`;
+export type CreateChannelMutationFn = Apollo.MutationFunction<
+  CreateChannelMutation,
+  CreateChannelMutationVariables
+>;
+
+/**
+ * __useCreateChannelMutation__
+ *
+ * To run a mutation, you first call `useCreateChannelMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateChannelMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createChannelMutation, { data, loading, error }] = useCreateChannelMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useCreateChannelMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    CreateChannelMutation,
+    CreateChannelMutationVariables
+  >
+) {
+  return Apollo.useMutation<
+    CreateChannelMutation,
+    CreateChannelMutationVariables
+  >(CreateChannelDocument, baseOptions);
+}
+export type CreateChannelMutationHookResult = ReturnType<
+  typeof useCreateChannelMutation
+>;
+export type CreateChannelMutationResult = Apollo.MutationResult<CreateChannelMutation>;
+export type CreateChannelMutationOptions = Apollo.BaseMutationOptions<
+  CreateChannelMutation,
+  CreateChannelMutationVariables
+>;
 export const CreateRoomDocument = gql`
   mutation CreateRoom($input: CreateRoomInput!) {
     createRoom(input: $input) {
-      ...Room
+      id
+      title
     }
   }
-  ${RoomFragmentDoc}
 `;
 export type CreateRoomMutationFn = Apollo.MutationFunction<
   CreateRoomMutation,
@@ -1045,55 +1098,6 @@ export type CreateRoomMutationResult = Apollo.MutationResult<CreateRoomMutation>
 export type CreateRoomMutationOptions = Apollo.BaseMutationOptions<
   CreateRoomMutation,
   CreateRoomMutationVariables
->;
-export const CreateTeamDocument = gql`
-  mutation CreateTeam($input: CreateTeamInput!) {
-    createTeam(input: $input) {
-      id
-      title
-    }
-  }
-`;
-export type CreateTeamMutationFn = Apollo.MutationFunction<
-  CreateTeamMutation,
-  CreateTeamMutationVariables
->;
-
-/**
- * __useCreateTeamMutation__
- *
- * To run a mutation, you first call `useCreateTeamMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useCreateTeamMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [createTeamMutation, { data, loading, error }] = useCreateTeamMutation({
- *   variables: {
- *      input: // value for 'input'
- *   },
- * });
- */
-export function useCreateTeamMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    CreateTeamMutation,
-    CreateTeamMutationVariables
-  >
-) {
-  return Apollo.useMutation<CreateTeamMutation, CreateTeamMutationVariables>(
-    CreateTeamDocument,
-    baseOptions
-  );
-}
-export type CreateTeamMutationHookResult = ReturnType<
-  typeof useCreateTeamMutation
->;
-export type CreateTeamMutationResult = Apollo.MutationResult<CreateTeamMutation>;
-export type CreateTeamMutationOptions = Apollo.BaseMutationOptions<
-  CreateTeamMutation,
-  CreateTeamMutationVariables
 >;
 export const CreateThreadDocument = gql`
   mutation CreateThread($input: CreateThreadInput!) {
@@ -1144,52 +1148,52 @@ export type CreateThreadMutationOptions = Apollo.BaseMutationOptions<
   CreateThreadMutation,
   CreateThreadMutationVariables
 >;
-export const EditTeamDocument = gql`
-  mutation EditTeam($input: UpdateTeamInput!) {
-    updateTeam(updateTeamInput: $input) {
+export const EditRoomDocument = gql`
+  mutation EditRoom($input: UpdateRoomInput!) {
+    updateRoom(updateRoomInput: $input) {
       id
       title
     }
   }
 `;
-export type EditTeamMutationFn = Apollo.MutationFunction<
-  EditTeamMutation,
-  EditTeamMutationVariables
+export type EditRoomMutationFn = Apollo.MutationFunction<
+  EditRoomMutation,
+  EditRoomMutationVariables
 >;
 
 /**
- * __useEditTeamMutation__
+ * __useEditRoomMutation__
  *
- * To run a mutation, you first call `useEditTeamMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useEditTeamMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useEditRoomMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useEditRoomMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [editTeamMutation, { data, loading, error }] = useEditTeamMutation({
+ * const [editRoomMutation, { data, loading, error }] = useEditRoomMutation({
  *   variables: {
  *      input: // value for 'input'
  *   },
  * });
  */
-export function useEditTeamMutation(
+export function useEditRoomMutation(
   baseOptions?: Apollo.MutationHookOptions<
-    EditTeamMutation,
-    EditTeamMutationVariables
+    EditRoomMutation,
+    EditRoomMutationVariables
   >
 ) {
-  return Apollo.useMutation<EditTeamMutation, EditTeamMutationVariables>(
-    EditTeamDocument,
+  return Apollo.useMutation<EditRoomMutation, EditRoomMutationVariables>(
+    EditRoomDocument,
     baseOptions
   );
 }
-export type EditTeamMutationHookResult = ReturnType<typeof useEditTeamMutation>;
-export type EditTeamMutationResult = Apollo.MutationResult<EditTeamMutation>;
-export type EditTeamMutationOptions = Apollo.BaseMutationOptions<
-  EditTeamMutation,
-  EditTeamMutationVariables
+export type EditRoomMutationHookResult = ReturnType<typeof useEditRoomMutation>;
+export type EditRoomMutationResult = Apollo.MutationResult<EditRoomMutation>;
+export type EditRoomMutationOptions = Apollo.BaseMutationOptions<
+  EditRoomMutation,
+  EditRoomMutationVariables
 >;
 export const EditThreadDocument = gql`
   mutation EditThread($input: UpdateThreadInput!) {
@@ -1240,9 +1244,9 @@ export type EditThreadMutationOptions = Apollo.BaseMutationOptions<
   EditThreadMutation,
   EditThreadMutationVariables
 >;
-export const JoinTeamDocument = gql`
-  mutation JoinTeam($teamId: Int!, $userId: Int!) {
-    joinTeam(userId: $userId, teamId: $teamId) {
+export const JoinRoomDocument = gql`
+  mutation JoinRoom($roomId: Int!, $userId: Int!) {
+    joinRoom(userId: $userId, roomId: $roomId) {
       id
       title
       members {
@@ -1252,49 +1256,49 @@ export const JoinTeamDocument = gql`
     }
   }
 `;
-export type JoinTeamMutationFn = Apollo.MutationFunction<
-  JoinTeamMutation,
-  JoinTeamMutationVariables
+export type JoinRoomMutationFn = Apollo.MutationFunction<
+  JoinRoomMutation,
+  JoinRoomMutationVariables
 >;
 
 /**
- * __useJoinTeamMutation__
+ * __useJoinRoomMutation__
  *
- * To run a mutation, you first call `useJoinTeamMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useJoinTeamMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useJoinRoomMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useJoinRoomMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [joinTeamMutation, { data, loading, error }] = useJoinTeamMutation({
+ * const [joinRoomMutation, { data, loading, error }] = useJoinRoomMutation({
  *   variables: {
- *      teamId: // value for 'teamId'
+ *      roomId: // value for 'roomId'
  *      userId: // value for 'userId'
  *   },
  * });
  */
-export function useJoinTeamMutation(
+export function useJoinRoomMutation(
   baseOptions?: Apollo.MutationHookOptions<
-    JoinTeamMutation,
-    JoinTeamMutationVariables
+    JoinRoomMutation,
+    JoinRoomMutationVariables
   >
 ) {
-  return Apollo.useMutation<JoinTeamMutation, JoinTeamMutationVariables>(
-    JoinTeamDocument,
+  return Apollo.useMutation<JoinRoomMutation, JoinRoomMutationVariables>(
+    JoinRoomDocument,
     baseOptions
   );
 }
-export type JoinTeamMutationHookResult = ReturnType<typeof useJoinTeamMutation>;
-export type JoinTeamMutationResult = Apollo.MutationResult<JoinTeamMutation>;
-export type JoinTeamMutationOptions = Apollo.BaseMutationOptions<
-  JoinTeamMutation,
-  JoinTeamMutationVariables
+export type JoinRoomMutationHookResult = ReturnType<typeof useJoinRoomMutation>;
+export type JoinRoomMutationResult = Apollo.MutationResult<JoinRoomMutation>;
+export type JoinRoomMutationOptions = Apollo.BaseMutationOptions<
+  JoinRoomMutation,
+  JoinRoomMutationVariables
 >;
-export const LeaveTeamDocument = gql`
-  mutation LeaveTeam($teamId: Int!, $userId: Int!) {
-    leaveTeam(userId: $userId, teamId: $teamId) {
+export const LeaveRoomDocument = gql`
+  mutation LeaveRoom($roomId: Int!, $userId: Int!) {
+    leaveRoom(userId: $userId, roomId: $roomId) {
       id
       title
       members {
@@ -1304,47 +1308,47 @@ export const LeaveTeamDocument = gql`
     }
   }
 `;
-export type LeaveTeamMutationFn = Apollo.MutationFunction<
-  LeaveTeamMutation,
-  LeaveTeamMutationVariables
+export type LeaveRoomMutationFn = Apollo.MutationFunction<
+  LeaveRoomMutation,
+  LeaveRoomMutationVariables
 >;
 
 /**
- * __useLeaveTeamMutation__
+ * __useLeaveRoomMutation__
  *
- * To run a mutation, you first call `useLeaveTeamMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useLeaveTeamMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useLeaveRoomMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useLeaveRoomMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [leaveTeamMutation, { data, loading, error }] = useLeaveTeamMutation({
+ * const [leaveRoomMutation, { data, loading, error }] = useLeaveRoomMutation({
  *   variables: {
- *      teamId: // value for 'teamId'
+ *      roomId: // value for 'roomId'
  *      userId: // value for 'userId'
  *   },
  * });
  */
-export function useLeaveTeamMutation(
+export function useLeaveRoomMutation(
   baseOptions?: Apollo.MutationHookOptions<
-    LeaveTeamMutation,
-    LeaveTeamMutationVariables
+    LeaveRoomMutation,
+    LeaveRoomMutationVariables
   >
 ) {
-  return Apollo.useMutation<LeaveTeamMutation, LeaveTeamMutationVariables>(
-    LeaveTeamDocument,
+  return Apollo.useMutation<LeaveRoomMutation, LeaveRoomMutationVariables>(
+    LeaveRoomDocument,
     baseOptions
   );
 }
-export type LeaveTeamMutationHookResult = ReturnType<
-  typeof useLeaveTeamMutation
+export type LeaveRoomMutationHookResult = ReturnType<
+  typeof useLeaveRoomMutation
 >;
-export type LeaveTeamMutationResult = Apollo.MutationResult<LeaveTeamMutation>;
-export type LeaveTeamMutationOptions = Apollo.BaseMutationOptions<
-  LeaveTeamMutation,
-  LeaveTeamMutationVariables
+export type LeaveRoomMutationResult = Apollo.MutationResult<LeaveRoomMutation>;
+export type LeaveRoomMutationOptions = Apollo.BaseMutationOptions<
+  LeaveRoomMutation,
+  LeaveRoomMutationVariables
 >;
 export const UpdateUserDocument = gql`
   mutation UpdateUser($input: UpdateUserInput!) {
@@ -1395,67 +1399,67 @@ export type UpdateUserMutationOptions = Apollo.BaseMutationOptions<
   UpdateUserMutation,
   UpdateUserMutationVariables
 >;
-export const ApplyTeamDocument = gql`
-  mutation ApplyTeam($teamId: Int!, $userId: Int!) {
-    applyTeam(teamId: $teamId, userId: $userId) {
+export const ApplyRoomDocument = gql`
+  mutation ApplyRoom($roomId: Int!, $userId: Int!) {
+    applyRoom(roomId: $roomId, userId: $userId) {
       id
       title
     }
   }
 `;
-export type ApplyTeamMutationFn = Apollo.MutationFunction<
-  ApplyTeamMutation,
-  ApplyTeamMutationVariables
+export type ApplyRoomMutationFn = Apollo.MutationFunction<
+  ApplyRoomMutation,
+  ApplyRoomMutationVariables
 >;
 
 /**
- * __useApplyTeamMutation__
+ * __useApplyRoomMutation__
  *
- * To run a mutation, you first call `useApplyTeamMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useApplyTeamMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useApplyRoomMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useApplyRoomMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [applyTeamMutation, { data, loading, error }] = useApplyTeamMutation({
+ * const [applyRoomMutation, { data, loading, error }] = useApplyRoomMutation({
  *   variables: {
- *      teamId: // value for 'teamId'
+ *      roomId: // value for 'roomId'
  *      userId: // value for 'userId'
  *   },
  * });
  */
-export function useApplyTeamMutation(
+export function useApplyRoomMutation(
   baseOptions?: Apollo.MutationHookOptions<
-    ApplyTeamMutation,
-    ApplyTeamMutationVariables
+    ApplyRoomMutation,
+    ApplyRoomMutationVariables
   >
 ) {
-  return Apollo.useMutation<ApplyTeamMutation, ApplyTeamMutationVariables>(
-    ApplyTeamDocument,
+  return Apollo.useMutation<ApplyRoomMutation, ApplyRoomMutationVariables>(
+    ApplyRoomDocument,
     baseOptions
   );
 }
-export type ApplyTeamMutationHookResult = ReturnType<
-  typeof useApplyTeamMutation
+export type ApplyRoomMutationHookResult = ReturnType<
+  typeof useApplyRoomMutation
 >;
-export type ApplyTeamMutationResult = Apollo.MutationResult<ApplyTeamMutation>;
-export type ApplyTeamMutationOptions = Apollo.BaseMutationOptions<
-  ApplyTeamMutation,
-  ApplyTeamMutationVariables
+export type ApplyRoomMutationResult = Apollo.MutationResult<ApplyRoomMutation>;
+export type ApplyRoomMutationOptions = Apollo.BaseMutationOptions<
+  ApplyRoomMutation,
+  ApplyRoomMutationVariables
 >;
 export const ChatPageDocument = gql`
   query ChatPage($userId: String!) {
     user(userId: $userId) {
-      teams {
-        ...SpaceItem
+      rooms {
         ...RoomItem
+        ...ChannelList
       }
     }
   }
-  ${SpaceItemFragmentDoc}
   ${RoomItemFragmentDoc}
+  ${ChannelListFragmentDoc}
 `;
 
 /**
@@ -1501,8 +1505,8 @@ export type ChatPageQueryResult = Apollo.QueryResult<
   ChatPageQuery,
   ChatPageQueryVariables
 >;
-export const CreateTeamPageDocument = gql`
-  query CreateTeamPage {
+export const CreateRoomPageDocument = gql`
+  query CreateRoomPage {
     categories {
       id
       name
@@ -1512,7 +1516,7 @@ export const CreateTeamPageDocument = gql`
       name
       icon
     }
-    teamTypes {
+    roomTypes {
       id
       name
     }
@@ -1520,55 +1524,55 @@ export const CreateTeamPageDocument = gql`
 `;
 
 /**
- * __useCreateTeamPageQuery__
+ * __useCreateRoomPageQuery__
  *
- * To run a query within a React component, call `useCreateTeamPageQuery` and pass it any options that fit your needs.
- * When your component renders, `useCreateTeamPageQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useCreateRoomPageQuery` and pass it any options that fit your needs.
+ * When your component renders, `useCreateRoomPageQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useCreateTeamPageQuery({
+ * const { data, loading, error } = useCreateRoomPageQuery({
  *   variables: {
  *   },
  * });
  */
-export function useCreateTeamPageQuery(
+export function useCreateRoomPageQuery(
   baseOptions?: Apollo.QueryHookOptions<
-    CreateTeamPageQuery,
-    CreateTeamPageQueryVariables
+    CreateRoomPageQuery,
+    CreateRoomPageQueryVariables
   >
 ) {
-  return Apollo.useQuery<CreateTeamPageQuery, CreateTeamPageQueryVariables>(
-    CreateTeamPageDocument,
+  return Apollo.useQuery<CreateRoomPageQuery, CreateRoomPageQueryVariables>(
+    CreateRoomPageDocument,
     baseOptions
   );
 }
-export function useCreateTeamPageLazyQuery(
+export function useCreateRoomPageLazyQuery(
   baseOptions?: Apollo.LazyQueryHookOptions<
-    CreateTeamPageQuery,
-    CreateTeamPageQueryVariables
+    CreateRoomPageQuery,
+    CreateRoomPageQueryVariables
   >
 ) {
-  return Apollo.useLazyQuery<CreateTeamPageQuery, CreateTeamPageQueryVariables>(
-    CreateTeamPageDocument,
+  return Apollo.useLazyQuery<CreateRoomPageQuery, CreateRoomPageQueryVariables>(
+    CreateRoomPageDocument,
     baseOptions
   );
 }
-export type CreateTeamPageQueryHookResult = ReturnType<
-  typeof useCreateTeamPageQuery
+export type CreateRoomPageQueryHookResult = ReturnType<
+  typeof useCreateRoomPageQuery
 >;
-export type CreateTeamPageLazyQueryHookResult = ReturnType<
-  typeof useCreateTeamPageLazyQuery
+export type CreateRoomPageLazyQueryHookResult = ReturnType<
+  typeof useCreateRoomPageLazyQuery
 >;
-export type CreateTeamPageQueryResult = Apollo.QueryResult<
-  CreateTeamPageQuery,
-  CreateTeamPageQueryVariables
+export type CreateRoomPageQueryResult = Apollo.QueryResult<
+  CreateRoomPageQuery,
+  CreateRoomPageQueryVariables
 >;
-export const TeamEditPageDocument = gql`
-  query TeamEditPage($id: Int!) {
-    team(id: $id) {
+export const RoomEditPageDocument = gql`
+  query RoomEditPage($id: Int!) {
+    room(id: $id) {
       id
       title
       name
@@ -1608,7 +1612,7 @@ export const TeamEditPageDocument = gql`
       id
       name
     }
-    teamTypes {
+    roomTypes {
       id
       name
     }
@@ -1616,52 +1620,52 @@ export const TeamEditPageDocument = gql`
 `;
 
 /**
- * __useTeamEditPageQuery__
+ * __useRoomEditPageQuery__
  *
- * To run a query within a React component, call `useTeamEditPageQuery` and pass it any options that fit your needs.
- * When your component renders, `useTeamEditPageQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useRoomEditPageQuery` and pass it any options that fit your needs.
+ * When your component renders, `useRoomEditPageQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useTeamEditPageQuery({
+ * const { data, loading, error } = useRoomEditPageQuery({
  *   variables: {
  *      id: // value for 'id'
  *   },
  * });
  */
-export function useTeamEditPageQuery(
+export function useRoomEditPageQuery(
   baseOptions: Apollo.QueryHookOptions<
-    TeamEditPageQuery,
-    TeamEditPageQueryVariables
+    RoomEditPageQuery,
+    RoomEditPageQueryVariables
   >
 ) {
-  return Apollo.useQuery<TeamEditPageQuery, TeamEditPageQueryVariables>(
-    TeamEditPageDocument,
+  return Apollo.useQuery<RoomEditPageQuery, RoomEditPageQueryVariables>(
+    RoomEditPageDocument,
     baseOptions
   );
 }
-export function useTeamEditPageLazyQuery(
+export function useRoomEditPageLazyQuery(
   baseOptions?: Apollo.LazyQueryHookOptions<
-    TeamEditPageQuery,
-    TeamEditPageQueryVariables
+    RoomEditPageQuery,
+    RoomEditPageQueryVariables
   >
 ) {
-  return Apollo.useLazyQuery<TeamEditPageQuery, TeamEditPageQueryVariables>(
-    TeamEditPageDocument,
+  return Apollo.useLazyQuery<RoomEditPageQuery, RoomEditPageQueryVariables>(
+    RoomEditPageDocument,
     baseOptions
   );
 }
-export type TeamEditPageQueryHookResult = ReturnType<
-  typeof useTeamEditPageQuery
+export type RoomEditPageQueryHookResult = ReturnType<
+  typeof useRoomEditPageQuery
 >;
-export type TeamEditPageLazyQueryHookResult = ReturnType<
-  typeof useTeamEditPageLazyQuery
+export type RoomEditPageLazyQueryHookResult = ReturnType<
+  typeof useRoomEditPageLazyQuery
 >;
-export type TeamEditPageQueryResult = Apollo.QueryResult<
-  TeamEditPageQuery,
-  TeamEditPageQueryVariables
+export type RoomEditPageQueryResult = Apollo.QueryResult<
+  RoomEditPageQuery,
+  RoomEditPageQueryVariables
 >;
 export const EditUserPageDocument = gql`
   query EditUserPage($userId: String!) {
@@ -1677,7 +1681,7 @@ export const EditUserPageDocument = gql`
         id
         name
       }
-      teams {
+      rooms {
         id
         title
         description
@@ -1799,6 +1803,128 @@ export function useMeLazyQuery(
 export type MeQueryHookResult = ReturnType<typeof useMeQuery>;
 export type MeLazyQueryHookResult = ReturnType<typeof useMeLazyQuery>;
 export type MeQueryResult = Apollo.QueryResult<MeQuery, MeQueryVariables>;
+export const RoomDocument = gql`
+  query Room($id: Int!) {
+    room(id: $id) {
+      id
+      title
+      name
+      description
+      icon
+      recruitNumbers
+      isRequired
+      repositoryUrl
+      members {
+        id
+        userId
+        name
+        avatar
+        memberState
+      }
+      owner {
+        id
+        userId
+        name
+        avatar
+      }
+      skills {
+        id
+        name
+      }
+      categories {
+        id
+        name
+      }
+    }
+  }
+`;
+
+/**
+ * __useRoomQuery__
+ *
+ * To run a query within a React component, call `useRoomQuery` and pass it any options that fit your needs.
+ * When your component renders, `useRoomQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useRoomQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useRoomQuery(
+  baseOptions: Apollo.QueryHookOptions<RoomQuery, RoomQueryVariables>
+) {
+  return Apollo.useQuery<RoomQuery, RoomQueryVariables>(
+    RoomDocument,
+    baseOptions
+  );
+}
+export function useRoomLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<RoomQuery, RoomQueryVariables>
+) {
+  return Apollo.useLazyQuery<RoomQuery, RoomQueryVariables>(
+    RoomDocument,
+    baseOptions
+  );
+}
+export type RoomQueryHookResult = ReturnType<typeof useRoomQuery>;
+export type RoomLazyQueryHookResult = ReturnType<typeof useRoomLazyQuery>;
+export type RoomQueryResult = Apollo.QueryResult<RoomQuery, RoomQueryVariables>;
+export const RoomsDocument = gql`
+  query Rooms($input: SearchRoomInput) {
+    rooms(input: $input) {
+      ...RoomCard
+    }
+    roomTypes {
+      ...RoomTypes
+    }
+  }
+  ${RoomCardFragmentDoc}
+  ${RoomTypesFragmentDoc}
+`;
+
+/**
+ * __useRoomsQuery__
+ *
+ * To run a query within a React component, call `useRoomsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useRoomsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useRoomsQuery({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useRoomsQuery(
+  baseOptions?: Apollo.QueryHookOptions<RoomsQuery, RoomsQueryVariables>
+) {
+  return Apollo.useQuery<RoomsQuery, RoomsQueryVariables>(
+    RoomsDocument,
+    baseOptions
+  );
+}
+export function useRoomsLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<RoomsQuery, RoomsQueryVariables>
+) {
+  return Apollo.useLazyQuery<RoomsQuery, RoomsQueryVariables>(
+    RoomsDocument,
+    baseOptions
+  );
+}
+export type RoomsQueryHookResult = ReturnType<typeof useRoomsQuery>;
+export type RoomsLazyQueryHookResult = ReturnType<typeof useRoomsLazyQuery>;
+export type RoomsQueryResult = Apollo.QueryResult<
+  RoomsQuery,
+  RoomsQueryVariables
+>;
 export const SearchConditionsDocument = gql`
   query SearchConditions {
     categories {
@@ -1859,128 +1985,6 @@ export type SearchConditionsLazyQueryHookResult = ReturnType<
 export type SearchConditionsQueryResult = Apollo.QueryResult<
   SearchConditionsQuery,
   SearchConditionsQueryVariables
->;
-export const TeamDocument = gql`
-  query Team($id: Int!) {
-    team(id: $id) {
-      id
-      title
-      name
-      description
-      icon
-      recruitNumbers
-      isRequired
-      repositoryUrl
-      members {
-        id
-        userId
-        name
-        avatar
-        memberState
-      }
-      owner {
-        id
-        userId
-        name
-        avatar
-      }
-      skills {
-        id
-        name
-      }
-      categories {
-        id
-        name
-      }
-    }
-  }
-`;
-
-/**
- * __useTeamQuery__
- *
- * To run a query within a React component, call `useTeamQuery` and pass it any options that fit your needs.
- * When your component renders, `useTeamQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useTeamQuery({
- *   variables: {
- *      id: // value for 'id'
- *   },
- * });
- */
-export function useTeamQuery(
-  baseOptions: Apollo.QueryHookOptions<TeamQuery, TeamQueryVariables>
-) {
-  return Apollo.useQuery<TeamQuery, TeamQueryVariables>(
-    TeamDocument,
-    baseOptions
-  );
-}
-export function useTeamLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<TeamQuery, TeamQueryVariables>
-) {
-  return Apollo.useLazyQuery<TeamQuery, TeamQueryVariables>(
-    TeamDocument,
-    baseOptions
-  );
-}
-export type TeamQueryHookResult = ReturnType<typeof useTeamQuery>;
-export type TeamLazyQueryHookResult = ReturnType<typeof useTeamLazyQuery>;
-export type TeamQueryResult = Apollo.QueryResult<TeamQuery, TeamQueryVariables>;
-export const TeamsDocument = gql`
-  query Teams($input: SearchTeamInput) {
-    teams(input: $input) {
-      ...TeamCard
-    }
-    teamTypes {
-      ...TeamTypes
-    }
-  }
-  ${TeamCardFragmentDoc}
-  ${TeamTypesFragmentDoc}
-`;
-
-/**
- * __useTeamsQuery__
- *
- * To run a query within a React component, call `useTeamsQuery` and pass it any options that fit your needs.
- * When your component renders, `useTeamsQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useTeamsQuery({
- *   variables: {
- *      input: // value for 'input'
- *   },
- * });
- */
-export function useTeamsQuery(
-  baseOptions?: Apollo.QueryHookOptions<TeamsQuery, TeamsQueryVariables>
-) {
-  return Apollo.useQuery<TeamsQuery, TeamsQueryVariables>(
-    TeamsDocument,
-    baseOptions
-  );
-}
-export function useTeamsLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<TeamsQuery, TeamsQueryVariables>
-) {
-  return Apollo.useLazyQuery<TeamsQuery, TeamsQueryVariables>(
-    TeamsDocument,
-    baseOptions
-  );
-}
-export type TeamsQueryHookResult = ReturnType<typeof useTeamsQuery>;
-export type TeamsLazyQueryHookResult = ReturnType<typeof useTeamsLazyQuery>;
-export type TeamsQueryResult = Apollo.QueryResult<
-  TeamsQuery,
-  TeamsQueryVariables
 >;
 export const ThreadListDocument = gql`
   query ThreadList($input: FetchThreadInput!) {
@@ -2051,7 +2055,7 @@ export const UserDetailPageDocument = gql`
         id
         name
       }
-      teams {
+      rooms {
         id
         title
         description
@@ -2125,11 +2129,11 @@ export type UserDetailPageQueryResult = Apollo.QueryResult<
   UserDetailPageQueryVariables
 >;
 export const ThreadDocument = gql`
-  subscription Thread($roomId: Int!) {
-    threadAdded(roomId: $roomId) {
+  subscription Thread($channelId: Int!) {
+    threadAdded(channelId: $channelId) {
       id
       text
-      room {
+      channel {
         id
       }
       user {
@@ -2155,7 +2159,7 @@ export const ThreadDocument = gql`
  * @example
  * const { data, loading, error } = useThreadSubscription({
  *   variables: {
- *      roomId: // value for 'roomId'
+ *      channelId: // value for 'channelId'
  *   },
  * });
  */

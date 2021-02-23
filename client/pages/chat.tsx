@@ -1,5 +1,5 @@
 import React from "react";
-import { RoomList } from "../components/chat/room-list";
+import { ChannelList } from "../components/chat/room-list";
 import { SpaceList } from "../components/chat/space-list";
 import { ThreadList } from "../components/chat/thread-list";
 import { Heading } from "../components/heading/heading";
@@ -9,8 +9,8 @@ import { useChat } from "../hooks/useChat";
 import { ReactComponent as SendIcon } from "../assets/icons/send.svg";
 // MEMO&TODO: svgのなぜか色が変えられなかったため、別のsvgファイルを使用してる
 import { ReactComponent as InActiveSendIcon } from "../assets/icons/send-inactive.svg";
+import { CreateChannelModal } from "../components/chat/modals/create-channel";
 import { CreateRoomModal } from "../components/chat/modals/create-room";
-import { CreateSpaceModal } from "../components/chat/modals/create-space";
 import { MoveToRecruitModal } from "../components/chat/modals/move-to-recruit";
 
 export default function ChatPage() {
@@ -28,13 +28,13 @@ export default function ChatPage() {
 
   return (
     <>
-      <CreateRoomModal
+      <CreateChannelModal
         {...createRoomModal}
-        roomName={status.roomName}
+        channelName={status.channelName}
         onCreate={onCreateRoom}
         onChangeName={setter.onChangeRoomName}
       />
-      <CreateSpaceModal {...createSpace} />
+      <CreateRoomModal {...createSpace} />
       <MoveToRecruitModal
         {...createSpace.moveToRecruitModal}
         onMoveToRecruit={createSpace.moveToRecruit}
@@ -43,12 +43,12 @@ export default function ChatPage() {
       <Template>
         <div className="grid grid-cols-chat h-full border-gray-200 border bg-white">
           <SpaceList
-            teams={status.spaces}
-            setSelectedSpace={setter.setSelectedSpaceId}
+            rooms={status.rooms}
+            setSelectedRoom={setter.setSelectedRoomId}
             onOpen={createSpace.modal.onOpen}
           />
 
-          {/* ルーム一覧 */}
+          {/* チャンネル一覧 */}
           <div className="flex flex-col border-gray-200 border-r">
             <div className="flex items-center justify-center h-16 border-gray-200 border-b">
               <Heading as="h1Small">
@@ -57,7 +57,7 @@ export default function ChatPage() {
             </div>
 
             <div className="py-1 px-3 flex justify-between">
-              <span>ルーム</span>
+              <span>チャンネル</span>
               <button
                 className="hover:bg-black-400 hover:bg-opacity-20 h-6 w-6 flex items-center justify-center rounded-sm"
                 onClick={createRoomModal.onOpen}
@@ -66,10 +66,10 @@ export default function ChatPage() {
               </button>
             </div>
 
-            {status.selectedSpaceId !== 0 ? (
-              <RoomList
-                rooms={status.rooms}
-                setSelectedRoomId={setter.setSelectedRoomId}
+            {status.selectedChannelId !== 0 ? (
+              <ChannelList
+                channels={status.channels}
+                setSelectedChannelId={setter.setSelectedChannelId}
               />
             ) : null}
           </div>

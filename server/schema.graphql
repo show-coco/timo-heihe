@@ -293,6 +293,7 @@ input UpdateUserInput {
 
 type UserMemberModel {
   categories: [CategoryModel!]!
+  channels: [ChannelModel!]
   createdAt: DateTime
   description: String!
   icon: String
@@ -304,7 +305,6 @@ type UserMemberModel {
   owner: UserModel!
   recruitNumbers: Int!
   repositoryUrl: String
-  rooms: [ChannelModel!]
   skills: [SkillModel!]
   title: String!
 }

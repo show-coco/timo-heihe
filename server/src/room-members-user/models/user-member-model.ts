@@ -51,5 +51,5 @@ export class UserMemberModel {
   memberState: MemberState;
 
   @Field(() => [ChannelModel], { nullable: true })
-  rooms: ChannelModel[];
+  channels: ChannelModel[];
 }
