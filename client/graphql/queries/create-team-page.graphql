@@ -1,4 +1,4 @@
-query CreateTeamPage {
+query CreateRoomPage {
   categories {
     id
     name
@@ -8,7 +8,7 @@ query CreateTeamPage {
     name
     icon
   }
-  teamTypes {
+  roomTypes {
     id
     name
   }
