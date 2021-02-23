@@ -8,7 +8,7 @@ export class CreateThreadInput {
   text: string;
 
   @Field(() => ConnectChannelInput)
-  room: ConnectChannelInput;
+  channel: ConnectChannelInput;
 
   @Field(() => ConnectUserInput)
   user: ConnectUserInput;
