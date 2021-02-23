@@ -15,14 +15,14 @@ export class UsersService {
     const res = await this.userRepository
       .createQueryBuilder('user')
       .leftJoinAndSelect('user.skills', 'userSkills')
-      .leftJoinAndSelect('user.teams', 'teams')
-      .leftJoinAndSelect('teams.team', 'team')
-      .leftJoinAndSelect('team.owner', 'owner')
-      .leftJoinAndSelect('team.skills', 'teamSkills')
+      .leftJoinAndSelect('user.rooms', 'rooms')
+      .leftJoinAndSelect('rooms.room', 'room')
+      .leftJoinAndSelect('room.owner', 'owner')
+      .leftJoinAndSelect('room.skills', 'roomSkills')
       .where({ googleId })
       .getOne();
 
-    // console.log('response on users->service->findByGoogleId', res.teams);
+    // console.log('response on users->service->findByGoogleId', res.rooms);
 
     return res;
   }
@@ -31,14 +31,14 @@ export class UsersService {
     const res = await this.userRepository
       .createQueryBuilder('user')
       .leftJoinAndSelect('user.skills', 'userSkills')
-      .leftJoinAndSelect('user.teams', 'teams')
-      .leftJoinAndSelect('teams.team', 'team')
-      .leftJoinAndSelect('team.owner', 'owner')
-      .leftJoinAndSelect('team.skills', 'teamSkills')
+      .leftJoinAndSelect('user.rooms', 'rooms')
+      .leftJoinAndSelect('rooms.room', 'room')
+      .leftJoinAndSelect('room.owner', 'owner')
+      .leftJoinAndSelect('room.skills', 'roomSkills')
       .where({ id })
       .getOne();
 
-    console.log('response on users->service->findById', res.teams);
+    console.log('response on users->service->findById', res.rooms);
 
     return res;
   }
@@ -61,11 +61,11 @@ export class UsersService {
     const res = await this.userRepository
       .createQueryBuilder('user')
       .leftJoinAndSelect('user.skills', 'userSkills')
-      .leftJoinAndSelect('user.teams', 'teams')
-      .leftJoinAndSelect('teams.team', 'team')
-      .leftJoinAndSelect('team.members', 'members', 'members.teamId = team.id')
-      .leftJoinAndSelect('team.owner', 'owner')
-      .leftJoinAndSelect('team.skills', 'teamSkills')
+      .leftJoinAndSelect('user.rooms', 'rooms')
+      .leftJoinAndSelect('rooms.room', 'room')
+      .leftJoinAndSelect('room.members', 'members', 'members.roomId = room.id')
+      .leftJoinAndSelect('room.owner', 'owner')
+      .leftJoinAndSelect('room.skills', 'roomSkills')
       .where({ userId })
       .getOne();
 
@@ -78,10 +78,10 @@ export class UsersService {
     const res = await this.userRepository
       .createQueryBuilder('user')
       .leftJoinAndSelect('user.skills', 'skills')
-      .leftJoinAndSelect('user.teams', 'teams')
-      .leftJoinAndSelect('teams.team', 'team')
-      .leftJoinAndSelect('team.owner', 'owner')
-      .leftJoinAndSelect('team.skills', 'teamSkills')
+      .leftJoinAndSelect('user.rooms', 'rooms')
+      .leftJoinAndSelect('rooms.room', 'room')
+      .leftJoinAndSelect('room.owner', 'owner')
+      .leftJoinAndSelect('room.skills', 'roomSkills')
       .getMany();
 
     console.log('response on user->service->findAll', res);

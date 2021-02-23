@@ -1,0 +1,4 @@
+fragment RoomTypes on RoomTypeModel {
+  id
+  name
+}

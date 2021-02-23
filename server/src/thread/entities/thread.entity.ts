@@ -1,4 +1,4 @@
-import { Room } from '../../room/entities/room.entity';
+import { Channel } from '../../channel/entities/channel.entity';
 import { User } from '../../users/entities/users.entity';
 import {
   Column,
@@ -21,8 +21,8 @@ export class Thread {
   @CreateDateColumn({ type: 'timestamp with time zone' })
   createdAt: Date;
 
-  @ManyToOne(() => Room, (room) => room.threads)
-  room: Room;
+  @ManyToOne(() => Channel, (channel) => channel.threads)
+  channel: Channel;
 
   @ManyToOne(() => User, (user) => user.threads)
   user: User;

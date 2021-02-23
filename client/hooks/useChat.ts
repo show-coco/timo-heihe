@@ -2,28 +2,28 @@ import React from "react";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import {
   ChatItemFragment,
-  RoomFragment,
-  SpaceItemFragment,
+  ChannelItemFragment,
+  RoomItemFragment,
   useChatPageQuery,
-  useCreateRoomMutation,
   useCreateThreadMutation,
+  useCreateChannelMutation,
 } from "../generated/types";
 import { useAuthContext } from "../providers/useAuthContext";
-import { useCreateSpace } from "./useCreateSpace";
+import { useCreateSpace } from "./useCreateRoom.old";
 import { useModal } from "./useModal";
 
 export const useChat = () => {
   const { userId, id } = useAuthContext();
   const [createThread] = useCreateThreadMutation();
-  const [selectedSpaceId, setSelectedSpaceId] = useState(0);
   const [selectedRoomId, setSelectedRoomId] = useState(0);
-  const [spaces, setSpaces] = useState<SpaceItemFragment[]>([]);
+  const [selectedChannelId, setSelectedChannelId] = useState(0);
+  const [rooms, setRooms] = useState<RoomItemFragment[]>([]);
   const [threads, setThreads] = useState<ChatItemFragment[]>([]);
-  const [rooms, setRooms] = useState<RoomFragment[]>([]);
+  const [channels, setChannels] = useState<ChannelItemFragment[]>([]);
   const [text, setText] = useState("");
-  const [roomName, setRoomName] = useState("");
+  const [channelName, setChannelName] = useState("");
 
-  const createSpace = useCreateSpace({ setSpaces, spaces });
+  const createSpace = useCreateSpace({ setRooms: setRooms, rooms: rooms });
 
   const createRoomModal = useModal();
 
@@ -33,22 +33,22 @@ export const useChat = () => {
     },
   });
 
-  const [createRoom] = useCreateRoomMutation();
+  const [createRoom] = useCreateChannelMutation();
 
   const selectedSpace = useMemo(() => {
-    return data?.user.teams?.find((team) => team.id === selectedSpaceId);
-  }, [data?.user.teams, selectedSpaceId]);
+    return data?.user.rooms?.find((room) => room.id === selectedRoomId);
+  }, [data?.user.rooms, selectedRoomId]);
 
   const selectedRoom = useMemo(() => {
-    return rooms?.find((room) => room.id === selectedRoomId);
-  }, [rooms, selectedRoomId]);
+    return channels?.find((room) => room.id === selectedChannelId);
+  }, [channels, selectedChannelId]);
 
   const onChangeText = (event: React.ChangeEvent<HTMLInputElement>) => {
     setText(event.target.value);
   };
 
   const onChangeRoomName = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setRoomName(event.target.value);
+    setChannelName(event.target.value);
   };
 
   const onCreateRoom = async (
@@ -58,21 +58,21 @@ export const useChat = () => {
       const { data } = await createRoom({
         variables: {
           input: {
-            name: roomName,
-            team: {
-              id: selectedSpaceId,
+            name: channelName,
+            room: {
+              id: selectedRoomId,
             },
           },
         },
       });
 
-      // 作成したルームを表示
+      // 作成したチャンネルを表示
       if (data) {
-        const createdRoom: RoomFragment = {
-          id: data.createRoom.id,
-          name: data.createRoom.name,
+        const createdChannel: ChannelItemFragment = {
+          id: data.createChannel.id,
+          name: data.createChannel.name,
         };
-        setRooms([...rooms, createdRoom]);
+        setChannels([...channels, createdChannel]);
       }
       createRoomModal.onClose();
     } catch (error) {
@@ -83,14 +83,14 @@ export const useChat = () => {
   const onClickSendButton = useCallback(
     async (event: React.FormEvent<HTMLFormElement>) => {
       event.preventDefault();
-      console.log(id, text, selectedRoomId);
+      console.log(id, text, selectedChannelId);
 
       try {
         const { data } = await createThread({
           variables: {
             input: {
-              room: {
-                id: selectedRoomId,
+              channel: {
+                id: selectedChannelId,
               },
               user: {
                 id: id,
@@ -104,7 +104,7 @@ export const useChat = () => {
           const thread: ChatItemFragment = {
             id: newThread.id,
             createdAt: newThread.createdAt,
-            room: newThread.room,
+            channel: newThread.channel,
             text: newThread.text,
             user: newThread.user,
             numberOfMessages: newThread.numberOfMessages,
@@ -116,60 +116,60 @@ export const useChat = () => {
         console.error(error);
       }
     },
-    [id, text, selectedRoomId, createThread, threads]
+    [id, text, selectedChannelId, createThread, threads]
   );
 
   useEffect(() => {
-    if (selectedSpace?.rooms) {
-      setRooms(selectedSpace.rooms);
+    if (selectedSpace?.channels) {
+      setChannels(selectedSpace.channels);
     }
-  }, [selectedSpace?.rooms]);
+  }, [selectedSpace?.channels]);
 
   useEffect(() => {
-    if (data?.user.teams) {
-      setSpaces(data.user.teams);
+    if (data?.user.rooms) {
+      setRooms(data.user.rooms);
     }
-  }, [data?.user.teams]);
+  }, [data?.user.rooms]);
 
   // 最初に表示されるスペースIDをセット
   useEffect(() => {
-    if (data?.user.teams) {
-      const firstDisplayedTeamId = data?.user.teams[0].id;
+    if (data?.user.rooms) {
+      const firstDisplayedTeamId = data?.user.rooms[0].id;
 
       if (firstDisplayedTeamId) {
-        setSelectedSpaceId(firstDisplayedTeamId);
+        setSelectedRoomId(firstDisplayedTeamId);
       }
     } else {
       console.error("ルーム情報が正常に取得できませんでした");
     }
-  }, [data?.user.teams]);
+  }, [data?.user.rooms]);
 
   useEffect(() => {
-    if (rooms && rooms.length !== 0) {
-      setSelectedRoomId(rooms[0].id);
+    if (channels && channels.length !== 0) {
+      setSelectedChannelId(channels[0].id);
     } else {
-      setSelectedRoomId(0);
+      setSelectedChannelId(0);
     }
-  }, [rooms, selectedSpaceId]);
+  }, [channels, selectedRoomId]);
 
   return {
     onClickSendButton,
     onCreateRoom,
     setter: {
-      setSelectedSpaceId,
       setSelectedRoomId,
+      setSelectedChannelId,
       onChangeText,
       onChangeRoomName,
       setThreads,
     },
     status: {
-      selectedSpaceId,
       selectedRoomId,
+      selectedChannelId,
       text,
-      roomName,
+      channelName,
       threads,
+      channels,
       rooms,
-      spaces,
     },
     selectedSpace,
     selectedRoom,

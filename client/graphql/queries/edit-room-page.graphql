@@ -1,0 +1,46 @@
+query RoomEditPage($id: Int!) {
+  room(id: $id) {
+    id
+    title
+    name
+    description
+    icon
+    recruitNumbers
+    isRequired
+    repositoryUrl
+    members {
+      id
+      name
+      avatar
+    }
+    owner {
+      id
+      name
+      avatar
+    }
+    skills {
+      id
+      name
+    }
+    categories {
+      id
+      name
+    }
+    types {
+      id
+      name
+    }
+  }
+  categories {
+    id
+    name
+  }
+  skills {
+    id
+    name
+  }
+  roomTypes {
+    id
+    name
+  }
+}

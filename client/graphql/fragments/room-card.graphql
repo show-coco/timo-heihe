@@ -1,0 +1,31 @@
+fragment RoomCard on RoomModel {
+  id
+  title
+  description
+  icon
+  recruitNumbers
+  isRequired
+  repositoryUrl
+  createdAt
+  members {
+    id
+    userId
+    name
+    avatar
+    memberState
+  }
+  owner {
+    id
+    userId
+    name
+    avatar
+  }
+  skills {
+    id
+    name
+  }
+  categories {
+    id
+    name
+  }
+}

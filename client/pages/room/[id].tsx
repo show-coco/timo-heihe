@@ -15,53 +15,53 @@ import {
 import { Button } from "../../components/button";
 import Link from "next/link";
 import { AvatarWithName } from "../../components/avatar/avatar-with-name";
-import { useTeamDetail } from "../../hooks/useTeamDetail";
+import { useTeamDetail } from "../../hooks/useRoomDetail";
 import { SimpleDialog } from "../../components/dialog/simple-dialog";
 import { AvatarLink } from "../../components/avatar/avatar-link";
 
 export default function ShowRoom() {
   const {
-    onJoinTeam,
-    onLeaveTeam,
-    onApplyTeam,
+    onJoin,
+    onLeave,
+    onApply,
     iCanApply,
     iCanEdit,
     iCanJoin,
     iCanLeave,
     iAmApplying,
     isLimitOfRecruit,
-    team,
-    teamId,
+    room,
+    roomId,
     dialogState,
     dialogSetter,
     loading,
   } = useTeamDetail();
 
   if (loading) return <p>Loading...</p>;
-  if (!team) return <p>データがありません</p>;
+  if (!room) return <p>データがありません</p>;
 
   return (
     <Template className="p-10">
       <div className="flex space-x-10">
         <Card className="p-8 flex-1">
           <SimpleDialog
-            isOpen={dialogState.joinTeamDialogIsOpened}
+            isOpen={dialogState.joinRoomDialogIsOpened}
             onClose={dialogSetter.onCloseJoinDialog}
-            onClick={onJoinTeam}
+            onClick={onJoin}
             buttonText="参加する"
             title="このルームに参加しますか"
           />
           <SimpleDialog
-            isOpen={dialogState.leaveTeamDialogIsOpened}
+            isOpen={dialogState.leaveRoomDialogIsOpened}
             onClose={dialogSetter.onCloseLeaveDialog}
-            onClick={onLeaveTeam}
+            onClick={onLeave}
             buttonText="脱退する"
             title="このルームから脱退しますか"
           />
           <SimpleDialog
-            isOpen={dialogState.applyTeamDialogIsOpened}
+            isOpen={dialogState.applyRoomDialogIsOpened}
             onClose={dialogSetter.onCloseApplyDialog}
-            onClick={onApplyTeam}
+            onClick={onApply}
             buttonText="申請する"
             title="このルームに参加申請しますか"
           />
@@ -69,15 +69,15 @@ export default function ShowRoom() {
           <div className="flex justify-between">
             <div className="flex-1">
               <CategorySet
-                categories={convertToCategoryArray(team.categories)}
+                categories={convertToCategoryArray(room.categories)}
                 className="mb-4"
               />
 
               <div className="flex items-center space-x-3">
                 <div>
-                  <Avatar src={team.icon || ""} size="large" />
+                  <Avatar src={room.icon || ""} size="large" />
                 </div>
-                <Heading as="h1Big">{team.title}</Heading>
+                <Heading as="h1Big">{room.title}</Heading>
               </div>
             </div>
 
@@ -88,7 +88,7 @@ export default function ShowRoom() {
                 </Button>
               )}
               {iCanEdit && (
-                <Link href="/room/edit/[id]" as={`/room/edit/${teamId}`}>
+                <Link href="/room/edit/[id]" as={`/room/edit/${roomId}`}>
                   <Button>編集する</Button>
                 </Link>
               )}
@@ -97,7 +97,7 @@ export default function ShowRoom() {
                   申請する
                 </Button>
               )}
-              {iAmApplying && team.isRequired && (
+              {iAmApplying && room.isRequired && (
                 <Button
                   onClick={dialogSetter.onClickApplyButton}
                   disabled={true}
@@ -129,7 +129,7 @@ export default function ShowRoom() {
               <span className="flex items-center space-x-3">
                 <PeopleIcon />
                 <span>
-                  {team.members?.length}/{team.recruitNumbers}
+                  {room.members?.length}/{room.recruitNumbers}
                 </span>
               </span>
             </span>
@@ -137,30 +137,30 @@ export default function ShowRoom() {
             <span className="flex items-center space-x-3">
               <p className="font-bold">オーナー</p>
               <AvatarWithName
-                src={team.owner.avatar || ""}
-                userId={team.owner.userId}
-                name={team.owner.name}
+                src={room.owner.avatar || ""}
+                userId={room.owner.userId}
+                name={room.owner.name}
                 size="small"
               />
             </span>
 
             <span className="flex items-center space-x-3">
               <p className="font-bold">ルーム名</p>
-              <span>{team.name}</span>
+              <span>{room.name}</span>
             </span>
           </div>
 
           <div className="space-y-2 mt-8">
             <Heading as="h2">ルームの説明</Heading>
 
-            <p>{team.description}</p>
+            <p>{room.description}</p>
           </div>
 
           <div className="space-y-2 mt-8">
             <Heading as="h2">使用するスキル</Heading>
 
             <LanguagePochiSet
-              languages={convertToSkillPochiSetArray(team.skills)}
+              languages={convertToSkillPochiSetArray(room.skills)}
             />
           </div>
         </Card>
@@ -172,7 +172,7 @@ export default function ShowRoom() {
             </Heading>
 
             <div className="flex flex-wrap">
-              {team.members?.map((member) => (
+              {room.members?.map((member) => (
                 <AvatarLink {...member} key={member.id} size="small" />
               ))}
             </div>

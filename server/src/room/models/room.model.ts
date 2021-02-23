@@ -1,22 +1,55 @@
-import { Field, Int, ObjectType } from '@nestjs/graphql';
-import { ThreadModel } from '../../thread/models/thread.model';
+import { Field, GraphQLISODateTime, Int, ObjectType } from '@nestjs/graphql';
+import { RoomMemberModel } from '../../room-members-user/models/room-member.model';
+import { CategoryModel } from '../../category/models/category.model';
+import { SkillModel } from '../../skill/models/skill.model';
 import { UserModel } from '../../users/models/user.model';
-import { TeamModel } from '../../teams/models/team.model';
+import { ChannelModel } from '../../channel/models/channel.model';
+import { RoomTypeModel } from '../../room-type/models/room-type.model';
 
 @ObjectType()
 export class RoomModel {
-  @Field(() => Int)
-  id: number;
+  @Field(() => Int, { nullable: true })
+  id?: number;
+
+  @Field()
+  title: string;
 
   @Field()
   name: string;
 
-  @Field(() => TeamModel)
-  team: TeamModel;
+  @Field({ nullable: true })
+  icon?: string;
+
+  @Field()
+  description: string;
+
+  @Field(() => [SkillModel], { nullable: true })
+  skills?: SkillModel[];
 
   @Field(() => UserModel)
-  user: UserModel;
+  owner: UserModel;
 
-  @Field(() => [ThreadModel])
-  threads: ThreadModel[];
+  @Field(() => [RoomMemberModel], { nullable: true })
+  members?: RoomMemberModel[];
+
+  @Field(() => [CategoryModel])
+  categories: CategoryModel[];
+
+  @Field({ nullable: true })
+  repositoryUrl?: string;
+
+  @Field(() => Int)
+  recruitNumbers?: number;
+
+  @Field()
+  isRequired: boolean;
+
+  @Field(() => GraphQLISODateTime, { nullable: true })
+  createdAt?: Date;
+
+  @Field(() => [ChannelModel], { nullable: true })
+  channels: ChannelModel[];
+
+  @Field(() => [RoomTypeModel])
+  types: RoomTypeModel[];
 }

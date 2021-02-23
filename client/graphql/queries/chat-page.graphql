@@ -1,8 +1,8 @@
 query ChatPage($userId: String!) {
   user(userId: $userId) {
-    teams {
-      ...SpaceItem
+    rooms {
       ...RoomItem
+      ...ChannelList
     }
   }
 }

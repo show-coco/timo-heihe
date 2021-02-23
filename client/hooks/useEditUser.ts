@@ -7,8 +7,8 @@ import {
   useUpdateUserMutation,
 } from "../generated/types";
 import { useAuthContext } from "../providers/useAuthContext";
-import { convertToSkillsObj } from "./useCreateTeam";
-import { convertToACSelectedData } from "./useEditTeam";
+import { convertToSkillsObj } from "./useCreateRoom";
+import { convertToACSelectedData } from "./useEditRoom";
 import { useFileInput } from "./useFileInput";
 
 export const useEditUser = () => {

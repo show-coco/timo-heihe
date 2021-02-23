@@ -1,0 +1,15 @@
+query CreateRoomPage {
+  categories {
+    id
+    name
+  }
+  skills {
+    id
+    name
+    icon
+  }
+  roomTypes {
+    id
+    name
+  }
+}

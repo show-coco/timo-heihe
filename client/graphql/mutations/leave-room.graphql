@@ -1,0 +1,10 @@
+mutation LeaveRoom($roomId: Int!, $userId: Int!) {
+  leaveRoom(userId: $userId, roomId: $roomId) {
+    id
+    title
+    members {
+      id
+      name
+    }
+  }
+}

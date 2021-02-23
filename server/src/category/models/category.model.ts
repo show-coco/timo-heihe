@@ -1,5 +1,5 @@
 import { Field, Int, ObjectType } from '@nestjs/graphql';
-import { TeamModel } from '../../teams/models/team.model';
+import { RoomModel } from '../../room/models/room.model';
 
 @ObjectType()
 export class CategoryModel {
@@ -9,6 +9,6 @@ export class CategoryModel {
   @Field()
   name: string;
 
-  @Field(() => [TeamModel])
-  teams: TeamModel[];
+  @Field(() => [RoomModel])
+  rooms: RoomModel[];
 }

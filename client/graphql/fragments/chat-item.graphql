@@ -1,7 +1,7 @@
 fragment ChatItem on ThreadModel {
   id
   text
-  room {
+  channel {
     id
   }
   user {

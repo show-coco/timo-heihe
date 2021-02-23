@@ -11,7 +11,8 @@ query UserDetailPage($userId: String!) {
       id
       name
     }
-    teams {
+    # TODO: RoomCardFragmentを使えるようにする
+    rooms {
       id
       title
       description

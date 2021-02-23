@@ -1,0 +1,6 @@
+mutation EditRoom($input: UpdateRoomInput!) {
+  updateRoom(updateRoomInput: $input) {
+    id
+    title
+  }
+}

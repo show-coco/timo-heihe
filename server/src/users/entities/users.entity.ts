@@ -1,5 +1,5 @@
 import { Skill } from '../../skill/entities/skill.entity';
-import { Team } from '../../teams/entities/teams.entity';
+import { Room } from '../../room/entities/room.entity';
 import {
   Column,
   Entity,
@@ -8,10 +8,10 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { TeamMembersUser } from '../../team-members-user/entities/team-members-user.entity';
+import { RoomMembersUser } from '../../room-members-user/entities/room-members-user.entity';
 import { Thread } from '../../thread/entities/thread.entity';
 import { Message } from '../../message/entities/message.entity';
-import { Room } from '../../room/entities/room.entity';
+import { Channel } from '../../channel/entities/channel.entity';
 
 @Entity()
 export class User {
@@ -42,13 +42,13 @@ export class User {
   @Column({ nullable: true })
   twitterId?: string;
 
-  @OneToMany(() => Team, (team) => team.owner, { nullable: true })
-  ownerTeams?: Team[];
+  @OneToMany(() => Room, (room) => room.owner, { nullable: true })
+  ownerRooms?: Room[];
 
-  @OneToMany(() => TeamMembersUser, (tmu) => tmu.user, {
+  @OneToMany(() => RoomMembersUser, (rmu) => rmu.user, {
     nullable: true,
   })
-  teams?: TeamMembersUser[];
+  rooms?: RoomMembersUser[];
 
   @ManyToMany(() => Skill, (skill) => skill.users, { nullable: true })
   @JoinTable()
@@ -60,6 +60,6 @@ export class User {
   @OneToMany(() => Message, (message) => message.user, { nullable: true })
   messages?: Message[];
 
-  @OneToMany(() => Room, (room) => room.user, { nullable: true })
-  rooms?: Room[];
+  @OneToMany(() => Channel, (room) => room.user, { nullable: true })
+  channels?: Channel[];
 }

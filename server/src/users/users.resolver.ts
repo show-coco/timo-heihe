@@ -15,16 +15,16 @@ import { User } from './entities/users.entity';
 import { UsersService } from './users.service';
 import { SkillModel } from '../skill/models/skill.model';
 import { SkillService } from '../skill/skill.service';
-import { TeamsService } from '../teams/teams.service';
+import { RoomService } from '../room/room.service';
 import { UpdateUserInput } from './dto/update-user.input';
-import { UserMemberModel } from '../team-members-user/models/user-member-model';
+import { UserMemberModel } from '../room-members-user/models/user-member-model';
 
 @Resolver(() => UserModel)
 export class UsersResolver {
   constructor(
     private usersService: UsersService,
     private skillService: SkillService,
-    @Inject(forwardRef(() => TeamsService)) private teamsService: TeamsService,
+    @Inject(forwardRef(() => RoomService)) private roomService: RoomService,
   ) {}
 
   @Query(() => UserModel)
@@ -56,23 +56,23 @@ export class UsersResolver {
   }
 
   @ResolveField(() => [UserMemberModel])
-  teams(@Parent() user: User) {
-    console.log('request on users->resolver->teams', user);
+  rooms(@Parent() user: User) {
+    console.log('request on users->resolver->rooms', user);
 
-    const userDontHaveTeam = user.teams.some((team) => team.team === null);
+    const userDontHaveRoom = user.rooms.some((room) => room.room === null);
 
-    console.log('user doesnt have teams', userDontHaveTeam);
+    console.log('user doesnt have rooms', userDontHaveRoom);
 
-    if (userDontHaveTeam) {
+    if (userDontHaveRoom) {
       return null;
     }
 
-    return user.teams.map(async (team) => {
-      const returns = await this.teamsService.findOne(team.team.id);
+    return user.rooms.map(async (room) => {
+      const returns = await this.roomService.findOne(room.room.id);
       const members = returns.members.map((member) => ({ ...member.user }));
       const res = {
-        createdAt: team.createdAt,
-        memberState: team.memberState,
+        createdAt: room.createdAt,
+        memberState: room.memberState,
         ...returns,
         members: members,
       };

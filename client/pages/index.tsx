@@ -5,12 +5,12 @@ import {
 } from "../components/card/team-card";
 import { Template } from "../components/template/template";
 import { SearchArea } from "../components/search-area/search-area";
-import { useSearchTeams } from "../hooks/useSearchTeams";
+import { useSearchTeams } from "../hooks/useSearchRooms";
 import { HomeHeader } from "../components/template/header/home";
 
 export default function Home() {
   const {
-    teamsData,
+    roomsData,
     error,
     loading,
     typeId,
@@ -20,11 +20,11 @@ export default function Home() {
 
   const teams = useMemo(() => {
     return (
-      teamsData &&
-      teamsData.teams &&
-      convertToTeamCardObjFromTeams(teamsData?.teams)
+      roomsData &&
+      roomsData.rooms &&
+      convertToTeamCardObjFromTeams(roomsData?.rooms)
     );
-  }, [teamsData]);
+  }, [roomsData]);
 
   if (loading) return <p>Loading</p>;
   if (error) return <p>{error.message}</p>;
@@ -35,7 +35,7 @@ export default function Home() {
       className="p-10"
       header={
         <HomeHeader
-          teamTypes={teamsData?.teamTypes}
+          teamTypes={roomsData?.roomTypes}
           setTypeId={setTypeId}
           typeId={typeId}
         />

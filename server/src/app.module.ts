@@ -5,22 +5,22 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from './auth/auth.module';
 import { User } from './users/entities/users.entity';
 import { UsersModule } from './users/users.module';
-import { TeamsModule } from './teams/teams.module';
+import { RoomModule } from './room/room.module';
 import { CategoryModule } from './category/category.module';
 import { SkillModule } from './skill/skill.module';
-import { Team } from './teams/entities/teams.entity';
+import { Room } from './room/entities/room.entity';
 import { Category } from './category/entities/category.entity';
 import { Skill } from './skill/entities/skill.entity';
-import { TeamMembersUserModule } from './team-members-user/team-members-user.module';
-import { TeamMembersUser } from './team-members-user/entities/team-members-user.entity';
-import { Room } from './room/entities/room.entity';
+import { RoomMembersUserModule } from './room-members-user/room-members-user.module';
+import { RoomMembersUser } from './room-members-user/entities/room-members-user.entity';
+import { Channel } from './channel/entities/channel.entity';
 import { ThreadModule } from './thread/thread.module';
-import { RoomModule } from './room/room.module';
+import { ChannelModule } from './channel/channel.module';
 import { MessageModule } from './message/message.module';
 import { Thread } from './thread/entities/thread.entity';
 import { Message } from './message/entities/message.entity';
-import { TeamTypeModule } from './team-type/team-type.module';
-import { TeamType } from './team-type/entities/team-type.entity';
+import { RoomTypeModule } from './room-type/room-type.module';
+import { RoomType } from './room-type/entities/room-type.entity';
 
 @Module({
   imports: [
@@ -30,13 +30,13 @@ import { TeamType } from './team-type/entities/team-type.entity';
     GraphQLModule.forRoot({
       include: [
         UsersModule,
-        TeamsModule,
+        RoomModule,
         CategoryModule,
         SkillModule,
-        RoomModule,
+        ChannelModule,
         ThreadModule,
         MessageModule,
-        TeamTypeModule,
+        RoomTypeModule,
       ],
       playground: true,
       autoSchemaFile: 'schema.graphql',
@@ -53,27 +53,27 @@ import { TeamType } from './team-type/entities/team-type.entity';
       database: 'postgres',
       entities: [
         User,
-        Team,
+        Room,
         Category,
         Skill,
-        TeamMembersUser,
-        Room,
+        RoomMembersUser,
+        Channel,
         Thread,
         Message,
-        TeamType,
+        RoomType,
       ],
       synchronize: true,
     }),
     AuthModule,
     UsersModule,
-    TeamsModule,
+    RoomModule,
     CategoryModule,
     SkillModule,
-    TeamMembersUserModule,
-    RoomModule,
+    RoomMembersUserModule,
+    ChannelModule,
     ThreadModule,
     MessageModule,
-    TeamTypeModule,
+    RoomTypeModule,
   ],
 })
 export class AppModule {}
