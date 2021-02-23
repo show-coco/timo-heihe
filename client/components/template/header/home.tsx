@@ -31,7 +31,7 @@ export const HomeHeader: React.FC<Props> = ({
         </div>
       </div>
 
-      <div className="space-x-3 bg-white w-full px-6">
+      <div className="space-x-3 bg-white w-full px-32">
         {teamTypes?.map((type) => {
           const isSelected = typeId === type.id;
           return (
@@ -41,7 +41,7 @@ export const HomeHeader: React.FC<Props> = ({
               variant={isSelected ? "underline" : "ghost"}
               className={
                 isSelected
-                  ? "text-black-400"
+                  ? "text-black-400  "
                   : "text-black-100 hover:text-black-400"
               }
               onClick={() => setTypeId(type.id)}

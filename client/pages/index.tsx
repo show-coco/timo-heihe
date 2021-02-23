@@ -41,8 +41,8 @@ export default function Home() {
         />
       }
     >
-      <div className="grid grid-cols-2 ">
-        <div className="space-y-5 mt-5">
+      <div className="grid grid-cols-2 px-20">
+        <div className="mt-5 w-11/12">
           {teams.map((team, i) => (
             <TeamCard {...team} key={i} />
           ))}
