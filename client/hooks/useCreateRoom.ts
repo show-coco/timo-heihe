@@ -1,102 +1,126 @@
 import { useRouter } from "next/router";
 import React from "react";
 import { useState } from "react";
-import { RoomItemFragment, useCreateRoomMutation } from "../generated/types";
+import { ACSelectedData } from "../components/auto-complate/auto-complate";
+import { CreateRoomInput, useCreateRoomMutation } from "../generated/types";
 import { useAuthContext } from "../providers/useAuthContext";
-import { useFileInput, UseFileInputReturn } from "./useFileInput";
-import { useModal, UseModalReturn } from "./useModal";
+import { useFileInput } from "./useFileInput";
 
-type Props = {
-  setRooms: React.Dispatch<React.SetStateAction<RoomItemFragment[]>>;
-  rooms: RoomItemFragment[];
+export const convertToCategoriesObj = (categories: number[]) => {
+  return categories.map((category) => ({
+    id: category,
+  }));
 };
 
-export type UseCreateRoomReturn = {
-  fileInput: UseFileInputReturn;
-  loading: boolean;
-  title: string;
-  setTitle: React.Dispatch<React.SetStateAction<string>>;
-  setDescription: React.Dispatch<React.SetStateAction<string>>;
-  onSubmit: (e: React.FormEvent<HTMLFormElement>) => Promise<void>;
-  modal: UseModalReturn;
-  moveToRecruitModal: UseModalReturn;
-  moveToRecruit: () => void;
+export const convertToSkillsObj = (skills: ACSelectedData[]) => {
+  return skills.map((skill) => ({
+    id: Number(skill.id),
+  }));
 };
 
-export const useCreateSpace = ({
-  setRooms: setSpaces,
-  rooms: spaces,
-}: Props): UseCreateRoomReturn => {
+export const useCreateRoom = () => {
   const router = useRouter();
   const { id } = useAuthContext();
   const [createRoom, { loading }] = useCreateRoomMutation();
   const [title, setTitle] = useState("");
+  const [name, setName] = useState("");
   const [description, setDescription] = useState("");
-  const fileInput = useFileInput();
-  const modal = useModal();
-  const [newSpaceId, setNewSpaceId] = useState(0);
-  const moveToRecruitModal = useModal();
+  const [recruitNumber, setRecruitNumber] = useState(0);
+  const [repositoryUrl, setRespositoryUrl] = useState("");
+  const [isRequired, setIsRequired] = useState("1");
+  const [selectedSkills, setSkills] = useState<ACSelectedData[]>([]);
+  const [categories, setCategories] = useState<number[]>([]);
+  const {
+    fileRef,
+    onClick: onClickFileInput,
+    onChange: onChangeFileInput,
+    imageUrl,
+  } = useFileInput();
+  const [types, setTypes] = useState<number[]>([]);
+
+  const getVariables = (): CreateRoomInput => ({
+    title,
+    name,
+    owner: {
+      id,
+    },
+    icon: imageUrl,
+    skills: convertToSkillsObj(selectedSkills),
+    description,
+    members: [
+      {
+        user: {
+          id,
+        },
+      },
+    ],
+    repositoryUrl,
+    recruitNumbers: recruitNumber,
+    isRequired: isRequired === "2",
+    categories: convertToCategoriesObj(categories),
+    typeIds: types,
+  });
+
+  console.log(getVariables());
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      const { data } = await createRoom({
+      const res = await createRoom({
         variables: {
-          input: {
-            title,
-            name: "",
-            owner: {
-              id,
-            },
-            icon: fileInput.imageUrl,
-            description,
-            members: [
-              {
-                user: {
-                  id,
-                },
-              },
-            ],
-          },
+          input: getVariables(),
         },
       });
-
-      console.log("response on useCreateSpace", data);
-
-      if (data) {
-        const newSpace: RoomItemFragment = {
-          id: data.createRoom.id,
-          title: data.createRoom.title,
-        };
-
-        setSpaces([...spaces, newSpace]);
-        modal.onClose();
-        moveToRecruitModal.onOpen();
-        setNewSpaceId(newSpace.id || 0);
-      }
+      router.push(`/room/${res.data?.createRoom.id}`);
     } catch (e) {
       console.log(e);
     }
   };
 
-  const moveToRecruit = () => {
-    router.push({
-      pathname: "/space/settings/[spaceId]",
-      query: {
-        spaceId: newSpaceId,
-      },
-    });
+  const onChangeType = (
+    event: React.FormEvent<HTMLInputElement>,
+    clickedTypeId: number
+  ) => {
+    const valueExists = types.includes(clickedTypeId);
+    if (valueExists) {
+      const newTypes = types.filter((type) => type !== clickedTypeId);
+      setTypes(newTypes);
+    } else {
+      setTypes([...types, clickedTypeId]);
+    }
+  };
+
+  const onChangeCategories = (
+    event: React.FormEvent<HTMLInputElement>,
+    id: number
+  ) => {
+    let newCategories = categories.slice();
+
+    if (categories.includes(id)) {
+      newCategories = categories.filter((value) => value !== id);
+    } else {
+      newCategories.push(id);
+    }
+    setCategories(newCategories);
   };
 
   return {
-    fileInput,
-    loading,
-    title,
     setTitle,
+    setSkills,
     setDescription,
     onSubmit,
-    moveToRecruit,
-    modal,
-    moveToRecruitModal,
+    onClickFileInput,
+    onChangeFileInput,
+    setRecruitNumber,
+    setRespositoryUrl,
+    setIsRequired,
+    onChangeCategories,
+    onChangeType,
+    setName,
+    selectedSkills,
+    recruitNumber,
+    fileRef,
+    imageUrl,
+    loading,
   };
 };

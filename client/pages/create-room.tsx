@@ -1,12 +1,12 @@
 import React from "react";
 import { Template } from "../components/template/template";
-import { SkillModel, useCreateTeamPageQuery } from "../generated/types";
+import { SkillModel, useCreateRoomPageQuery } from "../generated/types";
 import {
   ACSelectedData,
   AutoComplate,
 } from "../components/auto-complate/auto-complate";
 import { Card } from "../components/card/card";
-import { useCreateTeam } from "../hooks/useCreateTeam";
+import { useCreateRoom } from "../hooks/useCreateRoom";
 import { Heading } from "../components/heading/heading";
 import { Avatar } from "../components/avatar/avatar";
 import { FileInput } from "../components/file-input/file-inpute";
@@ -38,8 +38,8 @@ export default function CreateRoom() {
     selectedSkills,
     fileRef,
     imageUrl,
-  } = useCreateTeam();
-  const { data } = useCreateTeamPageQuery();
+  } = useCreateRoom();
+  const { data } = useCreateRoomPageQuery();
 
   const skills = data?.skills || [];
   console.log("selectedSkills", selectedSkills);
@@ -123,7 +123,7 @@ export default function CreateRoom() {
               <Heading as="h2">ルームタイプ</Heading>
 
               <div>
-                {data?.teamTypes.map((type, i) => (
+                {data?.roomTypes.map((type, i) => (
                   <Checkbox
                     key={i}
                     className="mr-4 mt-4"

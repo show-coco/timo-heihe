@@ -9,7 +9,7 @@ import {
   useCreateChannelMutation,
 } from "../generated/types";
 import { useAuthContext } from "../providers/useAuthContext";
-import { useCreateSpace } from "./useCreateRoom";
+import { useCreateSpace } from "./useCreateRoom.old";
 import { useModal } from "./useModal";
 
 export const useChat = () => {

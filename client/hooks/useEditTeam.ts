@@ -10,7 +10,7 @@ import {
   useTeamEditPageQuery,
 } from "../generated/types";
 import { useFileInput } from "./useFileInput";
-import { convertToCategoriesObj, convertToSkillsObj } from "./useCreateTeam";
+import { convertToCategoriesObj, convertToSkillsObj } from "./useCreateRoom";
 
 export const convertToACSelectedData = (
   skills: Pick<SkillModel, "id" | "name">[]

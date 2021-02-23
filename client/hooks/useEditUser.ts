@@ -7,7 +7,7 @@ import {
   useUpdateUserMutation,
 } from "../generated/types";
 import { useAuthContext } from "../providers/useAuthContext";
-import { convertToSkillsObj } from "./useCreateTeam";
+import { convertToSkillsObj } from "./useCreateRoom";
 import { convertToACSelectedData } from "./useEditTeam";
 import { useFileInput } from "./useFileInput";
 
