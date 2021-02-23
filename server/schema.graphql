@@ -124,25 +124,25 @@ type MessageModel {
 }
 
 type Mutation {
-  applyTeam(teamId: Int!, userId: Int!): RoomModel!
+  applyRoom(roomId: Int!, userId: Int!): RoomModel!
   createCategory(createCategoryInput: CreateCategoryInput!): CategoryModel!
   createChannel(input: CreateChannelInput!): ChannelModel!
   createMessage(input: CreateMessageInput!): MessageModel!
+  createRoom(input: CreateRoomInput!): RoomModel!
   createSkill(createSkillInput: CreateSkillInput!): SkillModel!
-  createTeam(input: CreateRoomInput!): RoomModel!
   createThread(input: CreateThreadInput!): ThreadModel!
   deleteChannel(id: Int!): ChannelResponse!
-  deleteTeam(id: Int!): RoomModel!
-  joinTeam(teamId: Int!, userId: Int!): RoomModel!
-  leaveTeam(teamId: Int!, userId: Int!): RoomModel!
+  deleteRoom(id: Int!): RoomModel!
+  joinRoom(roomId: Int!, userId: Int!): RoomModel!
+  leaveRoom(roomId: Int!, userId: Int!): RoomModel!
   removeCategory(id: Int!): CategoryModel!
   removeMessage(id: Int!): ChannelResponse!
   removeSkill(id: Int!): SkillModel!
   removeThread(id: Int!): ThreadModel!
   updateCategory(updateCategoryInput: UpdateCategoryInput!): CategoryModel!
   updateMessage(input: UpdateMessageInput!): MessageModel!
+  updateRoom(updateRoomInput: UpdateRoomInput!): RoomModel!
   updateSkill(updateSkillInput: UpdateSkillInput!): SkillModel!
-  updateTeam(updateTeamInput: UpdateRoomInput!): RoomModel!
   updateThread(input: UpdateThreadInput!): ThreadModel!
   updateUser(updateUserInput: UpdateUserInput!): UserModel!
 }
@@ -155,11 +155,11 @@ type Query {
   me: UserModel!
   message(id: Int!): MessageModel!
   messages: [MessageModel!]!
+  room(id: Int!): RoomModel!
+  rooms(input: SearchRoomInput): [RoomModel!]!
   roomTypes: [RoomTypeModel!]!
   skill(id: Int!): SkillModel!
   skills: [SkillModel!]!
-  team(id: Int!): RoomModel!
-  teams(input: SearchRoomInput): [RoomModel!]!
   thread(id: Int!): ThreadModel!
   threads(input: FetchThreadInput!): [ThreadModel!]
   user(userId: String!): UserModel!
@@ -195,7 +195,6 @@ type RoomModel {
   owner: UserModel!
   recruitNumbers: Int!
   repositoryUrl: String
-  rooms: ChannelModel!
   skills: [SkillModel!]
   title: String!
   types: [RoomTypeModel!]!

@@ -1,5 +1,5 @@
-query Team($id: Int!) {
-  team(id: $id) {
+query Room($id: Int!) {
+  room(id: $id) {
     id
     title
     name

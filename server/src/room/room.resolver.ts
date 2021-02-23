@@ -32,65 +32,65 @@ export class RoomResolver {
   ) {}
 
   @Query(() => RoomModel)
-  team(@Args('id', { type: () => Int }) id: number) {
+  room(@Args('id', { type: () => Int }) id: number) {
     return this.roomService.findOne(id);
   }
 
   @Query(() => [RoomModel])
-  teams(@Args('input', { nullable: true }) input?: SearchRoomInput) {
+  rooms(@Args('input', { nullable: true }) input?: SearchRoomInput) {
     return this.roomService.findAll(input);
   }
 
   @Mutation(() => RoomModel)
-  updateTeam(@Args('updateTeamInput') updateTeamInput: UpdateRoomInput) {
-    return this.roomService.update(updateTeamInput);
+  updateRoom(@Args('updateRoomInput') updateRoomInput: UpdateRoomInput) {
+    return this.roomService.update(updateRoomInput);
   }
 
   @Mutation(() => RoomModel)
-  createTeam(@Args('input') input: CreateRoomInput) {
-    console.log('request on teams->resolver->createTeam', input);
+  createRoom(@Args('input') input: CreateRoomInput) {
+    console.log('request on rooms->resolver->createRoom', input);
     return this.roomService.insert(input);
   }
 
   @Mutation(() => RoomModel)
-  deleteTeam(@Args('id', { type: () => Int }) id: number) {
+  deleteRoom(@Args('id', { type: () => Int }) id: number) {
     return this.roomService.remove(id);
   }
 
   @Mutation(() => RoomModel)
-  async joinTeam(
+  async joinRoom(
     @Args('userId', { type: () => Int }) userId: number,
-    @Args('teamId', { type: () => Int }) teamId: number,
+    @Args('roomId', { type: () => Int }) roomId: number,
   ) {
-    return this.roomService.join(userId, teamId);
+    return this.roomService.join(userId, roomId);
   }
 
   @Mutation(() => RoomModel)
-  async applyTeam(
+  async applyRoom(
     @Args('userId', { type: () => Int }) userId: number,
-    @Args('teamId', { type: () => Int }) teamId: number,
+    @Args('roomId', { type: () => Int }) roomId: number,
   ) {
-    return this.roomService.apply(userId, teamId);
+    return this.roomService.apply(userId, roomId);
   }
 
   @Mutation(() => RoomModel)
-  async leaveTeam(
+  async leaveRoom(
     @Args('userId', { type: () => Int }) userId: number,
-    @Args('teamId', { type: () => Int }) teamId: number,
+    @Args('roomId', { type: () => Int }) roomId: number,
   ) {
-    return this.roomService.leave(userId, teamId);
+    return this.roomService.leave(userId, roomId);
   }
 
   @ResolveProperty(() => UserModel)
-  owner(@Parent() team: Room) {
-    return this.usersService.findOne(team.owner.userId);
+  owner(@Parent() room: Room) {
+    return this.usersService.findOne(room.owner.userId);
   }
 
   @ResolveProperty(() => RoomMemberModel)
-  async members(@Parent() team: Room) {
-    // console.log('request on teams->resolver->members', team.members);
+  async members(@Parent() room: Room) {
+    // console.log('request on rooms->resolver->members', room.members);
 
-    return await team.members.map((member) => ({
+    return await room.members.map((member) => ({
       createdAt: member.createdAt,
       memberState: member.memberState,
       ...member.user,
@@ -98,23 +98,23 @@ export class RoomResolver {
   }
 
   @ResolveProperty(() => UserModel)
-  async skills(@Parent() team: Room) {
-    // console.log('request on teams->resolver->skills', team);
+  async skills(@Parent() room: Room) {
+    // console.log('request on rooms->resolver->skills', room);
 
-    return await team.skills.map(async (skill) => {
+    return await room.skills.map(async (skill) => {
       return await this.skillService.findOne(skill.id);
     });
   }
 
   @ResolveProperty(() => UserModel)
-  async categories(@Parent() team: Room) {
-    return await team.categories.map(async (category) => {
+  async categories(@Parent() room: Room) {
+    return await room.categories.map(async (category) => {
       return await this.categoryService.findOne(category.id);
     });
   }
 
   @ResolveField(() => ChannelModel)
-  async rooms(@Parent() team: Room) {
-    console.log('request on teams->resolver->rooms', team);
+  async channels(@Parent() room: Room) {
+    console.log('request on rooms->resolver->rooms', room);
   }
 }
