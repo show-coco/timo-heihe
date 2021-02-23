@@ -8,7 +8,7 @@ import {
 } from "../generated/types";
 import { useAuthContext } from "../providers/useAuthContext";
 import { convertToSkillsObj } from "./useCreateRoom";
-import { convertToACSelectedData } from "./useEditTeam";
+import { convertToACSelectedData } from "./useEditRoom";
 import { useFileInput } from "./useFileInput";
 
 export const useEditUser = () => {

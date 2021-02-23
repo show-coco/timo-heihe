@@ -11,7 +11,7 @@ import { Template } from "../../../components/template/template";
 import { TextInput } from "../../../components/text-input/text-input";
 import GithubIcon from "../../../assets/icons/github.svg";
 import { Button } from "../../../components/button";
-import { useEditTeam } from "../../../hooks/useEditTeam";
+import { useEditTeam } from "../../../hooks/useEditRoom";
 import {
   convertToACData,
   convertToSkillPochiSetArray,
@@ -27,7 +27,7 @@ export default function EditRoom() {
     setter,
     skills,
     categories,
-    teamTypes,
+    roomTypes,
     onSubmit,
   } = useEditTeam();
 
@@ -113,7 +113,7 @@ export default function EditRoom() {
               <Heading as="h2">ルームタイプ</Heading>
 
               <div>
-                {teamTypes.map((type, i) => (
+                {roomTypes.map((type, i) => (
                   <Checkbox
                     key={i}
                     className="mr-4 mt-4"

@@ -4,10 +4,10 @@ import { useEffect, useState } from "react";
 import { ACSelectedData } from "../components/auto-complate/auto-complate";
 import {
   SkillModel,
-  TeamEditPageQuery,
-  UpdateTeamInput,
-  useEditTeamMutation,
-  useTeamEditPageQuery,
+  RoomEditPageQuery,
+  UpdateRoomInput,
+  useEditRoomMutation,
+  useRoomEditPageQuery,
 } from "../generated/types";
 import { useFileInput } from "./useFileInput";
 import { convertToCategoriesObj, convertToSkillsObj } from "./useCreateRoom";
@@ -23,7 +23,7 @@ export const convertToACSelectedData = (
 };
 
 export const convertToCategoryArray = (
-  categories: TeamEditPageQuery["team"]["categories"]
+  categories: RoomEditPageQuery["room"]["categories"]
 ): number[] => {
   if (!categories) return [];
   return categories.map((category) => category.id || 0);
@@ -49,28 +49,28 @@ export const useEditTeam = () => {
     setImageUrl,
   } = useFileInput();
 
-  const { data, loading } = useTeamEditPageQuery({
+  const { data, loading } = useRoomEditPageQuery({
     variables: {
       id: Number(id),
     },
   });
 
-  const [updateTeam] = useEditTeamMutation();
+  const [updateTeam] = useEditRoomMutation();
 
   useEffect(() => {
     if (!loading && data) {
-      const team = data.team;
-      const typeIds = team.types.map((type) => type.id);
+      const room = data.room;
+      const typeIds = room.types.map((type) => type.id);
 
-      setTitle(team.title);
-      setName(team.name);
-      setDescription(team.description);
-      setRecruitNumber(team.recruitNumbers);
-      setRespositoryUrl(team.repositoryUrl || "");
-      setIsRequired(team.isRequired ? "2" : "1");
-      setSkills(convertToACSelectedData(team.skills || []));
-      setCategories(convertToCategoryArray(team.categories));
-      setImageUrl(team.icon || "");
+      setTitle(room.title);
+      setName(room.name);
+      setDescription(room.description);
+      setRecruitNumber(room.recruitNumbers);
+      setRespositoryUrl(room.repositoryUrl || "");
+      setIsRequired(room.isRequired ? "2" : "1");
+      setSkills(convertToACSelectedData(room.skills || []));
+      setCategories(convertToCategoryArray(room.categories));
+      setImageUrl(room.icon || "");
       setTypes(typeIds);
     }
   }, [data, loading, setImageUrl]);
@@ -161,6 +161,6 @@ export const useEditTeam = () => {
     onSubmit,
     categories: data?.categories || [],
     skills: data?.skills || [],
-    teamTypes: data?.teamTypes || [],
+    roomTypes: data?.roomTypes || [],
   };
 };
