@@ -1,8 +1,8 @@
-subscription Thread($roomId: Int!) {
-  threadAdded(roomId: $roomId) {
+subscription Thread($channelId: Int!) {
+  threadAdded(channelId: $channelId) {
     id
     text
-    room {
+    channel {
       id
     }
     user {
