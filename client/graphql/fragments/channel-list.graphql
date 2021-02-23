@@ -1,0 +1,5 @@
+fragment ChannelList on UserMemberModel {
+  rooms {
+    ...ChannelItem
+  }
+}

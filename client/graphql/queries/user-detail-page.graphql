@@ -11,6 +11,7 @@ query UserDetailPage($userId: String!) {
       id
       name
     }
+    # TODO: RoomCardFragmentを使えるようにする
     rooms {
       id
       title
