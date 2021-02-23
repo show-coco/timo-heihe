@@ -10,8 +10,6 @@ import DotIcon from "../../assets/icons/dot-set.svg";
 import { AvatarLink } from "../avatar/avatar-link";
 import { Button } from "../button/button";
 export const Navigation: React.FC = () => {
-  const { logout } = useAuthContext();
-
   return (
     <div className="w-full h-3/5 p-4 px-12">
       <div className="w-full flex mx-auto justify-between ">
@@ -49,7 +47,7 @@ export const Navigation: React.FC = () => {
               </Button>
             </Link>
           </div>
-          <div className="flex items-center">
+          <div className="flex items-center overflow-hidden ">
             <IconButton
               icon={<DotIcon width="30px" height="30px" fill="#555555" />}
               variant="ghost"
