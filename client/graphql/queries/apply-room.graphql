@@ -1,0 +1,6 @@
+mutation ApplyRoom($roomId: Int!, $userId: Int!) {
+  applyRoom(roomId: $roomId, userId: $userId) {
+    id
+    title
+  }
+}
