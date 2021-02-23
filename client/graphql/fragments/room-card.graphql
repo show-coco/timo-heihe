@@ -1,4 +1,4 @@
-fragment TeamCard on TeamModel {
+fragment RoomCard on RoomModel {
   id
   title
   description

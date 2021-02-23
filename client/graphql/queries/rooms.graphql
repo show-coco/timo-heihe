@@ -1,0 +1,8 @@
+query Rooms($input: SearchRoomInput) {
+  rooms(input: $input) {
+    ...RoomCard
+  }
+  roomTypes {
+    ...RoomTypes
+  }
+}
