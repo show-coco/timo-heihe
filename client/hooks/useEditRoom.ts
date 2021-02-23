@@ -5,7 +5,6 @@ import { ACSelectedData } from "../components/auto-complate/auto-complate";
 import {
   SkillModel,
   RoomEditPageQuery,
-  UpdateRoomInput,
   useEditRoomMutation,
   useRoomEditPageQuery,
 } from "../generated/types";

@@ -4,11 +4,11 @@ import { Heading } from "../heading/heading";
 import { Button } from "../button";
 import { Checkbox } from "../checkbox/checkbox";
 import { NumberInput } from "../number-input/number-input";
-import { UseSearch } from "../../hooks/useSearchTeams";
+import { UseSearch } from "../../hooks/useSearchRooms";
 
 type Props = Omit<
   UseSearch,
-  "error" | "loading" | "teamsData" | "typeId" | "setTypeId"
+  "error" | "loading" | "roomsData" | "typeId" | "setTypeId"
 >;
 
 export const SearchArea: FC<Props> = ({

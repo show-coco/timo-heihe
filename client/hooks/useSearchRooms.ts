@@ -4,8 +4,8 @@ import { TeamType } from "../constants";
 import {
   useSearchConditionsQuery,
   SearchConditionsQuery,
-  useTeamsQuery,
-  TeamsQuery,
+  useRoomsQuery,
+  RoomsQuery,
 } from "../generated/types";
 import { useAuthContext } from "../providers/useAuthContext";
 
@@ -20,7 +20,7 @@ export type UseSearch = {
   categoryAndSkillData?: SearchConditionsQuery;
   recruitNumbers: number;
   skillIds: number[];
-  teamsData: TeamsQuery | undefined;
+  roomsData: RoomsQuery | undefined;
   loading: boolean;
   error: ApolloError | undefined;
   typeId: number;
@@ -36,7 +36,7 @@ export const useSearchTeams = (): UseSearch => {
   const [categoryIds, setCategoryIds] = useState<number[]>([]);
   const [skillIds, setSkillIds] = useState<number[]>(mySkillIds);
   const [typeId, setTypeId] = useState(TeamType.DEVELOPMENT);
-  const { data: teamsData, refetch, loading, error } = useTeamsQuery({
+  const { data: roomsData, refetch, loading, error } = useRoomsQuery({
     variables: {
       input: {
         skillIds: mySkillIds,
@@ -67,7 +67,6 @@ export const useSearchTeams = (): UseSearch => {
   }, [categoryIds, name, recruitNumbers, refetch, skillIds, typeId]);
 
   const handleSubmit = () => {
-    console.log("aaa");
     refetchRooms();
   };
 
@@ -104,7 +103,7 @@ export const useSearchTeams = (): UseSearch => {
     setRecruitNumbers,
     setTypeId,
     skillIds,
-    teamsData,
+    roomsData,
     categoryAndSkillData,
     loading,
     error,
