@@ -1,5 +1,5 @@
-mutation CreateTeam($input: CreateTeamInput!) {
-  createTeam(input: $input) {
+mutation CreateRoom($input: CreateRoomInput!) {
+  createRoom(input: $input) {
     id
     title
   }
