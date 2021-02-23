@@ -3,20 +3,20 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { MemberState } from '../team-members-user/entities/team-members-user.entity';
 import { TeamMembersUserService } from '../team-members-user/team-members-user.service';
 import { Repository } from 'typeorm';
-import { CreateTeamInput } from './dto/create-team.input';
-import { UpdateTeamInput } from './dto/update-team.input';
-import { Team } from './entities/teams.entity';
-import { SearchTeamInput } from './dto/search-teams.input';
+import { CreateRoomInput } from './dto/create-room.input';
+import { UpdateRoomInput } from './dto/update-room.input';
+import { Room } from './entities/room.entity';
+import { SearchRoomInput } from './dto/search-room.input';
 
 @Injectable()
-export class TeamsService {
+export class RoomService {
   constructor(
-    @InjectRepository(Team)
-    private teamRepository: Repository<Team>,
+    @InjectRepository(Room)
+    private teamRepository: Repository<Room>,
     private teamMembersUserService: TeamMembersUserService,
   ) {}
 
-  async findOne(id: number): Promise<Team> {
+  async findOne(id: number): Promise<Room> {
     const res = await this.teamRepository
       .createQueryBuilder('team')
       .leftJoinAndSelect('team.members', 'members', 'members.teamId = team.id')
@@ -33,8 +33,8 @@ export class TeamsService {
     return res;
   }
 
-  async findAll(searchTeamInput?: SearchTeamInput): Promise<Team[]> {
-    const input: SearchTeamInput | undefined =
+  async findAll(searchTeamInput?: SearchRoomInput): Promise<Room[]> {
+    const input: SearchRoomInput | undefined =
       searchTeamInput && JSON.parse(JSON.stringify(searchTeamInput));
     console.log('paramater on teams->service->findAll', input);
 
@@ -83,8 +83,8 @@ export class TeamsService {
     return res;
   }
 
-  async update(updateTeamInput: UpdateTeamInput): Promise<Team> {
-    const input: UpdateTeamInput = JSON.parse(JSON.stringify(updateTeamInput));
+  async update(updateTeamInput: UpdateRoomInput): Promise<Room> {
+    const input: UpdateRoomInput = JSON.parse(JSON.stringify(updateTeamInput));
 
     console.log('paramater on teams->service->update', input);
 
@@ -102,8 +102,8 @@ export class TeamsService {
     return res;
   }
 
-  async insert(createTeamInput: CreateTeamInput): Promise<Team> {
-    const input: CreateTeamInput = JSON.parse(JSON.stringify(createTeamInput));
+  async insert(createTeamInput: CreateRoomInput): Promise<Room> {
+    const input: CreateRoomInput = JSON.parse(JSON.stringify(createTeamInput));
 
     console.log('paramater on teams->service->insert', input);
 
@@ -130,7 +130,7 @@ export class TeamsService {
     return res;
   }
 
-  async join(userId: number, teamId: number): Promise<Team> {
+  async join(userId: number, teamId: number): Promise<Room> {
     const targetTeam = await this.findOne(teamId);
     for (const member of targetTeam.members) {
       const exists = member.user.id === userId;
@@ -159,7 +159,7 @@ export class TeamsService {
     return res;
   }
 
-  async apply(userId: number, teamId: number): Promise<Team> {
+  async apply(userId: number, teamId: number): Promise<Room> {
     const targetTeam = await this.findOne(teamId);
     for (const member of targetTeam.members) {
       const exists = member.user.id === userId;
@@ -182,7 +182,7 @@ export class TeamsService {
     return res;
   }
 
-  async leave(userId: number, teamId: number): Promise<Team> {
+  async leave(userId: number, teamId: number): Promise<Room> {
     const targetTeam = await this.findOne(teamId);
     const userNotExistsInThisTeam = !targetTeam.members.some(
       (member) => member.user.id === userId,

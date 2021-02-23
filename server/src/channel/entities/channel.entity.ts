@@ -1,4 +1,4 @@
-import { Team } from '../../teams/entities/teams.entity';
+import { Room } from '../../room/entities/room.entity';
 import {
   Column,
   Entity,
@@ -17,8 +17,8 @@ export class Channel {
   @Column()
   name: string;
 
-  @ManyToOne(() => Team, (team) => team.rooms)
-  team: Team;
+  @ManyToOne(() => Room, (room) => room.rooms)
+  room: Room;
 
   @OneToMany(() => Thread, (thread) => thread.channel, { nullable: true })
   threads?: Thread[];

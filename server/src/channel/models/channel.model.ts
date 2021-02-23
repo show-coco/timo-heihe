@@ -1,7 +1,7 @@
 import { Field, Int, ObjectType } from '@nestjs/graphql';
 import { ThreadModel } from '../../thread/models/thread.model';
 import { UserModel } from '../../users/models/user.model';
-import { TeamModel } from '../../teams/models/team.model';
+import { RoomModel } from '../../room/models/room.model';
 
 @ObjectType()
 export class ChannelModel {
@@ -11,8 +11,8 @@ export class ChannelModel {
   @Field()
   name: string;
 
-  @Field(() => TeamModel)
-  team: TeamModel;
+  @Field(() => RoomModel)
+  room: RoomModel;
 
   @Field(() => UserModel)
   user: UserModel;

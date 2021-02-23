@@ -1,7 +1,7 @@
 import { Field, InputType, Int } from '@nestjs/graphql';
 
 @InputType()
-export class SearchTeamInput {
+export class SearchRoomInput {
   @Field({ nullable: true })
   name?: string;
 

@@ -5,10 +5,10 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from './auth/auth.module';
 import { User } from './users/entities/users.entity';
 import { UsersModule } from './users/users.module';
-import { TeamsModule } from './teams/teams.module';
+import { RoomModule } from './room/room.module';
 import { CategoryModule } from './category/category.module';
 import { SkillModule } from './skill/skill.module';
-import { Team } from './teams/entities/teams.entity';
+import { Room } from './room/entities/room.entity';
 import { Category } from './category/entities/category.entity';
 import { Skill } from './skill/entities/skill.entity';
 import { TeamMembersUserModule } from './team-members-user/team-members-user.module';
@@ -30,7 +30,7 @@ import { TeamType } from './team-type/entities/team-type.entity';
     GraphQLModule.forRoot({
       include: [
         UsersModule,
-        TeamsModule,
+        RoomModule,
         CategoryModule,
         SkillModule,
         ChannelModule,
@@ -53,7 +53,7 @@ import { TeamType } from './team-type/entities/team-type.entity';
       database: 'postgres',
       entities: [
         User,
-        Team,
+        Room,
         Category,
         Skill,
         TeamMembersUser,
@@ -66,7 +66,7 @@ import { TeamType } from './team-type/entities/team-type.entity';
     }),
     AuthModule,
     UsersModule,
-    TeamsModule,
+    RoomModule,
     CategoryModule,
     SkillModule,
     TeamMembersUserModule,

@@ -1,4 +1,4 @@
-import { Team } from '../../teams/entities/teams.entity';
+import { Room } from '../../room/entities/room.entity';
 import { User } from '../../users/entities/users.entity';
 import { CreateDateColumn, Entity, ManyToOne, Column } from 'typeorm';
 
@@ -11,11 +11,11 @@ export enum MemberState {
 
 @Entity()
 export class TeamMembersUser {
-  @ManyToOne(() => User, (user) => user.teams, { primary: true })
+  @ManyToOne(() => User, (user) => user.rooms, { primary: true })
   user: User;
 
-  @ManyToOne(() => Team, (team) => team.members, { primary: true })
-  team: Team;
+  @ManyToOne(() => Room, (room) => room.members, { primary: true })
+  room: Room;
 
   @Column({
     type: 'enum',

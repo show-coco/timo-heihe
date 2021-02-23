@@ -16,7 +16,7 @@ import { Channel } from '../../channel/entities/channel.entity';
 import { TeamType } from '../../team-type/entities/team-type.entity';
 
 @Entity()
-export class Team {
+export class Room {
   @PrimaryGeneratedColumn()
   id?: number;
 
@@ -32,17 +32,17 @@ export class Team {
   @Column({ nullable: true })
   description: string;
 
-  @ManyToMany(() => Skill, (skill) => skill.teams, { nullable: true })
+  @ManyToMany(() => Skill, (skill) => skill.rooms, { nullable: true })
   @JoinTable()
   skills: Skill[];
 
-  @ManyToOne(() => User, (user) => user.ownerTeams)
+  @ManyToOne(() => User, (user) => user.ownerRooms)
   owner: Partial<User>;
 
-  @OneToMany(() => TeamMembersUser, (tmu) => tmu.team)
+  @OneToMany(() => TeamMembersUser, (tmu) => tmu.room)
   members?: TeamMembersUser[];
 
-  @ManyToMany(() => Category, (category) => category.teams)
+  @ManyToMany(() => Category, (category) => category.rooms)
   @JoinTable()
   categories: Category[];
 
@@ -58,13 +58,13 @@ export class Team {
   @CreateDateColumn({ type: 'timestamp' })
   createdAt?: Date;
 
-  @OneToMany(() => Channel, (room) => room.team)
+  @OneToMany(() => Channel, (room) => room.room)
   rooms: Channel[];
 
   @Column({ default: true })
   recruiting: boolean;
 
-  @ManyToMany(() => TeamType, (teamType) => teamType.team)
+  @ManyToMany(() => TeamType, (teamType) => teamType.room)
   @JoinTable()
   types: TeamType[];
 }

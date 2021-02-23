@@ -1,4 +1,4 @@
-import { Team } from '../../teams/entities/teams.entity';
+import { Room } from '../../room/entities/room.entity';
 import { Column, Entity, ManyToMany, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
@@ -9,6 +9,6 @@ export class TeamType {
   @Column()
   name: string;
 
-  @ManyToMany(() => Team, (team) => team.types)
-  team: Team;
+  @ManyToMany(() => Room, (room) => room.types)
+  room: Room;
 }

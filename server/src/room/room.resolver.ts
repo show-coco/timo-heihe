@@ -14,80 +14,80 @@ import { CategoryService } from '../category/category.service';
 import { SkillService } from '../skill/skill.service';
 import { UserModel } from '../users/models/user.model';
 import { UsersService } from '../users/users.service';
-import { CreateTeamInput } from './dto/create-team.input';
-import { UpdateTeamInput } from './dto/update-team.input';
-import { Team } from './entities/teams.entity';
-import { TeamModel } from './models/team.model';
-import { TeamsService } from './teams.service';
+import { CreateRoomInput } from './dto/create-room.input';
+import { UpdateRoomInput } from './dto/update-room.input';
+import { Room } from './entities/room.entity';
+import { RoomModel } from './models/room.model';
+import { RoomService } from './room.service';
 import { ChannelModel } from '../channel/models/channel.model';
-import { SearchTeamInput } from './dto/search-teams.input';
+import { SearchRoomInput } from './dto/search-room.input';
 
-@Resolver(() => TeamModel)
-export class TeamsResolver {
+@Resolver(() => RoomModel)
+export class RoomResolver {
   constructor(
-    private teamsService: TeamsService,
+    private roomService: RoomService,
     @Inject(forwardRef(() => UsersService)) private usersService: UsersService,
     private skillService: SkillService,
     private categoryService: CategoryService,
   ) {}
 
-  @Query(() => TeamModel)
+  @Query(() => RoomModel)
   team(@Args('id', { type: () => Int }) id: number) {
-    return this.teamsService.findOne(id);
+    return this.roomService.findOne(id);
   }
 
-  @Query(() => [TeamModel])
-  teams(@Args('input', { nullable: true }) input?: SearchTeamInput) {
-    return this.teamsService.findAll(input);
+  @Query(() => [RoomModel])
+  teams(@Args('input', { nullable: true }) input?: SearchRoomInput) {
+    return this.roomService.findAll(input);
   }
 
-  @Mutation(() => TeamModel)
-  updateTeam(@Args('updateTeamInput') updateTeamInput: UpdateTeamInput) {
-    return this.teamsService.update(updateTeamInput);
+  @Mutation(() => RoomModel)
+  updateTeam(@Args('updateTeamInput') updateTeamInput: UpdateRoomInput) {
+    return this.roomService.update(updateTeamInput);
   }
 
-  @Mutation(() => TeamModel)
-  createTeam(@Args('input') input: CreateTeamInput) {
+  @Mutation(() => RoomModel)
+  createTeam(@Args('input') input: CreateRoomInput) {
     console.log('request on teams->resolver->createTeam', input);
-    return this.teamsService.insert(input);
+    return this.roomService.insert(input);
   }
 
-  @Mutation(() => TeamModel)
+  @Mutation(() => RoomModel)
   deleteTeam(@Args('id', { type: () => Int }) id: number) {
-    return this.teamsService.remove(id);
+    return this.roomService.remove(id);
   }
 
-  @Mutation(() => TeamModel)
+  @Mutation(() => RoomModel)
   async joinTeam(
     @Args('userId', { type: () => Int }) userId: number,
     @Args('teamId', { type: () => Int }) teamId: number,
   ) {
-    return this.teamsService.join(userId, teamId);
+    return this.roomService.join(userId, teamId);
   }
 
-  @Mutation(() => TeamModel)
+  @Mutation(() => RoomModel)
   async applyTeam(
     @Args('userId', { type: () => Int }) userId: number,
     @Args('teamId', { type: () => Int }) teamId: number,
   ) {
-    return this.teamsService.apply(userId, teamId);
+    return this.roomService.apply(userId, teamId);
   }
 
-  @Mutation(() => TeamModel)
+  @Mutation(() => RoomModel)
   async leaveTeam(
     @Args('userId', { type: () => Int }) userId: number,
     @Args('teamId', { type: () => Int }) teamId: number,
   ) {
-    return this.teamsService.leave(userId, teamId);
+    return this.roomService.leave(userId, teamId);
   }
 
   @ResolveProperty(() => UserModel)
-  owner(@Parent() team: Team) {
+  owner(@Parent() team: Room) {
     return this.usersService.findOne(team.owner.userId);
   }
 
   @ResolveProperty(() => TeamMemberModel)
-  async members(@Parent() team: Team) {
+  async members(@Parent() team: Room) {
     // console.log('request on teams->resolver->members', team.members);
 
     return await team.members.map((member) => ({
@@ -98,7 +98,7 @@ export class TeamsResolver {
   }
 
   @ResolveProperty(() => UserModel)
-  async skills(@Parent() team: Team) {
+  async skills(@Parent() team: Room) {
     // console.log('request on teams->resolver->skills', team);
 
     return await team.skills.map(async (skill) => {
@@ -107,14 +107,14 @@ export class TeamsResolver {
   }
 
   @ResolveProperty(() => UserModel)
-  async categories(@Parent() team: Team) {
+  async categories(@Parent() team: Room) {
     return await team.categories.map(async (category) => {
       return await this.categoryService.findOne(category.id);
     });
   }
 
   @ResolveField(() => ChannelModel)
-  async rooms(@Parent() team: Team) {
+  async rooms(@Parent() team: Room) {
     console.log('request on teams->resolver->rooms', team);
   }
 }

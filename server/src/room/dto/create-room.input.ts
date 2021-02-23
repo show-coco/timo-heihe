@@ -5,7 +5,7 @@ import { CreateTeamMembersUserInput } from '../../team-members-user/dto/create-t
 import { ConnectUserInput } from '../../users/dto/connect-user.input';
 
 @InputType()
-export class CreateTeamInput {
+export class CreateRoomInput {
   @Field()
   title: string;
 

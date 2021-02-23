@@ -1,5 +1,5 @@
 import { Skill } from '../../skill/entities/skill.entity';
-import { Team } from '../../teams/entities/teams.entity';
+import { Room } from '../../room/entities/room.entity';
 import {
   Column,
   Entity,
@@ -42,13 +42,13 @@ export class User {
   @Column({ nullable: true })
   twitterId?: string;
 
-  @OneToMany(() => Team, (team) => team.owner, { nullable: true })
-  ownerTeams?: Team[];
+  @OneToMany(() => Room, (room) => room.owner, { nullable: true })
+  ownerRooms?: Room[];
 
   @OneToMany(() => TeamMembersUser, (tmu) => tmu.user, {
     nullable: true,
   })
-  teams?: TeamMembersUser[];
+  rooms?: TeamMembersUser[];
 
   @ManyToMany(() => Skill, (skill) => skill.users, { nullable: true })
   @JoinTable()
@@ -61,5 +61,5 @@ export class User {
   messages?: Message[];
 
   @OneToMany(() => Channel, (room) => room.user, { nullable: true })
-  rooms?: Channel[];
+  channels?: Channel[];
 }

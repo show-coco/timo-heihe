@@ -7,7 +7,7 @@ import { ChannelModel } from '../../channel/models/channel.model';
 import { TeamTypeModel } from '../../team-type/models/team-type.model';
 
 @ObjectType()
-export class TeamModel {
+export class RoomModel {
   @Field(() => Int, { nullable: true })
   id?: number;
 
@@ -48,7 +48,7 @@ export class TeamModel {
   createdAt?: Date;
 
   @Field(() => [ChannelModel], { nullable: true })
-  rooms: ChannelModel[];
+  channels: ChannelModel[];
 
   @Field(() => [TeamTypeModel])
   types: TeamTypeModel[];

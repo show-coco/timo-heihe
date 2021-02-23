@@ -4,19 +4,19 @@ import { TeamMembersUserModule } from '../team-members-user/team-members-user.mo
 import { CategoryModule } from '../category/category.module';
 import { SkillModule } from '../skill/skill.module';
 import { UsersModule } from '../users/users.module';
-import { Team } from './entities/teams.entity';
-import { TeamsResolver } from './teams.resolver';
-import { TeamsService } from './teams.service';
+import { Room } from './entities/room.entity';
+import { RoomResolver } from './room.resolver';
+import { RoomService } from './room.service';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([Team]),
+    TypeOrmModule.forFeature([Room]),
     forwardRef(() => UsersModule),
     TeamMembersUserModule,
     SkillModule,
     CategoryModule,
   ],
-  exports: [TeamsService],
-  providers: [TeamsService, TeamsResolver],
+  exports: [RoomService],
+  providers: [RoomService, RoomResolver],
 })
-export class TeamsModule {}
+export class RoomModule {}

@@ -1,11 +1,11 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import { Team } from './entities/teams.entity';
-import { TeamsResolver } from './teams.resolver';
-import { TeamsService } from './teams.service';
+import { Room } from './entities/room.entity';
+import { RoomResolver } from './room.resolver';
+import { RoomService } from './room.service';
 
 describe('TeamsService', () => {
-  let service: TeamsService;
+  let service: RoomService;
 
   // beforeEach(async () => {
   //   const team: Team = {

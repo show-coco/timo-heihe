@@ -1,15 +1,15 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { UsersModule } from '../users/users.module';
-import { TeamsResolver } from './teams.resolver';
-import { TeamsService } from './teams.service';
+import { RoomResolver } from './room.resolver';
+import { RoomService } from './room.service';
 import { SkillModule } from '../skill/skill.module';
 import { CategoryModule } from '../category/category.module';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import { Team } from './entities/teams.entity';
+import { Room } from './entities/room.entity';
 import { Skill } from '../skill/entities/skill.entity';
 
 describe('TeamsResolver', () => {
-  let resolver: TeamsResolver;
+  let resolver: RoomResolver;
 
   beforeEach(async () => {
     // const team: Team = {

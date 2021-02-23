@@ -14,10 +14,10 @@ export class TeamMembersUserService {
     private teamRepository: Repository<TeamMembersUser>,
   ) {}
 
-  create(teamId: number, userId: number, memberState: MemberState) {
+  create(roomId: number, userId: number, memberState: MemberState) {
     this.teamRepository.insert({
       user: { id: userId },
-      team: { id: teamId },
+      room: { id: roomId },
       memberState: memberState,
     });
   }
@@ -30,10 +30,10 @@ export class TeamMembersUserService {
     return `This action returns a #${id} teamMembersUser`;
   }
 
-  remove(teamId: number, userId: number) {
+  remove(roomId: number, userId: number) {
     this.teamRepository.delete({
       user: { id: userId },
-      team: { id: teamId },
+      room: { id: roomId },
     });
   }
 

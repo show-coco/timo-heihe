@@ -7,8 +7,8 @@ import {
   ResolveField,
   Resolver,
 } from '@nestjs/graphql';
-import { TeamModel } from '../teams/models/team.model';
-import { TeamsService } from '../teams/teams.service';
+import { RoomModel } from '../room/models/room.model';
+import { RoomService } from '../room/room.service';
 import { CreateChannelInput } from './dto/create-channel.input';
 import { Channel } from './entities/channel.entity';
 import { ChannelResponse } from './models/delete-channel';
@@ -19,7 +19,7 @@ import { ChannelService } from './channel.service';
 export class ChannelResolver {
   constructor(
     private channelService: ChannelService,
-    private teamService: TeamsService,
+    private roomService: RoomService,
   ) {}
 
   @Query(() => ChannelModel)
@@ -42,9 +42,9 @@ export class ChannelResolver {
     return this.channelService.delete(id);
   }
 
-  @ResolveField(() => TeamModel)
+  @ResolveField(() => RoomModel)
   team(@Parent() channel: Channel) {
-    const res = this.teamService.findOne(channel.team.id);
+    const res = this.roomService.findOne(channel.room.id);
 
     console.log('response on channel->resolver->team', res);
     return res;

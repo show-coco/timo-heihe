@@ -13,7 +13,7 @@ export class ChannelService {
   async findOne(id: number): Promise<Channel> {
     const res = await this.channelRepository
       .createQueryBuilder('channel')
-      .leftJoinAndSelect('channel.team', 'team.id = channel.teamId')
+      .leftJoinAndSelect('channel.room', 'room.id = channel.roomId')
       .where({ id })
       .getOne();
 
@@ -24,7 +24,7 @@ export class ChannelService {
   async findAll(): Promise<Channel[]> {
     const res = await this.channelRepository
       .createQueryBuilder('channel')
-      .leftJoinAndSelect('channel.team', 'team.id = channel.teamId')
+      .leftJoinAndSelect('channel.room', 'room.id = channel.roomId')
       .getMany();
 
     console.log('response on channel->service->findAll', res);

@@ -4,7 +4,7 @@ import { User } from './entities/users.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UsersResolver } from './users.resolver';
 import { SkillModule } from '../skill/skill.module';
-import { TeamsModule } from '../teams/teams.module';
+import { RoomModule } from '../room/room.module';
 import { TeamMembersUserModule } from '../team-members-user/team-members-user.module';
 
 @Module({
@@ -12,7 +12,7 @@ import { TeamMembersUserModule } from '../team-members-user/team-members-user.mo
     TypeOrmModule.forFeature([User]),
     SkillModule,
     TeamMembersUserModule,
-    forwardRef(() => TeamsModule),
+    forwardRef(() => RoomModule),
   ],
   exports: [UsersService],
   providers: [UsersService, UsersResolver],

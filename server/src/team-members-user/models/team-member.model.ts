@@ -6,7 +6,7 @@ import {
   registerEnumType,
 } from '@nestjs/graphql';
 import { SkillModel } from '../../skill/models/skill.model';
-import { TeamModel } from '../../teams/models/team.model';
+import { RoomModel } from '../../room/models/room.model';
 import { MemberState } from '../entities/team-members-user.entity';
 
 registerEnumType(MemberState, {
@@ -39,11 +39,11 @@ export class TeamMemberModel {
   @Field({ nullable: true })
   twitterId: string;
 
-  @Field(() => [TeamModel])
-  ownerTeams: TeamModel[];
+  @Field(() => [RoomModel])
+  ownerTeams: RoomModel[];
 
-  @Field(() => [TeamModel])
-  teams: TeamModel[];
+  @Field(() => [RoomModel])
+  teams: RoomModel[];
 
   @Field(() => [SkillModel])
   skills: SkillModel[];

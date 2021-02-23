@@ -10,13 +10,14 @@ input CategoryInput {
 type CategoryModel {
   id: Int
   name: String!
-  teams: [TeamModel!]!
+  rooms: [RoomModel!]!
 }
 
 type ChannelModel {
   id: Int!
   name: String!
-  team: TeamModel!
+  room: RoomModel!
+  team: RoomModel!
   threads: [ThreadModel!]!
   user: UserModel!
 }
@@ -29,7 +30,7 @@ input ConnectChannelInput {
   id: Int!
 }
 
-input ConnectTeamInput {
+input ConnectRoomInput {
   id: Int!
 }
 
@@ -55,7 +56,7 @@ input CreateCategoryInput {
 
 input CreateChannelInput {
   name: String!
-  team: ConnectTeamInput!
+  room: ConnectRoomInput!
 }
 
 input CreateMessageInput {
@@ -64,13 +65,7 @@ input CreateMessageInput {
   user: ConnectUserInput!
 }
 
-input CreateSkillInput {
-  icon: String!
-  id: Int!
-  name: String!
-}
-
-input CreateTeamInput {
+input CreateRoomInput {
   categories: [CategoryInput!]!
   description: String
   icon: String
@@ -86,8 +81,14 @@ input CreateTeamInput {
   typeIds: [Int!]!
 }
 
+input CreateSkillInput {
+  icon: String!
+  id: Int!
+  name: String!
+}
+
 input CreateTeamMembersUserInput {
-  team: UpdateTeamInput
+  team: UpdateRoomInput
   user: ConnectUserInput!
 }
 
@@ -123,17 +124,17 @@ type MessageModel {
 }
 
 type Mutation {
-  applyTeam(teamId: Int!, userId: Int!): TeamModel!
+  applyTeam(teamId: Int!, userId: Int!): RoomModel!
   createCategory(createCategoryInput: CreateCategoryInput!): CategoryModel!
   createChannel(input: CreateChannelInput!): ChannelModel!
   createMessage(input: CreateMessageInput!): MessageModel!
   createSkill(createSkillInput: CreateSkillInput!): SkillModel!
-  createTeam(input: CreateTeamInput!): TeamModel!
+  createTeam(input: CreateRoomInput!): RoomModel!
   createThread(input: CreateThreadInput!): ThreadModel!
   deleteChannel(id: Int!): ChannelResponse!
-  deleteTeam(id: Int!): TeamModel!
-  joinTeam(teamId: Int!, userId: Int!): TeamModel!
-  leaveTeam(teamId: Int!, userId: Int!): TeamModel!
+  deleteTeam(id: Int!): RoomModel!
+  joinTeam(teamId: Int!, userId: Int!): RoomModel!
+  leaveTeam(teamId: Int!, userId: Int!): RoomModel!
   removeCategory(id: Int!): CategoryModel!
   removeMessage(id: Int!): ChannelResponse!
   removeSkill(id: Int!): SkillModel!
@@ -141,7 +142,7 @@ type Mutation {
   updateCategory(updateCategoryInput: UpdateCategoryInput!): CategoryModel!
   updateMessage(input: UpdateMessageInput!): MessageModel!
   updateSkill(updateSkillInput: UpdateSkillInput!): SkillModel!
-  updateTeam(updateTeamInput: UpdateTeamInput!): TeamModel!
+  updateTeam(updateTeamInput: UpdateRoomInput!): RoomModel!
   updateThread(input: UpdateThreadInput!): ThreadModel!
   updateUser(updateUserInput: UpdateUserInput!): UserModel!
 }
@@ -156,8 +157,8 @@ type Query {
   messages: [MessageModel!]!
   skill(id: Int!): SkillModel!
   skills: [SkillModel!]!
-  team(id: Int!): TeamModel!
-  teams(input: SearchTeamInput): [TeamModel!]!
+  team(id: Int!): RoomModel!
+  teams(input: SearchRoomInput): [RoomModel!]!
   teamTypes: [TeamTypeModel!]!
   thread(id: Int!): ThreadModel!
   threads(input: FetchThreadInput!): [ThreadModel!]
@@ -165,7 +166,26 @@ type Query {
   users: [UserModel!]!
 }
 
-input SearchTeamInput {
+type RoomModel {
+  categories: [CategoryModel!]!
+  channels: [ChannelModel!]
+  createdAt: DateTime
+  description: String!
+  icon: String
+  id: Int
+  isRequired: Boolean!
+  members: [TeamMemberModel!]
+  name: String!
+  owner: UserModel!
+  recruitNumbers: Int!
+  repositoryUrl: String
+  rooms: ChannelModel!
+  skills: [SkillModel!]
+  title: String!
+  types: [TeamTypeModel!]!
+}
+
+input SearchRoomInput {
   categoryIds: [Int!]
   name: String
   recruitNumbers: Int
@@ -199,29 +219,11 @@ type TeamMemberModel {
   introduction: String
   memberState: MemberState!
   name: String!
-  ownerTeams: [TeamModel!]!
+  ownerTeams: [RoomModel!]!
   skills: [SkillModel!]!
-  teams: [TeamModel!]!
+  teams: [RoomModel!]!
   twitterId: String
   userId: String!
-}
-
-type TeamModel {
-  categories: [CategoryModel!]!
-  createdAt: DateTime
-  description: String!
-  icon: String
-  id: Int
-  isRequired: Boolean!
-  members: [TeamMemberModel!]
-  name: String!
-  owner: UserModel!
-  recruitNumbers: Int!
-  repositoryUrl: String
-  rooms: [ChannelModel!]
-  skills: [SkillModel!]
-  title: String!
-  types: [TeamTypeModel!]!
 }
 
 type TeamTypeModel {
@@ -250,13 +252,7 @@ input UpdateMessageInput {
   user: ConnectUserInput
 }
 
-input UpdateSkillInput {
-  icon: String
-  id: Int!
-  name: String
-}
-
-input UpdateTeamInput {
+input UpdateRoomInput {
   categories: [CategoryInput!]
   description: String
   icon: String
@@ -271,6 +267,12 @@ input UpdateTeamInput {
   skills: [SkillInput!]
   title: String
   typeIds: [Int!]
+}
+
+input UpdateSkillInput {
+  icon: String
+  id: Int!
+  name: String
 }
 
 input UpdateThreadInput {
@@ -314,7 +316,7 @@ type UserModel {
   id: Int!
   introduction: String
   name: String!
-  ownerTeams: [TeamModel!]
+  ownerTeams: [RoomModel!]
   rooms: [ChannelModel!]
   skills: [SkillModel!]
   teams: [UserMemberModel!]
