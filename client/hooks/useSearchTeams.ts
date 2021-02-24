@@ -67,7 +67,6 @@ export const useSearchTeams = (): UseSearch => {
   }, [categoryIds, name, recruitNumbers, refetch, skillIds, typeId]);
 
   const handleSubmit = () => {
-    console.log("aaa");
     refetchRooms();
   };
 
