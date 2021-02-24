@@ -37,11 +37,11 @@ export const useChat = () => {
 
   const [createRoom] = useCreateChannelMutation();
 
-  const selectedSpace = useMemo(() => {
+  const selectedRoom = useMemo(() => {
     return data?.user.rooms?.find((room) => room.id === selectedRoomId);
   }, [data?.user.rooms, selectedRoomId]);
 
-  const selectedRoom = useMemo(() => {
+  const selectedChannel = useMemo(() => {
     return channels?.find((room) => room.id === selectedChannelId);
   }, [channels, selectedChannelId]);
 
@@ -122,10 +122,10 @@ export const useChat = () => {
   );
 
   useEffect(() => {
-    if (selectedSpace?.channels) {
-      setChannels(selectedSpace.channels);
+    if (selectedRoom?.channels) {
+      setChannels(selectedRoom.channels);
     }
-  }, [selectedSpace?.channels]);
+  }, [selectedRoom?.channels]);
 
   useEffect(() => {
     if (data?.user.rooms) {
@@ -173,8 +173,8 @@ export const useChat = () => {
       channels,
       rooms,
     },
-    selectedSpace,
     selectedRoom,
+    selectedChannel,
     data,
     createRoomModal,
     createSpace,

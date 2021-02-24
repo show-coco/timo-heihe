@@ -19,7 +19,7 @@ export default function ChatPage() {
     setter,
     data,
     selectedRoom,
-    selectedSpace,
+    selectedChannel,
     onClickSendButton,
     onCreateRoom,
     createRoomModal,
@@ -52,7 +52,7 @@ export default function ChatPage() {
           <div className="flex flex-col border-gray-200 border-r">
             <div className="flex items-center justify-center h-16 border-gray-200 border-b">
               <Heading as="h1Small">
-                {selectedSpace ? selectedSpace.title : ""}
+                {selectedRoom ? selectedRoom.name : ""}
               </Heading>
             </div>
 

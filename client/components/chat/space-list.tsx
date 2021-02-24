@@ -20,7 +20,7 @@ export const SpaceList: React.FC<Props> = ({
           <Avatar
             src={room.icon || ""}
             key={room.id}
-            name={room.title}
+            name={room.name}
             variant="square"
             onClick={() => setSelectedSpace(room.id || 0)}
             className="cursor-pointer"
