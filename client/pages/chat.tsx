@@ -83,7 +83,7 @@ export default function ChatPage() {
             </div>
 
             <ThreadList
-              roomId={status.selectedRoomId}
+              channelId={status.selectedChannelId}
               threads={status.threads}
               setThreads={setter.setThreads}
             />

@@ -59,7 +59,7 @@ export class Room {
   createdAt?: Date;
 
   @OneToMany(() => Channel, (room) => room.room)
-  rooms: Channel[];
+  channels: Channel[];
 
   @Column({ default: true })
   recruiting: boolean;

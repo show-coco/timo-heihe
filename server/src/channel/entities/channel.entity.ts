@@ -17,7 +17,7 @@ export class Channel {
   @Column()
   name: string;
 
-  @ManyToOne(() => Room, (room) => room.rooms)
+  @ManyToOne(() => Room, (room) => room.channels)
   room: Room;
 
   @OneToMany(() => Thread, (thread) => thread.channel, { nullable: true })

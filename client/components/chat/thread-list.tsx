@@ -10,7 +10,7 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import { useAuthContext } from "../../providers/useAuthContext";
 
 type Props = {
-  roomId: number;
+  channelId: number;
   threads: ChatItemFragment[];
   setThreads: React.Dispatch<React.SetStateAction<ChatItemFragment[]>>;
 };
@@ -18,7 +18,7 @@ type Props = {
 const currentDate = new Date().toISOString();
 
 export const ThreadList: React.FC<Props> = ({
-  roomId,
+  channelId,
   threads,
   setThreads,
 }: Props) => {
@@ -27,7 +27,7 @@ export const ThreadList: React.FC<Props> = ({
   const { data, loading, error, fetchMore } = useThreadListQuery({
     variables: {
       input: {
-        roomId,
+        channelId,
         cursor: currentDate,
       },
     },
@@ -35,7 +35,7 @@ export const ThreadList: React.FC<Props> = ({
 
   const { data: newThread } = useThreadSubscription({
     variables: {
-      roomId,
+      channelId,
     },
   });
 
@@ -48,7 +48,7 @@ export const ThreadList: React.FC<Props> = ({
       const thread: ChatItemFragment = {
         id: addedThread.id,
         createdAt: addedThread.createdAt,
-        room: addedThread.room,
+        channel: addedThread.channel,
         text: addedThread.text,
         user: addedThread.user,
         numberOfMessages: addedThread.numberOfMessages,
@@ -65,7 +65,7 @@ export const ThreadList: React.FC<Props> = ({
     }
   }, [data?.threads, setThreads]);
 
-  if (roomId === 0)
+  if (channelId === 0)
     return (
       <div className="flex-1">
         <p>ルームが選択されていません</p>
@@ -97,7 +97,7 @@ export const ThreadList: React.FC<Props> = ({
           const { data }: { data: ThreadListQuery } = await fetchMore({
             variables: {
               input: {
-                roomId,
+                channelId,
                 cursor: threads[threads.length - 1].createdAt,
               },
             },

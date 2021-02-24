@@ -33,6 +33,8 @@ export const useChat = () => {
     },
   });
 
+  console.log("chat", data);
+
   const [createRoom] = useCreateChannelMutation();
 
   const selectedSpace = useMemo(() => {
