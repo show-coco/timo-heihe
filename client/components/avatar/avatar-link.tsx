@@ -1,7 +1,5 @@
-import Link from "next/link";
-import React, { useState } from "react";
+import React from "react";
 import { Avatar, AvatarProps } from "./avatar";
-import { useAuthContext } from "../../providers/useAuthContext";
 
 type Props = {
   userId: string;
@@ -13,7 +11,6 @@ type Props = {
 };
 
 export const AvatarLink: React.FC<Props> = ({
-  userId,
   avatar,
   name,
   className,
