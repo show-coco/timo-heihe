@@ -14,7 +14,7 @@ export const Navigation: React.FC = () => {
   return (
     <div className="w-full h-3/5 p-4 px-12">
       <div className="w-full flex mx-auto justify-between ">
-        <div className="text-orange-400 align-middle text-3xl font-bold">
+        <div className="flex items-center text-orange-400 align-middle text-3xl font-bold">
           <Link href="/">Cloud Circle</Link>
           <Link href="/">
             <span className={`${textStyle} pl-16 align-middle`} role="button">
@@ -27,6 +27,7 @@ export const Navigation: React.FC = () => {
             </span>
           </Link>
         </div>
+
         <div className="flex items-center">
           <div className="pr-10">
             <Link href="/create-room">
