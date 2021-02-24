@@ -45,7 +45,7 @@ export class RoomService {
       .leftJoinAndSelect('room.categories', 'categories')
       .leftJoinAndSelect('room.owner', 'owner')
       .leftJoinAndSelect('room.skills', 'skills')
-      .leftJoinAndSelect('room.rooms', 'rooms.roomId = room.id')
+      .leftJoinAndSelect('room.channels', 'channels.roomId = room.id')
       .leftJoinAndSelect('room.types', 'types')
       .where({ recruiting: true });
 
