@@ -1,6 +1,5 @@
-import React from "react";
+import React, { useState } from "react";
 
-import LogoutIcon from "../../assets/icons/logout.svg";
 import Link from "next/link";
 import { useAuthContext } from "../../providers/useAuthContext";
 
@@ -10,6 +9,8 @@ import DotIcon from "../../assets/icons/dot-set.svg";
 import { AvatarLink } from "../avatar/avatar-link";
 import { Button } from "../button/button";
 export const Navigation: React.FC = () => {
+  const [isShown, setIsShown] = useState(false);
+  const { logout } = useAuthContext();
   return (
     <div className="w-full h-3/5 p-4 px-12">
       <div className="w-full flex mx-auto justify-between ">
@@ -58,7 +59,28 @@ export const Navigation: React.FC = () => {
               name="sho"
               className="hover:opacity-80 cursor-pointer align-middle "
               userId="show-coco"
+              onClick={() => setIsShown(!isShown)}
             />
+            {isShown && (
+              <div className="absolute right-4 top-20 w-36 h-40 rounded-xl bg-white shadow-lg border px-2 py-4 cursor-default">
+                <div className="border-b-2 pb-3">
+                  <ul>
+                    <li className="font-bold">{`sho`}</li>
+                    <li>@{`show-coco`}</li>
+                  </ul>
+                </div>
+                <div className="pt-3">
+                  <ul>
+                    <li className="cursor-pointer" onClick={logout}>
+                      ログアウト
+                    </li>
+                    <Link href="/user/[id]" as={`/user/${`show-coco`}`}>
+                      <li className="cursor-pointer">プロフィール</li>
+                    </Link>
+                  </ul>
+                </div>
+              </div>
+            )}
           </div>
         </div>
 
