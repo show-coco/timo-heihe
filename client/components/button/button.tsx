@@ -1,7 +1,7 @@
 import React from "react";
 
 export type ButtonProps = {
-  variant?: "primary" | "outline" | "ghost" | "underline";
+  variant?: "primary" | "secoundary" | "outline" | "ghost" | "underline";
   size?: "small" | "medium" | "large";
   isIcon?: boolean;
   // eslint-disable-next-line no-unused-vars
@@ -36,8 +36,9 @@ const hoverAnimation = {
 
 const variants = {
   primary: `text-white bg-orange-500 ${hoverAnimation["orange"]}`,
+  secoundary: `text-orange-500 bg-transparent border border-orange-500 hover:bg-black-400 ${hoverAnimation["black"]}`,
   outline: `text-red-500 bg-transparent border border-red-500 hover:bg-black-400 ${hoverAnimation["black"]}`,
-  ghost: `hover:bg-black-400 ${hoverAnimation["black"]}`,
+  ghost: `hover:bg-black-400 ${hoverAnimation["black"]} `,
   underline: `hover:bg-black-400 ${hoverAnimation["black"]} border-b-2 border-orange-300`,
 };
 

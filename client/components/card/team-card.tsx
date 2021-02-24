@@ -67,7 +67,7 @@ export const TeamCard: React.FC<TeamCardProps> = ({
   className,
 }: TeamCardProps) => {
   return (
-    <div className={`max-w-xl`}>
+    <div>
       <Link href="/room/[id]" as={`/room/${id.toString()}`}>
         <div>
           <Card

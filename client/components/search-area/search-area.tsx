@@ -23,7 +23,7 @@ export const SearchArea: FC<Props> = ({
   recruitNumbers,
 }: Props) => {
   return (
-    <div className="mt-5 pl-10">
+    <div className="mt-5 pl-10 w-11/12">
       <div className="bg-blue-550 text-center rounded-t-md">
         <TextInput
           onChange={(e) => setName(e.target.value)}
