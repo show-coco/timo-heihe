@@ -17,6 +17,7 @@ import { Checkbox } from "../components/checkbox/checkbox";
 import { LanguagePochiSet } from "../components/language/language-pochi-set";
 import { Button } from "../components/button";
 import GithubIcon from "../assets/icons/github.svg";
+import { TextArea } from "../components/text-area";
 
 const betweenH2 = "space-y-2";
 
@@ -72,7 +73,6 @@ export default function CreateRoom() {
 
               <TextInput
                 placeholder="ルーム名を入力"
-                name="title"
                 onChange={(e) => setName(e.target.value)}
               />
             </div>
@@ -85,7 +85,6 @@ export default function CreateRoom() {
 
               <TextInput
                 placeholder="メンバー募集タイトル"
-                name="title"
                 className="w-2/3"
                 onChange={(e) => setTitle(e.target.value)}
               />
@@ -93,16 +92,17 @@ export default function CreateRoom() {
 
             <div className={betweenH2}>
               <span className="flex">
-                <Heading as="h2">ルームの説明</Heading>
+                <Heading as="h2">ルームについて</Heading>
                 <span className="text-red-500">*</span>
               </span>
 
-              <TextInput
-                placeholder="ルームの説明を入力"
-                name="description"
-                className="w-2/3"
-                onChange={(e) => setDescription(e.target.value)}
-              />
+              <div className="w-2/3 h-52">
+                <TextArea
+                  placeholder="ルームについて（Markdown記法）"
+                  className="w-2/3"
+                  onChange={(e) => setDescription(e.target.value)}
+                />
+              </div>
             </div>
 
             <div className={betweenH2}>

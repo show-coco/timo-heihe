@@ -17,6 +17,7 @@ import {
   convertToSkillPochiSetArray,
 } from "../../create-room";
 import { EditableLanguagePochiSet } from "../../../components/language/editable-language-pochi-set";
+import { TextArea } from "../../../components/text-area";
 
 const betweenH2 = "space-y-2";
 
@@ -86,13 +87,13 @@ export default function EditRoom() {
                 <span className="text-red-500">*</span>
               </span>
 
-              <TextInput
-                placeholder="ルームの説明を入力"
-                name="description"
-                value={formState.description}
-                className="w-2/3"
-                onChange={(e) => setter.setDescription(e.target.value)}
-              />
+              <div className="w-2/3 h-52">
+                <TextArea
+                  placeholder="ルームについて"
+                  value={formState.description}
+                  onChange={(e) => setter.setDescription(e.target.value)}
+                />
+              </div>
             </div>
 
             <div className={betweenH2}>
