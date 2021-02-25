@@ -18,6 +18,7 @@ import { AvatarWithName } from "../../components/avatar/avatar-with-name";
 import { useTeamDetail } from "../../hooks/useRoomDetail";
 import { SimpleDialog } from "../../components/dialog/simple-dialog";
 import { AvatarLink } from "../../components/avatar/avatar-link";
+import ReactMarkdown from "react-markdown";
 
 export default function ShowRoom() {
   const {
@@ -151,9 +152,9 @@ export default function ShowRoom() {
           </div>
 
           <div className="space-y-2 mt-8">
-            <Heading as="h2">ルームの説明</Heading>
-
-            <p>{room.description}</p>
+            <div>
+              <ReactMarkdown>{room.description}</ReactMarkdown>
+            </div>
           </div>
 
           <div className="space-y-2 mt-8">
