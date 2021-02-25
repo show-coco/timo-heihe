@@ -78,7 +78,7 @@ export default function ChatPage() {
           <div className="flex flex-col">
             <div className="flex items-center border-gray-200 border-b h-16">
               <Heading as="h3" className="ml-5">
-                {selectedRoom ? `#${selectedRoom.name}` : ""}
+                {selectedChannel ? `#${selectedChannel.name}` : ""}
               </Heading>
             </div>
 
