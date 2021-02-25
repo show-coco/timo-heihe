@@ -98,7 +98,7 @@ export default function CreateRoom() {
 
               <div className="w-2/3 h-52">
                 <TextArea
-                  placeholder="ルームについて（Markdown記法）"
+                  placeholder="ルームについて（Markdown記法）&#13;&#10;最初の一文がルーム一覧の説明文に表示されます。"
                   className="w-2/3"
                   onChange={(e) => setDescription(e.target.value)}
                 />
