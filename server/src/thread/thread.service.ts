@@ -16,10 +16,10 @@ export class ThreadService {
     const res = await this.threadRepository
       .createQueryBuilder('thread')
       .leftJoinAndSelect('thread.user', 'user.id = thread.userId')
-      .leftJoinAndSelect('thread.room', 'room.id = thread.roomId')
+      .leftJoinAndSelect('thread.channel', 'channel.id = thread.channelId')
       .leftJoinAndSelect('thread.messages', 'messages.threadId = thread.id')
       .where({
-        room: { id: input.channelId },
+        channel: { id: input.channelId },
         createdAt: LessThanOrEqual(input.cursor),
       })
       .limit(10)
@@ -34,7 +34,7 @@ export class ThreadService {
     const res = await this.threadRepository
       .createQueryBuilder('thread')
       .leftJoinAndSelect('thread.user', 'user.id = thread.userId')
-      .leftJoinAndSelect('thread.room', 'room.id = thread.roomId')
+      .leftJoinAndSelect('thread.channel', 'channel.id = thread.channelId')
       .leftJoinAndSelect('thread.messages', 'messages.threadId = thread.id')
       .where({ id })
       .getOne();

@@ -536,7 +536,7 @@ export type RoomCardFragment = { __typename?: "RoomModel" } & Pick<
 
 export type RoomItemFragment = { __typename?: "UserMemberModel" } & Pick<
   UserMemberModel,
-  "id" | "title" | "icon"
+  "id" | "name" | "icon"
 >;
 
 export type RoomTypesFragment = { __typename?: "RoomTypeModel" } & Pick<
@@ -985,7 +985,7 @@ export const RoomCardFragmentDoc = gql`
 export const RoomItemFragmentDoc = gql`
   fragment RoomItem on UserMemberModel {
     id
-    title
+    name
     icon
   }
 `;

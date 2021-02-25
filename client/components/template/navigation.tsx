@@ -2,6 +2,7 @@ import React, { useState } from "react";
 
 import Link from "next/link";
 import { useAuthContext } from "../../providers/useAuthContext";
+import ChatIcon from "../../assets/icons/chat.svg";
 
 const textStyle = "font-semibold text-base text-gray-700 cursor-pointer";
 import { IconButton } from "../button/icon-button";
@@ -14,19 +15,28 @@ export const Navigation: React.FC = () => {
   return (
     <div className="w-full h-3/5 p-4 px-12">
       <div className="w-full flex mx-auto justify-between ">
-        <div className="text-orange-400 align-middle text-3xl font-bold">
+        <div className="flex items-center text-orange-400 align-middle text-3xl font-bold space-x-16">
           <Link href="/">Cloud Circle</Link>
+
           <Link href="/">
-            <span className={`${textStyle} pl-16 align-middle`} role="button">
+            <span className={`${textStyle} align-middle`} role="button">
               ルームを探す
             </span>
           </Link>
-          <Link href="/">
-            <span className={`${textStyle} pl-16 align-middle`} role="button">
+
+          {/* <Link href="/">
+            <span className={`${textStyle} align-middle`} role="button">
               イベントを探す
+            </span>
+          </Link> */}
+
+          <Link href="/chat">
+            <span className={textStyle} role="button">
+              チャット
             </span>
           </Link>
         </div>
+
         <div className="flex items-center">
           <div className="pr-10">
             <Link href="/create-room">
@@ -38,7 +48,7 @@ export const Navigation: React.FC = () => {
                 ルームを作成
               </Button>
             </Link>
-            <Link href="/create-room">
+            {/* <Link href="/create-room">
               <Button
                 variant="secoundary"
                 size="small"
@@ -46,7 +56,7 @@ export const Navigation: React.FC = () => {
               >
                 イベントを作成
               </Button>
-            </Link>
+            </Link> */}
           </div>
           <div className="flex items-center overflow-hidden ">
             <IconButton
@@ -83,15 +93,6 @@ export const Navigation: React.FC = () => {
             )}
           </div>
         </div>
-
-        {/* <div className="flex items-center">
-          <ChatIcon class="w-5 h-5 fill-current mr-3" />
-          <Link href="/chat">
-            <span className={textStyle} role="button">
-              チームチャット
-            </span>
-          </Link>
-        </div> */}
 
         {/* <div className="flex items-center">
           <LogoutIcon class="w-5 h-5 fill-current mr-3" />
