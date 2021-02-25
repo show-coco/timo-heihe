@@ -16,7 +16,7 @@ export const Checkbox: React.FC<CheckBoxProps> = ({
   ...props
 }: CheckBoxProps) => {
   return (
-    <label className={`inline-flex items-center ${className}`}>
+    <label className={`inline-flex items-center cursor-pointer ${className}`}>
       <input
         type="checkbox"
         className="form-checkbox text-orange-500"

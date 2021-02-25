@@ -17,7 +17,9 @@ export const Radio: React.FC<RadioProps> = ({
   ...props
 }: RadioProps) => {
   return (
-    <label className={`flex items-center space-x-2 ${className}`}>
+    <label
+      className={`flex items-center space-x-2 cursor-pointer ${className}`}
+    >
       <input type="radio" name={name} {...props} />
       <span>{text}</span>
     </label>
