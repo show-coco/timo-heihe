@@ -6,9 +6,10 @@ import {
   AvatarWithName,
   AvatarWithNameProps,
 } from "../avatar/avatar-with-name";
-import { SkillModel, TeamCardFragment } from "../../generated/types";
+import { SkillModel, RoomCardFragment } from "../../generated/types";
 import { dateFormatter, YEAR_MANTH_DAY_SLASH } from "../../utils/dateFormat";
 import Link from "next/link";
+import { FirstParagraphDisplayer } from "../parser/first-paragraph-displayer";
 
 type PeopleInfo = {
   current: number;
@@ -27,7 +28,7 @@ export type TeamCardProps = {
 };
 
 export const convertToTeamCardObjFromTeams = (
-  queryObj: TeamCardFragment[]
+  queryObj: RoomCardFragment[]
 ): TeamCardProps[] => {
   return queryObj.map((team) => ({
     ...team,
@@ -95,7 +96,7 @@ export const TeamCard: React.FC<TeamCardProps> = ({
               </p>
             </div>
 
-            <div className="pt-4 pb-6">{description}</div>
+            <FirstParagraphDisplayer className="pt-4 pb-6" text={description} />
 
             <div className="flex items-end">
               <LanguagePochiSet languages={languages} className="flex-1" />

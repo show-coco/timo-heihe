@@ -33,9 +33,7 @@ export const SearchArea: FC<Props> = ({
         />
       </div>
       <div className="bg-white px-8">
-        <Heading as="h2" className="py-4">
-          所属人数で絞る
-        </Heading>
+        <div className="pt-6 font-bold text-lg">所属人数で絞る</div>
         <div className="flex flex-row h-10 w-full rounded-lg relative bg-transparent mt-1">
           <NumberInput
             value={recruitNumbers}
@@ -44,9 +42,7 @@ export const SearchArea: FC<Props> = ({
           />
         </div>
 
-        <Heading as="h2" className="py-4">
-          技術で絞る
-        </Heading>
+        <div className="pt-6 font-bold text-lg">技術で絞る</div>
         <div>
           {categoryAndSkillData?.skills.map((skill, i) => (
             <Checkbox
@@ -63,9 +59,7 @@ export const SearchArea: FC<Props> = ({
           ))}
         </div>
 
-        <Heading as="h2" className="py-4">
-          カテゴリーで絞る
-        </Heading>
+        <div className="pt-6 font-bold text-lg">カテゴリーで絞る</div>
         <div>
           {categoryAndSkillData?.categories.map((category, i) => (
             <Checkbox
