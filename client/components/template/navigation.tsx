@@ -2,16 +2,19 @@ import React, { useState } from "react";
 
 import Link from "next/link";
 import { useAuthContext } from "../../providers/useAuthContext";
-import ChatIcon from "../../assets/icons/chat.svg";
-
-const textStyle = "font-semibold text-base text-gray-700 cursor-pointer";
 import { IconButton } from "../button/icon-button";
 import DotIcon from "../../assets/icons/dot-set.svg";
 import { AvatarLink } from "../avatar/avatar-link";
 import { Button } from "../button/button";
+
+const textStyle = "font-semibold text-base text-gray-700 cursor-pointer";
+const linkStye =
+  "hover:bg-opacity-10 hover:bg-black-100 py-2 pl-3 cursor-pointer";
+
 export const Navigation: React.FC = () => {
   const [isShown, setIsShown] = useState(false);
-  const { logout } = useAuthContext();
+  const { logout, avatar, userId, name } = useAuthContext();
+
   return (
     <div className="w-full h-3/5 p-4 px-12">
       <div className="w-full flex mx-auto justify-between ">
@@ -65,29 +68,29 @@ export const Navigation: React.FC = () => {
               className="mr-10 align-middle "
             />
             <AvatarLink
-              avatar="https://bit.ly/kent-c-dodds"
-              name="sho"
+              avatar={avatar}
+              name={name}
               className="hover:opacity-80 cursor-pointer align-middle "
-              userId="show-coco"
+              userId={userId}
               onClick={() => setIsShown(!isShown)}
             />
             {isShown && (
-              <div className="absolute right-4 top-20 w-36 h-40 rounded-xl bg-white shadow-lg border px-2 py-4 cursor-default">
-                <div className="border-b-2 pb-3">
-                  <ul>
-                    <li className="font-bold">{`sho`}</li>
-                    <li>@{`show-coco`}</li>
-                  </ul>
+              <div className="absolute right-4 top-20 w-36 rounded-xl bg-white shadow-lg border cursor-default">
+                <div className="border-b-2">
+                  <Link href="/user/[id]" as={`/user/${userId}`}>
+                    <div className={`${linkStye}  rounded-t-xl`}>
+                      <div className="font-bold">{name}</div>
+                      <div>@{userId}</div>
+                    </div>
+                  </Link>
                 </div>
-                <div className="pt-3">
-                  <ul>
-                    <li className="cursor-pointer" onClick={logout}>
-                      ログアウト
-                    </li>
-                    <Link href="/user/[id]" as={`/user/${`show-coco`}`}>
-                      <li className="cursor-pointer">プロフィール</li>
-                    </Link>
-                  </ul>
+                <div>
+                  <button
+                    className={`${linkStye} w-full h-full text-left rounded-b-xl`}
+                    onClick={logout}
+                  >
+                    ログアウト
+                  </button>
                 </div>
               </div>
             )}

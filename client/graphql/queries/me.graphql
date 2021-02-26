@@ -3,6 +3,7 @@ query Me {
     id
     userId
     name
+    avatar
     skills {
       ...SkillItem
     }
