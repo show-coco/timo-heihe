@@ -18,6 +18,7 @@ import { LanguagePochiSet } from "../components/language/language-pochi-set";
 import { Button } from "../components/button";
 import GithubIcon from "../assets/icons/github.svg";
 import { TextArea } from "../components/text-area";
+import { useAuthGuard } from "../hooks/useAuthGurad";
 
 const betweenH2 = "space-y-2";
 
@@ -41,6 +42,8 @@ export default function CreateRoom() {
     imageUrl,
   } = useCreateRoom();
   const { data } = useCreateRoomPageQuery();
+
+  useAuthGuard();
 
   const skills = data?.skills || [];
   console.log("selectedSkills", selectedSkills);
@@ -111,7 +114,7 @@ export default function CreateRoom() {
                 <span className="text-red-500">*</span>
               </span>
 
-              <div className="flex flex-row h-10 w-full rounded-lg relative bg-transparent mt-1">
+              <div className="relative flex flex-row w-full h-10 mt-1 bg-transparent rounded-lg">
                 <NumberInput
                   value={recruitNumber}
                   setValue={setRecruitNumber}
@@ -126,7 +129,7 @@ export default function CreateRoom() {
                 {data?.roomTypes.map((type, i) => (
                   <Checkbox
                     key={i}
-                    className="mr-4 mt-4"
+                    className="mt-4 mr-4"
                     value={type.id}
                     onChange={(e) => onChangeType(e, type.id)}
                   >
@@ -142,7 +145,7 @@ export default function CreateRoom() {
                 <span className="text-red-500">*</span>
               </span>
 
-              <div className="space-x-8 flex">
+              <div className="flex space-x-8">
                 <Radio
                   text="なし"
                   name="apply"
@@ -165,7 +168,7 @@ export default function CreateRoom() {
                 {data?.categories.map((category, i) => (
                   <Checkbox
                     key={i}
-                    className="mr-4 mt-4"
+                    className="mt-4 mr-4"
                     value={category.id?.toString()}
                     onChange={(e) =>
                       onChangeCategories(e, Number(e.currentTarget.value))

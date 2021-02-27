@@ -14,6 +14,7 @@ import { CreateRoomModal } from "../components/chat/modals/create-room";
 import { MoveToRecruitModal } from "../components/chat/modals/move-to-recruit";
 import { useAuthContext } from "../providers/useAuthContext";
 import { useRouter } from "next/router";
+import { useAuthGuard } from "../hooks/useAuthGurad";
 
 export default function ChatPage() {
   const {
@@ -27,12 +28,8 @@ export default function ChatPage() {
     createRoomModal,
     createSpace,
   } = useChat();
-  const router = useRouter();
-  const { isAuthenticated } = useAuthContext();
 
-  if (!isAuthenticated) {
-    router.push("/login");
-  }
+  useAuthGuard();
 
   return (
     <>
