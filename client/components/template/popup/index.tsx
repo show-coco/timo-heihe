@@ -9,7 +9,7 @@ type Props = Pick<AuthContextType, "logout" | "userId" | "name">;
 
 export const PopUp: React.FC<Props> = ({ userId, name, logout }: Props) => {
   return (
-    <div className="absolute bg-white border shadow-lg cursor-default right-4 top-20 w-36 rounded-xl">
+    <div className="absolute z-10 bg-white border shadow-lg cursor-default right-4 top-20 w-36 rounded-xl">
       <div className="border-b-2">
         <Link href="/user/[id]" as={`/user/${userId}`}>
           <div className={`${linkStye}  rounded-t-xl`}>

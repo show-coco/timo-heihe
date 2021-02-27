@@ -7,6 +7,7 @@ import { Button } from "../button/button";
 import { PopUp } from "./popup";
 import { useModal } from "../../hooks/useModal";
 import { LoginModal } from "../login-modal";
+import { Avatar } from "../avatar/avatar";
 
 const textStyle = "font-semibold text-base text-gray-700 cursor-pointer";
 
@@ -47,15 +48,26 @@ export const Navigation: React.FC = () => {
 
           <div className="flex items-center">
             <div className="pr-10">
-              <Link href="/create-room">
+              {isAuthenticated ? (
+                <Link href="/create-room">
+                  <Button
+                    variant="outline"
+                    size="small"
+                    className="mr-10 font-medium align-middle rounded-full"
+                  >
+                    ルームを作成
+                  </Button>
+                </Link>
+              ) : (
                 <Button
                   variant="outline"
                   size="small"
                   className="mr-10 font-medium align-middle rounded-full"
+                  onClick={onOpen}
                 >
                   ルームを作成
                 </Button>
-              </Link>
+              )}
               {/* <Link href="/create-room">
               <Button
                 variant="secoundary"
@@ -74,11 +86,10 @@ export const Navigation: React.FC = () => {
             /> */}
 
               {isAuthenticated ? (
-                <AvatarLink
-                  avatar={avatar}
+                <Avatar
+                  src={avatar}
                   name={name}
                   className="align-middle cursor-pointer hover:opacity-80 "
-                  userId={userId}
                   onClick={() => setIsShown(!isShown)}
                 />
               ) : (
