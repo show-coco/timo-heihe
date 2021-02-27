@@ -1,38 +1,45 @@
 import React from "react";
-import { LoginHeader } from "../components/header";
 import { Heading } from "../components/heading/heading";
 import { Circle } from "../components/circle";
+import { LoginButton } from "../components/login-button";
+import { Button } from "../components/button";
+import Link from "next/link";
+
 function Login() {
   return (
-    <div className="bg-gradient-to-t from-yellow-100 h-screen w-screen relative  overflow-hidden block">
-      <Circle
-        parentWith="w-10/12"
-        className="absolute -top-24 -right-1/4 w-1/2 h-5/6 bg-gradient-to-t from-yellow-400 z-1"
-      />
-      <LoginHeader />
-      <div className="w-2/5 ml-16">
-        <Heading className="ml-4 py-10 font-bold " as="h1Big">
-          アウトプットを価値化しよう
-        </Heading>
-        <Heading className="ml-4" as="h1Small">
-          このサービスで、執筆した記事や開発でアウトプットしたモノを<br></br>
-          可視化・価値化することができます。
-        </Heading>
+    <div className="relative block w-screen h-screen overflow-hidden bg-gradient-to-t from-yellow-100">
+      <Circle className="absolute w-96 h-96 -top-12 -right-20 bg-gradient-to-t from-yellow-400" />
+
+      <div className="py-8">
+        <header className="relative z-10 w-4/5 p-5 m-auto font-bold bg-white shadow-xl rounded-xl">
+          <Heading as="h1Small" className="text-orange-400">
+            Cloud Circle
+          </Heading>
+        </header>
       </div>
-      <a href="http://localhost:8080/google">
-        <button className="shadow-md py-1 px-3 align-middle ml-20 my-12 bg-gradient-to-r from-orange-400 to-orange-350 rounded-md text-white">
-          <span className="text-white align-middle pr-1 font-bold text-2xl">
-            G
-          </span>
-          Googleでログイン
-        </button>
-      </a>
-      <Circle
-        parentWith="w-7/12"
-        className="w-16 h-16 bg-gradient-to-t from-purple-100 to-pink-100
-        my-14 
-        "
-      />
+
+      <div className="relative z-10 w-4/5 m-auto md:w-2/5">
+        <Heading
+          className="flex justify-center py-10 ml-4 text-4xl font-bold"
+          as="h2"
+        >
+          エンジニア同士の繋がりを作ろう
+        </Heading>
+        <p className="ml-4">
+          Cloud
+          Circleはエンジニアのためのコミュニティプラットフォームです。みんなと繋がり、開発・研究して仲間と経験をつくろう！
+        </p>
+      </div>
+
+      <div className="flex flex-col justify-center px-5 py-12 space-y-5 md:space-y-0 md:flex-row md:space-x-5">
+        <LoginButton className="shadow-md" />
+        <Link href="/">
+          <Button className="shadow-md" colorScheme="blue">
+            ルーム一覧を見てみる
+          </Button>
+        </Link>
+      </div>
+      <Circle className="w-16 h-16 bg-gradient-to-t from-purple-100 to-pink-100 my-14 " />
       <Circle className="w-20 h-20 bg-gradient-to-t from-blue-350 mr-96 to-blue-150" />
     </div>
   );

@@ -781,7 +781,7 @@ export type MeQueryVariables = Exact<{ [key: string]: never }>;
 export type MeQuery = { __typename?: "Query" } & {
   me: { __typename?: "UserModel" } & Pick<
     UserModel,
-    "id" | "userId" | "name"
+    "id" | "userId" | "name" | "avatar"
   > & {
       skills?: Maybe<Array<{ __typename?: "SkillModel" } & SkillItemFragment>>;
     };
@@ -1764,6 +1764,7 @@ export const MeDocument = gql`
       id
       userId
       name
+      avatar
       skills {
         ...SkillItem
       }

@@ -1,10 +1,10 @@
 import React from "react";
 
 export type ButtonProps = {
-  variant?: "primary" | "secoundary" | "outline" | "ghost" | "underline";
+  variant?: "solid" | "outline" | "ghost" | "underline";
+  colorScheme?: "orange" | "blue";
   size?: "small" | "medium" | "large";
   isIcon?: boolean;
-  // eslint-disable-next-line no-unused-vars
   onClick?: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
   children?: React.ReactNode;
   className?: string;
@@ -25,29 +25,40 @@ const sizes = {
 const paddings = {
   icon: "p-0",
   small: "px-4",
-  medium: "px-4",
+  medium: "px-6",
   large: "px-8",
 };
 
 const hoverAnimation = {
   black: "hover:bg-opacity-30",
   orange: "hover:bg-orange-600",
+  blue: "hover:bg-blue-600",
 };
 
 const variants = {
-  primary: `text-white bg-orange-500 ${hoverAnimation["orange"]}`,
-  secoundary: `text-orange-500 bg-transparent border border-orange-500 hover:bg-black-400 ${hoverAnimation["black"]}`,
-  outline: `text-red-500 bg-transparent border border-red-500 hover:bg-black-400 ${hoverAnimation["black"]}`,
+  solid: `text-white`,
+  outline: `bg-transparent border  hover:bg-black-100 ${hoverAnimation["black"]}`,
   ghost: `hover:bg-black-400 ${hoverAnimation["black"]} `,
   underline: `hover:bg-black-400 ${hoverAnimation["black"]} border-b-2 border-orange-300`,
+};
+
+const colorSchemesForSolid = {
+  orange: `bg-orange-500 ${hoverAnimation["orange"]}`,
+  blue: `bg-blue-500 ${hoverAnimation["blue"]}`,
+};
+
+const colorSchemeseForOutline = {
+  orange: `text-orange-500 border-orange-500`,
+  blue: `text-blue-500 border-blue-500`,
 };
 
 // eslint-disable-next-line react/display-name
 export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   (
     {
-      variant = "primary",
+      variant = "solid",
       size = "medium",
+      colorScheme = "orange",
       children,
       className,
       isIcon,
@@ -56,16 +67,24 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     }: ButtonProps,
     ref
   ) => {
-    const sizeMode = sizes[size];
-    const buttonType = variants[variant];
+    const sizeStyle = sizes[size];
+    const variantStyle = variants[variant];
+    let colorSchemeStyle;
+    switch (variant) {
+      case "solid":
+        colorSchemeStyle = colorSchemesForSolid[colorScheme];
+        break;
+      case "outline":
+        colorSchemeStyle = colorSchemeseForOutline[colorScheme];
+    }
     const disabledStyle = props.disabled ? "opacity-50" : "";
-    const paddingClass = isIcon ? paddings["icon"] : paddings[size];
-    const rounded = roundedTop ? "rounded-t-md" : "rounded-md";
+    const paddingStyle = isIcon ? paddings["icon"] : paddings[size];
+    const roundedStyle = roundedTop ? "rounded-t-md" : "rounded-md";
 
     return (
       <button
         type="button"
-        className={`${buttonType} ${defaultStyle} ${sizeMode} ${paddingClass} ${disabledStyle} ${className} ${rounded}`}
+        className={`${variantStyle} ${defaultStyle} ${sizeStyle} ${paddingStyle} ${disabledStyle} ${className} ${roundedStyle} ${colorSchemeStyle}`}
         ref={ref}
         {...props}
       >

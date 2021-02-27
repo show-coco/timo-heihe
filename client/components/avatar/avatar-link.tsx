@@ -1,3 +1,4 @@
+import Link from "next/link";
 import React from "react";
 import { Avatar, AvatarProps } from "./avatar";
 
@@ -15,10 +16,11 @@ export const AvatarLink: React.FC<Props> = ({
   name,
   className,
   size,
+  userId,
   onClick,
 }: Props) => {
   return (
-    <span className="mr-2">
+    <Link href="/user/[id]" as={`/user/${userId}`}>
       <Avatar
         className={className}
         src={avatar || ""}
@@ -28,6 +30,6 @@ export const AvatarLink: React.FC<Props> = ({
         tabIndex={0}
         onClick={onClick}
       />
-    </span>
+    </Link>
   );
 };

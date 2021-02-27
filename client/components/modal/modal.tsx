@@ -1,7 +1,9 @@
 import React from "react";
 import ReactModal from "react-modal";
 
-type Props = React.ComponentProps<typeof ReactModal> & {
+export type ModalProps = React.ComponentProps<typeof ReactModal>;
+
+type Props = ModalProps & {
   children: React.ReactNode;
 };
 
@@ -13,6 +15,9 @@ const customStyles = {
     bottom: "auto",
     marginRight: "-50%",
     transform: "translate(-50%, -50%)",
+  },
+  overlay: {
+    background: "rgba(0, 0, 0, 0.2)",
   },
 };
 

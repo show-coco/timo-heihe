@@ -11,10 +11,11 @@ type AuthUser = {
   userId: string;
 };
 
-type AuthContextType = {
+export type AuthContextType = {
   id: number;
   userId: string;
   name: string;
+  avatar: string;
   isAuthenticated: boolean;
   skillIds: number[];
   loading: boolean;
@@ -33,6 +34,7 @@ const LoginUserContext = createContext<AuthContextType>({
   isAuthenticated: false,
   skillIds: [],
   loading: true,
+  avatar: "",
   login: () => {},
   logout: () => {},
 });
@@ -45,6 +47,7 @@ export const AuthProvider: React.FC<Props> = ({ children }: Props) => {
   const [userId, setUserId] = useState("");
   const [name, setName] = useState("");
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [avatar, setAvatar] = useState("");
   const [skillIds, setSkillIds] = useState<number[]>([]);
   const router = useRouter();
   const { data, error, loading } = useMeQuery();
@@ -57,12 +60,13 @@ export const AuthProvider: React.FC<Props> = ({ children }: Props) => {
     console.log(data);
 
     if (data?.me) {
-      const { id, userId, name, skills } = data?.me;
+      const { id, userId, name, skills, avatar } = data?.me;
       const skillIds = skills?.map((skill) => skill.id);
 
       setName(name);
       setId(id);
       setUserId(userId);
+      setAvatar(avatar || "");
       if (skillIds) {
         setSkillIds(skillIds);
       }
@@ -97,6 +101,7 @@ export const AuthProvider: React.FC<Props> = ({ children }: Props) => {
         id,
         userId,
         name,
+        avatar,
         skillIds,
         loading,
         login,

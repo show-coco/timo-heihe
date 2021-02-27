@@ -1,13 +1,35 @@
 import React from "react";
 import MorningIcon from "../../../assets/icons/morning.svg";
 import { Button } from "../../button";
-import { TeamTypesFragment } from "../../../generated/types";
+import { RoomTypesFragment } from "../../../generated/types";
 import { Card } from "../../card/card";
+import { useAuthContext } from "../../../providers/useAuthContext";
+import Link from "next/link";
+import { useModal } from "../../../hooks/useModal";
+import { on } from "events";
+import { LoginModal } from "../../login-modal";
 
 type Props = {
-  teamTypes?: TeamTypesFragment[];
+  teamTypes?: RoomTypesFragment[];
   typeId: number;
   setTypeId: React.Dispatch<React.SetStateAction<number>>;
+};
+
+const LoginNotification: React.FC<{ onOpen: () => void }> = ({
+  onOpen,
+}: {
+  onOpen: () => void;
+}) => {
+  return (
+    <div className="flex items-center space-x-20">
+      <p className="text-lg">
+        こんにちはゲストさん！ログインしてルームに参加しよう
+      </p>
+      <Button colorScheme="blue" onClick={onOpen}>
+        Login
+      </Button>
+    </div>
+  );
 };
 
 export const HomeHeader: React.FC<Props> = ({
@@ -15,23 +37,32 @@ export const HomeHeader: React.FC<Props> = ({
   typeId,
   setTypeId,
 }: Props) => {
+  const { isAuthenticated } = useAuthContext();
+  const { isOpen, onClose, onOpen } = useModal();
+
   return (
     <>
-      <div className="w-10/12 m-auto h-44 flex flex-row px-6">
+      <LoginModal onRequestClose={onClose} isOpen={isOpen} />
+
+      <div className="flex flex-row w-10/12 px-6 m-auto h-44">
         <div className="flex items-center flex-1 mr-5">
           <Card
             variant="shadow"
-            className="flex flex-1 items-center pl-6 h-20 justify-between"
+            className="flex items-center justify-between flex-1 h-20 pl-6"
           >
-            <p className="text-lg">
-              x月xx日にハッカソンが開催されます！腕試ししてみませんか
-            </p>
+            {isAuthenticated ? (
+              <p className="text-lg">
+                x月xx日にハッカソンが開催されます！腕試ししてみませんか
+              </p>
+            ) : (
+              <LoginNotification onOpen={onOpen} />
+            )}
             <MorningIcon class="h-full" />
           </Card>
         </div>
       </div>
 
-      <div className="space-x-3 bg-white w-full px-32">
+      <div className="w-full px-32 space-x-3 bg-white">
         {teamTypes?.map((type) => {
           const isSelected = typeId === type.id;
           return (

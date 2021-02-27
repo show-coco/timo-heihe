@@ -15,9 +15,12 @@ import {
 import { AutoComplate } from "../../../components/auto-complate/auto-complate";
 import { Button } from "../../../components/button";
 import { EditableLanguagePochiSet } from "../../../components/language/editable-language-pochi-set";
+import { useAuthGuard } from "../../../hooks/useAuthGurad";
 
 export default function EditUser() {
   const { formState, file, setter, skills, onSubmit } = useEditUser();
+
+  useAuthGuard({});
 
   return (
     <Template className="p-10">

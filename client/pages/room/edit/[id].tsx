@@ -18,6 +18,7 @@ import {
 } from "../../create-room";
 import { EditableLanguagePochiSet } from "../../../components/language/editable-language-pochi-set";
 import { TextArea } from "../../../components/text-area";
+import { useAuthGuard } from "../../../hooks/useAuthGurad";
 
 const betweenH2 = "space-y-2";
 
@@ -29,8 +30,11 @@ export default function EditRoom() {
     skills,
     categories,
     roomTypes,
+    data,
     onSubmit,
   } = useEditTeam();
+
+  useAuthGuard({ ownerId: data?.room.owner.id });
 
   console.log(formState);
 
@@ -102,7 +106,7 @@ export default function EditRoom() {
                 <span className="text-red-500">*</span>
               </span>
 
-              <div className="flex flex-row h-10 w-full rounded-lg relative bg-transparent mt-1">
+              <div className="relative flex flex-row w-full h-10 mt-1 bg-transparent rounded-lg">
                 <NumberInput
                   value={formState.recruitNumber}
                   setValue={setter.setRecruitNumber}
@@ -117,7 +121,7 @@ export default function EditRoom() {
                 {roomTypes.map((type, i) => (
                   <Checkbox
                     key={i}
-                    className="mr-4 mt-4"
+                    className="mt-4 mr-4"
                     value={type.id}
                     checked={formState.types.includes(type.id)}
                     onChange={(e) => setter.onChangeType(e, type.id)}
@@ -134,7 +138,7 @@ export default function EditRoom() {
                 <span className="text-red-500">*</span>
               </span>
 
-              <div className="space-x-8 flex">
+              <div className="flex space-x-8">
                 <Radio
                   checked={formState.isRequired === "1"}
                   text="なし"
@@ -159,7 +163,7 @@ export default function EditRoom() {
                 {categories.map((category, i) => (
                   <Checkbox
                     key={i}
-                    className="mr-4 mt-4"
+                    className="mt-4 mr-4"
                     value={category.id?.toString()}
                     checked={formState.categories.includes(category.id || -1)}
                     onChange={(e) =>

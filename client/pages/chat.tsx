@@ -12,12 +12,12 @@ import { ReactComponent as InActiveSendIcon } from "../assets/icons/send-inactiv
 import { CreateChannelModal } from "../components/chat/modals/create-channel";
 import { CreateRoomModal } from "../components/chat/modals/create-room";
 import { MoveToRecruitModal } from "../components/chat/modals/move-to-recruit";
+import { useAuthGuard } from "../hooks/useAuthGurad";
 
 export default function ChatPage() {
   const {
     status,
     setter,
-    data,
     selectedRoom,
     selectedChannel,
     onClickSendButton,
@@ -25,6 +25,8 @@ export default function ChatPage() {
     createRoomModal,
     createSpace,
   } = useChat();
+
+  useAuthGuard({});
 
   return (
     <>
@@ -41,7 +43,7 @@ export default function ChatPage() {
       />
 
       <Template>
-        <div className="grid grid-cols-chat h-full border-gray-200 border bg-white">
+        <div className="grid h-full bg-white border border-gray-200 grid-cols-chat">
           <SpaceList
             rooms={status.rooms}
             setSelectedRoom={setter.setSelectedRoomId}
@@ -49,17 +51,17 @@ export default function ChatPage() {
           />
 
           {/* チャンネル一覧 */}
-          <div className="flex flex-col border-gray-200 border-r">
-            <div className="flex items-center justify-center h-16 border-gray-200 border-b">
+          <div className="flex flex-col border-r border-gray-200">
+            <div className="flex items-center justify-center h-16 border-b border-gray-200">
               <Heading as="h1Small">
                 {selectedRoom ? selectedRoom.name : ""}
               </Heading>
             </div>
 
-            <div className="py-1 px-3 flex justify-between">
+            <div className="flex justify-between px-3 py-1">
               <span>チャンネル</span>
               <button
-                className="hover:bg-black-400 hover:bg-opacity-20 h-6 w-6 flex items-center justify-center rounded-sm"
+                className="flex items-center justify-center w-6 h-6 rounded-sm hover:bg-black-400 hover:bg-opacity-20"
                 onClick={createRoomModal.onOpen}
               >
                 +
@@ -76,7 +78,7 @@ export default function ChatPage() {
 
           {/* チャット */}
           <div className="flex flex-col">
-            <div className="flex items-center border-gray-200 border-b h-16">
+            <div className="flex items-center h-16 border-b border-gray-200">
               <Heading as="h3" className="ml-5">
                 {selectedChannel ? `#${selectedChannel.name}` : ""}
               </Heading>
@@ -89,7 +91,7 @@ export default function ChatPage() {
             />
 
             {/* 送信フォーム */}
-            <form className="h-16 items-center" onSubmit={onClickSendButton}>
+            <form className="items-center h-16" onSubmit={onClickSendButton}>
               <div className="px-10">
                 <div className="relative">
                   <TextInput
