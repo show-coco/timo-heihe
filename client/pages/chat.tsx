@@ -12,15 +12,12 @@ import { ReactComponent as InActiveSendIcon } from "../assets/icons/send-inactiv
 import { CreateChannelModal } from "../components/chat/modals/create-channel";
 import { CreateRoomModal } from "../components/chat/modals/create-room";
 import { MoveToRecruitModal } from "../components/chat/modals/move-to-recruit";
-import { useAuthContext } from "../providers/useAuthContext";
-import { useRouter } from "next/router";
 import { useAuthGuard } from "../hooks/useAuthGurad";
 
 export default function ChatPage() {
   const {
     status,
     setter,
-    data,
     selectedRoom,
     selectedChannel,
     onClickSendButton,
