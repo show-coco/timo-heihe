@@ -26,7 +26,7 @@ export default function ChatPage() {
     createSpace,
   } = useChat();
 
-  useAuthGuard();
+  useAuthGuard({});
 
   return (
     <>

@@ -1,9 +1,22 @@
 import { useRouter } from "next/router";
 import { useAuthContext } from "../providers/useAuthContext";
 
-export const useAuthGuard = () => {
+type Props = {
+  ownerId?: number;
+};
+
+export const useAuthGuard = ({ ownerId }: Props) => {
   const router = useRouter();
-  const { isAuthenticated } = useAuthContext();
+  const userId = router.query.id;
+  const { isAuthenticated, id, userId: loginUserId } = useAuthContext();
+
+  if (ownerId && ownerId !== id) {
+    router.push("/");
+  }
+
+  if (userId !== loginUserId) {
+    router.push("/");
+  }
 
   if (!isAuthenticated) {
     router.push("/login");

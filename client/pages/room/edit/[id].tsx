@@ -30,10 +30,11 @@ export default function EditRoom() {
     skills,
     categories,
     roomTypes,
+    data,
     onSubmit,
   } = useEditTeam();
 
-  useAuthGuard();
+  useAuthGuard({ ownerId: data?.room.owner.id });
 
   console.log(formState);
 

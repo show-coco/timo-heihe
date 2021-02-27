@@ -43,7 +43,7 @@ export default function CreateRoom() {
   } = useCreateRoom();
   const { data } = useCreateRoomPageQuery();
 
-  useAuthGuard();
+  useAuthGuard({});
 
   const skills = data?.skills || [];
   console.log("selectedSkills", selectedSkills);

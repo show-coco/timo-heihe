@@ -161,5 +161,6 @@ export const useEditTeam = () => {
     categories: data?.categories || [],
     skills: data?.skills || [],
     roomTypes: data?.roomTypes || [],
+    data,
   };
 };

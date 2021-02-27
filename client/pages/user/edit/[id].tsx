@@ -20,7 +20,7 @@ import { useAuthGuard } from "../../../hooks/useAuthGurad";
 export default function EditUser() {
   const { formState, file, setter, skills, onSubmit } = useEditUser();
 
-  useAuthGuard();
+  useAuthGuard({});
 
   return (
     <Template className="p-10">
