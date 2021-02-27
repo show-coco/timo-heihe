@@ -25,7 +25,7 @@ const sizes = {
 const paddings = {
   icon: "p-0",
   small: "px-4",
-  medium: "px-4",
+  medium: "px-6",
   large: "px-8",
 };
 

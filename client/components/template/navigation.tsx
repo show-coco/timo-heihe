@@ -6,19 +6,18 @@ import { IconButton } from "../button/icon-button";
 import DotIcon from "../../assets/icons/dot-set.svg";
 import { AvatarLink } from "../avatar/avatar-link";
 import { Button } from "../button/button";
+import { PopUp } from "./popup";
 
 const textStyle = "font-semibold text-base text-gray-700 cursor-pointer";
-const linkStye =
-  "hover:bg-opacity-10 hover:bg-black-100 py-2 pl-3 cursor-pointer";
 
 export const Navigation: React.FC = () => {
   const [isShown, setIsShown] = useState(false);
-  const { logout, avatar, userId, name } = useAuthContext();
+  const { logout, avatar, userId, name, isAuthenticated } = useAuthContext();
 
   return (
-    <div className="w-full h-3/5 p-4 px-12">
-      <div className="w-full flex mx-auto justify-between ">
-        <div className="flex items-center text-orange-400 align-middle text-3xl font-bold space-x-16">
+    <div className="w-full p-4 px-12 h-3/5">
+      <div className="flex justify-between w-full mx-auto ">
+        <div className="flex items-center space-x-16 text-3xl font-bold text-orange-400 align-middle">
           <Link href="/">Cloud Circle</Link>
 
           <Link href="/">
@@ -33,11 +32,13 @@ export const Navigation: React.FC = () => {
             </span>
           </Link> */}
 
-          <Link href="/chat">
-            <span className={textStyle} role="button">
-              チャット
-            </span>
-          </Link>
+          {isAuthenticated && (
+            <Link href="/chat">
+              <span className={textStyle} role="button">
+                チャット
+              </span>
+            </Link>
+          )}
         </div>
 
         <div className="flex items-center">
@@ -46,7 +47,7 @@ export const Navigation: React.FC = () => {
               <Button
                 variant="outline"
                 size="small"
-                className="rounded-full mr-10 align-middle font-medium text-orange-400 border-orange-400"
+                className="mr-10 font-medium align-middle rounded-full"
               >
                 ルームを作成
               </Button>
@@ -55,45 +56,33 @@ export const Navigation: React.FC = () => {
               <Button
                 variant="secoundary"
                 size="small"
-                className="rounded-full align-middle font-medium "
+                className="font-medium align-middle rounded-full "
               >
                 イベントを作成
               </Button>
             </Link> */}
           </div>
           <div className="flex items-center overflow-hidden ">
-            <IconButton
+            {/* <IconButton
               icon={<DotIcon width="30px" height="30px" fill="#555555" />}
               variant="ghost"
-              className="mr-10 align-middle "
-            />
-            <AvatarLink
-              avatar={avatar}
-              name={name}
-              className="hover:opacity-80 cursor-pointer align-middle "
-              userId={userId}
-              onClick={() => setIsShown(!isShown)}
-            />
-            {isShown && (
-              <div className="absolute right-4 top-20 w-36 rounded-xl bg-white shadow-lg border cursor-default">
-                <div className="border-b-2">
-                  <Link href="/user/[id]" as={`/user/${userId}`}>
-                    <div className={`${linkStye}  rounded-t-xl`}>
-                      <div className="font-bold">{name}</div>
-                      <div>@{userId}</div>
-                    </div>
-                  </Link>
-                </div>
-                <div>
-                  <button
-                    className={`${linkStye} w-full h-full text-left rounded-b-xl`}
-                    onClick={logout}
-                  >
-                    ログアウト
-                  </button>
-                </div>
-              </div>
+              className="mr-10 align-middle"
+            /> */}
+
+            {isAuthenticated ? (
+              <AvatarLink
+                avatar={avatar}
+                name={name}
+                className="align-middle cursor-pointer hover:opacity-80 "
+                userId={userId}
+                onClick={() => setIsShown(!isShown)}
+              />
+            ) : (
+              <Link href="http://localhost:8080/google">
+                <Button colorScheme="blue">Login</Button>
+              </Link>
             )}
+            {isShown && <PopUp logout={logout} userId={userId} name={name} />}
           </div>
         </div>
 

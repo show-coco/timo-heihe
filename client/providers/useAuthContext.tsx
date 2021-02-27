@@ -11,7 +11,7 @@ type AuthUser = {
   userId: string;
 };
 
-type AuthContextType = {
+export type AuthContextType = {
   id: number;
   userId: string;
   name: string;
