@@ -2,6 +2,7 @@ import React from "react";
 import { LoginHeader } from "../components/header";
 import { Heading } from "../components/heading/heading";
 import { Circle } from "../components/circle";
+import { LoginButton } from "../components/login-button";
 
 function Login() {
   return (
@@ -20,14 +21,9 @@ function Login() {
           Circleはエンジニアのためのコミュニティプラットフォームです。みんなと繋がり、開発・研究して仲間と経験をつくろう！
         </p>
       </div>
-      <a href="http://localhost:8080/google">
-        <button className="px-3 py-1 my-12 ml-20 text-white align-middle rounded-md shadow-md bg-gradient-to-r from-orange-400 to-orange-350">
-          <span className="pr-1 text-2xl font-bold text-white align-middle">
-            G
-          </span>
-          Googleでログイン
-        </button>
-      </a>
+      <div className="my-12 ml-20">
+        <LoginButton className="shadow-md" />
+      </div>
       <Circle
         parentWith="w-7/12"
         className="w-16 h-16 bg-gradient-to-t from-purple-100 to-pink-100 my-14 "

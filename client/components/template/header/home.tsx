@@ -18,9 +18,7 @@ const LoginNotification: React.FC = () => {
       <p className="text-lg">
         こんにちはゲストさん！ログインしてルームに参加しよう
       </p>
-      <Link href="http://localhost:8080/google">
-        <Button colorScheme="blue">Login</Button>
-      </Link>
+      <Button colorScheme="blue">Login</Button>
     </div>
   );
 };

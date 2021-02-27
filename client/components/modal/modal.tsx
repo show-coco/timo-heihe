@@ -1,7 +1,9 @@
 import React from "react";
 import ReactModal from "react-modal";
 
-type Props = React.ComponentProps<typeof ReactModal> & {
+export type ModalProps = React.ComponentProps<typeof ReactModal>;
+
+type Props = ModalProps & {
   children: React.ReactNode;
 };
 
