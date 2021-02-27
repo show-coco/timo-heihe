@@ -44,9 +44,9 @@ export const Navigation: React.FC = () => {
           <div className="pr-10">
             <Link href="/create-room">
               <Button
-                variant="secoundary"
+                variant="outline"
                 size="small"
-                className="rounded-full mr-10 align-middle font-medium"
+                className="rounded-full mr-10 align-middle font-medium text-orange-400 border-orange-400"
               >
                 ルームを作成
               </Button>
