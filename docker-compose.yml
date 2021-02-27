@@ -15,3 +15,4 @@ services:
       - '5432'
     volumes:
       - ./local-data/db:/var/lib/postgresql/data
+      - ./seeds/seed.sql:/seed.sql
