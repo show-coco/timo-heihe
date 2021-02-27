@@ -2,7 +2,6 @@ import React, { useState } from "react";
 
 import Link from "next/link";
 import { useAuthContext } from "../../providers/useAuthContext";
-import { AvatarLink } from "../avatar/avatar-link";
 import { Button } from "../button/button";
 import { PopUp } from "./popup";
 import { useModal } from "../../hooks/useModal";
