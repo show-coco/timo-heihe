@@ -3,9 +3,10 @@ import { useAuthContext } from "../providers/useAuthContext";
 
 type Props = {
   ownerId?: number;
+  isMe?: boolean;
 };
 
-export const useAuthGuard = ({ ownerId }: Props) => {
+export const useAuthGuard = ({ ownerId, isMe }: Props) => {
   const router = useRouter();
   const userId = router.query.id;
   const { isAuthenticated, id, userId: loginUserId } = useAuthContext();
@@ -14,7 +15,7 @@ export const useAuthGuard = ({ ownerId }: Props) => {
     router.push("/");
   }
 
-  if (userId !== loginUserId) {
+  if (isMe && userId !== loginUserId) {
     router.push("/");
   }
 
