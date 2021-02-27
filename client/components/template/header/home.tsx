@@ -5,6 +5,9 @@ import { RoomTypesFragment } from "../../../generated/types";
 import { Card } from "../../card/card";
 import { useAuthContext } from "../../../providers/useAuthContext";
 import Link from "next/link";
+import { useModal } from "../../../hooks/useModal";
+import { on } from "events";
+import { LoginModal } from "../../login-modal";
 
 type Props = {
   teamTypes?: RoomTypesFragment[];
@@ -12,24 +15,21 @@ type Props = {
   setTypeId: React.Dispatch<React.SetStateAction<number>>;
 };
 
-const LoginNotification: React.FC = () => {
+const LoginNotification: React.FC<{ onOpen: () => void }> = ({
+  onOpen,
+}: {
+  onOpen: () => void;
+}) => {
   return (
     <div className="flex items-center space-x-20">
       <p className="text-lg">
         こんにちはゲストさん！ログインしてルームに参加しよう
       </p>
-      <Button colorScheme="blue">Login</Button>
+      <Button colorScheme="blue" onClick={onOpen}>
+        Login
+      </Button>
     </div>
   );
-};
-
-const Notification = {
-  LOGIN: <LoginNotification />,
-  HACKASON: (
-    <p className="text-lg">
-      x月xx日にハッカソンが開催されます！腕試ししてみませんか
-    </p>
-  ),
 };
 
 export const HomeHeader: React.FC<Props> = ({
@@ -38,16 +38,25 @@ export const HomeHeader: React.FC<Props> = ({
   setTypeId,
 }: Props) => {
   const { isAuthenticated } = useAuthContext();
+  const { isOpen, onClose, onOpen } = useModal();
 
   return (
     <>
+      <LoginModal onRequestClose={onClose} isOpen={isOpen} />
+
       <div className="flex flex-row w-10/12 px-6 m-auto h-44">
         <div className="flex items-center flex-1 mr-5">
           <Card
             variant="shadow"
             className="flex items-center justify-between flex-1 h-20 pl-6"
           >
-            {isAuthenticated ? Notification["HACKASON"] : Notification["LOGIN"]}
+            {isAuthenticated ? (
+              <p className="text-lg">
+                x月xx日にハッカソンが開催されます！腕試ししてみませんか
+              </p>
+            ) : (
+              <LoginNotification onOpen={onOpen} />
+            )}
             <MorningIcon class="h-full" />
           </Card>
         </div>
