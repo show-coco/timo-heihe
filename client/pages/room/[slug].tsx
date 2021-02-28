@@ -22,6 +22,7 @@ import ReactMarkdown from "react-markdown";
 import { useAuthContext } from "../../providers/useAuthContext";
 import { useModal } from "../../hooks/useModal";
 import { LoginModal } from "../../components/login-modal";
+import { MemberState } from "../../generated/types";
 
 export default function ShowRoom() {
   const {
@@ -45,6 +46,11 @@ export default function ShowRoom() {
 
   if (loading) return <p>Loading...</p>;
   if (!room) return <p>データがありません</p>;
+
+  // TODO: 人数計算の処理をサーバでやる
+  const joiningCount = room?.members?.filter(
+    (member) => member.memberState === MemberState.Joining
+  ).length;
 
   return (
     <>
@@ -148,7 +154,7 @@ export default function ShowRoom() {
                 <span className="flex items-center space-x-3">
                   <PeopleIcon />
                   <span>
-                    {room.members?.length}/{room.recruitNumbers}
+                    {joiningCount}/{room.recruitNumbers}
                   </span>
                 </span>
               </span>

@@ -127,7 +127,11 @@ export const useTeamDetail = () => {
   // HACK
   const isLimitOfRecruit = useMemo(() => {
     if (room && room.members) {
-      return room.members.length >= room.recruitNumbers;
+      // TODO: 人数計算の処理をサーバでやる
+      const joiningCount = room.members.filter(
+        (member) => member.memberState === MemberState.Joining
+      ).length;
+      return joiningCount >= room.recruitNumbers;
     }
   }, [room]);
 

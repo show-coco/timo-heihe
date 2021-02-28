@@ -6,10 +6,15 @@ import {
   AvatarWithName,
   AvatarWithNameProps,
 } from "../avatar/avatar-with-name";
-import { SkillModel, RoomCardFragment } from "../../generated/types";
+import {
+  SkillModel,
+  RoomCardFragment,
+  MemberState,
+} from "../../generated/types";
 import { dateFormatter, YEAR_MANTH_DAY_SLASH } from "../../utils/dateFormat";
 import Link from "next/link";
 import { FirstParagraphDisplayer } from "../parser/first-paragraph-displayer";
+import teamCardStories from "./team-card.stories";
 
 type PeopleInfo = {
   current: number;
@@ -31,24 +36,30 @@ export type TeamCardProps = {
 export const convertToTeamCardObjFromTeams = (
   queryObj: RoomCardFragment[]
 ): TeamCardProps[] => {
-  return queryObj.map((team) => ({
-    ...team,
-    id: team.id || 0,
-    owner: {
-      name: team.owner.name,
-      src: team.owner.avatar || "",
-      userId: team.owner.userId,
-    },
-    member: {
-      current: team.members?.length || 1, // TODO:
-      limit: team.recruitNumbers,
-    },
-    languages: convertToSKillsArray(team.skills),
-    createdAt: dateFormatter(
-      new Date(Date.parse(team.createdAt)),
-      YEAR_MANTH_DAY_SLASH
-    ),
-  }));
+  return queryObj.map((team) => {
+    // TODO: 人数計算の処理をサーバでやる
+    const joiningCount = team?.members?.filter(
+      (member) => member.memberState === MemberState.Joining
+    ).length;
+    return {
+      ...team,
+      id: team.id || 0,
+      owner: {
+        name: team.owner.name,
+        src: team.owner.avatar || "",
+        userId: team.owner.userId,
+      },
+      member: {
+        current: joiningCount || 1, // TODO:
+        limit: team.recruitNumbers,
+      },
+      languages: convertToSKillsArray(team.skills),
+      createdAt: dateFormatter(
+        new Date(Date.parse(team.createdAt)),
+        YEAR_MANTH_DAY_SLASH
+      ),
+    };
+  });
 };
 
 const convertToSKillsArray = (
