@@ -67,6 +67,7 @@ export class UsersService {
       .leftJoinAndSelect('room.owner', 'owner')
       .leftJoinAndSelect('room.skills', 'roomSkills')
       .where({ userId })
+      .andWhere("rooms.memberState = 'joining'")
       .getOne();
 
     console.log('response on users->service->findOne', res);
