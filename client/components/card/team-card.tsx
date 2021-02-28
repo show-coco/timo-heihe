@@ -19,6 +19,7 @@ type PeopleInfo = {
 export type TeamCardProps = {
   id: number;
   title: string;
+  slug: string;
   owner: AvatarWithNameProps;
   member: PeopleInfo;
   description: string;
@@ -60,6 +61,7 @@ const convertToSKillsArray = (
 export const TeamCard: React.FC<TeamCardProps> = ({
   id,
   title,
+  slug,
   owner,
   member,
   description,
@@ -69,7 +71,7 @@ export const TeamCard: React.FC<TeamCardProps> = ({
 }: TeamCardProps) => {
   return (
     <div>
-      <Link href="/room/[id]" as={`/room/${id.toString()}`}>
+      <Link href="/room/[slug]" as={`/room/${slug}`}>
         <div>
           <Card
             variant="none"
@@ -113,56 +115,56 @@ export const TeamCard: React.FC<TeamCardProps> = ({
   );
 };
 
-export const mockTeams: TeamCardProps[] = [
-  {
-    id: 1,
-    title: "Web開発",
-    owner: {
-      name: "Ropital",
-      src: "https://bit.ly/ryan-florence",
-      userId: "1",
-    },
-    description:
-      "チーム募集Webアプリを開発しています。PrismaやTypeScript, GraphQL,Goなどを使用 しています！モダン技術が好きな方是非きてください！",
-    languages: ["go", "typescript", "go", "typescript", "go", "typescript"],
-    createdAt: "2020/9/12",
-    member: {
-      current: 22,
-      limit: 50,
-    },
-  },
-  {
-    id: 2,
-    title: "Web開発",
-    owner: {
-      name: "Ropital",
-      src: "https://bit.ly/ryan-florence",
-      userId: "2",
-    },
-    description:
-      "チーム募集Webアプリを開発しています。PrismaやTypeScript, GraphQL,Goなどを使用 しています！モダン技術が好きな方是非きてください！",
-    languages: ["go", "typescript", "go", "typescript", "go", "typescript"],
-    createdAt: "2020/9/12",
-    member: {
-      current: 22,
-      limit: 50,
-    },
-  },
-  {
-    id: 3,
-    title: "Web開発",
-    owner: {
-      name: "Ropital",
-      src: "https://bit.ly/ryan-florence",
-      userId: "3",
-    },
-    description:
-      "チーム募集Webアプリを開発しています。PrismaやTypeScript, GraphQL,Goなどを使用 しています！モダン技術が好きな方是非きてください！",
-    languages: ["go", "typescript", "go", "typescript", "go", "typescript"],
-    createdAt: "2020/9/12",
-    member: {
-      current: 22,
-      limit: 50,
-    },
-  },
-];
+// export const mockTeams: TeamCardProps[] = [
+//   {
+//     id: 1,
+//     title: "Web開発",
+//     owner: {
+//       name: "Ropital",
+//       src: "https://bit.ly/ryan-florence",
+//       userId: "1",
+//     },
+//     description:
+//       "チーム募集Webアプリを開発しています。PrismaやTypeScript, GraphQL,Goなどを使用 しています！モダン技術が好きな方是非きてください！",
+//     languages: ["go", "typescript", "go", "typescript", "go", "typescript"],
+//     createdAt: "2020/9/12",
+//     member: {
+//       current: 22,
+//       limit: 50,
+//     },
+//   },
+//   {
+//     id: 2,
+//     title: "Web開発",
+//     owner: {
+//       name: "Ropital",
+//       src: "https://bit.ly/ryan-florence",
+//       userId: "2",
+//     },
+//     description:
+//       "チーム募集Webアプリを開発しています。PrismaやTypeScript, GraphQL,Goなどを使用 しています！モダン技術が好きな方是非きてください！",
+//     languages: ["go", "typescript", "go", "typescript", "go", "typescript"],
+//     createdAt: "2020/9/12",
+//     member: {
+//       current: 22,
+//       limit: 50,
+//     },
+//   },
+//   {
+//     id: 3,
+//     title: "Web開発",
+//     owner: {
+//       name: "Ropital",
+//       src: "https://bit.ly/ryan-florence",
+//       userId: "3",
+//     },
+//     description:
+//       "チーム募集Webアプリを開発しています。PrismaやTypeScript, GraphQL,Goなどを使用 しています！モダン技術が好きな方是非きてください！",
+//     languages: ["go", "typescript", "go", "typescript", "go", "typescript"],
+//     createdAt: "2020/9/12",
+//     member: {
+//       current: 22,
+//       limit: 50,
+//     },
+//   },
+// ];

@@ -1,6 +1,7 @@
 fragment RoomCard on RoomModel {
   id
   title
+  slug
   description
   icon
   recruitNumbers

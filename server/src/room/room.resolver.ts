@@ -32,8 +32,8 @@ export class RoomResolver {
   ) {}
 
   @Query(() => RoomModel)
-  room(@Args('id', { type: () => Int }) id: number) {
-    return this.roomService.findOne(id);
+  room(@Args('slug') slug: string) {
+    return this.roomService.findOneBySlug(slug);
   }
 
   @Query(() => [RoomModel])

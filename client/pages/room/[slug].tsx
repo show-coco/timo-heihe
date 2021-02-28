@@ -34,8 +34,8 @@ export default function ShowRoom() {
     iCanLeave,
     iAmApplying,
     isLimitOfRecruit,
+    slug,
     room,
-    roomId,
     dialogState,
     dialogSetter,
     loading,
@@ -97,7 +97,7 @@ export default function ShowRoom() {
                   </Button>
                 )}
                 {iCanEdit && (
-                  <Link href="/room/edit/[id]" as={`/room/edit/${roomId}`}>
+                  <Link href="/room/edit/[slug]" as={`/room/edit/${slug}`}>
                     <Button>編集する</Button>
                   </Link>
                 )}

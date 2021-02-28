@@ -284,7 +284,7 @@ export type QueryMessageArgs = {
 };
 
 export type QueryRoomArgs = {
-  id: Scalars["Int"];
+  slug: Scalars["String"];
 };
 
 export type QueryRoomsArgs = {
@@ -339,6 +339,7 @@ export type RoomModel = {
   recruitNumbers: Scalars["Int"];
   repositoryUrl?: Maybe<Scalars["String"]>;
   skills?: Maybe<Array<SkillModel>>;
+  slug: Scalars["String"];
   title: Scalars["String"];
   types: Array<RoomTypeModel>;
 };
@@ -507,6 +508,7 @@ export type RoomCardFragment = { __typename?: "RoomModel" } & Pick<
   RoomModel,
   | "id"
   | "title"
+  | "slug"
   | "description"
   | "icon"
   | "recruitNumbers"
@@ -675,7 +677,7 @@ export type CreateRoomPageQuery = { __typename?: "Query" } & {
 };
 
 export type RoomEditPageQueryVariables = Exact<{
-  id: Scalars["Int"];
+  slug: Scalars["String"];
 }>;
 
 export type RoomEditPageQuery = { __typename?: "Query" } & {
@@ -788,7 +790,7 @@ export type MeQuery = { __typename?: "Query" } & {
 };
 
 export type RoomQueryVariables = Exact<{
-  id: Scalars["Int"];
+  slug: Scalars["String"];
 }>;
 
 export type RoomQuery = { __typename?: "Query" } & {
@@ -953,6 +955,7 @@ export const RoomCardFragmentDoc = gql`
   fragment RoomCard on RoomModel {
     id
     title
+    slug
     description
     icon
     recruitNumbers
@@ -1571,8 +1574,8 @@ export type CreateRoomPageQueryResult = Apollo.QueryResult<
   CreateRoomPageQueryVariables
 >;
 export const RoomEditPageDocument = gql`
-  query RoomEditPage($id: Int!) {
-    room(id: $id) {
+  query RoomEditPage($slug: String!) {
+    room(slug: $slug) {
       id
       title
       name
@@ -1631,7 +1634,7 @@ export const RoomEditPageDocument = gql`
  * @example
  * const { data, loading, error } = useRoomEditPageQuery({
  *   variables: {
- *      id: // value for 'id'
+ *      slug: // value for 'slug'
  *   },
  * });
  */
@@ -1805,8 +1808,8 @@ export type MeQueryHookResult = ReturnType<typeof useMeQuery>;
 export type MeLazyQueryHookResult = ReturnType<typeof useMeLazyQuery>;
 export type MeQueryResult = Apollo.QueryResult<MeQuery, MeQueryVariables>;
 export const RoomDocument = gql`
-  query Room($id: Int!) {
-    room(id: $id) {
+  query Room($slug: String!) {
+    room(slug: $slug) {
       id
       title
       name
@@ -1852,7 +1855,7 @@ export const RoomDocument = gql`
  * @example
  * const { data, loading, error } = useRoomQuery({
  *   variables: {
- *      id: // value for 'id'
+ *      slug: // value for 'slug'
  *   },
  * });
  */

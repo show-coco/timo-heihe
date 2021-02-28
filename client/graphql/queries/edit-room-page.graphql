@@ -1,5 +1,5 @@
-query RoomEditPage($id: Int!) {
-  room(id: $id) {
+query RoomEditPage($slug: String!) {
+  room(slug: $slug) {
     id
     title
     name

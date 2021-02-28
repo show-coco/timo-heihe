@@ -30,7 +30,7 @@ export const convertToCategoryArray = (
 
 export const useEditTeam = () => {
   const router = useRouter();
-  const id = router.query.id;
+  const slug = router.query.slug;
   const [title, setTitle] = useState("");
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
@@ -50,7 +50,7 @@ export const useEditTeam = () => {
 
   const { data, loading } = useRoomEditPageQuery({
     variables: {
-      id: Number(id),
+      slug: slug?.toString() || "",
     },
   });
 
@@ -107,7 +107,7 @@ export const useEditTeam = () => {
       await updateTeam({
         variables: {
           input: {
-            id: Number(id),
+            id: data?.room.id || 0,
             name,
             title,
             icon: imageUrl,
@@ -121,7 +121,7 @@ export const useEditTeam = () => {
           },
         },
       });
-      router.push(`/room/${id}`);
+      router.push(`/room/${slug}`);
     } catch (e) {
       console.log(e);
     }
