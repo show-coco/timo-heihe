@@ -23,3 +23,20 @@ cd client && yarn dev
 docker-compose up -d
 cd server && yarn start:dev
 ```
+
+## サンプルデータの作成
+
+### DBサーバを起動
+```bash
+$ docker-compose up -d
+```
+
+### テーブルの作成 or 更新
+```
+$ cd server & yarn start:dev
+```
+
+### サンプルデータの作成
+```
+$ cd seed & make seed
+```
