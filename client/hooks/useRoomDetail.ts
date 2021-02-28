@@ -37,7 +37,7 @@ export const useTeamDetail = () => {
       await joinTeam({
         variables: {
           userId,
-          roomId: Number(slug),
+          roomId: data?.room.id || 0, // TODO
         },
       });
     } catch (e) {
@@ -54,7 +54,7 @@ export const useTeamDetail = () => {
       await leaveTeam({
         variables: {
           userId,
-          roomId: Number(slug),
+          roomId: data?.room.id || 0, //TODO
         },
       });
     } catch (e) {
@@ -71,7 +71,7 @@ export const useTeamDetail = () => {
       await applyTeam({
         variables: {
           userId,
-          roomId: Number(slug),
+          roomId: data?.room.id || 0, //TODO
         },
       });
     } catch (e) {
