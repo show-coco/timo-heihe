@@ -97,6 +97,7 @@ export type CreateRoomInput = {
   rectuiting?: Maybe<Scalars["Boolean"]>;
   repositoryUrl?: Maybe<Scalars["String"]>;
   skills: Array<SkillInput>;
+  slug: Scalars["String"];
   title: Scalars["String"];
   typeIds: Array<Scalars["Int"]>;
 };
@@ -420,6 +421,7 @@ export type UpdateRoomInput = {
   rectuiting?: Maybe<Scalars["Boolean"]>;
   repositoryUrl?: Maybe<Scalars["String"]>;
   skills?: Maybe<Array<SkillInput>>;
+  slug?: Maybe<Scalars["String"]>;
   title?: Maybe<Scalars["String"]>;
   typeIds?: Maybe<Array<Scalars["Int"]>>;
 };
