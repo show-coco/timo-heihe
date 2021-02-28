@@ -18,6 +18,7 @@ import { SkillService } from '../skill/skill.service';
 import { RoomService } from '../room/room.service';
 import { UpdateUserInput } from './dto/update-user.input';
 import { UserMemberModel } from '../room-members-user/models/user-member-model';
+import { MemberState } from 'src/room-members-user/entities/room-members-user.entity';
 
 @Resolver(() => UserModel)
 export class UsersResolver {
@@ -44,6 +45,7 @@ export class UsersResolver {
   }
 
   @Mutation(() => UserModel)
+  @UseGuards(GqlJwtAuthGuard)
   updateUser(@Args('updateUserInput') updateUserInput: UpdateUserInput) {
     return this.usersService.update(updateUserInput);
   }
@@ -66,6 +68,10 @@ export class UsersResolver {
     if (userDontHaveRoom) {
       return null;
     }
+
+    user.rooms = user.rooms.filter(
+      (room) => room.memberState === MemberState.JOINING,
+    );
 
     return user.rooms.map(async (room) => {
       const returns = await this.roomService.findOne(room.room.id);
