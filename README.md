@@ -11,9 +11,11 @@ Cloud Circleはエンジニアのためのコミュニティプラットフォ�
 - [Nest.js](https://docs.nestjs.com/)
 - [PostgreSQL](https://www.postgresql.org/docs/)
 
-## おすすめソフトウェア
+## おすすめ
 
 - [Postico](https://eggerapps.at/postico/) (PostgreSQL Client)
+- [SQL Formatter](https://marketplace.visualstudio.com/items?itemName=adpyke.vscode-sql-formatter) (sqlファイルの自動整形拡張ツール)
+- [Headwind](https://marketplace.visualstudio.com/items?itemName=heybourn.headwind) (Tailwindのクラス順序自動整形拡張ツール)
 
 ## 始め方
 
