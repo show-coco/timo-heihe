@@ -196,6 +196,7 @@ type RoomModel {
   recruitNumbers: Int!
   repositoryUrl: String
   skills: [SkillModel!]
+  slug: String!
   title: String!
   types: [RoomTypeModel!]!
 }

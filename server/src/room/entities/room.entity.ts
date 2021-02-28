@@ -26,6 +26,9 @@ export class Room {
   @Column()
   title: string;
 
+  @Column({ unique: true })
+  slug: string;
+
   @Column({ nullable: true })
   icon: string;
 

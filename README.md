@@ -57,5 +57,6 @@ $ cd server & yarn start:dev
 
 ### サンプルデータの作成
 ```bash
-$ cd seed & make seed
+$ cd seeds
+$ make seed
 ```
