@@ -24,6 +24,7 @@ export const useCreateRoom = () => {
   const [createRoom, { loading }] = useCreateRoomMutation();
   const [title, setTitle] = useState("");
   const [name, setName] = useState("");
+  const [slug, setSlug] = useState("");
   const [description, setDescription] = useState("");
   const [recruitNumber, setRecruitNumber] = useState(0);
   const [repositoryUrl, setRespositoryUrl] = useState("");
@@ -41,6 +42,7 @@ export const useCreateRoom = () => {
   const getVariables = (): CreateRoomInput => ({
     title,
     name,
+    slug,
     owner: {
       id,
     },
@@ -71,7 +73,7 @@ export const useCreateRoom = () => {
           input: getVariables(),
         },
       });
-      router.push(`/room/${res.data?.createRoom.id}`);
+      router.push(`/room/${res.data?.createRoom.slug}`);
     } catch (e) {
       console.log(e);
     }
@@ -108,6 +110,7 @@ export const useCreateRoom = () => {
     setTitle,
     setSkills,
     setDescription,
+    setSlug,
     onSubmit,
     onClickFileInput,
     onChangeFileInput,

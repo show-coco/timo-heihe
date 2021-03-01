@@ -60,6 +60,19 @@ export default function EditRoom() {
 
             <div className={betweenH2}>
               <span className="flex">
+                <Heading as="h2">ルームID</Heading>
+                <span className="text-red-500">*</span>
+              </span>
+
+              <TextInput
+                placeholder="ルームIDを入力"
+                value={formState.slug}
+                onChange={(e) => setter.setSlug(e.target.value)}
+              />
+            </div>
+
+            <div className={betweenH2}>
+              <span className="flex">
                 <Heading as="h2">ルーム名</Heading>
                 <span className="text-red-500">*</span>
               </span>

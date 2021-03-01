@@ -11,7 +11,7 @@ import { useAuthContext } from "../providers/useAuthContext";
 
 export const useTeamDetail = () => {
   const router = useRouter();
-  const roomId = router.query.id;
+  const slug = router.query.slug;
   const { id: userId } = useAuthContext();
   const [joinRoomDialogIsOpened, setJoinRoomDialogIsOpened] = useState(false);
   const [leaveRoomDialogIsOpened, setLeaveRoomDialogIsOpened] = useState(false);
@@ -19,7 +19,7 @@ export const useTeamDetail = () => {
 
   const { data, loading } = useRoomQuery({
     variables: {
-      id: Number(roomId),
+      slug: slug?.toString() || "",
     },
   });
 
@@ -37,7 +37,7 @@ export const useTeamDetail = () => {
       await joinTeam({
         variables: {
           userId,
-          roomId: Number(roomId),
+          roomId: data?.room.id || 0, // TODO
         },
       });
     } catch (e) {
@@ -54,7 +54,7 @@ export const useTeamDetail = () => {
       await leaveTeam({
         variables: {
           userId,
-          roomId: Number(roomId),
+          roomId: data?.room.id || 0, //TODO
         },
       });
     } catch (e) {
@@ -71,7 +71,7 @@ export const useTeamDetail = () => {
       await applyTeam({
         variables: {
           userId,
-          roomId: Number(roomId),
+          roomId: data?.room.id || 0, //TODO
         },
       });
     } catch (e) {
@@ -127,7 +127,11 @@ export const useTeamDetail = () => {
   // HACK
   const isLimitOfRecruit = useMemo(() => {
     if (room && room.members) {
-      return room.members.length >= room.recruitNumbers;
+      // TODO: 人数計算の処理をサーバでやる
+      const joiningCount = room.members.filter(
+        (member) => member.memberState === MemberState.Joining
+      ).length;
+      return joiningCount >= room.recruitNumbers;
     }
   }, [room]);
 
@@ -185,7 +189,7 @@ export const useTeamDetail = () => {
     iAmApplying,
     isLimitOfRecruit,
     room: data?.room,
-    roomId,
+    slug,
     loading,
     dialogState: {
       joinRoomDialogIsOpened,

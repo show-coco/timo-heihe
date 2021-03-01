@@ -60,6 +60,7 @@ INSERT INTO
     id,
     name,
     title,
+    slug,
     icon,
     description,
     "repositoryUrl",
@@ -73,6 +74,7 @@ VALUES
     1,
     'test room1',
     'Web界隈の人あつまれい！みんなで開発しよう',
+    'test1',
     'http://flat-icon-design.com/f/f_object_174/s256_f_object_174_0bg.png',
     '# 何をしているのか(H1)
 Web開発やってます
@@ -94,6 +96,7 @@ Web開発やってます
     2,
     'test room2',
     'Android開発の練習しよ',
+    'test2',
     'http://flat-icon-design.com/f/f_object_108/s256_f_object_108_0bg.png',
     '# 何をしているのか
 Androiddddd
@@ -115,6 +118,7 @@ Androiddddd
     3,
     'test room3',
     'Next.js研究したい人募集',
+    'test3',
     'http://flat-icon-design.com/f/f_event_98/s256_f_event_98_0bg.png',
     '# 何をしているのか
 Androiddddd
@@ -136,6 +140,7 @@ Androiddddd
     4,
     'test room4',
     'フロントエンド開発したい人募集',
+    'test4',
     'http://flat-icon-design.com/f/f_event_98/s256_f_event_98_0bg.png',
     '# 何をしているのか
 Androiddddd
@@ -157,6 +162,7 @@ Androiddddd
     5,
     'test room5',
     'ハッカソン出場者募集',
+    'test5',
     'http://flat-icon-design.com/f/f_event_98/s256_f_event_98_0bg.png',
     '# 何をしているのか
 Androiddddd

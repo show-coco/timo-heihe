@@ -1,4 +1,4 @@
-import { forwardRef, Inject } from '@nestjs/common';
+import { forwardRef, Inject, UseGuards } from '@nestjs/common';
 import {
   Args,
   Int,
@@ -21,6 +21,7 @@ import { RoomModel } from './models/room.model';
 import { RoomService } from './room.service';
 import { ChannelModel } from '../channel/models/channel.model';
 import { SearchRoomInput } from './dto/search-room.input';
+import { GqlJwtAuthGuard } from 'src/auth/jwt-auth.guards';
 
 @Resolver(() => RoomModel)
 export class RoomResolver {
@@ -32,8 +33,8 @@ export class RoomResolver {
   ) {}
 
   @Query(() => RoomModel)
-  room(@Args('id', { type: () => Int }) id: number) {
-    return this.roomService.findOne(id);
+  room(@Args('slug') slug: string) {
+    return this.roomService.findOneBySlug(slug);
   }
 
   @Query(() => [RoomModel])
@@ -42,22 +43,26 @@ export class RoomResolver {
   }
 
   @Mutation(() => RoomModel)
+  @UseGuards(GqlJwtAuthGuard)
   updateRoom(@Args('updateRoomInput') updateRoomInput: UpdateRoomInput) {
     return this.roomService.update(updateRoomInput);
   }
 
   @Mutation(() => RoomModel)
+  @UseGuards(GqlJwtAuthGuard)
   createRoom(@Args('input') input: CreateRoomInput) {
     console.log('request on rooms->resolver->createRoom', input);
     return this.roomService.insert(input);
   }
 
   @Mutation(() => RoomModel)
+  @UseGuards(GqlJwtAuthGuard)
   deleteRoom(@Args('id', { type: () => Int }) id: number) {
     return this.roomService.remove(id);
   }
 
   @Mutation(() => RoomModel)
+  @UseGuards(GqlJwtAuthGuard)
   async joinRoom(
     @Args('userId', { type: () => Int }) userId: number,
     @Args('roomId', { type: () => Int }) roomId: number,
@@ -66,6 +71,7 @@ export class RoomResolver {
   }
 
   @Mutation(() => RoomModel)
+  @UseGuards(GqlJwtAuthGuard)
   async applyRoom(
     @Args('userId', { type: () => Int }) userId: number,
     @Args('roomId', { type: () => Int }) roomId: number,
@@ -74,6 +80,7 @@ export class RoomResolver {
   }
 
   @Mutation(() => RoomModel)
+  @UseGuards(GqlJwtAuthGuard)
   async leaveRoom(
     @Args('userId', { type: () => Int }) userId: number,
     @Args('roomId', { type: () => Int }) roomId: number,

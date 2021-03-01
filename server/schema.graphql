@@ -77,6 +77,7 @@ input CreateRoomInput {
   rectuiting: Boolean
   repositoryUrl: String
   skills: [SkillInput!]!
+  slug: String!
   title: String!
   typeIds: [Int!]!
 }
@@ -155,7 +156,7 @@ type Query {
   me: UserModel!
   message(id: Int!): MessageModel!
   messages: [MessageModel!]!
-  room(id: Int!): RoomModel!
+  room(slug: String!): RoomModel!
   rooms(input: SearchRoomInput): [RoomModel!]!
   roomTypes: [RoomTypeModel!]!
   skill(id: Int!): SkillModel!
@@ -196,6 +197,7 @@ type RoomModel {
   recruitNumbers: Int!
   repositoryUrl: String
   skills: [SkillModel!]
+  slug: String!
   title: String!
   types: [RoomTypeModel!]!
 }
@@ -264,6 +266,7 @@ input UpdateRoomInput {
   rectuiting: Boolean
   repositoryUrl: String
   skills: [SkillInput!]
+  slug: String
   title: String
   typeIds: [Int!]
 }

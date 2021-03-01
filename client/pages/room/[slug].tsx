@@ -22,6 +22,7 @@ import ReactMarkdown from "react-markdown";
 import { useAuthContext } from "../../providers/useAuthContext";
 import { useModal } from "../../hooks/useModal";
 import { LoginModal } from "../../components/login-modal";
+import { MemberState } from "../../generated/types";
 
 export default function ShowRoom() {
   const {
@@ -34,8 +35,8 @@ export default function ShowRoom() {
     iCanLeave,
     iAmApplying,
     isLimitOfRecruit,
+    slug,
     room,
-    roomId,
     dialogState,
     dialogSetter,
     loading,
@@ -45,6 +46,11 @@ export default function ShowRoom() {
 
   if (loading) return <p>Loading...</p>;
   if (!room) return <p>データがありません</p>;
+
+  // TODO: 人数計算の処理をサーバでやる
+  const joiningCount = room?.members?.filter(
+    (member) => member.memberState === MemberState.Joining
+  ).length;
 
   return (
     <>
@@ -97,7 +103,7 @@ export default function ShowRoom() {
                   </Button>
                 )}
                 {iCanEdit && (
-                  <Link href="/room/edit/[id]" as={`/room/edit/${roomId}`}>
+                  <Link href="/room/edit/[slug]" as={`/room/edit/${slug}`}>
                     <Button>編集する</Button>
                   </Link>
                 )}
@@ -148,7 +154,7 @@ export default function ShowRoom() {
                 <span className="flex items-center space-x-3">
                   <PeopleIcon />
                   <span>
-                    {room.members?.length}/{room.recruitNumbers}
+                    {joiningCount}/{room.recruitNumbers}
                   </span>
                 </span>
               </span>
@@ -170,7 +176,7 @@ export default function ShowRoom() {
             </div>
 
             <div className="mt-8 space-y-2">
-              <div>
+              <div className="markdown">
                 <ReactMarkdown>{room.description}</ReactMarkdown>
               </div>
             </div>

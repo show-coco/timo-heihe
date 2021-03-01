@@ -135,7 +135,7 @@ export const useChat = () => {
 
   // 最初に表示されるスペースIDをセット
   useEffect(() => {
-    if (data?.user.rooms) {
+    if (data?.user.rooms && data?.user.rooms.length > 0) {
       const firstDisplayedTeamId = data?.user.rooms[0].id;
 
       if (firstDisplayedTeamId) {

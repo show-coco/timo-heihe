@@ -29,6 +29,7 @@ export default function CreateRoom() {
     setSkills,
     setDescription,
     setRecruitNumber,
+    setSlug,
     onClickFileInput,
     onChangeFileInput,
     onSubmit,
@@ -66,6 +67,18 @@ export default function CreateRoom() {
                   onChange={onChangeFileInput}
                 />
               </div>
+            </div>
+
+            <div className={betweenH2}>
+              <span className="flex">
+                <Heading as="h2">ルームID</Heading>
+                <span className="text-red-500">*</span>
+              </span>
+
+              <TextInput
+                placeholder="ルームIDを入力"
+                onChange={(e) => setSlug(e.target.value)}
+              />
             </div>
 
             <div className={betweenH2}>

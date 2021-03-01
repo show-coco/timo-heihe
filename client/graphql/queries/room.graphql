@@ -1,5 +1,5 @@
-query Room($id: Int!) {
-  room(id: $id) {
+query Room($slug: String!) {
+  room(slug: $slug) {
     id
     title
     name

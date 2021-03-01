@@ -12,10 +12,13 @@ export class RoomModel {
   id?: number;
 
   @Field()
+  name: string;
+
+  @Field()
   title: string;
 
   @Field()
-  name: string;
+  slug: string;
 
   @Field({ nullable: true })
   icon?: string;

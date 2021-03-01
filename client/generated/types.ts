@@ -97,6 +97,7 @@ export type CreateRoomInput = {
   rectuiting?: Maybe<Scalars["Boolean"]>;
   repositoryUrl?: Maybe<Scalars["String"]>;
   skills: Array<SkillInput>;
+  slug: Scalars["String"];
   title: Scalars["String"];
   typeIds: Array<Scalars["Int"]>;
 };
@@ -284,7 +285,7 @@ export type QueryMessageArgs = {
 };
 
 export type QueryRoomArgs = {
-  id: Scalars["Int"];
+  slug: Scalars["String"];
 };
 
 export type QueryRoomsArgs = {
@@ -339,6 +340,7 @@ export type RoomModel = {
   recruitNumbers: Scalars["Int"];
   repositoryUrl?: Maybe<Scalars["String"]>;
   skills?: Maybe<Array<SkillModel>>;
+  slug: Scalars["String"];
   title: Scalars["String"];
   types: Array<RoomTypeModel>;
 };
@@ -419,6 +421,7 @@ export type UpdateRoomInput = {
   rectuiting?: Maybe<Scalars["Boolean"]>;
   repositoryUrl?: Maybe<Scalars["String"]>;
   skills?: Maybe<Array<SkillInput>>;
+  slug?: Maybe<Scalars["String"]>;
   title?: Maybe<Scalars["String"]>;
   typeIds?: Maybe<Array<Scalars["Int"]>>;
 };
@@ -507,6 +510,7 @@ export type RoomCardFragment = { __typename?: "RoomModel" } & Pick<
   RoomModel,
   | "id"
   | "title"
+  | "slug"
   | "description"
   | "icon"
   | "recruitNumbers"
@@ -562,7 +566,10 @@ export type CreateRoomMutationVariables = Exact<{
 }>;
 
 export type CreateRoomMutation = { __typename?: "Mutation" } & {
-  createRoom: { __typename?: "RoomModel" } & Pick<RoomModel, "id" | "title">;
+  createRoom: { __typename?: "RoomModel" } & Pick<
+    RoomModel,
+    "id" | "title" | "slug"
+  >;
 };
 
 export type CreateThreadMutationVariables = Exact<{
@@ -578,7 +585,10 @@ export type EditRoomMutationVariables = Exact<{
 }>;
 
 export type EditRoomMutation = { __typename?: "Mutation" } & {
-  updateRoom: { __typename?: "RoomModel" } & Pick<RoomModel, "id" | "title">;
+  updateRoom: { __typename?: "RoomModel" } & Pick<
+    RoomModel,
+    "id" | "title" | "slug"
+  >;
 };
 
 export type EditThreadMutationVariables = Exact<{
@@ -675,7 +685,7 @@ export type CreateRoomPageQuery = { __typename?: "Query" } & {
 };
 
 export type RoomEditPageQueryVariables = Exact<{
-  id: Scalars["Int"];
+  slug: Scalars["String"];
 }>;
 
 export type RoomEditPageQuery = { __typename?: "Query" } & {
@@ -684,6 +694,7 @@ export type RoomEditPageQuery = { __typename?: "Query" } & {
     | "id"
     | "title"
     | "name"
+    | "slug"
     | "description"
     | "icon"
     | "recruitNumbers"
@@ -788,7 +799,7 @@ export type MeQuery = { __typename?: "Query" } & {
 };
 
 export type RoomQueryVariables = Exact<{
-  id: Scalars["Int"];
+  slug: Scalars["String"];
 }>;
 
 export type RoomQuery = { __typename?: "Query" } & {
@@ -953,6 +964,7 @@ export const RoomCardFragmentDoc = gql`
   fragment RoomCard on RoomModel {
     id
     title
+    slug
     description
     icon
     recruitNumbers
@@ -1055,6 +1067,7 @@ export const CreateRoomDocument = gql`
     createRoom(input: $input) {
       id
       title
+      slug
     }
   }
 `;
@@ -1153,6 +1166,7 @@ export const EditRoomDocument = gql`
     updateRoom(updateRoomInput: $input) {
       id
       title
+      slug
     }
   }
 `;
@@ -1571,11 +1585,12 @@ export type CreateRoomPageQueryResult = Apollo.QueryResult<
   CreateRoomPageQueryVariables
 >;
 export const RoomEditPageDocument = gql`
-  query RoomEditPage($id: Int!) {
-    room(id: $id) {
+  query RoomEditPage($slug: String!) {
+    room(slug: $slug) {
       id
       title
       name
+      slug
       description
       icon
       recruitNumbers
@@ -1631,7 +1646,7 @@ export const RoomEditPageDocument = gql`
  * @example
  * const { data, loading, error } = useRoomEditPageQuery({
  *   variables: {
- *      id: // value for 'id'
+ *      slug: // value for 'slug'
  *   },
  * });
  */
@@ -1805,8 +1820,8 @@ export type MeQueryHookResult = ReturnType<typeof useMeQuery>;
 export type MeLazyQueryHookResult = ReturnType<typeof useMeLazyQuery>;
 export type MeQueryResult = Apollo.QueryResult<MeQuery, MeQueryVariables>;
 export const RoomDocument = gql`
-  query Room($id: Int!) {
-    room(id: $id) {
+  query Room($slug: String!) {
+    room(slug: $slug) {
       id
       title
       name
@@ -1852,7 +1867,7 @@ export const RoomDocument = gql`
  * @example
  * const { data, loading, error } = useRoomQuery({
  *   variables: {
- *      id: // value for 'id'
+ *      slug: // value for 'slug'
  *   },
  * });
  */

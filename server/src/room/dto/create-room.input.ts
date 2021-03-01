@@ -13,6 +13,9 @@ export class CreateRoomInput {
   icon?: string;
 
   @Field()
+  slug: string;
+
+  @Field()
   name: string;
 
   @Field({ nullable: true })

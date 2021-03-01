@@ -33,6 +33,23 @@ export class RoomService {
     return res;
   }
 
+  async findOneBySlug(slug: string): Promise<Room> {
+    const res = await this.roomRepository
+      .createQueryBuilder('room')
+      .leftJoinAndSelect('room.members', 'members', 'members.roomId = room.id')
+      .leftJoinAndSelect('members.user', 'user', 'members.userId = user.id')
+      .leftJoinAndSelect('room.categories', 'categories')
+      .leftJoinAndSelect('room.owner', 'owner')
+      .leftJoinAndSelect('room.skills', 'skills')
+      .leftJoinAndSelect('room.channels', 'channels.roomId = room.id')
+      .leftJoinAndSelect('room.types', 'types')
+      .where({ slug })
+      .getOne();
+
+    console.log('response on rooms->service->findOneBySlug', res);
+    return res;
+  }
+
   async findAll(searchRoomInput?: SearchRoomInput): Promise<Room[]> {
     const input: SearchRoomInput | undefined =
       searchRoomInput && JSON.parse(JSON.stringify(searchRoomInput));
