@@ -176,7 +176,7 @@ export default function ShowRoom() {
             </div>
 
             <div className="mt-8 space-y-2">
-              <div>
+              <div className="markdown">
                 <ReactMarkdown>{room.description}</ReactMarkdown>
               </div>
             </div>
