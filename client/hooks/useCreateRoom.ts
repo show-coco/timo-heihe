@@ -73,7 +73,7 @@ export const useCreateRoom = () => {
           input: getVariables(),
         },
       });
-      router.push(`/room/${res.data?.createRoom.id}`);
+      router.push(`/room/${res.data?.createRoom.slug}`);
     } catch (e) {
       console.log(e);
     }

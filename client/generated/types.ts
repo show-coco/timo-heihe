@@ -566,7 +566,10 @@ export type CreateRoomMutationVariables = Exact<{
 }>;
 
 export type CreateRoomMutation = { __typename?: "Mutation" } & {
-  createRoom: { __typename?: "RoomModel" } & Pick<RoomModel, "id" | "title">;
+  createRoom: { __typename?: "RoomModel" } & Pick<
+    RoomModel,
+    "id" | "title" | "slug"
+  >;
 };
 
 export type CreateThreadMutationVariables = Exact<{
@@ -582,7 +585,10 @@ export type EditRoomMutationVariables = Exact<{
 }>;
 
 export type EditRoomMutation = { __typename?: "Mutation" } & {
-  updateRoom: { __typename?: "RoomModel" } & Pick<RoomModel, "id" | "title">;
+  updateRoom: { __typename?: "RoomModel" } & Pick<
+    RoomModel,
+    "id" | "title" | "slug"
+  >;
 };
 
 export type EditThreadMutationVariables = Exact<{
@@ -688,6 +694,7 @@ export type RoomEditPageQuery = { __typename?: "Query" } & {
     | "id"
     | "title"
     | "name"
+    | "slug"
     | "description"
     | "icon"
     | "recruitNumbers"
@@ -1060,6 +1067,7 @@ export const CreateRoomDocument = gql`
     createRoom(input: $input) {
       id
       title
+      slug
     }
   }
 `;
@@ -1158,6 +1166,7 @@ export const EditRoomDocument = gql`
     updateRoom(updateRoomInput: $input) {
       id
       title
+      slug
     }
   }
 `;
@@ -1581,6 +1590,7 @@ export const RoomEditPageDocument = gql`
       id
       title
       name
+      slug
       description
       icon
       recruitNumbers

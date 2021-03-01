@@ -3,6 +3,7 @@ query RoomEditPage($slug: String!) {
     id
     title
     name
+    slug
     description
     icon
     recruitNumbers

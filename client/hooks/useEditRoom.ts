@@ -30,9 +30,10 @@ export const convertToCategoryArray = (
 
 export const useEditTeam = () => {
   const router = useRouter();
-  const slug = router.query.slug;
+  const querySlug = router.query.slug;
   const [title, setTitle] = useState("");
   const [name, setName] = useState("");
+  const [slug, setSlug] = useState("");
   const [description, setDescription] = useState("");
   const [recruitNumber, setRecruitNumber] = useState(0);
   const [repositoryUrl, setRespositoryUrl] = useState("");
@@ -50,7 +51,7 @@ export const useEditTeam = () => {
 
   const { data, loading } = useRoomEditPageQuery({
     variables: {
-      slug: slug?.toString() || "",
+      slug: querySlug?.toString() || "",
     },
   });
 
@@ -67,6 +68,7 @@ export const useEditTeam = () => {
       setRecruitNumber(room.recruitNumbers);
       setRespositoryUrl(room.repositoryUrl || "");
       setIsRequired(room.isRequired ? "2" : "1");
+      setSlug(room.slug);
       setSkills(convertToACSelectedData(room.skills || []));
       setCategories(convertToCategoryArray(room.categories));
       setImageUrl(room.icon || "");
@@ -104,12 +106,13 @@ export const useEditTeam = () => {
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      await updateTeam({
+      const res = await updateTeam({
         variables: {
           input: {
             id: data?.room.id || 0,
             name,
             title,
+            slug,
             icon: imageUrl,
             skills: convertToSkillsObj(selectedSkills),
             description,
@@ -121,7 +124,7 @@ export const useEditTeam = () => {
           },
         },
       });
-      router.push(`/room/${slug}`);
+      router.push(`/room/${res.data?.updateRoom.slug}`);
     } catch (e) {
       console.log(e);
     }
@@ -131,6 +134,7 @@ export const useEditTeam = () => {
     formState: {
       title,
       name,
+      slug,
       description,
       recruitNumber,
       repositoryUrl,
@@ -148,6 +152,7 @@ export const useEditTeam = () => {
     setter: {
       setTitle,
       setName,
+      setSlug,
       setDescription,
       setRecruitNumber,
       setRespositoryUrl,
