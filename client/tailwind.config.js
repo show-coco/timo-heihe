@@ -19,6 +19,7 @@ module.exports = {
           300: "#FFCEBC",
           350: "#E8C26B",
           400: "#FA9C89",
+          primary: "#FA9C89",
           500: "#E89C80",
           600: "#D88364",
         },
@@ -32,6 +33,7 @@ module.exports = {
         },
         purple: {
           100: "#483586",
+          150: "#F4E2FF",
         },
         pink: {
           100: "#E3BABA",
