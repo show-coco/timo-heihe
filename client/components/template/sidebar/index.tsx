@@ -13,6 +13,7 @@ const list = [
   {
     name: "ルーム管理",
     path: "/manager/rooms/owner",
+    regex: new RegExp(/\/manager\/rooms\/.*/),
     icon: <BlocksIcon />,
     activeIcon: <ActiveBlocksIcon />,
   },
@@ -39,27 +40,34 @@ export const Sidebar: React.FC = () => {
   return (
     <div className="w-1/5 h-screen pt-6 bg-white">
       <div className="flex flex-col items-center">
-        {list.map((item) => (
-          <div key={item.name} className="mb-10">
-            <Link href={item.path}>
-              {item.path === currentPath ? (
-                <a className={`${linkStyle} bg-orange-50 text-orange-primary`}>
-                  <span className="flex items-center h-4 mr-5">
-                    {item.activeIcon}
-                  </span>
-                  {item.name}
-                </a>
-              ) : (
-                <a className={`${linkStyle} text-black-300`}>
-                  <span className="flex items-center h-4 mr-5">
-                    {item.icon}
-                  </span>
-                  {item.name}
-                </a>
-              )}
-            </Link>
-          </div>
-        ))}
+        {list.map((item) => {
+          const regex = item.regex ? item.regex : item.path;
+
+          return (
+            <div key={item.name} className="mb-10">
+              <Link href={item.path}>
+                {/* FIX: なぜかアイコンの色がアクティブにならない */}
+                {currentPath.match(regex) ? (
+                  <a
+                    className={`${linkStyle} bg-orange-50 text-orange-primary`}
+                  >
+                    <span className="flex items-center h-4 mr-5">
+                      {item.activeIcon}
+                    </span>
+                    {item.name}
+                  </a>
+                ) : (
+                  <a className={`${linkStyle} text-black-300`}>
+                    <span className="flex items-center h-4 mr-5">
+                      {item.icon}
+                    </span>
+                    {item.name}
+                  </a>
+                )}
+              </Link>
+            </div>
+          );
+        })}
       </div>
     </div>
   );
