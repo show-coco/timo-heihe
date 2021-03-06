@@ -148,6 +148,7 @@ export type Mutation = {
   createMessage: MessageModel;
   createRoom: RoomModel;
   createSkill: SkillModel;
+  createTeamMembersUser: RoomMembersUserModel;
   createThread: ThreadModel;
   deleteChannel: ChannelResponse;
   deleteRoom: RoomModel;
@@ -156,11 +157,13 @@ export type Mutation = {
   removeCategory: CategoryModel;
   removeMessage: ChannelResponse;
   removeSkill: SkillModel;
+  removeTeamMembersUser: RemoveResult;
   removeThread: ThreadModel;
   updateCategory: CategoryModel;
   updateMessage: MessageModel;
   updateRoom: RoomModel;
   updateSkill: SkillModel;
+  updateTeamMembersUser: RoomMembersUserModel;
   updateThread: ThreadModel;
   updateUser: UserModel;
 };
@@ -188,6 +191,10 @@ export type MutationCreateRoomArgs = {
 
 export type MutationCreateSkillArgs = {
   createSkillInput: CreateSkillInput;
+};
+
+export type MutationCreateTeamMembersUserArgs = {
+  userId: Scalars["ID"];
 };
 
 export type MutationCreateThreadArgs = {
@@ -224,6 +231,11 @@ export type MutationRemoveSkillArgs = {
   id: Scalars["Int"];
 };
 
+export type MutationRemoveTeamMembersUserArgs = {
+  roomId: Scalars["Int"];
+  userId: Scalars["Int"];
+};
+
 export type MutationRemoveThreadArgs = {
   id: Scalars["Int"];
 };
@@ -242,6 +254,10 @@ export type MutationUpdateRoomArgs = {
 
 export type MutationUpdateSkillArgs = {
   updateSkillInput: UpdateSkillInput;
+};
+
+export type MutationUpdateTeamMembersUserArgs = {
+  updateTeamMembersUserInput: UpdateRoomMembersUserInput;
 };
 
 export type MutationUpdateThreadArgs = {
@@ -272,6 +288,7 @@ export type Query = {
   roomTypes: Array<RoomTypeModel>;
   skill: SkillModel;
   skills: Array<SkillModel>;
+  teamMembersUser: RoomMembersUserModel;
   thread: ThreadModel;
   threads?: Maybe<Array<ThreadModel>>;
   user: UserModel;
@@ -306,6 +323,10 @@ export type QuerySkillArgs = {
   id: Scalars["Int"];
 };
 
+export type QueryTeamMembersUserArgs = {
+  id: Scalars["Int"];
+};
+
 export type QueryThreadArgs = {
   id: Scalars["Int"];
 };
@@ -316,6 +337,11 @@ export type QueryThreadsArgs = {
 
 export type QueryUserArgs = {
   userId: Scalars["String"];
+};
+
+export type RemoveResult = {
+  __typename?: "RemoveResult";
+  ok: Scalars["Boolean"];
 };
 
 export type RoomMemberModel = {
@@ -333,6 +359,13 @@ export type RoomMemberModel = {
   teams: Array<RoomModel>;
   twitterId?: Maybe<Scalars["String"]>;
   userId: Scalars["String"];
+};
+
+export type RoomMembersUserModel = {
+  __typename?: "RoomMembersUserModel";
+  memberState: MemberState;
+  room: RoomModel;
+  user: UserModel;
 };
 
 export type RoomModel = {
@@ -434,6 +467,12 @@ export type UpdateRoomInput = {
   slug?: Maybe<Scalars["String"]>;
   title?: Maybe<Scalars["String"]>;
   typeIds?: Maybe<Array<Scalars["Int"]>>;
+};
+
+export type UpdateRoomMembersUserInput = {
+  id: Scalars["Int"];
+  room?: Maybe<UpdateRoomInput>;
+  user?: Maybe<ConnectUserInput>;
 };
 
 export type UpdateSkillInput = {
@@ -568,6 +607,18 @@ export type SkillItemFragment = { __typename?: "SkillModel" } & Pick<
   SkillModel,
   "id" | "name"
 >;
+
+export type CancelApplyingMutationVariables = Exact<{
+  roomId: Scalars["Int"];
+  userId: Scalars["Int"];
+}>;
+
+export type CancelApplyingMutation = { __typename?: "Mutation" } & {
+  removeTeamMembersUser: { __typename?: "RemoveResult" } & Pick<
+    RemoveResult,
+    "ok"
+  >;
+};
 
 export type CreateChannelMutationVariables = Exact<{
   input: CreateChannelInput;
@@ -1046,6 +1097,55 @@ export const SkillItemFragmentDoc = gql`
     name
   }
 `;
+export const CancelApplyingDocument = gql`
+  mutation CancelApplying($roomId: Int!, $userId: Int!) {
+    removeTeamMembersUser(roomId: $roomId, userId: $userId) {
+      ok
+    }
+  }
+`;
+export type CancelApplyingMutationFn = Apollo.MutationFunction<
+  CancelApplyingMutation,
+  CancelApplyingMutationVariables
+>;
+
+/**
+ * __useCancelApplyingMutation__
+ *
+ * To run a mutation, you first call `useCancelApplyingMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCancelApplyingMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [cancelApplyingMutation, { data, loading, error }] = useCancelApplyingMutation({
+ *   variables: {
+ *      roomId: // value for 'roomId'
+ *      userId: // value for 'userId'
+ *   },
+ * });
+ */
+export function useCancelApplyingMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    CancelApplyingMutation,
+    CancelApplyingMutationVariables
+  >
+) {
+  return Apollo.useMutation<
+    CancelApplyingMutation,
+    CancelApplyingMutationVariables
+  >(CancelApplyingDocument, baseOptions);
+}
+export type CancelApplyingMutationHookResult = ReturnType<
+  typeof useCancelApplyingMutation
+>;
+export type CancelApplyingMutationResult = Apollo.MutationResult<CancelApplyingMutation>;
+export type CancelApplyingMutationOptions = Apollo.BaseMutationOptions<
+  CancelApplyingMutation,
+  CancelApplyingMutationVariables
+>;
 export const CreateChannelDocument = gql`
   mutation CreateChannel($input: CreateChannelInput!) {
     createChannel(input: $input) {

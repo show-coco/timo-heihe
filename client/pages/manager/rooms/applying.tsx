@@ -1,14 +1,22 @@
 import Link from "next/link";
 import React from "react";
 import { Button } from "../../../components/button";
+import { Heading } from "../../../components/heading/heading";
+import { Modal } from "../../../components/modal/modal";
 import { RoomOperationCardList } from "../../../components/room-operation-card/list";
 import { ManagerRoomsTemplate } from "../../../components/template/manager-rooms";
 
 import {
   MemberState,
+  RoomManagementPageDocument,
+  RoomManagementPageQuery,
+  RoomManagementPageQueryVariables,
   RoomOperationCardFragment,
+  useCancelApplyingMutation,
   useRoomManagementPageQuery,
 } from "../../../generated/types";
+import { useModal } from "../../../hooks/useModal";
+import { useAuthContext } from "../../../providers/useAuthContext";
 
 export default function Applying() {
   const { data, loading } = useRoomManagementPageQuery({
@@ -16,23 +24,60 @@ export default function Applying() {
   });
 
   return (
-    <ManagerRoomsTemplate>
-      {loading ? (
-        <p>Loading...</p>
-      ) : data && data.myRooms.length ? (
-        <RoomOperationCardList rooms={data.myRooms} ButtonGroup={ButtonGroup} />
-      ) : (
-        <p>申請中のルームがありません</p>
-      )}
-    </ManagerRoomsTemplate>
+    <>
+      <ManagerRoomsTemplate>
+        {loading ? (
+          <p>Loading...</p>
+        ) : data && data.myRooms.length ? (
+          <RoomOperationCardList
+            rooms={data.myRooms}
+            ButtonGroup={ButtonGroup}
+          />
+        ) : (
+          <p>申請中のルームがありません</p>
+        )}
+      </ManagerRoomsTemplate>
+    </>
   );
 }
 const ButtonGroup: React.FC<RoomOperationCardFragment> = (
   props: RoomOperationCardFragment
 ) => {
+  const [cancel] = useCancelApplyingMutation({
+    update: (cache) => {
+      const existingApplying = cache.readQuery<
+        RoomManagementPageQuery,
+        RoomManagementPageQueryVariables
+      >({
+        query: RoomManagementPageDocument,
+        variables: { memberState: MemberState.Pending },
+      });
+
+      const newApplying = existingApplying?.myRooms.filter(
+        (room) => room.id !== props.id
+      );
+
+      cache.writeQuery<
+        RoomManagementPageQuery,
+        RoomManagementPageQueryVariables
+      >({
+        query: RoomManagementPageDocument,
+        data: { myRooms: newApplying || [] },
+        variables: { memberState: MemberState.Pending },
+      });
+    },
+  });
+  const { id } = useAuthContext();
+
   return (
     <>
-      <Button variant="outline" colorScheme="red">
+      <Button
+        variant="outline"
+        colorScheme="red"
+        onClick={() =>
+          cancel({ variables: { userId: id, roomId: props.id || 0 } })
+        }
+      >
         キャンセル
       </Button>
 
