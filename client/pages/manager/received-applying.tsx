@@ -1,7 +1,7 @@
 import React from "react";
 import { Heading } from "../../components/heading/heading";
-import { Sidebar } from "../../components/template/sidebar";
-import { Template } from "../../components/template/template";
+import { Sidebar } from "../../components/template/app/sidebar";
+import { Template } from "../../components/template/app/template";
 
 export default function ReveivedApplying() {
   return (

@@ -3,7 +3,6 @@ import { ChannelList } from "../components/chat/room-list";
 import { SpaceList } from "../components/chat/space-list";
 import { ThreadList } from "../components/chat/thread-list";
 import { Heading } from "../components/heading/heading";
-import { Template } from "../components/template/template";
 import { TextInput } from "../components/text-input/text-input";
 import { useChat } from "../hooks/useChat";
 import { ReactComponent as SendIcon } from "../assets/icons/send.svg";
@@ -13,6 +12,7 @@ import { CreateChannelModal } from "../components/chat/modals/create-channel";
 import { CreateRoomModal } from "../components/chat/modals/create-room";
 import { MoveToRecruitModal } from "../components/chat/modals/move-to-recruit";
 import { useAuthGuard } from "../hooks/useAuthGurad";
+import { Template } from "../components/template/app/template";
 
 export default function ChatPage() {
   const {

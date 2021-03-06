@@ -7,7 +7,6 @@ import { FileInput } from "../../../components/file-input/file-inpute";
 import { Heading } from "../../../components/heading/heading";
 import { NumberInput } from "../../../components/number-input/number-input";
 import { Radio } from "../../../components/radio/radio";
-import { Template } from "../../../components/template/template";
 import { TextInput } from "../../../components/text-input/text-input";
 import GithubIcon from "../../../assets/icons/github.svg";
 import { Button } from "../../../components/button";
@@ -19,6 +18,7 @@ import {
 import { EditableLanguagePochiSet } from "../../../components/language/editable-language-pochi-set";
 import { TextArea } from "../../../components/text-area";
 import { useAuthGuard } from "../../../hooks/useAuthGurad";
+import { Template } from "../../../components/template/app/template";
 
 const betweenH2 = "space-y-2";
 

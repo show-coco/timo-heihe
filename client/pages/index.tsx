@@ -6,7 +6,7 @@ import {
 import { Template } from "../components/template/template";
 import { SearchArea } from "../components/search-area/search-area";
 import { useSearchTeams } from "../hooks/useSearchRooms";
-import { HomeHeader } from "../components/template/header/home";
+import { HomeHeader } from "../components/template/app/header/home";
 
 export default function Home() {
   const {

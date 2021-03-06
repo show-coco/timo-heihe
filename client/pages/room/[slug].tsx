@@ -6,7 +6,6 @@ import {
   convertToCategoryArray,
 } from "../../components/category/category-set";
 import { Heading } from "../../components/heading/heading";
-import { Template } from "../../components/template/template";
 import PeopleIcon from "../../assets/icons/people.svg";
 import {
   convertToSkillPochiSetArray,
@@ -23,6 +22,7 @@ import { useAuthContext } from "../../providers/useAuthContext";
 import { useModal } from "../../hooks/useModal";
 import { LoginModal } from "../../components/login-modal";
 import { MemberState } from "../../generated/types";
+import { Template } from "../../components/template/app/template";
 
 export default function ShowRoom() {
   const {
