@@ -309,6 +309,7 @@ type UserMemberModel {
   recruitNumbers: Int!
   repositoryUrl: String
   skills: [SkillModel!]
+  slug: String!
   title: String!
 }
 

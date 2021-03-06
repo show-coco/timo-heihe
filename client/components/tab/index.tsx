@@ -16,7 +16,7 @@ export const Tab: React.FC<Props> = ({ links }: Props) => {
   const path = router.pathname;
 
   return (
-    <div className="font-bold bg-white rounded-md text-orange-primary">
+    <div className="flex flex-row font-bold bg-white rounded-md text-orange-primary w-max">
       {links.map((link) => (
         <Link href={link.path} key={link.name}>
           <a

@@ -1,0 +1,6 @@
+fragment RoomOperationCard on UserMemberModel {
+  id
+  name
+  icon
+  slug
+}
