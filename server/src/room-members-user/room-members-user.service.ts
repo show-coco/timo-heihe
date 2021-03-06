@@ -46,4 +46,12 @@ export class RoomMembersUserService {
   update(id: number, input: UpdateRoomMembersUserInput) {
     return `This action removes a #${id} teamMembersUser`;
   }
+
+  leave(roomId: number, userId: number) {
+    this.roomMembersUserRepository.save({
+      user: { id: userId },
+      room: { id: roomId },
+      memberState: MemberState.LEAVE,
+    });
+  }
 }

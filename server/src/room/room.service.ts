@@ -233,7 +233,7 @@ export class RoomService {
       throw new Error('user does not exsts in this room');
     }
 
-    await this.roomMembersUserService.remove(roomId, userId);
+    await this.roomMembersUserService.leave(roomId, userId);
 
     const res = await this.findOne(roomId);
     console.log('response on rooms->service->leave', res);
