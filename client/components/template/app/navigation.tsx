@@ -30,11 +30,13 @@ export const Navigation: React.FC = () => {
               </span>
             </Link>
 
-            <Link href="/manager/rooms/owner">
-              <span className={`${textStyle} align-middle`} role="button">
-                ルーム管理
-              </span>
-            </Link>
+            {isAuthenticated && (
+              <Link href="/manager/rooms/owner">
+                <span className={`${textStyle} align-middle`} role="button">
+                  ルーム管理
+                </span>
+              </Link>
+            )}
 
             {isAuthenticated && (
               <Link href="/chat">
