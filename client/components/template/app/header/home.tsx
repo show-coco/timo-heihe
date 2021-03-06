@@ -1,13 +1,11 @@
 import React from "react";
-import MorningIcon from "../../../assets/icons/morning.svg";
-import { Button } from "../../button";
-import { RoomTypesFragment } from "../../../generated/types";
-import { Card } from "../../card/card";
-import { useAuthContext } from "../../../providers/useAuthContext";
-import Link from "next/link";
-import { useModal } from "../../../hooks/useModal";
-import { on } from "events";
-import { LoginModal } from "../../login-modal";
+import MorningIcon from "../../../../assets/icons/morning.svg";
+import { Button } from "../../../button";
+import { RoomTypesFragment } from "../../../../generated/types";
+import { Card } from "../../../card/card";
+import { useAuthContext } from "../../../../providers/useAuthContext";
+import { useModal } from "../../../../hooks/useModal";
+import { LoginModal } from "../../../login-modal";
 
 type Props = {
   teamTypes?: RoomTypesFragment[];

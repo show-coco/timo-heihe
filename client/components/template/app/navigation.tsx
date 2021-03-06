@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 
 import Link from "next/link";
-import { useAuthContext } from "../../providers/useAuthContext";
-import { Button } from "../button/button";
+import { useModal } from "../../../hooks/useModal";
+import { useAuthContext } from "../../../providers/useAuthContext";
+import { LoginModal } from "../../login-modal";
+import { Button } from "../../button";
+import { Avatar } from "../../avatar/avatar";
 import { PopUp } from "./popup";
-import { useModal } from "../../hooks/useModal";
-import { LoginModal } from "../login-modal";
-import { Avatar } from "../avatar/avatar";
 
 const textStyle = "font-semibold text-base text-gray-700 cursor-pointer";
 
@@ -30,11 +30,13 @@ export const Navigation: React.FC = () => {
               </span>
             </Link>
 
-            {/* <Link href="/">
-            <span className={`${textStyle} align-middle`} role="button">
-              イベントを探す
-            </span>
-          </Link> */}
+            {isAuthenticated && (
+              <Link href="/manager/rooms/owner">
+                <span className={`${textStyle} align-middle`} role="button">
+                  ルーム管理
+                </span>
+              </Link>
+            )}
 
             {isAuthenticated && (
               <Link href="/chat">

@@ -17,6 +17,9 @@ export class UserMemberModel {
   @Field()
   name: string;
 
+  @Field()
+  slug: string;
+
   @Field({ nullable: true })
   icon?: string;
 

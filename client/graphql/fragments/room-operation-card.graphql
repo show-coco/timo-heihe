@@ -1,0 +1,6 @@
+fragment RoomOperationCard on RoomModel {
+  id
+  name
+  icon
+  slug
+}

@@ -22,6 +22,9 @@ import { RoomService } from './room.service';
 import { ChannelModel } from '../channel/models/channel.model';
 import { SearchRoomInput } from './dto/search-room.input';
 import { GqlJwtAuthGuard } from 'src/auth/jwt-auth.guards';
+import { CurrentUser } from 'src/users/dto/current-user';
+import { Payload } from 'src/auth/types/payload';
+import { MyRoomsInput } from './dto/my-rooms.input';
 
 @Resolver(() => RoomModel)
 export class RoomResolver {
@@ -40,6 +43,12 @@ export class RoomResolver {
   @Query(() => [RoomModel])
   rooms(@Args('input', { nullable: true }) input?: SearchRoomInput) {
     return this.roomService.findAll(input);
+  }
+
+  @Query(() => [RoomModel])
+  @UseGuards(GqlJwtAuthGuard)
+  myRooms(@CurrentUser() user: Payload, @Args('input') input: MyRoomsInput) {
+    return this.roomService.findAllByUserId(user.sub, input);
   }
 
   @Mutation(() => RoomModel)

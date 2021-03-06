@@ -7,7 +7,6 @@ import {
   TeamCard,
 } from "../../components/card/team-card";
 import { Heading } from "../../components/heading/heading";
-import { Template } from "../../components/template/template";
 import { useUserDetailPageQuery } from "../../generated/types";
 import TwitterIcon from "../../assets/icons/twitter.svg";
 import GithubIcon from "../../assets/icons/github.svg";
@@ -18,6 +17,7 @@ import {
 import { Button } from "../../components/button";
 import { useAuthContext } from "../../providers/useAuthContext";
 import Link from "next/link";
+import { Template } from "../../components/template/app/template";
 
 export default function UserDetail() {
   const router = useRouter();
@@ -49,9 +49,9 @@ export default function UserDetail() {
           </Link>
         </div>
       )}
-      <div className="grid grid-rows-2 md:grid-cols-2 md:grid-rows-none gap-10">
+      <div className="grid grid-rows-2 gap-10 md:grid-cols-2 md:grid-rows-none">
         <Card className="p-8 space-y-5">
-          <span className="flex space-x-3 items-center">
+          <span className="flex items-center space-x-3">
             <Avatar src={data?.user.avatar || ""} size="large" />
 
             <span>
@@ -99,7 +99,7 @@ export default function UserDetail() {
         </Card>
       </div>
 
-      <div className="space-y-2 mt-10">
+      <div className="mt-10 space-y-2">
         <Heading as="h1Small">所属しているルーム</Heading>
 
         <div className="space-y-5">
