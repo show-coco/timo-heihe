@@ -1,8 +1,6 @@
 import Link from "next/link";
 import React from "react";
 import { Button } from "../../../components/button";
-import { Heading } from "../../../components/heading/heading";
-import { Modal } from "../../../components/modal/modal";
 import { RoomOperationCardList } from "../../../components/room-operation-card/list";
 import { ManagerRoomsTemplate } from "../../../components/template/manager-rooms";
 
@@ -15,7 +13,6 @@ import {
   useCancelApplyingMutation,
   useRoomManagementPageQuery,
 } from "../../../generated/types";
-import { useModal } from "../../../hooks/useModal";
 import { useAuthContext } from "../../../providers/useAuthContext";
 
 export default function Applying() {
