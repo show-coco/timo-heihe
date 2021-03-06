@@ -7,6 +7,7 @@ import { CreateRoomInput } from './dto/create-room.input';
 import { UpdateRoomInput } from './dto/update-room.input';
 import { Room } from './entities/room.entity';
 import { SearchRoomInput } from './dto/search-room.input';
+import { MyRoomsInput } from './dto/my-rooms.input';
 
 @Injectable()
 export class RoomService {
@@ -97,6 +98,29 @@ export class RoomService {
     const res = await query.getMany();
 
     console.log('res on rooms->service->findAll', res);
+    return res;
+  }
+
+  async findAllByUserId(userId: number, input: MyRoomsInput) {
+    const query = this.roomRepository
+      .createQueryBuilder('room')
+      .leftJoinAndSelect('room.members', 'members', 'members.roomId = room.id')
+      .leftJoinAndSelect('members.user', 'user', 'members.userId = user.id')
+      .where('user.id = :id', { id: userId })
+      .andWhere('members.memberState = :memberState', {
+        memberState: input.memberState,
+      });
+
+    if (input.iAmOwner) {
+      query
+        .leftJoinAndSelect('room.owner', 'owner')
+        .where('owner.id = :id', { id: userId });
+    }
+
+    const res = await query.getMany();
+
+    console.log('response on rooms->service->findAllByUserId', res);
+
     return res;
   }
 

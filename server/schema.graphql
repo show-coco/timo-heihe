@@ -148,6 +148,11 @@ type Mutation {
   updateUser(updateUserInput: UpdateUserInput!): UserModel!
 }
 
+input MyRoomsInput {
+  iAmOwner: Boolean
+  memberState: MemberState!
+}
+
 type Query {
   categories: [CategoryModel!]!
   category(id: Int!): CategoryModel!
@@ -156,6 +161,7 @@ type Query {
   me: UserModel!
   message(id: Int!): MessageModel!
   messages: [MessageModel!]!
+  myRooms(input: MyRoomsInput!): [RoomModel!]!
   room(slug: String!): RoomModel!
   rooms(input: SearchRoomInput): [RoomModel!]!
   roomTypes: [RoomTypeModel!]!
