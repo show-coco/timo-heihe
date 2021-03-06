@@ -5,9 +5,14 @@ import { RoomOperationCardList } from "../../../components/room-operation-card/l
 import { ManagerRoomsTemplate } from "../../../components/template/manager-rooms";
 import {
   MemberState,
+  RoomManagementPageDocument,
+  RoomManagementPageQuery,
+  RoomManagementPageQueryVariables,
   RoomOperationCardFragment,
+  useLeaveRoomMutation,
   useRoomManagementPageQuery,
 } from "../../../generated/types";
+import { useAuthContext } from "../../../providers/useAuthContext";
 
 export default function RoomManager() {
   const { data, loading } = useRoomManagementPageQuery({
@@ -30,9 +35,41 @@ export default function RoomManager() {
 const ButtonGroup: React.FC<RoomOperationCardFragment> = (
   props: RoomOperationCardFragment
 ) => {
+  const [leaveRoom] = useLeaveRoomMutation({
+    update: (cache) => {
+      const exisitingRooms = cache.readQuery<
+        RoomManagementPageQuery,
+        RoomManagementPageQueryVariables
+      >({
+        query: RoomManagementPageDocument,
+        variables: { memberState: MemberState.Joining },
+      });
+
+      const newRooms = exisitingRooms?.myRooms.filter(
+        (room) => room.id !== props.id
+      );
+
+      cache.writeQuery<
+        RoomManagementPageQuery,
+        RoomManagementPageQueryVariables
+      >({
+        query: RoomManagementPageDocument,
+        data: { myRooms: newRooms || [] },
+        variables: { memberState: MemberState.Joining },
+      });
+    },
+  });
+  const { id } = useAuthContext();
+
   return (
     <>
-      <Button variant="outline" colorScheme="red">
+      <Button
+        variant="outline"
+        colorScheme="red"
+        onClick={() =>
+          leaveRoom({ variables: { roomId: props.id || 0, userId: id } })
+        }
+      >
         脱退
       </Button>
 
