@@ -1,36 +1,28 @@
-import Link from "next/link";
 import React from "react";
 import { RoomOperationCardFragment } from "../../../generated/types";
 import { Avatar } from "../../avatar/avatar";
-import { Button } from "../../button";
 import { Heading } from "../../heading/heading";
 
-export type RoomOperationCardProps = RoomOperationCardFragment;
+export type RoomOperationCardProps = {
+  room: RoomOperationCardFragment;
+  ButtonGroup: React.FC<RoomOperationCardFragment>;
+};
 
-export const RoomOperationCard: React.FC<RoomOperationCardProps> = (
-  props: RoomOperationCardProps
-) => {
+export const RoomOperationCard: React.FC<RoomOperationCardProps> = ({
+  room,
+  ButtonGroup,
+}: RoomOperationCardProps) => {
   return (
     <div className="flex items-center w-full px-5 py-3 bg-white rounded-md">
-      <Avatar src={props.icon || ""} name={props.name} />
+      <Avatar src={room.icon || ""} name={room.name} />
 
       <div className="flex-1 px-3">
-        <Heading as="h3">{props.name}</Heading>
-        <div>@{props.slug}</div>
+        <Heading as="h3">{room.name}</Heading>
+        <div>@{room.slug}</div>
       </div>
 
       <div className="flex flex-row items-center space-x-3">
-        <Link href="/dashboard/:slug" as={`/dashboard/${props.slug}`}>
-          <Button variant="outline" colorScheme="blue">
-            詳細
-          </Button>
-        </Link>
-
-        <Link href="/room/:slug" as={`/room/${props.slug}`}>
-          <Button variant="outline" colorScheme="orange">
-            募集ページ
-          </Button>
-        </Link>
+        <ButtonGroup {...room} />
       </div>
     </div>
   );
