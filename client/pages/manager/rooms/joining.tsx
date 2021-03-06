@@ -1,22 +1,25 @@
 import React from "react";
-import { Heading } from "../../../components/heading/heading";
-import { TabForRoomManager } from "../../../components/room-manager/tab";
-import { Tab } from "../../../components/tab";
-import { Sidebar } from "../../../components/template/sidebar";
-import { Template } from "../../../components/template/template";
+import { RoomOperationCardList } from "../../../components/room-operation-card/list";
+import { ManagerRoomsTemplate } from "../../../components/template/manager-rooms";
+import {
+  MemberState,
+  useRoomManagementPageQuery,
+} from "../../../generated/types";
 
 export default function RoomManager() {
+  const { data, loading } = useRoomManagementPageQuery({
+    variables: { memberState: MemberState.Joining },
+  });
+
   return (
-    <Template>
-      <div className="flex flex-row">
-        <Sidebar />
-        <div className="p-10">
-          <Heading as="h1Small" className="mb-5">
-            ルーム管理
-          </Heading>
-          <TabForRoomManager />
-        </div>
-      </div>
-    </Template>
+    <ManagerRoomsTemplate>
+      {loading ? (
+        <p>Loading...</p>
+      ) : data && data.myRooms.length ? (
+        <RoomOperationCardList rooms={data.myRooms} />
+      ) : (
+        <p>参加中のルームがありません</p>
+      )}
+    </ManagerRoomsTemplate>
   );
 }

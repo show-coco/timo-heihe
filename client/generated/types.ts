@@ -252,6 +252,11 @@ export type MutationUpdateUserArgs = {
   updateUserInput: UpdateUserInput;
 };
 
+export type MyRoomsInput = {
+  iAmOwner?: Maybe<Scalars["Boolean"]>;
+  memberState: MemberState;
+};
+
 export type Query = {
   __typename?: "Query";
   categories: Array<CategoryModel>;
@@ -261,6 +266,7 @@ export type Query = {
   me: UserModel;
   message: MessageModel;
   messages: Array<MessageModel>;
+  myRooms: Array<RoomModel>;
   room: RoomModel;
   rooms: Array<RoomModel>;
   roomTypes: Array<RoomTypeModel>;
@@ -282,6 +288,10 @@ export type QueryChannelArgs = {
 
 export type QueryMessageArgs = {
   id: Scalars["Int"];
+};
+
+export type QueryMyRoomsArgs = {
+  input: MyRoomsInput;
 };
 
 export type QueryRoomArgs = {
@@ -544,9 +554,10 @@ export type RoomItemFragment = { __typename?: "UserMemberModel" } & Pick<
   "id" | "name" | "icon"
 >;
 
-export type RoomOperationCardFragment = {
-  __typename?: "UserMemberModel";
-} & Pick<UserMemberModel, "id" | "name" | "icon" | "slug">;
+export type RoomOperationCardFragment = { __typename?: "RoomModel" } & Pick<
+  RoomModel,
+  "id" | "name" | "icon" | "slug"
+>;
 
 export type RoomTypesFragment = { __typename?: "RoomTypeModel" } & Pick<
   RoomTypeModel,
@@ -803,6 +814,15 @@ export type MeQuery = { __typename?: "Query" } & {
     };
 };
 
+export type RoomManagementPageQueryVariables = Exact<{
+  memberState: MemberState;
+  iAmOwner?: Maybe<Scalars["Boolean"]>;
+}>;
+
+export type RoomManagementPageQuery = { __typename?: "Query" } & {
+  myRooms: Array<{ __typename?: "RoomModel" } & RoomOperationCardFragment>;
+};
+
 export type RoomQueryVariables = Exact<{
   slug: Scalars["String"];
 }>;
@@ -1007,7 +1027,7 @@ export const RoomItemFragmentDoc = gql`
   }
 `;
 export const RoomOperationCardFragmentDoc = gql`
-  fragment RoomOperationCard on UserMemberModel {
+  fragment RoomOperationCard on RoomModel {
     id
     name
     icon
@@ -1832,6 +1852,64 @@ export function useMeLazyQuery(
 export type MeQueryHookResult = ReturnType<typeof useMeQuery>;
 export type MeLazyQueryHookResult = ReturnType<typeof useMeLazyQuery>;
 export type MeQueryResult = Apollo.QueryResult<MeQuery, MeQueryVariables>;
+export const RoomManagementPageDocument = gql`
+  query RoomManagementPage($memberState: MemberState!, $iAmOwner: Boolean) {
+    myRooms(input: { memberState: $memberState, iAmOwner: $iAmOwner }) {
+      ...RoomOperationCard
+    }
+  }
+  ${RoomOperationCardFragmentDoc}
+`;
+
+/**
+ * __useRoomManagementPageQuery__
+ *
+ * To run a query within a React component, call `useRoomManagementPageQuery` and pass it any options that fit your needs.
+ * When your component renders, `useRoomManagementPageQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useRoomManagementPageQuery({
+ *   variables: {
+ *      memberState: // value for 'memberState'
+ *      iAmOwner: // value for 'iAmOwner'
+ *   },
+ * });
+ */
+export function useRoomManagementPageQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    RoomManagementPageQuery,
+    RoomManagementPageQueryVariables
+  >
+) {
+  return Apollo.useQuery<
+    RoomManagementPageQuery,
+    RoomManagementPageQueryVariables
+  >(RoomManagementPageDocument, baseOptions);
+}
+export function useRoomManagementPageLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    RoomManagementPageQuery,
+    RoomManagementPageQueryVariables
+  >
+) {
+  return Apollo.useLazyQuery<
+    RoomManagementPageQuery,
+    RoomManagementPageQueryVariables
+  >(RoomManagementPageDocument, baseOptions);
+}
+export type RoomManagementPageQueryHookResult = ReturnType<
+  typeof useRoomManagementPageQuery
+>;
+export type RoomManagementPageLazyQueryHookResult = ReturnType<
+  typeof useRoomManagementPageLazyQuery
+>;
+export type RoomManagementPageQueryResult = Apollo.QueryResult<
+  RoomManagementPageQuery,
+  RoomManagementPageQueryVariables
+>;
 export const RoomDocument = gql`
   query Room($slug: String!) {
     room(slug: $slug) {

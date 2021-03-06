@@ -1,4 +1,4 @@
-fragment RoomOperationCard on UserMemberModel {
+fragment RoomOperationCard on RoomModel {
   id
   name
   icon

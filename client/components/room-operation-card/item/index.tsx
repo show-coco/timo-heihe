@@ -1,13 +1,15 @@
 import Link from "next/link";
 import React from "react";
-import { RoomOperationCardFragment } from "../../generated/types";
-import { Avatar } from "../avatar/avatar";
-import { Button } from "../button";
-import { Heading } from "../heading/heading";
+import { RoomOperationCardFragment } from "../../../generated/types";
+import { Avatar } from "../../avatar/avatar";
+import { Button } from "../../button";
+import { Heading } from "../../heading/heading";
 
-type Props = RoomOperationCardFragment;
+export type RoomOperationCardProps = RoomOperationCardFragment;
 
-export const RoomOperationCard: React.FC<Props> = (props: Props) => {
+export const RoomOperationCard: React.FC<RoomOperationCardProps> = (
+  props: RoomOperationCardProps
+) => {
   return (
     <div className="flex items-center w-full px-5 py-3 bg-white rounded-md">
       <Avatar src={props.icon || ""} name={props.name} />
