@@ -30,11 +30,17 @@ export class RoomMembersUserService {
     return `This action returns a #${id} teamMembersUser`;
   }
 
-  remove(roomId: number, userId: number) {
-    this.roomMembersUserRepository.delete({
-      user: { id: userId },
-      room: { id: roomId },
-    });
+  async remove(roomId: number, userId: number) {
+    try {
+      await this.roomMembersUserRepository.delete({
+        user: { id: userId },
+        room: { id: roomId },
+      });
+      return { ok: true };
+    } catch (error) {
+      console.error(error);
+      return { ok: false };
+    }
   }
 
   update(id: number, input: UpdateRoomMembersUserInput) {
