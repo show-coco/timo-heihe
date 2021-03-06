@@ -36,6 +36,12 @@ const ButtonGroup: React.FC<RoomOperationCardFragment> = (
         キャンセル
       </Button>
 
+      <Link href="/dashboard/:slug" as={`/dashboard/${props.slug}`}>
+        <Button variant="outline" colorScheme="blue">
+          詳細
+        </Button>
+      </Link>
+
       <Link href="/room/:slug" as={`/room/${props.slug}`}>
         <Button variant="outline" colorScheme="orange">
           募集ページ
