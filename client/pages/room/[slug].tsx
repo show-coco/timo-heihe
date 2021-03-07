@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Avatar } from "../../components/avatar/avatar";
 import { Card } from "../../components/card/card";
 import {
@@ -23,7 +23,8 @@ import { useAuthContext } from "../../providers/useAuthContext";
 import { useModal } from "../../hooks/useModal";
 import { LoginModal } from "../../components/login-modal";
 import { MemberState } from "../../generated/types";
-
+import { LeaveTeanModal } from "../../components/leave/modals/leave-team-modal";
+// import { TextInput } from "../text-input/text-input";
 export default function ShowRoom() {
   const {
     onJoin,
@@ -43,7 +44,7 @@ export default function ShowRoom() {
   } = useTeamDetail();
   const { isAuthenticated } = useAuthContext();
   const { isOpen, onOpen, onClose } = useModal();
-
+  const [isOpend, setIsOpend] = useState(false);
   if (loading) return <p>Loading...</p>;
   if (!room) return <p>データがありません</p>;
 
@@ -55,6 +56,8 @@ export default function ShowRoom() {
   return (
     <>
       <LoginModal isOpen={isOpen} onRequestClose={onClose} />
+
+      <LeaveTeanModal isOpen={isOpend} onRequestClose={onClose} />
 
       <Template className="p-10">
         <div className="flex space-x-10">
@@ -106,6 +109,15 @@ export default function ShowRoom() {
                   <Link href="/room/edit/[slug]" as={`/room/edit/${slug}`}>
                     <Button>編集する</Button>
                   </Link>
+                )}
+                {iCanEdit && (
+                  <Button
+                    variant="outline"
+                    colorScheme="red"
+                    onClick={() => setIsOpend(true)}
+                  >
+                    脱退する
+                  </Button>
                 )}
                 {iCanApply && (
                   <Button

@@ -67,6 +67,7 @@ export const AutoComplate: React.FC<AutoComplateProps> = ({
   };
 
   const onSuggestionsFetchRequested = ({ value }: { value: string }) => {
+    console.log(value);
     const suggestions: ACSelectedData[] = getSuggestions(value);
     setSuggestions(suggestions);
   };

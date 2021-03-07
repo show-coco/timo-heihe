@@ -2,7 +2,7 @@ import React from "react";
 
 export type ButtonProps = {
   variant?: "solid" | "outline" | "ghost" | "underline";
-  colorScheme?: "orange" | "blue";
+  colorScheme?: "orange" | "blue" | "red";
   size?: "small" | "medium" | "large";
   isIcon?: boolean;
   onClick?: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
@@ -50,6 +50,7 @@ const colorSchemesForSolid = {
 const colorSchemeseForOutline = {
   orange: `text-orange-500 border-orange-500`,
   blue: `text-blue-500 border-blue-500`,
+  red: `text-red-500 border-red-500`,
 };
 
 // eslint-disable-next-line react/display-name

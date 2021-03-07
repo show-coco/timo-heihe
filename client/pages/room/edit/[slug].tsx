@@ -44,7 +44,6 @@ export default function EditRoom() {
         <form onSubmit={onSubmit}>
           <div className="space-y-10">
             <Heading as="h1Small">ルーム情報を編集する</Heading>
-
             <div className={betweenH2}>
               <Heading as="h2">ルームアイコン</Heading>
 
@@ -57,7 +56,6 @@ export default function EditRoom() {
                 />
               </div>
             </div>
-
             <div className={betweenH2}>
               <span className="flex">
                 <Heading as="h2">ルームID</Heading>
@@ -70,7 +68,6 @@ export default function EditRoom() {
                 onChange={(e) => setter.setSlug(e.target.value)}
               />
             </div>
-
             <div className={betweenH2}>
               <span className="flex">
                 <Heading as="h2">ルーム名</Heading>
@@ -83,7 +80,6 @@ export default function EditRoom() {
                 onChange={(e) => setter.setName(e.target.value)}
               />
             </div>
-
             <div className={betweenH2}>
               <span className="flex">
                 <Heading as="h2">メンバー募集タイトル</Heading>
@@ -97,7 +93,6 @@ export default function EditRoom() {
                 onChange={(e) => setter.setTitle(e.target.value)}
               />
             </div>
-
             <div className={betweenH2}>
               <span className="flex">
                 <Heading as="h2">ルームの説明</Heading>
@@ -112,7 +107,6 @@ export default function EditRoom() {
                 />
               </div>
             </div>
-
             <div className={betweenH2}>
               <span className="flex">
                 <Heading as="h2">募集人数</Heading>
@@ -126,7 +120,6 @@ export default function EditRoom() {
                 />
               </div>
             </div>
-
             <div className={`flex flex-col flex-wrap w-2/3`}>
               <Heading as="h2">ルームタイプ</Heading>
 
@@ -144,7 +137,6 @@ export default function EditRoom() {
                 ))}
               </div>
             </div>
-
             <div className={betweenH2}>
               <span className="flex">
                 <Heading as="h2">参加時の申請</Heading>
@@ -168,7 +160,6 @@ export default function EditRoom() {
                 />
               </div>
             </div>
-
             <div className={`flex flex-col flex-wrap w-2/3`}>
               <Heading as="h2">カテゴリー</Heading>
 
@@ -191,7 +182,7 @@ export default function EditRoom() {
                 ))}
               </div>
             </div>
-
+            {console.log(formState.selectedSkills)}
             <div className={betweenH2}>
               <Heading as="h2">使用するスキル</Heading>
 
@@ -206,12 +197,11 @@ export default function EditRoom() {
                   languages={convertToSkillPochiSetArray(
                     formState.selectedSkills
                   )}
-                  setSelected={setter.setSkills}
-                  selectedData={formState.selectedSkills}
+                  // setSelected={setter.setSkills}
+                  // selectedData={formState.selectedSkills}
                 />
               </div>
             </div>
-
             <div className={betweenH2}>
               <Heading as="h2">Githubリポジトリ</Heading>
 
@@ -225,7 +215,6 @@ export default function EditRoom() {
                 />
               </div>
             </div>
-
             <Button type="submit">保存する</Button>
           </div>
         </form>
