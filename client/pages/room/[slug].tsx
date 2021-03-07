@@ -45,6 +45,7 @@ export default function ShowRoom() {
   const { isAuthenticated } = useAuthContext();
   const { isOpen, onOpen, onClose } = useModal();
   const [isOpend, setIsOpend] = useState(false);
+
   if (loading) return <p>Loading...</p>;
   if (!room) return <p>データがありません</p>;
 
@@ -57,7 +58,10 @@ export default function ShowRoom() {
     <>
       <LoginModal isOpen={isOpen} onRequestClose={onClose} />
 
-      <LeaveTeanModal isOpen={isOpend} onRequestClose={onClose} />
+      <LeaveTeanModal
+        isOpen={isOpend}
+        onRequestClose={() => setIsOpend(!isOpend)}
+      />
 
       <Template className="p-10">
         <div className="flex space-x-10">
