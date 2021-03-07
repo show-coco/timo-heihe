@@ -7,16 +7,10 @@ export const UseTeamLeave = () => {
   const [selectedUser, setSelectedUser] = useState<ACSelectedData[]>([]);
   const [avatarImg, setAvatarImg] = useState<string>("");
   const { room, onLeave } = useTeamDetail();
-  const [applyRoomDialogIsOpened, setApplyRoomDialogIsOpened] = useState(false);
   const [convertTeamMemberObject, setConvertTeamMemberObject] = useState<
     ACSelectedData[]
   >([]);
-  const onCloseApplyDialog = (
-    event: React.MouseEvent<Element, MouseEvent> | React.KeyboardEvent<Element>
-  ) => {
-    event.preventDefault();
-    setApplyRoomDialogIsOpened(false);
-  };
+
   const convertToUserArray = (users: ACSelectedData[]) => {
     return users.map((res) => res.name);
   };
