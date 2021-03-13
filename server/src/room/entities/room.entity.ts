@@ -64,7 +64,7 @@ export class Room {
 
   @ManyToMany(() => User, (room) => room.applyingRooms, { nullable: true })
   @JoinTable({ name: 'room_applying_user' })
-  applyingUsers?: User[];
+  applyingUsers?: Partial<User>[];
 
   @CreateDateColumn({ type: 'timestamp' })
   createdAt?: Date;

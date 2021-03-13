@@ -67,14 +67,14 @@ export class RoomResolver {
     return this.roomService.remove(id);
   }
 
-  // @Mutation(() => RoomModel)
-  // @UseGuards(GqlJwtAuthGuard)
-  // async applyRoom(
-  //   @Args('userId', { type: () => Int }) userId: number,
-  //   @Args('roomId', { type: () => Int }) roomId: number,
-  // ) {
-  //   return this.roomService.apply(userId, roomId);
-  // }
+  @Mutation(() => RoomModel)
+  @UseGuards(GqlJwtAuthGuard)
+  async applyRoom(
+    @Args('userId', { type: () => Int }) userId: number,
+    @Args('roomId', { type: () => Int }) roomId: number,
+  ) {
+    return this.roomService.apply(userId, roomId);
+  }
 
   // @ResolveField(() => UserModel)
   // owner(@Parent() room: Room) {

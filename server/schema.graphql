@@ -67,6 +67,7 @@ type MessageModel {
 }
 
 type Mutation {
+  applyRoom(roomId: Int!, userId: Int!): RoomModel!
   createCategory(createCategoryInput: CreateCategoryInput!): CategoryModel!
   createMessage(input: CreateMessageInput!): MessageModel!
   createRoom(input: CreateRoomInput!): RoomModel!

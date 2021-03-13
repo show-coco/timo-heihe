@@ -143,28 +143,20 @@ export class RoomService {
     return res;
   }
 
-  // async apply(userId: number, roomId: number): Promise<Room> {
-  //   const targetRoom = await this.findOne(roomId);
-  //   for (const member of targetRoom.members) {
-  //     const exists = member.user.id === userId;
-  //     if (exists && member.memberState === MemberState.JOINING) {
-  //       throw new Error('User already exists in this room');
-  //     }
-  //     if (exists && member.memberState === MemberState.PENDING) {
-  //       throw new Error('User has already applied to this room');
-  //     }
-  //   }
+  async apply(userId: number, roomId: number): Promise<Room> {
+    const targetRoom = await this.findOne(roomId);
 
-  //   await this.roomMembersUserService.create(
-  //     roomId,
-  //     userId,
-  //     MemberState.PENDING,
-  //   );
+    const formattedInput: Room = {
+      ...targetRoom,
+      applyingUsers: [{ id: userId }],
+    };
 
-  //   const res = await this.findOne(roomId);
-  //   console.log('response on rooms->service->apply', res);
-  //   return res;
-  // }
+    await this.roomRepository.save(formattedInput);
+
+    const res = await this.findOne(roomId);
+    console.log('response on rooms->service->apply', res);
+    return res;
+  }
 
   async remove(id: number): Promise<{ affected?: number }> {
     const returns = await this.roomRepository.delete({ id });
