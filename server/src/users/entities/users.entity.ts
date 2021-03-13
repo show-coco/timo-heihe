@@ -52,4 +52,7 @@ export class User {
 
   @OneToMany(() => Message, (message) => message.user, { nullable: true })
   messages?: Message[];
+
+  @ManyToMany(() => Room, (room) => room.applyingUsers, { nullable: true })
+  applyingRooms?: Room[];
 }

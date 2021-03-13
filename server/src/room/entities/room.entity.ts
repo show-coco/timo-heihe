@@ -62,6 +62,10 @@ export class Room {
   @JoinTable()
   recruitmentLevels: RecruitmentLevel[];
 
+  @ManyToMany(() => User, (room) => room.applyingRooms, { nullable: true })
+  @JoinTable({ name: 'room_applying_user' })
+  applyingUsers?: User[];
+
   @CreateDateColumn({ type: 'timestamp' })
   createdAt?: Date;
 
