@@ -33,5 +33,8 @@ export class CreateRoomInput {
   withApplication: boolean;
 
   @Field(() => [Int])
+  recruiementLevels: number[];
+
+  @Field(() => [Int])
   typeIds: number[];
 }

@@ -28,6 +28,7 @@ input CreateRoomInput {
   icon: String
   name: String!
   owner: Int!
+  recruiementLevels: [Int!]!
   repositoryUrl: String
   skills: [Int!]
   slug: String!
@@ -177,6 +178,7 @@ input UpdateRoomInput {
   id: Int!
   name: String
   owner: Int
+  recruiementLevels: [Int!]
   repositoryUrl: String
   skills: [Int!]
   slug: String

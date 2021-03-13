@@ -21,6 +21,7 @@ export class RoomService {
       .leftJoinAndSelect('room.owner', 'owner')
       .leftJoinAndSelect('room.skills', 'skills')
       .leftJoinAndSelect('room.types', 'types')
+      .leftJoinAndSelect('room.recruitmentLevels', 'recruitmentLevels')
       .where({ id: id })
       .getOne();
 
@@ -52,8 +53,8 @@ export class RoomService {
       .createQueryBuilder('room')
       .leftJoinAndSelect('room.skills', 'skills')
       .leftJoinAndSelect('room.categories', 'categories')
-      .leftJoinAndSelect('room.owner', 'owner');
-
+      .leftJoinAndSelect('room.owner', 'owner')
+      .leftJoinAndSelect('room.recruitmentLevels', 'recruitmentLevels');
     if (input && input.title) {
       query.andWhere('room.title LIKE :title', { title: `%${input.title}%` });
     }
@@ -106,6 +107,7 @@ export class RoomService {
     const formattedInput = {
       ...input,
       owner: { id: input.owner },
+      recruitmentLevels: input.recruiementLevels.map((id) => ({ id })),
       skills: input.skills && input.skills.map((id) => ({ id })),
       categories: input.categories && input.categories.map((id) => ({ id })),
       types: input.typeIds && input.typeIds.map((id) => ({ id })),
@@ -126,6 +128,7 @@ export class RoomService {
     const formattedInput = {
       ...input,
       owner: { id: input.owner },
+      recruitmentLevels: input.recruiementLevels.map((id) => ({ id })),
       skills: input.skills.map((id) => ({ id })),
       categories: input.categories.map((id) => ({ id })),
       types: input.typeIds.map((id) => ({ id })),
