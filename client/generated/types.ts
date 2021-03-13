@@ -148,6 +148,7 @@ export type Mutation = {
   createMessage: MessageModel;
   createRoom: RoomModel;
   createSkill: SkillModel;
+  createTeamMembersUser: RoomMembersUserModel;
   createThread: ThreadModel;
   deleteChannel: ChannelResponse;
   deleteRoom: RoomModel;
@@ -156,11 +157,13 @@ export type Mutation = {
   removeCategory: CategoryModel;
   removeMessage: ChannelResponse;
   removeSkill: SkillModel;
+  removeTeamMembersUser: RemoveResult;
   removeThread: ThreadModel;
   updateCategory: CategoryModel;
   updateMessage: MessageModel;
   updateRoom: RoomModel;
   updateSkill: SkillModel;
+  updateTeamMembersUser: RoomMembersUserModel;
   updateThread: ThreadModel;
   updateUser: UserModel;
 };
@@ -188,6 +191,10 @@ export type MutationCreateRoomArgs = {
 
 export type MutationCreateSkillArgs = {
   createSkillInput: CreateSkillInput;
+};
+
+export type MutationCreateTeamMembersUserArgs = {
+  userId: Scalars["ID"];
 };
 
 export type MutationCreateThreadArgs = {
@@ -224,6 +231,11 @@ export type MutationRemoveSkillArgs = {
   id: Scalars["Int"];
 };
 
+export type MutationRemoveTeamMembersUserArgs = {
+  roomId: Scalars["Int"];
+  userId: Scalars["Int"];
+};
+
 export type MutationRemoveThreadArgs = {
   id: Scalars["Int"];
 };
@@ -244,12 +256,21 @@ export type MutationUpdateSkillArgs = {
   updateSkillInput: UpdateSkillInput;
 };
 
+export type MutationUpdateTeamMembersUserArgs = {
+  updateTeamMembersUserInput: UpdateRoomMembersUserInput;
+};
+
 export type MutationUpdateThreadArgs = {
   input: UpdateThreadInput;
 };
 
 export type MutationUpdateUserArgs = {
   updateUserInput: UpdateUserInput;
+};
+
+export type MyRoomsInput = {
+  iAmOwner?: Maybe<Scalars["Boolean"]>;
+  memberState: MemberState;
 };
 
 export type Query = {
@@ -261,11 +282,13 @@ export type Query = {
   me: UserModel;
   message: MessageModel;
   messages: Array<MessageModel>;
+  myRooms: Array<RoomModel>;
   room: RoomModel;
   rooms: Array<RoomModel>;
   roomTypes: Array<RoomTypeModel>;
   skill: SkillModel;
   skills: Array<SkillModel>;
+  teamMembersUser: RoomMembersUserModel;
   thread: ThreadModel;
   threads?: Maybe<Array<ThreadModel>>;
   user: UserModel;
@@ -284,6 +307,10 @@ export type QueryMessageArgs = {
   id: Scalars["Int"];
 };
 
+export type QueryMyRoomsArgs = {
+  input: MyRoomsInput;
+};
+
 export type QueryRoomArgs = {
   slug: Scalars["String"];
 };
@@ -293,6 +320,10 @@ export type QueryRoomsArgs = {
 };
 
 export type QuerySkillArgs = {
+  id: Scalars["Int"];
+};
+
+export type QueryTeamMembersUserArgs = {
   id: Scalars["Int"];
 };
 
@@ -306,6 +337,11 @@ export type QueryThreadsArgs = {
 
 export type QueryUserArgs = {
   userId: Scalars["String"];
+};
+
+export type RemoveResult = {
+  __typename?: "RemoveResult";
+  ok: Scalars["Boolean"];
 };
 
 export type RoomMemberModel = {
@@ -323,6 +359,13 @@ export type RoomMemberModel = {
   teams: Array<RoomModel>;
   twitterId?: Maybe<Scalars["String"]>;
   userId: Scalars["String"];
+};
+
+export type RoomMembersUserModel = {
+  __typename?: "RoomMembersUserModel";
+  memberState: MemberState;
+  room: RoomModel;
+  user: UserModel;
 };
 
 export type RoomModel = {
@@ -426,6 +469,12 @@ export type UpdateRoomInput = {
   typeIds?: Maybe<Array<Scalars["Int"]>>;
 };
 
+export type UpdateRoomMembersUserInput = {
+  id: Scalars["Int"];
+  room?: Maybe<UpdateRoomInput>;
+  user?: Maybe<ConnectUserInput>;
+};
+
 export type UpdateSkillInput = {
   icon?: Maybe<Scalars["String"]>;
   id: Scalars["Int"];
@@ -465,6 +514,7 @@ export type UserMemberModel = {
   recruitNumbers: Scalars["Int"];
   repositoryUrl?: Maybe<Scalars["String"]>;
   skills?: Maybe<Array<SkillModel>>;
+  slug: Scalars["String"];
   title: Scalars["String"];
 };
 
@@ -543,6 +593,11 @@ export type RoomItemFragment = { __typename?: "UserMemberModel" } & Pick<
   "id" | "name" | "icon"
 >;
 
+export type RoomOperationCardFragment = { __typename?: "RoomModel" } & Pick<
+  RoomModel,
+  "id" | "name" | "icon" | "slug"
+>;
+
 export type RoomTypesFragment = { __typename?: "RoomTypeModel" } & Pick<
   RoomTypeModel,
   "id" | "name"
@@ -552,6 +607,18 @@ export type SkillItemFragment = { __typename?: "SkillModel" } & Pick<
   SkillModel,
   "id" | "name"
 >;
+
+export type CancelApplyingMutationVariables = Exact<{
+  roomId: Scalars["Int"];
+  userId: Scalars["Int"];
+}>;
+
+export type CancelApplyingMutation = { __typename?: "Mutation" } & {
+  removeTeamMembersUser: { __typename?: "RemoveResult" } & Pick<
+    RemoveResult,
+    "ok"
+  >;
+};
 
 export type CreateChannelMutationVariables = Exact<{
   input: CreateChannelInput;
@@ -798,6 +865,15 @@ export type MeQuery = { __typename?: "Query" } & {
     };
 };
 
+export type RoomManagementPageQueryVariables = Exact<{
+  memberState: MemberState;
+  iAmOwner?: Maybe<Scalars["Boolean"]>;
+}>;
+
+export type RoomManagementPageQuery = { __typename?: "Query" } & {
+  myRooms: Array<{ __typename?: "RoomModel" } & RoomOperationCardFragment>;
+};
+
 export type RoomQueryVariables = Exact<{
   slug: Scalars["String"];
 }>;
@@ -1001,6 +1077,14 @@ export const RoomItemFragmentDoc = gql`
     icon
   }
 `;
+export const RoomOperationCardFragmentDoc = gql`
+  fragment RoomOperationCard on RoomModel {
+    id
+    name
+    icon
+    slug
+  }
+`;
 export const RoomTypesFragmentDoc = gql`
   fragment RoomTypes on RoomTypeModel {
     id
@@ -1013,6 +1097,55 @@ export const SkillItemFragmentDoc = gql`
     name
   }
 `;
+export const CancelApplyingDocument = gql`
+  mutation CancelApplying($roomId: Int!, $userId: Int!) {
+    removeTeamMembersUser(roomId: $roomId, userId: $userId) {
+      ok
+    }
+  }
+`;
+export type CancelApplyingMutationFn = Apollo.MutationFunction<
+  CancelApplyingMutation,
+  CancelApplyingMutationVariables
+>;
+
+/**
+ * __useCancelApplyingMutation__
+ *
+ * To run a mutation, you first call `useCancelApplyingMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCancelApplyingMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [cancelApplyingMutation, { data, loading, error }] = useCancelApplyingMutation({
+ *   variables: {
+ *      roomId: // value for 'roomId'
+ *      userId: // value for 'userId'
+ *   },
+ * });
+ */
+export function useCancelApplyingMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    CancelApplyingMutation,
+    CancelApplyingMutationVariables
+  >
+) {
+  return Apollo.useMutation<
+    CancelApplyingMutation,
+    CancelApplyingMutationVariables
+  >(CancelApplyingDocument, baseOptions);
+}
+export type CancelApplyingMutationHookResult = ReturnType<
+  typeof useCancelApplyingMutation
+>;
+export type CancelApplyingMutationResult = Apollo.MutationResult<CancelApplyingMutation>;
+export type CancelApplyingMutationOptions = Apollo.BaseMutationOptions<
+  CancelApplyingMutation,
+  CancelApplyingMutationVariables
+>;
 export const CreateChannelDocument = gql`
   mutation CreateChannel($input: CreateChannelInput!) {
     createChannel(input: $input) {
@@ -1819,6 +1952,64 @@ export function useMeLazyQuery(
 export type MeQueryHookResult = ReturnType<typeof useMeQuery>;
 export type MeLazyQueryHookResult = ReturnType<typeof useMeLazyQuery>;
 export type MeQueryResult = Apollo.QueryResult<MeQuery, MeQueryVariables>;
+export const RoomManagementPageDocument = gql`
+  query RoomManagementPage($memberState: MemberState!, $iAmOwner: Boolean) {
+    myRooms(input: { memberState: $memberState, iAmOwner: $iAmOwner }) {
+      ...RoomOperationCard
+    }
+  }
+  ${RoomOperationCardFragmentDoc}
+`;
+
+/**
+ * __useRoomManagementPageQuery__
+ *
+ * To run a query within a React component, call `useRoomManagementPageQuery` and pass it any options that fit your needs.
+ * When your component renders, `useRoomManagementPageQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useRoomManagementPageQuery({
+ *   variables: {
+ *      memberState: // value for 'memberState'
+ *      iAmOwner: // value for 'iAmOwner'
+ *   },
+ * });
+ */
+export function useRoomManagementPageQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    RoomManagementPageQuery,
+    RoomManagementPageQueryVariables
+  >
+) {
+  return Apollo.useQuery<
+    RoomManagementPageQuery,
+    RoomManagementPageQueryVariables
+  >(RoomManagementPageDocument, baseOptions);
+}
+export function useRoomManagementPageLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    RoomManagementPageQuery,
+    RoomManagementPageQueryVariables
+  >
+) {
+  return Apollo.useLazyQuery<
+    RoomManagementPageQuery,
+    RoomManagementPageQueryVariables
+  >(RoomManagementPageDocument, baseOptions);
+}
+export type RoomManagementPageQueryHookResult = ReturnType<
+  typeof useRoomManagementPageQuery
+>;
+export type RoomManagementPageLazyQueryHookResult = ReturnType<
+  typeof useRoomManagementPageLazyQuery
+>;
+export type RoomManagementPageQueryResult = Apollo.QueryResult<
+  RoomManagementPageQuery,
+  RoomManagementPageQueryVariables
+>;
 export const RoomDocument = gql`
   query Room($slug: String!) {
     room(slug: $slug) {

@@ -1,18 +1,17 @@
 import { Resolver, Query, Mutation, Args, Int, ID } from '@nestjs/graphql';
 import { RoomMembersUserService } from './room-members-user.service';
-import {
-  MemberState,
-  RoomMembersUser,
-} from './entities/room-members-user.entity';
+import { MemberState } from './entities/room-members-user.entity';
 import { UpdateRoomMembersUserInput } from './dto/update-room-members-user.input';
+import { RoomMembersUserModel } from './models/room-members-user.model';
+import { RemoveResult } from './models/remove-result';
 
-@Resolver(() => RoomMembersUser)
+@Resolver(() => RoomMembersUserModel)
 export class RoomMembersUserResolver {
   constructor(
     private readonly roomMembersUserService: RoomMembersUserService,
   ) {}
 
-  @Mutation(() => RoomMembersUser)
+  @Mutation(() => RoomMembersUserModel)
   createTeamMembersUser(
     @Args('userId', { type: () => ID }) userId: number,
     @Args('userId', { type: () => Int }) teamId: number,
@@ -24,17 +23,17 @@ export class RoomMembersUserResolver {
     );
   }
 
-  @Query(() => [RoomMembersUser], { name: 'teamMembersUser' })
+  @Query(() => [RoomMembersUserModel], { name: 'teamMembersUser' })
   findAll() {
     return this.roomMembersUserService.findAll();
   }
 
-  @Query(() => RoomMembersUser, { name: 'teamMembersUser' })
+  @Query(() => RoomMembersUserModel, { name: 'teamMembersUser' })
   findOne(@Args('id', { type: () => Int }) id: number) {
     return this.roomMembersUserService.findOne(id);
   }
 
-  @Mutation(() => RoomMembersUser)
+  @Mutation(() => RoomMembersUserModel)
   updateTeamMembersUser(
     @Args('updateTeamMembersUserInput')
     updateTeamMembersUserInput: UpdateRoomMembersUserInput,
@@ -45,11 +44,11 @@ export class RoomMembersUserResolver {
     );
   }
 
-  @Mutation(() => RoomMembersUser)
+  @Mutation(() => RemoveResult)
   removeTeamMembersUser(
-    @Args('id', { type: () => ID }) userId: number,
-    @Args('id', { type: () => Int }) teamId: number,
+    @Args('userId', { type: () => Int }) userId: number,
+    @Args('roomId', { type: () => Int }) roomId: number,
   ) {
-    return this.roomMembersUserService.remove(teamId, userId);
+    return this.roomMembersUserService.remove(roomId, userId);
   }
 }

@@ -131,6 +131,7 @@ type Mutation {
   createMessage(input: CreateMessageInput!): MessageModel!
   createRoom(input: CreateRoomInput!): RoomModel!
   createSkill(createSkillInput: CreateSkillInput!): SkillModel!
+  createTeamMembersUser(userId: ID!): RoomMembersUserModel!
   createThread(input: CreateThreadInput!): ThreadModel!
   deleteChannel(id: Int!): ChannelResponse!
   deleteRoom(id: Int!): RoomModel!
@@ -139,13 +140,20 @@ type Mutation {
   removeCategory(id: Int!): CategoryModel!
   removeMessage(id: Int!): ChannelResponse!
   removeSkill(id: Int!): SkillModel!
+  removeTeamMembersUser(roomId: Int!, userId: Int!): RemoveResult!
   removeThread(id: Int!): ThreadModel!
   updateCategory(updateCategoryInput: UpdateCategoryInput!): CategoryModel!
   updateMessage(input: UpdateMessageInput!): MessageModel!
   updateRoom(updateRoomInput: UpdateRoomInput!): RoomModel!
   updateSkill(updateSkillInput: UpdateSkillInput!): SkillModel!
+  updateTeamMembersUser(updateTeamMembersUserInput: UpdateRoomMembersUserInput!): RoomMembersUserModel!
   updateThread(input: UpdateThreadInput!): ThreadModel!
   updateUser(updateUserInput: UpdateUserInput!): UserModel!
+}
+
+input MyRoomsInput {
+  iAmOwner: Boolean
+  memberState: MemberState!
 }
 
 type Query {
@@ -156,15 +164,21 @@ type Query {
   me: UserModel!
   message(id: Int!): MessageModel!
   messages: [MessageModel!]!
+  myRooms(input: MyRoomsInput!): [RoomModel!]!
   room(slug: String!): RoomModel!
   rooms(input: SearchRoomInput): [RoomModel!]!
   roomTypes: [RoomTypeModel!]!
   skill(id: Int!): SkillModel!
   skills: [SkillModel!]!
+  teamMembersUser(id: Int!): RoomMembersUserModel!
   thread(id: Int!): ThreadModel!
   threads(input: FetchThreadInput!): [ThreadModel!]
   user(userId: String!): UserModel!
   users: [UserModel!]!
+}
+
+type RemoveResult {
+  ok: Boolean!
 }
 
 type RoomMemberModel {
@@ -181,6 +195,12 @@ type RoomMemberModel {
   teams: [RoomModel!]!
   twitterId: String
   userId: String!
+}
+
+type RoomMembersUserModel {
+  memberState: MemberState!
+  room: RoomModel!
+  user: UserModel!
 }
 
 type RoomModel {
@@ -271,6 +291,12 @@ input UpdateRoomInput {
   typeIds: [Int!]
 }
 
+input UpdateRoomMembersUserInput {
+  id: Int!
+  room: UpdateRoomInput
+  user: ConnectUserInput
+}
+
 input UpdateSkillInput {
   icon: String
   id: Int!
@@ -309,6 +335,7 @@ type UserMemberModel {
   recruitNumbers: Int!
   repositoryUrl: String
   skills: [SkillModel!]
+  slug: String!
   title: String!
 }
 

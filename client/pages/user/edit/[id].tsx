@@ -2,7 +2,6 @@ import React from "react";
 import { Avatar } from "../../../components/avatar/avatar";
 import { Card } from "../../../components/card/card";
 import { Heading } from "../../../components/heading/heading";
-import { Template } from "../../../components/template/template";
 import TwitterIcon from "../../../assets/icons/twitter.svg";
 import GithubIcon from "../../../assets/icons/github.svg";
 import { TextInput } from "../../../components/text-input/text-input";
@@ -16,6 +15,7 @@ import { AutoComplate } from "../../../components/auto-complate/auto-complate";
 import { Button } from "../../../components/button";
 import { EditableLanguagePochiSet } from "../../../components/language/editable-language-pochi-set";
 import { useAuthGuard } from "../../../hooks/useAuthGurad";
+import { Template } from "../../../components/template/app/template";
 
 export default function EditUser() {
   const { formState, file, setter, skills, onSubmit } = useEditUser();

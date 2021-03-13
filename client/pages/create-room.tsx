@@ -1,5 +1,4 @@
 import React from "react";
-import { Template } from "../components/template/template";
 import { SkillModel, useCreateRoomPageQuery } from "../generated/types";
 import {
   ACSelectedData,
@@ -19,6 +18,7 @@ import { Button } from "../components/button";
 import GithubIcon from "../assets/icons/github.svg";
 import { TextArea } from "../components/text-area";
 import { useAuthGuard } from "../hooks/useAuthGurad";
+import { Template } from "../components/template/app/template";
 
 const betweenH2 = "space-y-2";
 

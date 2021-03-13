@@ -33,6 +33,7 @@ import { RoomType } from './room-type/entities/room-type.entity';
         RoomModule,
         CategoryModule,
         SkillModule,
+        RoomMembersUserModule,
         ChannelModule,
         ThreadModule,
         MessageModule,

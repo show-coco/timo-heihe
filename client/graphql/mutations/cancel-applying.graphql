@@ -1,0 +1,5 @@
+mutation CancelApplying($roomId: Int!, $userId: Int!) {
+  removeTeamMembersUser(roomId: $roomId, userId: $userId) {
+    ok
+  }
+}

@@ -33,6 +33,7 @@ const hoverAnimation = {
   black: "hover:bg-opacity-30",
   orange: "hover:bg-orange-600",
   blue: "hover:bg-blue-600",
+  red: "hover:bg-red-600",
 };
 
 const variants = {
@@ -45,6 +46,7 @@ const variants = {
 const colorSchemesForSolid = {
   orange: `bg-orange-500 ${hoverAnimation["orange"]}`,
   blue: `bg-blue-500 ${hoverAnimation["blue"]}`,
+  red: `bg-red-500 ${hoverAnimation["red"]}`,
 };
 
 const colorSchemeseForOutline = {
