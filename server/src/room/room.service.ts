@@ -31,12 +31,9 @@ export class RoomService {
   async findOneBySlug(slug: string): Promise<Room> {
     const res = await this.roomRepository
       .createQueryBuilder('room')
-      .leftJoinAndSelect('room.members', 'members', 'members.roomId = room.id')
-      .leftJoinAndSelect('members.user', 'user', 'members.userId = user.id')
+      .leftJoinAndSelect('room.skills', 'skills')
       .leftJoinAndSelect('room.categories', 'categories')
       .leftJoinAndSelect('room.owner', 'owner')
-      .leftJoinAndSelect('room.skills', 'skills')
-      .leftJoinAndSelect('room.channels', 'channels.roomId = room.id')
       .leftJoinAndSelect('room.types', 'types')
       .where({ slug })
       .getOne();
