@@ -105,14 +105,12 @@ export class RoomService {
     const formattedInput = {
       ...input,
       owner: { id: input.owner },
-      skills: input.skills.map((id) => ({ id })),
-      categories: input.categories.map((id) => ({ id })),
-      types: input.typeIds.map((id) => ({ id })),
+      skills: input.skills && input.skills.map((id) => ({ id })),
+      categories: input.categories && input.categories.map((id) => ({ id })),
+      types: input.typeIds && input.typeIds.map((id) => ({ id })),
     };
 
-    const newRoom = this.roomRepository.create(formattedInput);
-
-    const returns = await this.roomRepository.save(newRoom);
+    const returns = await this.roomRepository.save(formattedInput);
 
     const res = await this.findOne(returns.id);
     console.log('response on rooms->service->update', res);

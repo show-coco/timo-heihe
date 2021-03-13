@@ -77,7 +77,7 @@ type Mutation {
   removeThread(id: Int!): ThreadModel!
   updateCategory(updateCategoryInput: UpdateCategoryInput!): CategoryModel!
   updateMessage(input: UpdateMessageInput!): MessageModel!
-  updateRoom(updateRoomInput: UpdateRoomInput!): RoomModel!
+  updateRoom(input: UpdateRoomInput!): RoomModel!
   updateSkill(updateSkillInput: UpdateSkillInput!): SkillModel!
   updateThread(input: UpdateThreadInput!): ThreadModel!
   updateUser(updateUserInput: UpdateUserInput!): UserModel!

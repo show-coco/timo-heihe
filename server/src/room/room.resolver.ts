@@ -50,8 +50,8 @@ export class RoomResolver {
 
   @Mutation(() => RoomModel)
   @UseGuards(GqlJwtAuthGuard)
-  updateRoom(@Args('updateRoomInput') updateRoomInput: UpdateRoomInput) {
-    return this.roomService.update(updateRoomInput);
+  updateRoom(@Args('input') input: UpdateRoomInput) {
+    return this.roomService.update(input);
   }
 
   @Mutation(() => RoomModel)
