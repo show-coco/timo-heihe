@@ -105,6 +105,11 @@ type Query {
   users: [UserModel!]!
 }
 
+type RecruitmentLevelModel {
+  id: Int!
+  name: String!
+}
+
 type RoomModel {
   categories: [CategoryModel!]!
   createdAt: DateTime
@@ -113,6 +118,7 @@ type RoomModel {
   id: Int
   name: String!
   owner: UserModel!
+  recruitmentLevels: [RecruitmentLevelModel!]!
   repositoryUrl: String
   skills: [SkillModel!]
   slug: String!

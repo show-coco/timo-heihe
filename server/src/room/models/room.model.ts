@@ -3,6 +3,7 @@ import { CategoryModel } from '../../category/models/category.model';
 import { SkillModel } from '../../skill/models/skill.model';
 import { UserModel } from '../../users/models/user.model';
 import { RoomTypeModel } from '../../room-type/models/room-type.model';
+import { RecruitmentLevelModel } from 'src/recruitment-level/models/recruitment-level.model';
 
 @ObjectType()
 export class RoomModel {
@@ -41,6 +42,9 @@ export class RoomModel {
 
   @Field(() => [RoomTypeModel])
   types: RoomTypeModel[];
+
+  @Field(() => [RecruitmentLevelModel])
+  recruitmentLevels: RecruitmentLevelModel[];
 
   @Field(() => GraphQLISODateTime, { nullable: true })
   createdAt?: Date;

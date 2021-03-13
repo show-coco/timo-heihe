@@ -12,6 +12,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import { RoomType } from '../../room-type/entities/room-type.entity';
+import { RecruitmentLevel } from 'src/recruitment-level/entities/recruitment-level.entity';
 
 @Entity()
 export class Room {
@@ -56,6 +57,10 @@ export class Room {
   @ManyToMany(() => RoomType, (roomType) => roomType.room)
   @JoinTable()
   types: RoomType[];
+
+  @ManyToMany(() => RecruitmentLevel, (rl) => rl.rooms)
+  @JoinTable()
+  recruitmentLevels: RecruitmentLevel[];
 
   @CreateDateColumn({ type: 'timestamp' })
   createdAt?: Date;

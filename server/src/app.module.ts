@@ -17,6 +17,8 @@ import { Thread } from './thread/entities/thread.entity';
 import { Message } from './message/entities/message.entity';
 import { RoomTypeModule } from './room-type/room-type.module';
 import { RoomType } from './room-type/entities/room-type.entity';
+import { RecruitmentLevelModule } from './recruitment-level/recruitment-level.module';
+import { RecruitmentLevel } from './recruitment-level/entities/recruitment-level.entity';
 
 @Module({
   imports: [
@@ -32,6 +34,7 @@ import { RoomType } from './room-type/entities/room-type.entity';
         ThreadModule,
         MessageModule,
         RoomTypeModule,
+        RecruitmentLevelModule,
       ],
       playground: true,
       autoSchemaFile: 'schema.graphql',
@@ -46,7 +49,16 @@ import { RoomType } from './room-type/entities/room-type.entity';
       username: 'timoheihe',
       password: 'postgres',
       database: 'postgres',
-      entities: [User, Room, Category, Skill, Thread, Message, RoomType],
+      entities: [
+        User,
+        Room,
+        Category,
+        Skill,
+        Thread,
+        Message,
+        RoomType,
+        RecruitmentLevel,
+      ],
       synchronize: true,
     }),
     AuthModule,
@@ -57,6 +69,7 @@ import { RoomType } from './room-type/entities/room-type.entity';
     ThreadModule,
     MessageModule,
     RoomTypeModule,
+    RecruitmentLevelModule,
   ],
 })
 export class AppModule {}
