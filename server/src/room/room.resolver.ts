@@ -76,24 +76,24 @@ export class RoomResolver {
   //   return this.roomService.apply(userId, roomId);
   // }
 
-  @ResolveField(() => UserModel)
-  owner(@Parent() room: Room) {
-    return this.usersService.findOne(room.owner.userId);
-  }
+  // @ResolveField(() => UserModel)
+  // owner(@Parent() room: Room) {
+  //   return this.usersService.findOne(room.owner.userId);
+  // }
 
-  @ResolveField(() => UserModel)
-  async skills(@Parent() room: Room) {
-    // console.log('request on rooms->resolver->skills', room);
+  // @ResolveField(() => UserModel)
+  // skills(@Parent() room: Room) {
+  //   console.log('request on rooms->resolver->skills', room);
 
-    return await room.skills.map(async (skill) => {
-      return await this.skillService.findOne(skill.id);
-    });
-  }
+  //   return room.skills.map((skill) => {
+  //     return this.skillService.findOne(skill.id);
+  //   });
+  // }
 
-  @ResolveField(() => UserModel)
-  async categories(@Parent() room: Room) {
-    return await room.categories.map(async (category) => {
-      return await this.categoryService.findOne(category.id);
-    });
-  }
+  // @ResolveField(() => UserModel)
+  // categories(@Parent() room: Room) {
+  //   return room.categories.map((category) => {
+  //     return this.categoryService.findOne(category.id);
+  //   });
+  // }
 }

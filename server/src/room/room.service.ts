@@ -52,17 +52,12 @@ export class RoomService {
 
     const query = this.roomRepository
       .createQueryBuilder('room')
-      .leftJoinAndSelect('room.members', 'members', 'members.roomId = room.id')
-      .leftJoinAndSelect('members.user', 'user', 'members.userId = user.id')
-      .leftJoinAndSelect('room.categories', 'categories')
-      .leftJoinAndSelect('room.owner', 'owner')
       .leftJoinAndSelect('room.skills', 'skills')
-      .leftJoinAndSelect('room.channels', 'channels.roomId = room.id')
-      .leftJoinAndSelect('room.types', 'types')
-      .where({ recruiting: true });
+      .leftJoinAndSelect('room.categories', 'categories')
+      .leftJoinAndSelect('room.owner', 'owner');
 
-    if (input && input.name) {
-      query.andWhere('room.title LIKE :name', { name: `%${input.name}%` });
+    if (input && input.title) {
+      query.andWhere('room.title LIKE :title', { title: `%${input.title}%` });
     }
 
     if (input && input.skillIds) {
@@ -77,16 +72,6 @@ export class RoomService {
 
     if (input && input.typeId) {
       query.andWhere('types.id = :id', { id: input.typeId });
-    }
-
-    if (input && input.recruitNumbers) {
-      query.andWhere(
-        'room.recruitNumbers > :lower AND room.recruitNumbers < :upper',
-        {
-          lower: input.recruitNumbers - 5,
-          upper: input.recruitNumbers + 5,
-        },
-      );
     }
 
     const res = await query.getMany();

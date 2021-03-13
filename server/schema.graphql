@@ -128,9 +128,8 @@ type RoomTypeModel {
 
 input SearchRoomInput {
   categoryIds: [Int!]
-  name: String
-  recruitNumbers: Int
   skillIds: [Int!]
+  title: String
   typeId: Int
 }
 
