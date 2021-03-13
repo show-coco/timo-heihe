@@ -25,7 +25,7 @@ export const EditableLanguagePochiSet: React.FC<LanguagePochiSetProps> = ({
     );
     setSelected(newSelectedData);
   };
-  console.log({ languages });
+
   return (
     <div className={`flex flex-wrap ${className}`}>
       {languages.map((lang, i) => (
