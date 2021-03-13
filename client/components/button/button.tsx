@@ -44,13 +44,13 @@ const variants = {
 };
 
 const colorSchemesForSolid = {
-  orange: `bg-orange-500 ${hoverAnimation["orange"]}`,
+  orange: `bg-orange-primary ${hoverAnimation["orange"]}`,
   blue: `bg-blue-500 ${hoverAnimation["blue"]}`,
   red: `bg-red-500 ${hoverAnimation["red"]}`,
 };
 
 const colorSchemeseForOutline = {
-  orange: `text-orange-500 border-orange-500`,
+  orange: `text-orange-primary border-orange-500`,
   blue: `text-blue-500 border-blue-500`,
   red: `text-red-500 border-red-500`,
 };
