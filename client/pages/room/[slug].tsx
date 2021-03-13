@@ -24,6 +24,7 @@ import { LoginModal } from "../../components/login-modal";
 import { MemberState } from "../../generated/types";
 import { Template } from "../../components/template/app/template";
 
+// import { TextInput } from "../text-input/text-input";
 export default function ShowRoom() {
   const {
     onJoin,
@@ -107,6 +108,7 @@ export default function ShowRoom() {
                     <Button>編集する</Button>
                   </Link>
                 )}
+
                 {iCanApply && (
                   <Button
                     onClick={
