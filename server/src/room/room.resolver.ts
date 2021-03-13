@@ -6,10 +6,8 @@ import {
   Parent,
   Query,
   ResolveField,
-  ResolveProperty,
   Resolver,
 } from '@nestjs/graphql';
-import { RoomMemberModel } from '../room-members-user/models/room-member.model';
 import { CategoryService } from '../category/category.service';
 import { SkillService } from '../skill/skill.service';
 import { UserModel } from '../users/models/user.model';
@@ -19,7 +17,6 @@ import { UpdateRoomInput } from './dto/update-room.input';
 import { Room } from './entities/room.entity';
 import { RoomModel } from './models/room.model';
 import { RoomService } from './room.service';
-import { ChannelModel } from '../channel/models/channel.model';
 import { SearchRoomInput } from './dto/search-room.input';
 import { GqlJwtAuthGuard } from 'src/auth/jwt-auth.guards';
 import { CurrentUser } from 'src/users/dto/current-user';
@@ -70,50 +67,21 @@ export class RoomResolver {
     return this.roomService.remove(id);
   }
 
-  @Mutation(() => RoomModel)
-  @UseGuards(GqlJwtAuthGuard)
-  async joinRoom(
-    @Args('userId', { type: () => Int }) userId: number,
-    @Args('roomId', { type: () => Int }) roomId: number,
-  ) {
-    return this.roomService.join(userId, roomId);
-  }
+  // @Mutation(() => RoomModel)
+  // @UseGuards(GqlJwtAuthGuard)
+  // async applyRoom(
+  //   @Args('userId', { type: () => Int }) userId: number,
+  //   @Args('roomId', { type: () => Int }) roomId: number,
+  // ) {
+  //   return this.roomService.apply(userId, roomId);
+  // }
 
-  @Mutation(() => RoomModel)
-  @UseGuards(GqlJwtAuthGuard)
-  async applyRoom(
-    @Args('userId', { type: () => Int }) userId: number,
-    @Args('roomId', { type: () => Int }) roomId: number,
-  ) {
-    return this.roomService.apply(userId, roomId);
-  }
-
-  @Mutation(() => RoomModel)
-  @UseGuards(GqlJwtAuthGuard)
-  async leaveRoom(
-    @Args('userId', { type: () => Int }) userId: number,
-    @Args('roomId', { type: () => Int }) roomId: number,
-  ) {
-    return this.roomService.leave(userId, roomId);
-  }
-
-  @ResolveProperty(() => UserModel)
+  @ResolveField(() => UserModel)
   owner(@Parent() room: Room) {
     return this.usersService.findOne(room.owner.userId);
   }
 
-  @ResolveProperty(() => RoomMemberModel)
-  async members(@Parent() room: Room) {
-    // console.log('request on rooms->resolver->members', room.members);
-
-    return await room.members.map((member) => ({
-      createdAt: member.createdAt,
-      memberState: member.memberState,
-      ...member.user,
-    }));
-  }
-
-  @ResolveProperty(() => UserModel)
+  @ResolveField(() => UserModel)
   async skills(@Parent() room: Room) {
     // console.log('request on rooms->resolver->skills', room);
 
@@ -122,15 +90,10 @@ export class RoomResolver {
     });
   }
 
-  @ResolveProperty(() => UserModel)
+  @ResolveField(() => UserModel)
   async categories(@Parent() room: Room) {
     return await room.categories.map(async (category) => {
       return await this.categoryService.findOne(category.id);
     });
-  }
-
-  @ResolveField(() => ChannelModel)
-  async channels(@Parent() room: Room) {
-    console.log('request on rooms->resolver->rooms', room);
   }
 }

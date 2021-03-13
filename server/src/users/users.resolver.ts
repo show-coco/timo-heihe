@@ -17,8 +17,6 @@ import { SkillModel } from '../skill/models/skill.model';
 import { SkillService } from '../skill/skill.service';
 import { RoomService } from '../room/room.service';
 import { UpdateUserInput } from './dto/update-user.input';
-import { UserMemberModel } from '../room-members-user/models/user-member-model';
-import { MemberState } from 'src/room-members-user/entities/room-members-user.entity';
 
 @Resolver(() => UserModel)
 export class UsersResolver {
@@ -54,36 +52,6 @@ export class UsersResolver {
   async skills(@Parent() user: UserModel) {
     return await user.skills.map(async (skill) => {
       return await this.skillService.findOne(skill.id);
-    });
-  }
-
-  @ResolveField(() => [UserMemberModel])
-  rooms(@Parent() user: User) {
-    console.log('request on users->resolver->rooms', user);
-
-    const userDontHaveRoom = user.rooms.some((room) => room.room === null);
-
-    console.log('user doesnt have rooms', userDontHaveRoom);
-
-    if (userDontHaveRoom) {
-      return null;
-    }
-
-    user.rooms = user.rooms.filter(
-      (room) => room.memberState === MemberState.JOINING,
-    );
-
-    return user.rooms.map(async (room) => {
-      const returns = await this.roomService.findOne(room.room.id);
-      const members = returns.members.map((member) => ({ ...member.user }));
-      const res = {
-        createdAt: room.createdAt,
-        memberState: room.memberState,
-        ...returns,
-        members: members,
-      };
-      console.log('response on', res);
-      return res;
     });
   }
 }

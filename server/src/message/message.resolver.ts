@@ -10,7 +10,6 @@ import { MessageService } from './message.service';
 import { CreateMessageInput } from './dto/create-message.input';
 import { UpdateMessageInput } from './dto/update-message.input';
 import { MessageModel } from './models/message.model';
-import { ChannelResponse } from '../channel/models/delete-channel';
 import { provideKeys, subscriptionKeys } from '../constants';
 import { PubSubEngine } from 'apollo-server-express';
 import { Inject } from '@nestjs/common';
@@ -48,10 +47,10 @@ export class MessageResolver {
     return this.messageService.update(updateMessageInput);
   }
 
-  @Mutation(() => ChannelResponse)
-  removeMessage(@Args('id', { type: () => Int }) id: number) {
-    return this.messageService.remove(id);
-  }
+  // @Mutation(() => ChannelResponse)
+  // removeMessage(@Args('id', { type: () => Int }) id: number) {
+  //   return this.messageService.remove(id);
+  // }
 
   @Subscription(() => MessageModel, {
     filter: (payload, variables) =>
