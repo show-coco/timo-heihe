@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Avatar } from "../../components/avatar/avatar";
 import { Card } from "../../components/card/card";
 import {
@@ -44,7 +44,6 @@ export default function ShowRoom() {
   } = useTeamDetail();
   const { isAuthenticated } = useAuthContext();
   const { isOpen, onOpen, onClose } = useModal();
-  const [isOpend, setIsOpend] = useState(false);
 
   if (loading) return <p>Loading...</p>;
   if (!room) return <p>データがありません</p>;

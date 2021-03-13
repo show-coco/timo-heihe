@@ -23,7 +23,6 @@ export const EditableLanguagePochiSet: React.FC<LanguagePochiSetProps> = ({
     const newSelectedData = selectedData.filter(
       (data) => data.name !== language
     );
-    console.log({ newSelectedData });
     setSelected(newSelectedData);
   };
   console.log({ languages });

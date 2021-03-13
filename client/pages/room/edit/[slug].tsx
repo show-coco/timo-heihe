@@ -182,7 +182,6 @@ export default function EditRoom() {
                 ))}
               </div>
             </div>
-            {console.log(formState.selectedSkills)}
             <div className={betweenH2}>
               <Heading as="h2">使用するスキル</Heading>
 
@@ -197,8 +196,8 @@ export default function EditRoom() {
                   languages={convertToSkillPochiSetArray(
                     formState.selectedSkills
                   )}
-                  // setSelected={setter.setSkills}
-                  // selectedData={formState.selectedSkills}
+                  setSelected={setter.setSkills}
+                  selectedData={formState.selectedSkills}
                 />
               </div>
             </div>
