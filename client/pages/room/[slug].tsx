@@ -23,7 +23,7 @@ import { useAuthContext } from "../../providers/useAuthContext";
 import { useModal } from "../../hooks/useModal";
 import { LoginModal } from "../../components/login-modal";
 import { MemberState } from "../../generated/types";
-import { LeaveTeanModal } from "../../components/leave/modals/leave-team-modal";
+
 // import { TextInput } from "../text-input/text-input";
 export default function ShowRoom() {
   const {
@@ -57,11 +57,6 @@ export default function ShowRoom() {
   return (
     <>
       <LoginModal isOpen={isOpen} onRequestClose={onClose} />
-
-      <LeaveTeanModal
-        isOpen={isOpend}
-        onRequestClose={() => setIsOpend(!isOpend)}
-      />
 
       <Template className="p-10">
         <div className="flex space-x-10">
@@ -114,15 +109,7 @@ export default function ShowRoom() {
                     <Button>編集する</Button>
                   </Link>
                 )}
-                {iCanEdit && (
-                  <Button
-                    variant="outline"
-                    colorScheme="red"
-                    onClick={() => setIsOpend(true)}
-                  >
-                    脱退する
-                  </Button>
-                )}
+
                 {iCanApply && (
                   <Button
                     onClick={
