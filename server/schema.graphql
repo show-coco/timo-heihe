@@ -95,6 +95,7 @@ type Query {
   message(id: Int!): MessageModel!
   messages: [MessageModel!]!
   myRooms(input: MyRoomsInput!): [RoomModel!]!
+  recruitmentLevels: [RecruitmentLevelModel!]!
   room(slug: String!): RoomModel!
   rooms(input: SearchRoomInput): [RoomModel!]!
   roomTypes: [RoomTypeModel!]!
