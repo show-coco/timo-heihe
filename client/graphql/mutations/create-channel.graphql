@@ -1,5 +1,0 @@
-mutation CreateChannel($input: CreateChannelInput!) {
-  createChannel(input: $input) {
-    ...ChannelItem
-  }
-}

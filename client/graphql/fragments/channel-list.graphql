@@ -1,5 +1,0 @@
-fragment ChannelList on UserMemberModel {
-  channels {
-    ...ChannelItem
-  }
-}

@@ -25,6 +25,9 @@ export class RoomModel {
   @Field()
   description: string;
 
+  @Field({ nullable: true })
+  invidationUrl?: string;
+
   @Field(() => [SkillModel], { nullable: true })
   skills?: SkillModel[];
 

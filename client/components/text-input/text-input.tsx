@@ -15,7 +15,7 @@ export const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
       <input
         type="text"
         ref={ref}
-        className={`border-none bg-blue-100 rounded-sm ${className}`}
+        className={`border-none bg-blue-100 rounded-sm w-full ${className}`}
         {...props}
       />
     );

@@ -5,15 +5,12 @@ query Room($slug: String!) {
     name
     description
     icon
-    recruitNumbers
-    isRequired
+    withApplication
     repositoryUrl
-    members {
+    invidationUrl
+    recruitmentLevels {
       id
-      userId
       name
-      avatar
-      memberState
     }
     owner {
       id

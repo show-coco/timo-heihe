@@ -3,7 +3,7 @@ import { RoomModel } from '../../room/models/room.model';
 
 @ObjectType()
 export class CategoryModel {
-  @Field(() => Int, { nullable: true })
+  @Field(() => Int)
   id?: number;
 
   @Field()

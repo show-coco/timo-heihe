@@ -19,11 +19,6 @@ export type Scalars = {
   DateTime: any;
 };
 
-export type CategoryInput = {
-  id: Scalars["Int"];
-  name?: Maybe<Scalars["String"]>;
-};
-
 export type CategoryModel = {
   __typename?: "CategoryModel";
   id?: Maybe<Scalars["Int"]>;
@@ -31,80 +26,34 @@ export type CategoryModel = {
   rooms: Array<RoomModel>;
 };
 
-export type ChannelModel = {
-  __typename?: "ChannelModel";
-  id: Scalars["Int"];
-  name: Scalars["String"];
-  room: RoomModel;
-  team: RoomModel;
-  threads: Array<ThreadModel>;
-  user: UserModel;
-};
-
-export type ChannelResponse = {
-  __typename?: "ChannelResponse";
-  affected?: Maybe<Scalars["Int"]>;
-};
-
-export type ConnectChannelInput = {
-  id: Scalars["Int"];
-};
-
-export type ConnectRoomInput = {
-  id: Scalars["Int"];
-};
-
 export type ConnectThreadInput = {
   id: Scalars["Int"];
-};
-
-export type ConnectUserInput = {
-  avatar?: Maybe<Scalars["String"]>;
-  email?: Maybe<Scalars["String"]>;
-  githubId?: Maybe<Scalars["String"]>;
-  id: Scalars["Int"];
-  introduction?: Maybe<Scalars["String"]>;
-  name?: Maybe<Scalars["String"]>;
-  skills?: Maybe<Array<SkillInput>>;
-  twitterId?: Maybe<Scalars["String"]>;
-  userId?: Maybe<Scalars["String"]>;
 };
 
 export type CreateCategoryInput = {
   name: Scalars["String"];
 };
 
-export type CreateChannelInput = {
-  name: Scalars["String"];
-  room: ConnectRoomInput;
-};
-
 export type CreateMessageInput = {
   text: Scalars["String"];
   thread: ConnectThreadInput;
-  user: ConnectUserInput;
+  userId: Scalars["Int"];
 };
 
 export type CreateRoomInput = {
-  categories: Array<CategoryInput>;
+  categories: Array<Scalars["Int"]>;
   description?: Maybe<Scalars["String"]>;
   icon?: Maybe<Scalars["String"]>;
-  isRequired: Scalars["Boolean"];
-  members: Array<CreateRoomMembersUserInput>;
+  invidationUrl?: Maybe<Scalars["String"]>;
   name: Scalars["String"];
-  owner: ConnectUserInput;
-  recruitNumbers: Scalars["Int"];
-  rectuiting?: Maybe<Scalars["Boolean"]>;
+  owner: Scalars["Int"];
+  recruiementLevels: Array<Scalars["Int"]>;
   repositoryUrl?: Maybe<Scalars["String"]>;
-  skills: Array<SkillInput>;
+  skills?: Maybe<Array<Scalars["Int"]>>;
   slug: Scalars["String"];
   title: Scalars["String"];
   typeIds: Array<Scalars["Int"]>;
-};
-
-export type CreateRoomMembersUserInput = {
-  room?: Maybe<UpdateRoomInput>;
-  user: ConnectUserInput;
+  withApplication: Scalars["Boolean"];
 };
 
 export type CreateSkillInput = {
@@ -114,22 +63,14 @@ export type CreateSkillInput = {
 };
 
 export type CreateThreadInput = {
-  channel: ConnectChannelInput;
   text: Scalars["String"];
-  user: ConnectUserInput;
+  userId: Scalars["Int"];
 };
 
 export type FetchThreadInput = {
   channelId: Scalars["Int"];
   cursor: Scalars["String"];
 };
-
-export enum MemberState {
-  Ejected = "EJECTED",
-  Joining = "JOINING",
-  Leave = "LEAVE",
-  Pending = "PENDING",
-}
 
 export type MessageModel = {
   __typename?: "MessageModel";
@@ -144,26 +85,18 @@ export type Mutation = {
   __typename?: "Mutation";
   applyRoom: RoomModel;
   createCategory: CategoryModel;
-  createChannel: ChannelModel;
   createMessage: MessageModel;
   createRoom: RoomModel;
   createSkill: SkillModel;
-  createTeamMembersUser: RoomMembersUserModel;
   createThread: ThreadModel;
-  deleteChannel: ChannelResponse;
   deleteRoom: RoomModel;
-  joinRoom: RoomModel;
-  leaveRoom: RoomModel;
   removeCategory: CategoryModel;
-  removeMessage: ChannelResponse;
   removeSkill: SkillModel;
-  removeTeamMembersUser: RemoveResult;
   removeThread: ThreadModel;
   updateCategory: CategoryModel;
   updateMessage: MessageModel;
   updateRoom: RoomModel;
   updateSkill: SkillModel;
-  updateTeamMembersUser: RoomMembersUserModel;
   updateThread: ThreadModel;
   updateUser: UserModel;
 };
@@ -175,10 +108,6 @@ export type MutationApplyRoomArgs = {
 
 export type MutationCreateCategoryArgs = {
   createCategoryInput: CreateCategoryInput;
-};
-
-export type MutationCreateChannelArgs = {
-  input: CreateChannelInput;
 };
 
 export type MutationCreateMessageArgs = {
@@ -193,47 +122,20 @@ export type MutationCreateSkillArgs = {
   createSkillInput: CreateSkillInput;
 };
 
-export type MutationCreateTeamMembersUserArgs = {
-  userId: Scalars["ID"];
-};
-
 export type MutationCreateThreadArgs = {
   input: CreateThreadInput;
-};
-
-export type MutationDeleteChannelArgs = {
-  id: Scalars["Int"];
 };
 
 export type MutationDeleteRoomArgs = {
   id: Scalars["Int"];
 };
 
-export type MutationJoinRoomArgs = {
-  roomId: Scalars["Int"];
-  userId: Scalars["Int"];
-};
-
-export type MutationLeaveRoomArgs = {
-  roomId: Scalars["Int"];
-  userId: Scalars["Int"];
-};
-
 export type MutationRemoveCategoryArgs = {
-  id: Scalars["Int"];
-};
-
-export type MutationRemoveMessageArgs = {
   id: Scalars["Int"];
 };
 
 export type MutationRemoveSkillArgs = {
   id: Scalars["Int"];
-};
-
-export type MutationRemoveTeamMembersUserArgs = {
-  roomId: Scalars["Int"];
-  userId: Scalars["Int"];
 };
 
 export type MutationRemoveThreadArgs = {
@@ -249,15 +151,11 @@ export type MutationUpdateMessageArgs = {
 };
 
 export type MutationUpdateRoomArgs = {
-  updateRoomInput: UpdateRoomInput;
+  input: UpdateRoomInput;
 };
 
 export type MutationUpdateSkillArgs = {
   updateSkillInput: UpdateSkillInput;
-};
-
-export type MutationUpdateTeamMembersUserArgs = {
-  updateTeamMembersUserInput: UpdateRoomMembersUserInput;
 };
 
 export type MutationUpdateThreadArgs = {
@@ -270,25 +168,22 @@ export type MutationUpdateUserArgs = {
 
 export type MyRoomsInput = {
   iAmOwner?: Maybe<Scalars["Boolean"]>;
-  memberState: MemberState;
 };
 
 export type Query = {
   __typename?: "Query";
   categories: Array<CategoryModel>;
   category: CategoryModel;
-  channel: ChannelModel;
-  channels: Array<ChannelModel>;
   me: UserModel;
   message: MessageModel;
   messages: Array<MessageModel>;
   myRooms: Array<RoomModel>;
+  recruitmentLevels: Array<RecruitmentLevelModel>;
   room: RoomModel;
   rooms: Array<RoomModel>;
   roomTypes: Array<RoomTypeModel>;
   skill: SkillModel;
   skills: Array<SkillModel>;
-  teamMembersUser: RoomMembersUserModel;
   thread: ThreadModel;
   threads?: Maybe<Array<ThreadModel>>;
   user: UserModel;
@@ -296,10 +191,6 @@ export type Query = {
 };
 
 export type QueryCategoryArgs = {
-  id: Scalars["Int"];
-};
-
-export type QueryChannelArgs = {
   id: Scalars["Int"];
 };
 
@@ -323,10 +214,6 @@ export type QuerySkillArgs = {
   id: Scalars["Int"];
 };
 
-export type QueryTeamMembersUserArgs = {
-  id: Scalars["Int"];
-};
-
 export type QueryThreadArgs = {
   id: Scalars["Int"];
 };
@@ -339,53 +226,29 @@ export type QueryUserArgs = {
   userId: Scalars["String"];
 };
 
-export type RemoveResult = {
-  __typename?: "RemoveResult";
-  ok: Scalars["Boolean"];
-};
-
-export type RoomMemberModel = {
-  __typename?: "RoomMemberModel";
-  avatar?: Maybe<Scalars["String"]>;
-  createdAt: Scalars["DateTime"];
-  email: Scalars["String"];
-  githubId?: Maybe<Scalars["String"]>;
+export type RecruitmentLevelModel = {
+  __typename?: "RecruitmentLevelModel";
   id: Scalars["Int"];
-  introduction?: Maybe<Scalars["String"]>;
-  memberState: MemberState;
   name: Scalars["String"];
-  ownerTeams: Array<RoomModel>;
-  skills: Array<SkillModel>;
-  teams: Array<RoomModel>;
-  twitterId?: Maybe<Scalars["String"]>;
-  userId: Scalars["String"];
-};
-
-export type RoomMembersUserModel = {
-  __typename?: "RoomMembersUserModel";
-  memberState: MemberState;
-  room: RoomModel;
-  user: UserModel;
 };
 
 export type RoomModel = {
   __typename?: "RoomModel";
   categories: Array<CategoryModel>;
-  channels?: Maybe<Array<ChannelModel>>;
   createdAt?: Maybe<Scalars["DateTime"]>;
   description: Scalars["String"];
   icon?: Maybe<Scalars["String"]>;
   id?: Maybe<Scalars["Int"]>;
-  isRequired: Scalars["Boolean"];
-  members?: Maybe<Array<RoomMemberModel>>;
+  invidationUrl?: Maybe<Scalars["String"]>;
   name: Scalars["String"];
   owner: UserModel;
-  recruitNumbers: Scalars["Int"];
+  recruitmentLevels: Array<RecruitmentLevelModel>;
   repositoryUrl?: Maybe<Scalars["String"]>;
   skills?: Maybe<Array<SkillModel>>;
   slug: Scalars["String"];
   title: Scalars["String"];
   types: Array<RoomTypeModel>;
+  withApplication: Scalars["Boolean"];
 };
 
 export type RoomTypeModel = {
@@ -396,16 +259,9 @@ export type RoomTypeModel = {
 
 export type SearchRoomInput = {
   categoryIds?: Maybe<Array<Scalars["Int"]>>;
-  name?: Maybe<Scalars["String"]>;
-  recruitNumbers?: Maybe<Scalars["Int"]>;
   skillIds?: Maybe<Array<Scalars["Int"]>>;
+  title?: Maybe<Scalars["String"]>;
   typeId?: Maybe<Scalars["Int"]>;
-};
-
-export type SkillInput = {
-  icon?: Maybe<Scalars["String"]>;
-  id: Scalars["Int"];
-  name?: Maybe<Scalars["String"]>;
 };
 
 export type SkillModel = {
@@ -431,7 +287,6 @@ export type SubscriptionThreadAddedArgs = {
 
 export type ThreadModel = {
   __typename?: "ThreadModel";
-  channel: ChannelModel;
   createdAt: Scalars["DateTime"];
   id: Scalars["Int"];
   numberOfMessages: Scalars["Int"];
@@ -448,31 +303,24 @@ export type UpdateMessageInput = {
   id: Scalars["Int"];
   text?: Maybe<Scalars["String"]>;
   thread?: Maybe<ConnectThreadInput>;
-  user?: Maybe<ConnectUserInput>;
+  userId?: Maybe<Scalars["Int"]>;
 };
 
 export type UpdateRoomInput = {
-  categories?: Maybe<Array<CategoryInput>>;
+  categories?: Maybe<Array<Scalars["Int"]>>;
   description?: Maybe<Scalars["String"]>;
   icon?: Maybe<Scalars["String"]>;
   id: Scalars["Int"];
-  isRequired?: Maybe<Scalars["Boolean"]>;
-  members?: Maybe<Array<CreateRoomMembersUserInput>>;
+  invidationUrl?: Maybe<Scalars["String"]>;
   name?: Maybe<Scalars["String"]>;
-  owner?: Maybe<ConnectUserInput>;
-  recruitNumbers?: Maybe<Scalars["Int"]>;
-  rectuiting?: Maybe<Scalars["Boolean"]>;
+  owner?: Maybe<Scalars["Int"]>;
+  recruiementLevels?: Maybe<Array<Scalars["Int"]>>;
   repositoryUrl?: Maybe<Scalars["String"]>;
-  skills?: Maybe<Array<SkillInput>>;
+  skills?: Maybe<Array<Scalars["Int"]>>;
   slug?: Maybe<Scalars["String"]>;
   title?: Maybe<Scalars["String"]>;
   typeIds?: Maybe<Array<Scalars["Int"]>>;
-};
-
-export type UpdateRoomMembersUserInput = {
-  id: Scalars["Int"];
-  room?: Maybe<UpdateRoomInput>;
-  user?: Maybe<ConnectUserInput>;
+  withApplication?: Maybe<Scalars["Boolean"]>;
 };
 
 export type UpdateSkillInput = {
@@ -493,63 +341,29 @@ export type UpdateUserInput = {
   id: Scalars["Int"];
   introduction?: Maybe<Scalars["String"]>;
   name?: Maybe<Scalars["String"]>;
-  skills?: Maybe<Array<SkillInput>>;
+  skills?: Maybe<Array<Scalars["Int"]>>;
   twitterId?: Maybe<Scalars["String"]>;
   userId?: Maybe<Scalars["String"]>;
-};
-
-export type UserMemberModel = {
-  __typename?: "UserMemberModel";
-  categories: Array<CategoryModel>;
-  channels?: Maybe<Array<ChannelModel>>;
-  createdAt?: Maybe<Scalars["DateTime"]>;
-  description: Scalars["String"];
-  icon?: Maybe<Scalars["String"]>;
-  id?: Maybe<Scalars["Int"]>;
-  isRequired: Scalars["Boolean"];
-  members?: Maybe<Array<RoomMemberModel>>;
-  memberState: MemberState;
-  name: Scalars["String"];
-  owner: UserModel;
-  recruitNumbers: Scalars["Int"];
-  repositoryUrl?: Maybe<Scalars["String"]>;
-  skills?: Maybe<Array<SkillModel>>;
-  slug: Scalars["String"];
-  title: Scalars["String"];
 };
 
 export type UserModel = {
   __typename?: "UserModel";
   avatar?: Maybe<Scalars["String"]>;
-  channels?: Maybe<Array<ChannelModel>>;
   email: Scalars["String"];
   githubId?: Maybe<Scalars["String"]>;
   id: Scalars["Int"];
   introduction?: Maybe<Scalars["String"]>;
   name: Scalars["String"];
   ownerTeams?: Maybe<Array<RoomModel>>;
-  rooms?: Maybe<Array<UserMemberModel>>;
   skills?: Maybe<Array<SkillModel>>;
   twitterId?: Maybe<Scalars["String"]>;
   userId: Scalars["String"];
-};
-
-export type ChannelItemFragment = { __typename?: "ChannelModel" } & Pick<
-  ChannelModel,
-  "id" | "name"
->;
-
-export type ChannelListFragment = { __typename?: "UserMemberModel" } & {
-  channels?: Maybe<
-    Array<{ __typename?: "ChannelModel" } & ChannelItemFragment>
-  >;
 };
 
 export type ChatItemFragment = { __typename?: "ThreadModel" } & Pick<
   ThreadModel,
   "id" | "text" | "createdAt" | "numberOfMessages"
 > & {
-    channel: { __typename?: "ChannelModel" } & Pick<ChannelModel, "id">;
     user: { __typename?: "UserModel" } & Pick<
       UserModel,
       "id" | "name" | "avatar"
@@ -563,19 +377,10 @@ export type RoomCardFragment = { __typename?: "RoomModel" } & Pick<
   | "slug"
   | "description"
   | "icon"
-  | "recruitNumbers"
-  | "isRequired"
+  | "withApplication"
   | "repositoryUrl"
   | "createdAt"
 > & {
-    members?: Maybe<
-      Array<
-        { __typename?: "RoomMemberModel" } & Pick<
-          RoomMemberModel,
-          "id" | "userId" | "name" | "avatar" | "memberState"
-        >
-      >
-    >;
     owner: { __typename?: "UserModel" } & Pick<
       UserModel,
       "id" | "userId" | "name" | "avatar"
@@ -583,15 +388,7 @@ export type RoomCardFragment = { __typename?: "RoomModel" } & Pick<
     skills?: Maybe<
       Array<{ __typename?: "SkillModel" } & Pick<SkillModel, "id" | "name">>
     >;
-    categories: Array<
-      { __typename?: "CategoryModel" } & Pick<CategoryModel, "id" | "name">
-    >;
   };
-
-export type RoomItemFragment = { __typename?: "UserMemberModel" } & Pick<
-  UserMemberModel,
-  "id" | "name" | "icon"
->;
 
 export type RoomOperationCardFragment = { __typename?: "RoomModel" } & Pick<
   RoomModel,
@@ -607,26 +404,6 @@ export type SkillItemFragment = { __typename?: "SkillModel" } & Pick<
   SkillModel,
   "id" | "name"
 >;
-
-export type CancelApplyingMutationVariables = Exact<{
-  roomId: Scalars["Int"];
-  userId: Scalars["Int"];
-}>;
-
-export type CancelApplyingMutation = { __typename?: "Mutation" } & {
-  removeTeamMembersUser: { __typename?: "RemoveResult" } & Pick<
-    RemoveResult,
-    "ok"
-  >;
-};
-
-export type CreateChannelMutationVariables = Exact<{
-  input: CreateChannelInput;
-}>;
-
-export type CreateChannelMutation = { __typename?: "Mutation" } & {
-  createChannel: { __typename?: "ChannelModel" } & ChannelItemFragment;
-};
 
 export type CreateRoomMutationVariables = Exact<{
   input: CreateRoomInput;
@@ -669,42 +446,6 @@ export type EditThreadMutation = { __typename?: "Mutation" } & {
   >;
 };
 
-export type JoinRoomMutationVariables = Exact<{
-  roomId: Scalars["Int"];
-  userId: Scalars["Int"];
-}>;
-
-export type JoinRoomMutation = { __typename?: "Mutation" } & {
-  joinRoom: { __typename?: "RoomModel" } & Pick<RoomModel, "id" | "title"> & {
-      members?: Maybe<
-        Array<
-          { __typename?: "RoomMemberModel" } & Pick<
-            RoomMemberModel,
-            "id" | "name"
-          >
-        >
-      >;
-    };
-};
-
-export type LeaveRoomMutationVariables = Exact<{
-  roomId: Scalars["Int"];
-  userId: Scalars["Int"];
-}>;
-
-export type LeaveRoomMutation = { __typename?: "Mutation" } & {
-  leaveRoom: { __typename?: "RoomModel" } & Pick<RoomModel, "id" | "title"> & {
-      members?: Maybe<
-        Array<
-          { __typename?: "RoomMemberModel" } & Pick<
-            RoomMemberModel,
-            "id" | "name"
-          >
-        >
-      >;
-    };
-};
-
 export type UpdateUserMutationVariables = Exact<{
   input: UpdateUserInput;
 }>;
@@ -720,21 +461,6 @@ export type ApplyRoomMutationVariables = Exact<{
 
 export type ApplyRoomMutation = { __typename?: "Mutation" } & {
   applyRoom: { __typename?: "RoomModel" } & Pick<RoomModel, "id" | "title">;
-};
-
-export type ChatPageQueryVariables = Exact<{
-  userId: Scalars["String"];
-}>;
-
-export type ChatPageQuery = { __typename?: "Query" } & {
-  user: { __typename?: "UserModel" } & {
-    rooms?: Maybe<
-      Array<
-        { __typename?: "UserMemberModel" } & RoomItemFragment &
-          ChannelListFragment
-      >
-    >;
-  };
 };
 
 export type CreateRoomPageQueryVariables = Exact<{ [key: string]: never }>;
@@ -764,18 +490,10 @@ export type RoomEditPageQuery = { __typename?: "Query" } & {
     | "slug"
     | "description"
     | "icon"
-    | "recruitNumbers"
-    | "isRequired"
+    | "withApplication"
     | "repositoryUrl"
+    | "invidationUrl"
   > & {
-      members?: Maybe<
-        Array<
-          { __typename?: "RoomMemberModel" } & Pick<
-            RoomMemberModel,
-            "id" | "name" | "avatar"
-          >
-        >
-      >;
       owner: { __typename?: "UserModel" } & Pick<
         UserModel,
         "id" | "name" | "avatar"
@@ -785,6 +503,12 @@ export type RoomEditPageQuery = { __typename?: "Query" } & {
       >;
       categories: Array<
         { __typename?: "CategoryModel" } & Pick<CategoryModel, "id" | "name">
+      >;
+      recruitmentLevels: Array<
+        { __typename?: "RecruitmentLevelModel" } & Pick<
+          RecruitmentLevelModel,
+          "id" | "name"
+        >
       >;
       types: Array<
         { __typename?: "RoomTypeModel" } & Pick<RoomTypeModel, "id" | "name">
@@ -798,6 +522,12 @@ export type RoomEditPageQuery = { __typename?: "Query" } & {
   >;
   roomTypes: Array<
     { __typename?: "RoomTypeModel" } & Pick<RoomTypeModel, "id" | "name">
+  >;
+  recruitmentLevels: Array<
+    { __typename?: "RecruitmentLevelModel" } & Pick<
+      RecruitmentLevelModel,
+      "id" | "name"
+    >
   >;
 };
 
@@ -819,35 +549,6 @@ export type EditUserPageQuery = { __typename?: "Query" } & {
       skills?: Maybe<
         Array<{ __typename?: "SkillModel" } & Pick<SkillModel, "id" | "name">>
       >;
-      rooms?: Maybe<
-        Array<
-          { __typename?: "UserMemberModel" } & Pick<
-            UserMemberModel,
-            "id" | "title" | "description" | "createdAt" | "recruitNumbers"
-          > & {
-              skills?: Maybe<
-                Array<
-                  { __typename?: "SkillModel" } & Pick<
-                    SkillModel,
-                    "id" | "name"
-                  >
-                >
-              >;
-              owner: { __typename?: "UserModel" } & Pick<
-                UserModel,
-                "id" | "name" | "avatar" | "userId"
-              >;
-              members?: Maybe<
-                Array<
-                  { __typename?: "RoomMemberModel" } & Pick<
-                    RoomMemberModel,
-                    "id" | "userId"
-                  >
-                >
-              >;
-            }
-        >
-      >;
     };
   skills: Array<
     { __typename?: "SkillModel" } & Pick<SkillModel, "id" | "name">
@@ -865,15 +566,6 @@ export type MeQuery = { __typename?: "Query" } & {
     };
 };
 
-export type RoomManagementPageQueryVariables = Exact<{
-  memberState: MemberState;
-  iAmOwner?: Maybe<Scalars["Boolean"]>;
-}>;
-
-export type RoomManagementPageQuery = { __typename?: "Query" } & {
-  myRooms: Array<{ __typename?: "RoomModel" } & RoomOperationCardFragment>;
-};
-
 export type RoomQueryVariables = Exact<{
   slug: Scalars["String"];
 }>;
@@ -886,16 +578,14 @@ export type RoomQuery = { __typename?: "Query" } & {
     | "name"
     | "description"
     | "icon"
-    | "recruitNumbers"
-    | "isRequired"
+    | "withApplication"
     | "repositoryUrl"
+    | "invidationUrl"
   > & {
-      members?: Maybe<
-        Array<
-          { __typename?: "RoomMemberModel" } & Pick<
-            RoomMemberModel,
-            "id" | "userId" | "name" | "avatar" | "memberState"
-          >
+      recruitmentLevels: Array<
+        { __typename?: "RecruitmentLevelModel" } & Pick<
+          RecruitmentLevelModel,
+          "id" | "name"
         >
       >;
       owner: { __typename?: "UserModel" } & Pick<
@@ -929,14 +619,12 @@ export type SearchConditionsQuery = { __typename?: "Query" } & {
   skills: Array<
     { __typename?: "SkillModel" } & Pick<SkillModel, "icon" | "id" | "name">
   >;
-};
-
-export type ThreadListQueryVariables = Exact<{
-  input: FetchThreadInput;
-}>;
-
-export type ThreadListQuery = { __typename?: "Query" } & {
-  threads?: Maybe<Array<{ __typename?: "ThreadModel" } & ChatItemFragment>>;
+  recruitmentLevels: Array<
+    { __typename?: "RecruitmentLevelModel" } & Pick<
+      RecruitmentLevelModel,
+      "id" | "name"
+    >
+  >;
 };
 
 export type UserDetailPageQueryVariables = Exact<{
@@ -957,35 +645,6 @@ export type UserDetailPageQuery = { __typename?: "Query" } & {
       skills?: Maybe<
         Array<{ __typename?: "SkillModel" } & Pick<SkillModel, "id" | "name">>
       >;
-      rooms?: Maybe<
-        Array<
-          { __typename?: "UserMemberModel" } & Pick<
-            UserMemberModel,
-            "id" | "title" | "description" | "createdAt" | "recruitNumbers"
-          > & {
-              skills?: Maybe<
-                Array<
-                  { __typename?: "SkillModel" } & Pick<
-                    SkillModel,
-                    "id" | "name"
-                  >
-                >
-              >;
-              owner: { __typename?: "UserModel" } & Pick<
-                UserModel,
-                "id" | "name" | "avatar" | "userId"
-              >;
-              members?: Maybe<
-                Array<
-                  { __typename?: "RoomMemberModel" } & Pick<
-                    RoomMemberModel,
-                    "id" | "userId"
-                  >
-                >
-              >;
-            }
-        >
-      >;
     };
 };
 
@@ -998,7 +657,6 @@ export type ThreadSubscription = { __typename?: "Subscription" } & {
     ThreadModel,
     "id" | "text" | "createdAt" | "numberOfMessages"
   > & {
-      channel: { __typename?: "ChannelModel" } & Pick<ChannelModel, "id">;
       user: { __typename?: "UserModel" } & Pick<
         UserModel,
         "id" | "name" | "avatar"
@@ -1006,27 +664,10 @@ export type ThreadSubscription = { __typename?: "Subscription" } & {
     };
 };
 
-export const ChannelItemFragmentDoc = gql`
-  fragment ChannelItem on ChannelModel {
-    id
-    name
-  }
-`;
-export const ChannelListFragmentDoc = gql`
-  fragment ChannelList on UserMemberModel {
-    channels {
-      ...ChannelItem
-    }
-  }
-  ${ChannelItemFragmentDoc}
-`;
 export const ChatItemFragmentDoc = gql`
   fragment ChatItem on ThreadModel {
     id
     text
-    channel {
-      id
-    }
     user {
       id
       name
@@ -1043,17 +684,9 @@ export const RoomCardFragmentDoc = gql`
     slug
     description
     icon
-    recruitNumbers
-    isRequired
+    withApplication
     repositoryUrl
     createdAt
-    members {
-      id
-      userId
-      name
-      avatar
-      memberState
-    }
     owner {
       id
       userId
@@ -1064,17 +697,6 @@ export const RoomCardFragmentDoc = gql`
       id
       name
     }
-    categories {
-      id
-      name
-    }
-  }
-`;
-export const RoomItemFragmentDoc = gql`
-  fragment RoomItem on UserMemberModel {
-    id
-    name
-    icon
   }
 `;
 export const RoomOperationCardFragmentDoc = gql`
@@ -1097,104 +719,6 @@ export const SkillItemFragmentDoc = gql`
     name
   }
 `;
-export const CancelApplyingDocument = gql`
-  mutation CancelApplying($roomId: Int!, $userId: Int!) {
-    removeTeamMembersUser(roomId: $roomId, userId: $userId) {
-      ok
-    }
-  }
-`;
-export type CancelApplyingMutationFn = Apollo.MutationFunction<
-  CancelApplyingMutation,
-  CancelApplyingMutationVariables
->;
-
-/**
- * __useCancelApplyingMutation__
- *
- * To run a mutation, you first call `useCancelApplyingMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useCancelApplyingMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [cancelApplyingMutation, { data, loading, error }] = useCancelApplyingMutation({
- *   variables: {
- *      roomId: // value for 'roomId'
- *      userId: // value for 'userId'
- *   },
- * });
- */
-export function useCancelApplyingMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    CancelApplyingMutation,
-    CancelApplyingMutationVariables
-  >
-) {
-  return Apollo.useMutation<
-    CancelApplyingMutation,
-    CancelApplyingMutationVariables
-  >(CancelApplyingDocument, baseOptions);
-}
-export type CancelApplyingMutationHookResult = ReturnType<
-  typeof useCancelApplyingMutation
->;
-export type CancelApplyingMutationResult = Apollo.MutationResult<CancelApplyingMutation>;
-export type CancelApplyingMutationOptions = Apollo.BaseMutationOptions<
-  CancelApplyingMutation,
-  CancelApplyingMutationVariables
->;
-export const CreateChannelDocument = gql`
-  mutation CreateChannel($input: CreateChannelInput!) {
-    createChannel(input: $input) {
-      ...ChannelItem
-    }
-  }
-  ${ChannelItemFragmentDoc}
-`;
-export type CreateChannelMutationFn = Apollo.MutationFunction<
-  CreateChannelMutation,
-  CreateChannelMutationVariables
->;
-
-/**
- * __useCreateChannelMutation__
- *
- * To run a mutation, you first call `useCreateChannelMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useCreateChannelMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [createChannelMutation, { data, loading, error }] = useCreateChannelMutation({
- *   variables: {
- *      input: // value for 'input'
- *   },
- * });
- */
-export function useCreateChannelMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    CreateChannelMutation,
-    CreateChannelMutationVariables
-  >
-) {
-  return Apollo.useMutation<
-    CreateChannelMutation,
-    CreateChannelMutationVariables
-  >(CreateChannelDocument, baseOptions);
-}
-export type CreateChannelMutationHookResult = ReturnType<
-  typeof useCreateChannelMutation
->;
-export type CreateChannelMutationResult = Apollo.MutationResult<CreateChannelMutation>;
-export type CreateChannelMutationOptions = Apollo.BaseMutationOptions<
-  CreateChannelMutation,
-  CreateChannelMutationVariables
->;
 export const CreateRoomDocument = gql`
   mutation CreateRoom($input: CreateRoomInput!) {
     createRoom(input: $input) {
@@ -1296,7 +820,7 @@ export type CreateThreadMutationOptions = Apollo.BaseMutationOptions<
 >;
 export const EditRoomDocument = gql`
   mutation EditRoom($input: UpdateRoomInput!) {
-    updateRoom(updateRoomInput: $input) {
+    updateRoom(input: $input) {
       id
       title
       slug
@@ -1390,112 +914,6 @@ export type EditThreadMutationResult = Apollo.MutationResult<EditThreadMutation>
 export type EditThreadMutationOptions = Apollo.BaseMutationOptions<
   EditThreadMutation,
   EditThreadMutationVariables
->;
-export const JoinRoomDocument = gql`
-  mutation JoinRoom($roomId: Int!, $userId: Int!) {
-    joinRoom(userId: $userId, roomId: $roomId) {
-      id
-      title
-      members {
-        id
-        name
-      }
-    }
-  }
-`;
-export type JoinRoomMutationFn = Apollo.MutationFunction<
-  JoinRoomMutation,
-  JoinRoomMutationVariables
->;
-
-/**
- * __useJoinRoomMutation__
- *
- * To run a mutation, you first call `useJoinRoomMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useJoinRoomMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [joinRoomMutation, { data, loading, error }] = useJoinRoomMutation({
- *   variables: {
- *      roomId: // value for 'roomId'
- *      userId: // value for 'userId'
- *   },
- * });
- */
-export function useJoinRoomMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    JoinRoomMutation,
-    JoinRoomMutationVariables
-  >
-) {
-  return Apollo.useMutation<JoinRoomMutation, JoinRoomMutationVariables>(
-    JoinRoomDocument,
-    baseOptions
-  );
-}
-export type JoinRoomMutationHookResult = ReturnType<typeof useJoinRoomMutation>;
-export type JoinRoomMutationResult = Apollo.MutationResult<JoinRoomMutation>;
-export type JoinRoomMutationOptions = Apollo.BaseMutationOptions<
-  JoinRoomMutation,
-  JoinRoomMutationVariables
->;
-export const LeaveRoomDocument = gql`
-  mutation LeaveRoom($roomId: Int!, $userId: Int!) {
-    leaveRoom(userId: $userId, roomId: $roomId) {
-      id
-      title
-      members {
-        id
-        name
-      }
-    }
-  }
-`;
-export type LeaveRoomMutationFn = Apollo.MutationFunction<
-  LeaveRoomMutation,
-  LeaveRoomMutationVariables
->;
-
-/**
- * __useLeaveRoomMutation__
- *
- * To run a mutation, you first call `useLeaveRoomMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useLeaveRoomMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [leaveRoomMutation, { data, loading, error }] = useLeaveRoomMutation({
- *   variables: {
- *      roomId: // value for 'roomId'
- *      userId: // value for 'userId'
- *   },
- * });
- */
-export function useLeaveRoomMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    LeaveRoomMutation,
-    LeaveRoomMutationVariables
-  >
-) {
-  return Apollo.useMutation<LeaveRoomMutation, LeaveRoomMutationVariables>(
-    LeaveRoomDocument,
-    baseOptions
-  );
-}
-export type LeaveRoomMutationHookResult = ReturnType<
-  typeof useLeaveRoomMutation
->;
-export type LeaveRoomMutationResult = Apollo.MutationResult<LeaveRoomMutation>;
-export type LeaveRoomMutationOptions = Apollo.BaseMutationOptions<
-  LeaveRoomMutation,
-  LeaveRoomMutationVariables
 >;
 export const UpdateUserDocument = gql`
   mutation UpdateUser($input: UpdateUserInput!) {
@@ -1596,62 +1014,6 @@ export type ApplyRoomMutationOptions = Apollo.BaseMutationOptions<
   ApplyRoomMutation,
   ApplyRoomMutationVariables
 >;
-export const ChatPageDocument = gql`
-  query ChatPage($userId: String!) {
-    user(userId: $userId) {
-      rooms {
-        ...RoomItem
-        ...ChannelList
-      }
-    }
-  }
-  ${RoomItemFragmentDoc}
-  ${ChannelListFragmentDoc}
-`;
-
-/**
- * __useChatPageQuery__
- *
- * To run a query within a React component, call `useChatPageQuery` and pass it any options that fit your needs.
- * When your component renders, `useChatPageQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useChatPageQuery({
- *   variables: {
- *      userId: // value for 'userId'
- *   },
- * });
- */
-export function useChatPageQuery(
-  baseOptions: Apollo.QueryHookOptions<ChatPageQuery, ChatPageQueryVariables>
-) {
-  return Apollo.useQuery<ChatPageQuery, ChatPageQueryVariables>(
-    ChatPageDocument,
-    baseOptions
-  );
-}
-export function useChatPageLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    ChatPageQuery,
-    ChatPageQueryVariables
-  >
-) {
-  return Apollo.useLazyQuery<ChatPageQuery, ChatPageQueryVariables>(
-    ChatPageDocument,
-    baseOptions
-  );
-}
-export type ChatPageQueryHookResult = ReturnType<typeof useChatPageQuery>;
-export type ChatPageLazyQueryHookResult = ReturnType<
-  typeof useChatPageLazyQuery
->;
-export type ChatPageQueryResult = Apollo.QueryResult<
-  ChatPageQuery,
-  ChatPageQueryVariables
->;
 export const CreateRoomPageDocument = gql`
   query CreateRoomPage {
     categories {
@@ -1726,14 +1088,9 @@ export const RoomEditPageDocument = gql`
       slug
       description
       icon
-      recruitNumbers
-      isRequired
+      withApplication
       repositoryUrl
-      members {
-        id
-        name
-        avatar
-      }
+      invidationUrl
       owner {
         id
         name
@@ -1744,6 +1101,10 @@ export const RoomEditPageDocument = gql`
         name
       }
       categories {
+        id
+        name
+      }
+      recruitmentLevels {
         id
         name
       }
@@ -1761,6 +1122,10 @@ export const RoomEditPageDocument = gql`
       name
     }
     roomTypes {
+      id
+      name
+    }
+    recruitmentLevels {
       id
       name
     }
@@ -1828,27 +1193,6 @@ export const EditUserPageDocument = gql`
       skills {
         id
         name
-      }
-      rooms {
-        id
-        title
-        description
-        createdAt
-        recruitNumbers
-        skills {
-          id
-          name
-        }
-        owner {
-          id
-          name
-          avatar
-          userId
-        }
-        members {
-          id
-          userId
-        }
       }
     }
     skills {
@@ -1952,64 +1296,6 @@ export function useMeLazyQuery(
 export type MeQueryHookResult = ReturnType<typeof useMeQuery>;
 export type MeLazyQueryHookResult = ReturnType<typeof useMeLazyQuery>;
 export type MeQueryResult = Apollo.QueryResult<MeQuery, MeQueryVariables>;
-export const RoomManagementPageDocument = gql`
-  query RoomManagementPage($memberState: MemberState!, $iAmOwner: Boolean) {
-    myRooms(input: { memberState: $memberState, iAmOwner: $iAmOwner }) {
-      ...RoomOperationCard
-    }
-  }
-  ${RoomOperationCardFragmentDoc}
-`;
-
-/**
- * __useRoomManagementPageQuery__
- *
- * To run a query within a React component, call `useRoomManagementPageQuery` and pass it any options that fit your needs.
- * When your component renders, `useRoomManagementPageQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useRoomManagementPageQuery({
- *   variables: {
- *      memberState: // value for 'memberState'
- *      iAmOwner: // value for 'iAmOwner'
- *   },
- * });
- */
-export function useRoomManagementPageQuery(
-  baseOptions: Apollo.QueryHookOptions<
-    RoomManagementPageQuery,
-    RoomManagementPageQueryVariables
-  >
-) {
-  return Apollo.useQuery<
-    RoomManagementPageQuery,
-    RoomManagementPageQueryVariables
-  >(RoomManagementPageDocument, baseOptions);
-}
-export function useRoomManagementPageLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    RoomManagementPageQuery,
-    RoomManagementPageQueryVariables
-  >
-) {
-  return Apollo.useLazyQuery<
-    RoomManagementPageQuery,
-    RoomManagementPageQueryVariables
-  >(RoomManagementPageDocument, baseOptions);
-}
-export type RoomManagementPageQueryHookResult = ReturnType<
-  typeof useRoomManagementPageQuery
->;
-export type RoomManagementPageLazyQueryHookResult = ReturnType<
-  typeof useRoomManagementPageLazyQuery
->;
-export type RoomManagementPageQueryResult = Apollo.QueryResult<
-  RoomManagementPageQuery,
-  RoomManagementPageQueryVariables
->;
 export const RoomDocument = gql`
   query Room($slug: String!) {
     room(slug: $slug) {
@@ -2018,15 +1304,12 @@ export const RoomDocument = gql`
       name
       description
       icon
-      recruitNumbers
-      isRequired
+      withApplication
       repositoryUrl
-      members {
+      invidationUrl
+      recruitmentLevels {
         id
-        userId
         name
-        avatar
-        memberState
       }
       owner {
         id
@@ -2143,6 +1426,10 @@ export const SearchConditionsDocument = gql`
       id
       name
     }
+    recruitmentLevels {
+      id
+      name
+    }
   }
 `;
 
@@ -2193,61 +1480,6 @@ export type SearchConditionsQueryResult = Apollo.QueryResult<
   SearchConditionsQuery,
   SearchConditionsQueryVariables
 >;
-export const ThreadListDocument = gql`
-  query ThreadList($input: FetchThreadInput!) {
-    threads(input: $input) {
-      ...ChatItem
-    }
-  }
-  ${ChatItemFragmentDoc}
-`;
-
-/**
- * __useThreadListQuery__
- *
- * To run a query within a React component, call `useThreadListQuery` and pass it any options that fit your needs.
- * When your component renders, `useThreadListQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useThreadListQuery({
- *   variables: {
- *      input: // value for 'input'
- *   },
- * });
- */
-export function useThreadListQuery(
-  baseOptions: Apollo.QueryHookOptions<
-    ThreadListQuery,
-    ThreadListQueryVariables
-  >
-) {
-  return Apollo.useQuery<ThreadListQuery, ThreadListQueryVariables>(
-    ThreadListDocument,
-    baseOptions
-  );
-}
-export function useThreadListLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    ThreadListQuery,
-    ThreadListQueryVariables
-  >
-) {
-  return Apollo.useLazyQuery<ThreadListQuery, ThreadListQueryVariables>(
-    ThreadListDocument,
-    baseOptions
-  );
-}
-export type ThreadListQueryHookResult = ReturnType<typeof useThreadListQuery>;
-export type ThreadListLazyQueryHookResult = ReturnType<
-  typeof useThreadListLazyQuery
->;
-export type ThreadListQueryResult = Apollo.QueryResult<
-  ThreadListQuery,
-  ThreadListQueryVariables
->;
 export const UserDetailPageDocument = gql`
   query UserDetailPage($userId: String!) {
     user(userId: $userId) {
@@ -2261,27 +1493,6 @@ export const UserDetailPageDocument = gql`
       skills {
         id
         name
-      }
-      rooms {
-        id
-        title
-        description
-        createdAt
-        recruitNumbers
-        skills {
-          id
-          name
-        }
-        owner {
-          id
-          name
-          avatar
-          userId
-        }
-        members {
-          id
-          userId
-        }
       }
     }
   }
@@ -2340,9 +1551,6 @@ export const ThreadDocument = gql`
     threadAdded(channelId: $channelId) {
       id
       text
-      channel {
-        id
-      }
       user {
         id
         name

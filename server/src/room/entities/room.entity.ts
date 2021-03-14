@@ -34,6 +34,9 @@ export class Room {
   @Column({ nullable: true })
   description: string;
 
+  @Column({ nullable: true })
+  invidationUrl?: string;
+
   @ManyToMany(() => Skill, (skill) => skill.rooms, { nullable: true })
   @JoinTable()
   skills: Skill[];

@@ -1,5 +1,5 @@
 mutation EditRoom($input: UpdateRoomInput!) {
-  updateRoom(updateRoomInput: $input) {
+  updateRoom(input: $input) {
     id
     title
     slug

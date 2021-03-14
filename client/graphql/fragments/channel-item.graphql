@@ -1,4 +1,0 @@
-fragment ChannelItem on ChannelModel {
-  id
-  name
-}

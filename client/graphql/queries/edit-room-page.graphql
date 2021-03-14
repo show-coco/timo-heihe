@@ -6,14 +6,9 @@ query RoomEditPage($slug: String!) {
     slug
     description
     icon
-    recruitNumbers
-    isRequired
+    withApplication
     repositoryUrl
-    members {
-      id
-      name
-      avatar
-    }
+    invidationUrl
     owner {
       id
       name
@@ -24,6 +19,10 @@ query RoomEditPage($slug: String!) {
       name
     }
     categories {
+      id
+      name
+    }
+    recruitmentLevels {
       id
       name
     }
@@ -41,6 +40,10 @@ query RoomEditPage($slug: String!) {
     name
   }
   roomTypes {
+    id
+    name
+  }
+  recruitmentLevels {
     id
     name
   }

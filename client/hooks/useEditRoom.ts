@@ -9,7 +9,7 @@ import {
   useRoomEditPageQuery,
 } from "../generated/types";
 import { useFileInput } from "./useFileInput";
-import { convertToCategoriesObj, convertToSkillsObj } from "./useCreateRoom";
+import { convertToSkillsIds } from "./useCreateRoom";
 
 export const convertToACSelectedData = (
   skills: Pick<SkillModel, "id" | "name">[]
@@ -35,9 +35,10 @@ export const useEditTeam = () => {
   const [name, setName] = useState("");
   const [slug, setSlug] = useState("");
   const [description, setDescription] = useState("");
-  const [recruitNumber, setRecruitNumber] = useState(0);
   const [repositoryUrl, setRespositoryUrl] = useState("");
-  const [isRequired, setIsRequired] = useState("1");
+  const [invitationUrl, setInvitationUrl] = useState("");
+  const [withApplication, setWithApplication] = useState("1");
+  const [recruitmentLevels, setRecruitmentLevels] = useState<number[]>([]);
   const [selectedSkills, setSkills] = useState<ACSelectedData[]>([]);
   const [categories, setCategories] = useState<number[]>([]);
   const [types, setTypes] = useState<number[]>([]);
@@ -64,11 +65,14 @@ export const useEditTeam = () => {
 
       setTitle(room.title);
       setName(room.name);
-      setDescription(room.description);
-      setRecruitNumber(room.recruitNumbers);
-      setRespositoryUrl(room.repositoryUrl || "");
-      setIsRequired(room.isRequired ? "2" : "1");
       setSlug(room.slug);
+      setDescription(room.description);
+      setInvitationUrl(room.invidationUrl || "");
+      setRespositoryUrl(room.repositoryUrl || "");
+      setWithApplication(room.withApplication ? "2" : "1");
+      setRecruitmentLevels(
+        room.recruitmentLevels.map((recruitmentLevel) => recruitmentLevel.id)
+      );
       setSkills(convertToACSelectedData(room.skills || []));
       setCategories(convertToCategoryArray(room.categories));
       setImageUrl(room.icon || "");
@@ -114,12 +118,13 @@ export const useEditTeam = () => {
             title,
             slug,
             icon: imageUrl,
-            skills: convertToSkillsObj(selectedSkills),
+            skills: convertToSkillsIds(selectedSkills),
+            recruiementLevels: recruitmentLevels,
             description,
             repositoryUrl,
-            recruitNumbers: recruitNumber,
-            isRequired: isRequired === "2",
-            categories: convertToCategoriesObj(categories),
+            invidationUrl: invitationUrl,
+            withApplication: withApplication === "2",
+            categories: categories,
             typeIds: types,
           },
         },
@@ -136,9 +141,10 @@ export const useEditTeam = () => {
       name,
       slug,
       description,
-      recruitNumber,
       repositoryUrl,
-      isRequired,
+      invitationUrl,
+      recruitmentLevels,
+      withApplication,
       selectedSkills,
       categories,
       imageUrl,
@@ -154,9 +160,10 @@ export const useEditTeam = () => {
       setName,
       setSlug,
       setDescription,
-      setRecruitNumber,
       setRespositoryUrl,
-      setIsRequired,
+      setWithApplication,
+      setRecruitmentLevels,
+      setInvitationUrl,
       setSkills,
       onChangeCategories,
       setImageUrl,
@@ -166,6 +173,7 @@ export const useEditTeam = () => {
     categories: data?.categories || [],
     skills: data?.skills || [],
     roomTypes: data?.roomTypes || [],
-    data,
+    recruitmentLevels: data?.recruitmentLevels || [],
+    ownerId: data?.room.owner.id,
   };
 };

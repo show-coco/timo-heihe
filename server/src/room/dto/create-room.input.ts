@@ -17,6 +17,9 @@ export class CreateRoomInput {
   @Field({ nullable: true })
   description: string;
 
+  @Field({ nullable: true })
+  invidationUrl?: string;
+
   @Field(() => Int)
   owner: number;
 
