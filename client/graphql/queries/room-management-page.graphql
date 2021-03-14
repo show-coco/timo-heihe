@@ -1,5 +1,0 @@
-query RoomManagementPage($memberState: MemberState!, $iAmOwner: Boolean) {
-  myRooms(input: { memberState: $memberState, iAmOwner: $iAmOwner }) {
-    ...RoomOperationCard
-  }
-}
