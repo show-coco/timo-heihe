@@ -9,7 +9,7 @@ type HeadingProps = {
 const color = "text-gray-700";
 
 const styles = {
-  h1Big: `text-4xl ${color} m-0`,
+  h1Big: `text-3xl ${color} m-0`,
   h1Small: `text-lg font-bold ${color} m-0`,
   h2: `text-lg font-bold ${color} m-0`,
   h3: `text-base ${color} m-0`,

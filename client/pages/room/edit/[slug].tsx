@@ -30,6 +30,7 @@ export default function EditRoom() {
     categories,
     roomTypes,
     ownerId,
+    recruitmentLevels,
     onSubmit,
   } = useEditTeam();
 
@@ -39,11 +40,13 @@ export default function EditRoom() {
 
   return (
     <Template className="p-10">
+      <Heading as="h1Big" className="pb-10 text-center">
+        ルーム情報を編集する
+      </Heading>
       <div className="flex space-x-10">
         <Card className="flex-1 p-8">
           <form onSubmit={onSubmit}>
             <div className="space-y-10">
-              <Heading as="h1Small">ルーム情報を編集する</Heading>
               <div className={betweenH2}>
                 <Heading as="h2">ルームアイコン</Heading>
 
@@ -161,10 +164,10 @@ export default function EditRoom() {
         </Card>
 
         <div className="w-1/3 space-y-10">
-          <Card>
+          <Card className="space-y-5 p-7">
             <div className={betweenH2}>
               <span className="flex">
-                <Heading as="h2">参加時の申請</Heading>
+                <Heading as="h3">参加時の申請</Heading>
                 <span className="text-red-500">*</span>
               </span>
 
@@ -187,13 +190,22 @@ export default function EditRoom() {
             </div>
 
             <div className={betweenH2}>
-              <Heading as="h2">Githubリポジトリ</Heading>
+              <Heading as="h3">招待URL</Heading>
+
+              <TextInput
+                placeholder="SlackやDiscordの招待URL"
+                value={formState.invitationUrl}
+                onChange={(e) => setter.setInvitationUrl(e.target.value)}
+              />
+            </div>
+
+            <div className={betweenH2}>
+              <Heading as="h3">Githubリポジトリ</Heading>
 
               <div className="flex items-center space-x-2">
                 <GithubIcon height="30px" />
                 <TextInput
-                  placeholder="URLを入力"
-                  className="w-1/2"
+                  placeholder="GithubリポジトリのURL"
                   value={formState.repositoryUrl}
                   onChange={(e) => setter.setRespositoryUrl(e.target.value)}
                 />
@@ -201,11 +213,22 @@ export default function EditRoom() {
             </div>
           </Card>
 
-          <Card>
+          <Card className={`p-7 ${betweenH2}`}>
             <Heading as="h3">募集するレベル帯</Heading>
+
+            <div className="flex flex-col lg:flex-row lg:flex-wrap">
+              {recruitmentLevels.map((recruitmentLevel) => (
+                <span
+                  className="px-5 py-1 mb-3 mr-5 text-center text-white bg-purple-400 rounded-sm whitespace-nowrap"
+                  key={recruitmentLevel.id}
+                >
+                  {recruitmentLevel.name}
+                </span>
+              ))}
+            </div>
           </Card>
 
-          <Card>
+          <Card className="p-7">
             <div className={betweenH2}>
               <Heading as="h2">使用するスキル</Heading>
 
