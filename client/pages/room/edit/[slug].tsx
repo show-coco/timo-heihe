@@ -18,6 +18,7 @@ import { EditableLanguagePochiSet } from "../../../components/language/editable-
 import { TextArea } from "../../../components/text-area";
 import { useAuthGuard } from "../../../hooks/useAuthGurad";
 import { Template } from "../../../components/template/app/template";
+import { OperationTag } from "../../../components/tag/operation";
 
 const betweenH2 = "space-y-2";
 
@@ -218,12 +219,15 @@ export default function EditRoom() {
 
             <div className="flex flex-col lg:flex-row lg:flex-wrap">
               {recruitmentLevels.map((recruitmentLevel) => (
-                <span
-                  className="px-5 py-1 mb-3 mr-5 text-center text-white bg-purple-400 rounded-sm whitespace-nowrap"
+                <OperationTag
+                  {...recruitmentLevel}
                   key={recruitmentLevel.id}
-                >
-                  {recruitmentLevel.name}
-                </span>
+                  selectedItemIds={formState.recruitmentLevels}
+                  isSelected={formState.recruitmentLevels.includes(
+                    recruitmentLevel.id
+                  )}
+                  setIsSelected={setter.setRecruitmentLevels}
+                />
               ))}
             </div>
           </Card>
