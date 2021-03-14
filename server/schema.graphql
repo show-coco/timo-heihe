@@ -3,7 +3,7 @@
 # ------------------------------------------------------
 
 type CategoryModel {
-  id: Int
+  id: Int!
   name: String!
   rooms: [RoomModel!]!
 }
