@@ -1,5 +1,4 @@
 import { Field, InputType, Int } from '@nestjs/graphql';
-import { SkillInput } from '../../skill/dto/skill.input';
 
 @InputType()
 export class ConnectUserInput {
@@ -27,6 +26,6 @@ export class ConnectUserInput {
   @Field({ nullable: true })
   twitterId: string;
 
-  @Field(() => [SkillInput], { nullable: true })
-  skills?: SkillInput[];
+  @Field(() => [Int], { nullable: true })
+  skills?: number[];
 }

@@ -2,89 +2,39 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-input CategoryInput {
-  id: Int!
-  name: String
-}
-
 type CategoryModel {
   id: Int
   name: String!
   rooms: [RoomModel!]!
 }
 
-type ChannelModel {
-  id: Int!
-  name: String!
-  room: RoomModel!
-  team: RoomModel!
-  threads: [ThreadModel!]!
-  user: UserModel!
-}
-
-type ChannelResponse {
-  affected: Int
-}
-
-input ConnectChannelInput {
-  id: Int!
-}
-
-input ConnectRoomInput {
-  id: Int!
-}
-
 input ConnectThreadInput {
   id: Int!
-}
-
-input ConnectUserInput {
-  avatar: String
-  email: String
-  githubId: String
-  id: Int!
-  introduction: String
-  name: String
-  skills: [SkillInput!]
-  twitterId: String
-  userId: String
 }
 
 input CreateCategoryInput {
   name: String!
 }
 
-input CreateChannelInput {
-  name: String!
-  room: ConnectRoomInput!
-}
-
 input CreateMessageInput {
   text: String!
   thread: ConnectThreadInput!
-  user: ConnectUserInput!
+  userId: Int!
 }
 
 input CreateRoomInput {
-  categories: [CategoryInput!]!
+  categories: [Int!]!
   description: String
   icon: String
-  isRequired: Boolean!
-  members: [CreateRoomMembersUserInput!]!
   name: String!
-  owner: ConnectUserInput!
-  recruitNumbers: Int!
-  rectuiting: Boolean
+  owner: Int!
+  recruiementLevels: [Int!]!
   repositoryUrl: String
-  skills: [SkillInput!]!
+  skills: [Int!]
   slug: String!
   title: String!
   typeIds: [Int!]!
-}
-
-input CreateRoomMembersUserInput {
-  room: UpdateRoomInput
-  user: ConnectUserInput!
+  withApplication: Boolean!
 }
 
 input CreateSkillInput {
@@ -94,9 +44,8 @@ input CreateSkillInput {
 }
 
 input CreateThreadInput {
-  channel: ConnectChannelInput!
   text: String!
-  user: ConnectUserInput!
+  userId: Int!
 }
 
 """
@@ -107,13 +56,6 @@ scalar DateTime
 input FetchThreadInput {
   channelId: Int!
   cursor: String!
-}
-
-enum MemberState {
-  EJECTED
-  JOINING
-  LEAVE
-  PENDING
 }
 
 type MessageModel {
@@ -127,99 +69,65 @@ type MessageModel {
 type Mutation {
   applyRoom(roomId: Int!, userId: Int!): RoomModel!
   createCategory(createCategoryInput: CreateCategoryInput!): CategoryModel!
-  createChannel(input: CreateChannelInput!): ChannelModel!
   createMessage(input: CreateMessageInput!): MessageModel!
   createRoom(input: CreateRoomInput!): RoomModel!
   createSkill(createSkillInput: CreateSkillInput!): SkillModel!
-  createTeamMembersUser(userId: ID!): RoomMembersUserModel!
   createThread(input: CreateThreadInput!): ThreadModel!
-  deleteChannel(id: Int!): ChannelResponse!
   deleteRoom(id: Int!): RoomModel!
-  joinRoom(roomId: Int!, userId: Int!): RoomModel!
-  leaveRoom(roomId: Int!, userId: Int!): RoomModel!
   removeCategory(id: Int!): CategoryModel!
-  removeMessage(id: Int!): ChannelResponse!
   removeSkill(id: Int!): SkillModel!
-  removeTeamMembersUser(roomId: Int!, userId: Int!): RemoveResult!
   removeThread(id: Int!): ThreadModel!
   updateCategory(updateCategoryInput: UpdateCategoryInput!): CategoryModel!
   updateMessage(input: UpdateMessageInput!): MessageModel!
-  updateRoom(updateRoomInput: UpdateRoomInput!): RoomModel!
+  updateRoom(input: UpdateRoomInput!): RoomModel!
   updateSkill(updateSkillInput: UpdateSkillInput!): SkillModel!
-  updateTeamMembersUser(updateTeamMembersUserInput: UpdateRoomMembersUserInput!): RoomMembersUserModel!
   updateThread(input: UpdateThreadInput!): ThreadModel!
   updateUser(updateUserInput: UpdateUserInput!): UserModel!
 }
 
 input MyRoomsInput {
   iAmOwner: Boolean
-  memberState: MemberState!
 }
 
 type Query {
   categories: [CategoryModel!]!
   category(id: Int!): CategoryModel!
-  channel(id: Int!): ChannelModel!
-  channels: [ChannelModel!]!
   me: UserModel!
   message(id: Int!): MessageModel!
   messages: [MessageModel!]!
   myRooms(input: MyRoomsInput!): [RoomModel!]!
+  recruitmentLevels: [RecruitmentLevelModel!]!
   room(slug: String!): RoomModel!
   rooms(input: SearchRoomInput): [RoomModel!]!
   roomTypes: [RoomTypeModel!]!
   skill(id: Int!): SkillModel!
   skills: [SkillModel!]!
-  teamMembersUser(id: Int!): RoomMembersUserModel!
   thread(id: Int!): ThreadModel!
   threads(input: FetchThreadInput!): [ThreadModel!]
   user(userId: String!): UserModel!
   users: [UserModel!]!
 }
 
-type RemoveResult {
-  ok: Boolean!
-}
-
-type RoomMemberModel {
-  avatar: String
-  createdAt: DateTime!
-  email: String!
-  githubId: String
+type RecruitmentLevelModel {
   id: Int!
-  introduction: String
-  memberState: MemberState!
   name: String!
-  ownerTeams: [RoomModel!]!
-  skills: [SkillModel!]!
-  teams: [RoomModel!]!
-  twitterId: String
-  userId: String!
-}
-
-type RoomMembersUserModel {
-  memberState: MemberState!
-  room: RoomModel!
-  user: UserModel!
 }
 
 type RoomModel {
   categories: [CategoryModel!]!
-  channels: [ChannelModel!]
   createdAt: DateTime
   description: String!
   icon: String
   id: Int
-  isRequired: Boolean!
-  members: [RoomMemberModel!]
   name: String!
   owner: UserModel!
-  recruitNumbers: Int!
+  recruitmentLevels: [RecruitmentLevelModel!]!
   repositoryUrl: String
   skills: [SkillModel!]
   slug: String!
   title: String!
   types: [RoomTypeModel!]!
+  withApplication: Boolean!
 }
 
 type RoomTypeModel {
@@ -229,16 +137,9 @@ type RoomTypeModel {
 
 input SearchRoomInput {
   categoryIds: [Int!]
-  name: String
-  recruitNumbers: Int
   skillIds: [Int!]
+  title: String
   typeId: Int
-}
-
-input SkillInput {
-  icon: String
-  id: Int!
-  name: String
 }
 
 type SkillModel {
@@ -253,7 +154,6 @@ type Subscription {
 }
 
 type ThreadModel {
-  channel: ChannelModel!
   createdAt: DateTime!
   id: Int!
   numberOfMessages: Int!
@@ -270,31 +170,23 @@ input UpdateMessageInput {
   id: Int!
   text: String
   thread: ConnectThreadInput
-  user: ConnectUserInput
+  userId: Int
 }
 
 input UpdateRoomInput {
-  categories: [CategoryInput!]
+  categories: [Int!]
   description: String
   icon: String
   id: Int!
-  isRequired: Boolean
-  members: [CreateRoomMembersUserInput!]
   name: String
-  owner: ConnectUserInput
-  recruitNumbers: Int
-  rectuiting: Boolean
+  owner: Int
+  recruiementLevels: [Int!]
   repositoryUrl: String
-  skills: [SkillInput!]
+  skills: [Int!]
   slug: String
   title: String
   typeIds: [Int!]
-}
-
-input UpdateRoomMembersUserInput {
-  id: Int!
-  room: UpdateRoomInput
-  user: ConnectUserInput
+  withApplication: Boolean
 }
 
 input UpdateSkillInput {
@@ -315,40 +207,19 @@ input UpdateUserInput {
   id: Int!
   introduction: String
   name: String
-  skills: [SkillInput!]
+  skills: [Int!]
   twitterId: String
   userId: String
 }
 
-type UserMemberModel {
-  categories: [CategoryModel!]!
-  channels: [ChannelModel!]
-  createdAt: DateTime
-  description: String!
-  icon: String
-  id: Int
-  isRequired: Boolean!
-  members: [RoomMemberModel!]
-  memberState: MemberState!
-  name: String!
-  owner: UserModel!
-  recruitNumbers: Int!
-  repositoryUrl: String
-  skills: [SkillModel!]
-  slug: String!
-  title: String!
-}
-
 type UserModel {
   avatar: String
-  channels: [ChannelModel!]
   email: String!
   githubId: String
   id: Int!
   introduction: String
   name: String!
   ownerTeams: [RoomModel!]
-  rooms: [UserMemberModel!]
   skills: [SkillModel!]
   twitterId: String
   userId: String!

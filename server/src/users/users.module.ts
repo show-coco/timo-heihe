@@ -5,13 +5,11 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { UsersResolver } from './users.resolver';
 import { SkillModule } from '../skill/skill.module';
 import { RoomModule } from '../room/room.module';
-import { RoomMembersUserModule } from '../room-members-user/room-members-user.module';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([User]),
     SkillModule,
-    RoomMembersUserModule,
     forwardRef(() => RoomModule),
   ],
   exports: [UsersService],

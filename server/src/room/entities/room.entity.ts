@@ -8,26 +8,25 @@ import {
   JoinTable,
   ManyToMany,
   ManyToOne,
-  OneToMany,
   PrimaryGeneratedColumn,
+  UpdateDateColumn,
 } from 'typeorm';
-import { RoomMembersUser } from '../../room-members-user/entities/room-members-user.entity';
-import { Channel } from '../../channel/entities/channel.entity';
 import { RoomType } from '../../room-type/entities/room-type.entity';
+import { RecruitmentLevel } from '../../recruitment-level/entities/recruitment-level.entity';
 
 @Entity()
 export class Room {
   @PrimaryGeneratedColumn()
   id?: number;
 
+  @Column({ unique: true })
+  slug: string;
+
   @Column()
   name: string;
 
   @Column()
   title: string;
-
-  @Column({ unique: true })
-  slug: string;
 
   @Column({ nullable: true })
   icon: string;
@@ -42,9 +41,6 @@ export class Room {
   @ManyToOne(() => User, (user) => user.ownerRooms)
   owner: Partial<User>;
 
-  @OneToMany(() => RoomMembersUser, (rmu) => rmu.room)
-  members?: RoomMembersUser[];
-
   @ManyToMany(() => Category, (category) => category.rooms)
   @JoinTable()
   categories: Category[];
@@ -52,17 +48,8 @@ export class Room {
   @Column({ nullable: true })
   repositoryUrl?: string;
 
-  @Column({ nullable: true })
-  recruitNumbers: number;
-
   @Column({ default: true })
-  isRequired: boolean;
-
-  @CreateDateColumn({ type: 'timestamp' })
-  createdAt?: Date;
-
-  @OneToMany(() => Channel, (room) => room.room)
-  channels: Channel[];
+  withApplication: boolean;
 
   @Column({ default: true })
   recruiting: boolean;
@@ -70,4 +57,18 @@ export class Room {
   @ManyToMany(() => RoomType, (roomType) => roomType.room)
   @JoinTable()
   types: RoomType[];
+
+  @ManyToMany(() => RecruitmentLevel, (rl) => rl.rooms)
+  @JoinTable()
+  recruitmentLevels: RecruitmentLevel[];
+
+  @ManyToMany(() => User, (room) => room.applyingRooms, { nullable: true })
+  @JoinTable({ name: 'room_applying_user' })
+  applyingUsers?: Partial<User>[];
+
+  @CreateDateColumn({ type: 'timestamp' })
+  createdAt?: Date;
+
+  @UpdateDateColumn({ type: 'timestamp' })
+  updatedAt?: Date;
 }

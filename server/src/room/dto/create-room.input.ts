@@ -1,11 +1,10 @@
 import { InputType, Field, Int } from '@nestjs/graphql';
-import { CategoryInput } from '../../category/dto/category.input';
-import { SkillInput } from '../../skill/dto/skill.input';
-import { CreateRoomMembersUserInput } from '../../room-members-user/dto/create-room-members-user.input';
-import { ConnectUserInput } from '../../users/dto/connect-user.input';
 
 @InputType()
 export class CreateRoomInput {
+  @Field()
+  slug: string;
+
   @Field()
   title: string;
 
@@ -13,37 +12,28 @@ export class CreateRoomInput {
   icon?: string;
 
   @Field()
-  slug: string;
-
-  @Field()
   name: string;
 
   @Field({ nullable: true })
   description: string;
 
-  @Field()
-  owner: ConnectUserInput;
+  @Field(() => Int)
+  owner: number;
 
-  @Field(() => [CreateRoomMembersUserInput])
-  members: CreateRoomMembersUserInput[];
+  @Field(() => [Int], { nullable: true })
+  skills?: number[];
 
-  @Field({ nullable: true })
-  rectuiting: boolean;
-
-  @Field(() => [SkillInput])
-  skills?: SkillInput[];
-
-  @Field(() => [CategoryInput])
-  categories: CategoryInput[];
+  @Field(() => [Int])
+  categories: number[];
 
   @Field({ nullable: true })
   repositoryUrl?: string;
 
-  @Field(() => Int)
-  recruitNumbers: number;
-
   @Field()
-  isRequired: boolean;
+  withApplication: boolean;
+
+  @Field(() => [Int])
+  recruiementLevels: number[];
 
   @Field(() => [Int])
   typeIds: number[];
