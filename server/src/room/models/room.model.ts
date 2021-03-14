@@ -3,7 +3,7 @@ import { CategoryModel } from '../../category/models/category.model';
 import { SkillModel } from '../../skill/models/skill.model';
 import { UserModel } from '../../users/models/user.model';
 import { RoomTypeModel } from '../../room-type/models/room-type.model';
-import { RecruitmentLevelModel } from 'src/recruitment-level/models/recruitment-level.model';
+import { RecruitmentLevelModel } from '../../recruitment-level/models/recruitment-level.model';
 
 @ObjectType()
 export class RoomModel {

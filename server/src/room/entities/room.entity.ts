@@ -12,7 +12,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import { RoomType } from '../../room-type/entities/room-type.entity';
-import { RecruitmentLevel } from 'src/recruitment-level/entities/recruitment-level.entity';
+import { RecruitmentLevel } from '../../recruitment-level/entities/recruitment-level.entity';
 
 @Entity()
 export class Room {

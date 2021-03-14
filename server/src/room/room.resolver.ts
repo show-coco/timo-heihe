@@ -10,17 +10,15 @@ import {
 } from '@nestjs/graphql';
 import { CategoryService } from '../category/category.service';
 import { SkillService } from '../skill/skill.service';
-import { UserModel } from '../users/models/user.model';
 import { UsersService } from '../users/users.service';
 import { CreateRoomInput } from './dto/create-room.input';
 import { UpdateRoomInput } from './dto/update-room.input';
-import { Room } from './entities/room.entity';
 import { RoomModel } from './models/room.model';
 import { RoomService } from './room.service';
 import { SearchRoomInput } from './dto/search-room.input';
-import { GqlJwtAuthGuard } from 'src/auth/jwt-auth.guards';
-import { CurrentUser } from 'src/users/dto/current-user';
-import { Payload } from 'src/auth/types/payload';
+import { GqlJwtAuthGuard } from '../auth/jwt-auth.guards';
+import { CurrentUser } from '../users/dto/current-user';
+import { Payload } from '../auth/types/payload';
 import { MyRoomsInput } from './dto/my-rooms.input';
 
 @Resolver(() => RoomModel)
