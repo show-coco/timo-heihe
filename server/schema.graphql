@@ -26,6 +26,7 @@ input CreateRoomInput {
   categories: [Int!]!
   description: String
   icon: String
+  invidationUrl: String
   name: String!
   owner: Int!
   recruiementLevels: [Int!]!
@@ -119,6 +120,7 @@ type RoomModel {
   description: String!
   icon: String
   id: Int
+  invidationUrl: String
   name: String!
   owner: UserModel!
   recruitmentLevels: [RecruitmentLevelModel!]!
@@ -178,6 +180,7 @@ input UpdateRoomInput {
   description: String
   icon: String
   id: Int!
+  invidationUrl: String
   name: String
   owner: Int
   recruiementLevels: [Int!]
