@@ -1,8 +1,6 @@
 import { Field, Int, ObjectType } from '@nestjs/graphql';
-import { UserMemberModel } from '../../room-members-user/models/user-member-model';
 import { SkillModel } from '../../skill/models/skill.model';
 import { RoomModel } from '../../room/models/room.model';
-import { ChannelModel } from '../../channel/models/channel.model';
 
 @ObjectType()
 export class UserModel {
@@ -33,12 +31,6 @@ export class UserModel {
   @Field(() => [RoomModel], { nullable: true })
   ownerTeams: RoomModel[];
 
-  @Field(() => [UserMemberModel], { nullable: true })
-  rooms: UserMemberModel[];
-
   @Field(() => [SkillModel], { nullable: true })
   skills: SkillModel[];
-
-  @Field(() => [ChannelModel], { nullable: true })
-  channels?: ChannelModel[];
 }

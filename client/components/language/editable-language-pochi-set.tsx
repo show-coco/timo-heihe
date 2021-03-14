@@ -23,12 +23,11 @@ export const EditableLanguagePochiSet: React.FC<LanguagePochiSetProps> = ({
     const newSelectedData = selectedData.filter(
       (data) => data.name !== language
     );
-    console.log(newSelectedData);
     setSelected(newSelectedData);
   };
 
   return (
-    <div className={`flex flex-wrap ${className}`}>
+    <div className={`flex flex-col ${className}`}>
       {languages.map((lang, i) => (
         <LanguagePochi
           language={lang}

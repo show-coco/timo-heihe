@@ -11,16 +11,14 @@ import { SkillModule } from './skill/skill.module';
 import { Room } from './room/entities/room.entity';
 import { Category } from './category/entities/category.entity';
 import { Skill } from './skill/entities/skill.entity';
-import { RoomMembersUserModule } from './room-members-user/room-members-user.module';
-import { RoomMembersUser } from './room-members-user/entities/room-members-user.entity';
-import { Channel } from './channel/entities/channel.entity';
 import { ThreadModule } from './thread/thread.module';
-import { ChannelModule } from './channel/channel.module';
 import { MessageModule } from './message/message.module';
 import { Thread } from './thread/entities/thread.entity';
 import { Message } from './message/entities/message.entity';
 import { RoomTypeModule } from './room-type/room-type.module';
 import { RoomType } from './room-type/entities/room-type.entity';
+import { RecruitmentLevelModule } from './recruitment-level/recruitment-level.module';
+import { RecruitmentLevel } from './recruitment-level/entities/recruitment-level.entity';
 
 @Module({
   imports: [
@@ -33,11 +31,10 @@ import { RoomType } from './room-type/entities/room-type.entity';
         RoomModule,
         CategoryModule,
         SkillModule,
-        RoomMembersUserModule,
-        ChannelModule,
         ThreadModule,
         MessageModule,
         RoomTypeModule,
+        RecruitmentLevelModule,
       ],
       playground: true,
       autoSchemaFile: 'schema.graphql',
@@ -57,11 +54,10 @@ import { RoomType } from './room-type/entities/room-type.entity';
         Room,
         Category,
         Skill,
-        RoomMembersUser,
-        Channel,
         Thread,
         Message,
         RoomType,
+        RecruitmentLevel,
       ],
       synchronize: true,
     }),
@@ -70,11 +66,10 @@ import { RoomType } from './room-type/entities/room-type.entity';
     RoomModule,
     CategoryModule,
     SkillModule,
-    RoomMembersUserModule,
-    ChannelModule,
     ThreadModule,
     MessageModule,
     RoomTypeModule,
+    RecruitmentLevelModule,
   ],
 })
 export class AppModule {}

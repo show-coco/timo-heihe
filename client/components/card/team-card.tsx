@@ -1,32 +1,20 @@
 import React from "react";
 import { Card } from "./card";
-import PeopleIcon from "../../assets/icons/people.svg";
 import { LanguagePochiSet } from "../language/language-pochi-set";
 import {
   AvatarWithName,
   AvatarWithNameProps,
 } from "../avatar/avatar-with-name";
-import {
-  SkillModel,
-  RoomCardFragment,
-  MemberState,
-} from "../../generated/types";
+import { SkillModel, RoomCardFragment } from "../../generated/types";
 import { dateFormatter, YEAR_MANTH_DAY_SLASH } from "../../utils/dateFormat";
 import Link from "next/link";
 import { FirstParagraphDisplayer } from "../parser/first-paragraph-displayer";
-import teamCardStories from "./team-card.stories";
-
-type PeopleInfo = {
-  current: number;
-  limit: number;
-};
 
 export type TeamCardProps = {
   id: number;
   title: string;
   slug: string;
   owner: AvatarWithNameProps;
-  member: PeopleInfo;
   description: string;
   languages: string[];
   createdAt: string;
@@ -37,10 +25,6 @@ export const convertToTeamCardObjFromTeams = (
   queryObj: RoomCardFragment[]
 ): TeamCardProps[] => {
   return queryObj.map((team) => {
-    // TODO: 人数計算の処理をサーバでやる
-    const joiningCount = team?.members?.filter(
-      (member) => member.memberState === MemberState.Joining
-    ).length;
     return {
       ...team,
       id: team.id || 0,
@@ -48,10 +32,6 @@ export const convertToTeamCardObjFromTeams = (
         name: team.owner.name,
         src: team.owner.avatar || "",
         userId: team.owner.userId,
-      },
-      member: {
-        current: joiningCount || 1, // TODO:
-        limit: team.recruitNumbers,
       },
       languages: convertToSKillsArray(team.skills),
       createdAt: dateFormatter(
@@ -74,7 +54,6 @@ export const TeamCard: React.FC<TeamCardProps> = ({
   title,
   slug,
   owner,
-  member,
   description,
   languages,
   createdAt,
@@ -102,11 +81,6 @@ export const TeamCard: React.FC<TeamCardProps> = ({
                   userId={owner.userId}
                 />
               </span>
-
-              <PeopleIcon />
-              <p className="ml-2">
-                {member.current}/{member.limit}
-              </p>
             </div>
 
             <FirstParagraphDisplayer className="pt-4 pb-6" text={description} />

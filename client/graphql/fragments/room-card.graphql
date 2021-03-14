@@ -4,17 +4,9 @@ fragment RoomCard on RoomModel {
   slug
   description
   icon
-  recruitNumbers
-  isRequired
+  withApplication
   repositoryUrl
   createdAt
-  members {
-    id
-    userId
-    name
-    avatar
-    memberState
-  }
   owner {
     id
     userId
@@ -22,10 +14,6 @@ fragment RoomCard on RoomModel {
     avatar
   }
   skills {
-    id
-    name
-  }
-  categories {
     id
     name
   }

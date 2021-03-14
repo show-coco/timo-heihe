@@ -13,12 +13,10 @@ export type UseSearch = {
   handleSubmit: () => void;
   handleChangeCategories: (e: React.FormEvent<HTMLInputElement>) => void;
   handleChangeSkills: (e: React.FormEvent<HTMLInputElement>) => void;
-  setName: React.Dispatch<React.SetStateAction<string>>;
-  setRecruitNumbers: React.Dispatch<React.SetStateAction<number>>;
+  setTitle: React.Dispatch<React.SetStateAction<string>>;
   setTypeId: React.Dispatch<React.SetStateAction<number>>;
-  name: string;
+  title: string;
   categoryAndSkillData?: SearchConditionsQuery;
-  recruitNumbers: number;
   skillIds: number[];
   roomsData: RoomsQuery | undefined;
   loading: boolean;
@@ -26,13 +24,10 @@ export type UseSearch = {
   typeId: number;
 };
 
-const DEFAULT_RECRUIT_NUMBERS = 5;
-
 export const useSearchTeams = (): UseSearch => {
   const { skillIds: mySkillIds } = useAuthContext();
   const { data: categoryAndSkillData } = useSearchConditionsQuery();
-  const [recruitNumbers, setRecruitNumbers] = useState(DEFAULT_RECRUIT_NUMBERS);
-  const [name, setName] = useState<string>("");
+  const [title, setTitle] = useState<string>("");
   const [categoryIds, setCategoryIds] = useState<number[]>([]);
   const [skillIds, setSkillIds] = useState<number[]>(mySkillIds);
   const [typeId, setTypeId] = useState(TeamType.DEVELOPMENT);
@@ -40,7 +35,6 @@ export const useSearchTeams = (): UseSearch => {
     variables: {
       input: {
         skillIds: mySkillIds,
-        recruitNumbers: DEFAULT_RECRUIT_NUMBERS,
         typeId: TeamType.DEVELOPMENT,
       },
     },
@@ -57,14 +51,13 @@ export const useSearchTeams = (): UseSearch => {
   const refetchRooms = useCallback(() => {
     refetch({
       input: {
-        recruitNumbers,
-        name,
+        title,
         categoryIds: categoryIds.length ? categoryIds : null,
         skillIds: skillIds.length ? skillIds : null,
         typeId,
       },
     });
-  }, [categoryIds, name, recruitNumbers, refetch, skillIds, typeId]);
+  }, [categoryIds, title, refetch, skillIds, typeId]);
 
   const handleSubmit = () => {
     refetchRooms();
@@ -99,16 +92,14 @@ export const useSearchTeams = (): UseSearch => {
     handleSubmit,
     handleChangeCategories,
     handleChangeSkills,
-    setName,
-    setRecruitNumbers,
+    setTitle,
     setTypeId,
     skillIds,
     roomsData,
     categoryAndSkillData,
     loading,
     error,
-    name,
-    recruitNumbers,
+    title,
     typeId,
   };
 };

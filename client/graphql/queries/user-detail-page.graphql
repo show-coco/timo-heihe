@@ -11,27 +11,5 @@ query UserDetailPage($userId: String!) {
       id
       name
     }
-    # TODO: RoomCardFragmentを使えるようにする
-    rooms {
-      id
-      title
-      description
-      createdAt
-      recruitNumbers
-      skills {
-        id
-        name
-      }
-      owner {
-        id
-        name
-        avatar
-        userId
-      }
-      members {
-        id
-        userId
-      }
-    }
   }
 }

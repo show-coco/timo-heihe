@@ -12,10 +12,8 @@ export const convertToCategoriesObj = (categories: number[]) => {
   }));
 };
 
-export const convertToSkillsObj = (skills: ACSelectedData[]) => {
-  return skills.map((skill) => ({
-    id: Number(skill.id),
-  }));
+export const convertToSkillsIds = (skills: ACSelectedData[]): number[] => {
+  return skills.map((skill) => Number(skill.id));
 };
 
 export const useCreateRoom = () => {
@@ -43,23 +41,15 @@ export const useCreateRoom = () => {
     title,
     name,
     slug,
-    owner: {
-      id,
-    },
+    owner: id,
     icon: imageUrl,
-    skills: convertToSkillsObj(selectedSkills),
+    skills: convertToSkillsIds(selectedSkills),
     description,
-    members: [
-      {
-        user: {
-          id,
-        },
-      },
-    ],
     repositoryUrl,
-    recruitNumbers: recruitNumber,
-    isRequired: isRequired === "2",
-    categories: convertToCategoriesObj(categories),
+    invidationUrl: "", // TODO
+    recruiementLevels: [], // TODO
+    withApplication: isRequired === "2",
+    categories: categories,
     typeIds: types,
   });
 

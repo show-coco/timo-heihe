@@ -15,10 +15,6 @@ export class UsersService {
     const res = await this.userRepository
       .createQueryBuilder('user')
       .leftJoinAndSelect('user.skills', 'userSkills')
-      .leftJoinAndSelect('user.rooms', 'rooms')
-      .leftJoinAndSelect('rooms.room', 'room')
-      .leftJoinAndSelect('room.owner', 'owner')
-      .leftJoinAndSelect('room.skills', 'roomSkills')
       .where({ googleId })
       .getOne();
 
@@ -31,14 +27,10 @@ export class UsersService {
     const res = await this.userRepository
       .createQueryBuilder('user')
       .leftJoinAndSelect('user.skills', 'userSkills')
-      .leftJoinAndSelect('user.rooms', 'rooms')
-      .leftJoinAndSelect('rooms.room', 'room')
-      .leftJoinAndSelect('room.owner', 'owner')
-      .leftJoinAndSelect('room.skills', 'roomSkills')
       .where({ id })
       .getOne();
 
-    console.log('response on users->service->findById', res.rooms);
+    console.log('response on users->service->findById', res);
 
     return res;
   }
@@ -61,11 +53,6 @@ export class UsersService {
     const res = await this.userRepository
       .createQueryBuilder('user')
       .leftJoinAndSelect('user.skills', 'userSkills')
-      .leftJoinAndSelect('user.rooms', 'rooms')
-      .leftJoinAndSelect('rooms.room', 'room')
-      .leftJoinAndSelect('room.members', 'members', 'members.roomId = room.id')
-      .leftJoinAndSelect('room.owner', 'owner')
-      .leftJoinAndSelect('room.skills', 'roomSkills')
       .where({ userId })
       .getOne();
 
@@ -78,10 +65,6 @@ export class UsersService {
     const res = await this.userRepository
       .createQueryBuilder('user')
       .leftJoinAndSelect('user.skills', 'skills')
-      .leftJoinAndSelect('user.rooms', 'rooms')
-      .leftJoinAndSelect('rooms.room', 'room')
-      .leftJoinAndSelect('room.owner', 'owner')
-      .leftJoinAndSelect('room.skills', 'roomSkills')
       .getMany();
 
     console.log('response on user->service->findAll', res);
@@ -100,6 +83,11 @@ export class UsersService {
   async update(updateUserInput: UpdateUserInput) {
     const input: UpdateUserInput = JSON.parse(JSON.stringify(updateUserInput));
 
-    return this.userRepository.save(input);
+    const formattedInput = {
+      ...input,
+      skills: input.skills.map((id) => ({ id })),
+    };
+
+    return this.userRepository.save(formattedInput);
   }
 }

@@ -21,21 +21,13 @@ import ReactMarkdown from "react-markdown";
 import { useAuthContext } from "../../providers/useAuthContext";
 import { useModal } from "../../hooks/useModal";
 import { LoginModal } from "../../components/login-modal";
-import { MemberState } from "../../generated/types";
 import { Template } from "../../components/template/app/template";
 import { Tag } from "../../components/tag";
 
 export default function ShowRoom() {
   const {
-    onJoin,
-    onLeave,
     onApply,
-    iCanApply,
     iCanEdit,
-    iCanJoin,
-    iCanLeave,
-    iAmApplying,
-    isLimitOfRecruit,
     slug,
   //   room,
     dialogState,
@@ -55,17 +47,23 @@ export default function ShowRoom() {
       <Template className="p-10">
         <div className="flex flex-row space-x-10">
           <Card className="flex-1 p-8">
-
             <div className="flex justify-between">
               <div className="flex-1">
                 <CategorySet
-                  categories={convertToCategoryArray([{id: 1, name: "Android"}])}
+                  categories={convertToCategoryArray([
+                    { id: 1, name: "Android" },
+                  ])}
                   className="mb-4"
                 />
 
                 <div className="flex items-center space-x-3">
                   <div>
-                    <Avatar src={"http://flat-icon-design.com/f/f_object_88/s512_f_object_88_0bg.png"} size="large" />
+                    <Avatar
+                      src={
+                        "http://flat-icon-design.com/f/f_object_88/s512_f_object_88_0bg.png"
+                      }
+                      size="large"
+                    />
                   </div>
                   <Heading as="h1Big">{"Splatoon"}</Heading>
                 </div>
@@ -75,11 +73,12 @@ export default function ShowRoom() {
             <hr className="my-4" />
 
             <div className="flex items-center space-x-8">
-
               <span className="flex items-center space-x-3">
                 <p className="font-bold">オーナー</p>
                 <AvatarWithName
-                  src={"http://flat-icon-design.com/f/f_object_88/s512_f_object_88_0bg.jpg"}
+                  src={
+                    "http://flat-icon-design.com/f/f_object_88/s512_f_object_88_0bg.jpg"
+                  }
                   userId={"123456"}
                   name={"Splatoon"}
                   size="small"
@@ -101,7 +100,9 @@ export default function ShowRoom() {
 
           <div className="flex flex-col w-1/3 space-y-10">
             <Card className="p-8 text-center">
-              <p>オーナーから承認されたらメッセージでやりとりすることができます</p>
+              <p>
+                オーナーから承認されたらメッセージでやりとりすることができます
+              </p>
               <Button className="px-12 mt-5 shadow-lg ">申請する</Button>
             </Card>
 
@@ -126,8 +127,12 @@ export default function ShowRoom() {
 
             <Card className="p-8">
               <Heading as="h3">使用するスキル</Heading>
-              <LanguagePochiSet 
-                languages={convertToSkillPochiSetArray([{ id: 1, name: "typescript" }, { id: 2, name: "nestjs" }, { id: 3, name: "go"}])}
+              <LanguagePochiSet
+                languages={convertToSkillPochiSetArray([
+                  { id: 1, name: "typescript" },
+                  { id: 2, name: "nestjs" },
+                  { id: 3, name: "go" },
+                ])}
               />
             </Card>
           </div>

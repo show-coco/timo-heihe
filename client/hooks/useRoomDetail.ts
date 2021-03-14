@@ -1,12 +1,6 @@
 import { useRouter } from "next/router";
 import React, { useMemo, useState } from "react";
-import {
-  MemberState,
-  useApplyRoomMutation,
-  useJoinRoomMutation,
-  useLeaveRoomMutation,
-  useRoomQuery,
-} from "../generated/types";
+import { useApplyRoomMutation, useRoomQuery } from "../generated/types";
 import { useAuthContext } from "../providers/useAuthContext";
 
 export const useTeamDetail = () => {
@@ -23,45 +17,7 @@ export const useTeamDetail = () => {
     },
   });
 
-  const [joinTeam] = useJoinRoomMutation();
-
-  const [leaveTeam] = useLeaveRoomMutation();
-
   const [applyTeam] = useApplyRoomMutation();
-
-  const onJoin = async (
-    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ) => {
-    event.preventDefault();
-    try {
-      await joinTeam({
-        variables: {
-          userId,
-          roomId: data?.room.id || 0, // TODO
-        },
-      });
-    } catch (e) {
-      console.error(e);
-    }
-    setJoinRoomDialogIsOpened(false);
-  };
-
-  const onLeave = async (
-    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ) => {
-    event.preventDefault();
-    try {
-      await leaveTeam({
-        variables: {
-          userId,
-          roomId: data?.room.id || 0, //TODO
-        },
-      });
-    } catch (e) {
-      console.error(e);
-    }
-    setLeaveRoomDialogIsOpened(false);
-  };
 
   const onApply = async (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
@@ -124,70 +80,17 @@ export const useTeamDetail = () => {
 
   const room = data?.room;
 
-  // HACK
-  const isLimitOfRecruit = useMemo(() => {
-    if (room && room.members) {
-      // TODO: 人数計算の処理をサーバでやる
-      const joiningCount = room.members.filter(
-        (member) => member.memberState === MemberState.Joining
-      ).length;
-      return joiningCount >= room.recruitNumbers;
-    }
-  }, [room]);
-
   const iAmOwner = useMemo(() => {
     return userId === room?.owner.id;
   }, [room?.owner.id, userId]);
-
-  const iAmJoining = useMemo(() => {
-    return room?.members?.find(
-      (member) =>
-        member.id === userId && member.memberState === MemberState.Joining
-    );
-  }, [room?.members, userId]);
-
-  const iAmApplying = useMemo(() => {
-    return room?.members?.find(
-      (member) =>
-        member.id === userId && member.memberState === MemberState.Pending
-    );
-  }, [room?.members, userId]);
-
-  const iAmIn = useMemo(() => {
-    return room?.members?.find((member) => member.id === userId);
-  }, [room?.members, userId]);
-
-  const iCanJoin = useMemo(() => {
-    if (room && room.members) {
-      return !iAmIn && !room.isRequired && !isLimitOfRecruit;
-    }
-  }, [iAmIn, isLimitOfRecruit, room]);
-
-  const iCanApply = useMemo(() => {
-    if (room && room.members) {
-      return !iAmIn && room.isRequired && !isLimitOfRecruit;
-    }
-  }, [iAmIn, isLimitOfRecruit, room]);
 
   const iCanEdit = useMemo(() => {
     return iAmOwner;
   }, [iAmOwner]);
 
-  const iCanLeave = useMemo(() => {
-    return !iAmOwner && iAmJoining;
-  }, [iAmJoining, iAmOwner]);
-
   return {
-    onJoin,
-    onLeave,
     onApply,
-    iCanJoin,
-    iCanApply,
     iCanEdit,
-    iCanLeave,
-    iAmJoining,
-    iAmApplying,
-    isLimitOfRecruit,
     room: data?.room,
     slug,
     loading,

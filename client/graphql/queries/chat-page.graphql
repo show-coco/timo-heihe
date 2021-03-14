@@ -1,8 +1,0 @@
-query ChatPage($userId: String!) {
-  user(userId: $userId) {
-    rooms {
-      ...RoomItem
-      ...ChannelList
-    }
-  }
-}

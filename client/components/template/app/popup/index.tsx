@@ -14,7 +14,7 @@ export const PopUp: React.FC<Props> = ({ userId, name, logout }: Props) => {
         <Link href="/user/[id]" as={`/user/${userId}`}>
           <div className={`${linkStye}  rounded-t-xl`}>
             <div className="font-bold">{name}</div>
-            <div>@{userId}</div>
+            <div className="overflow-hidden pr-1">@{userId}</div>
           </div>
         </Link>
       </div>

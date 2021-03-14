@@ -2,9 +2,6 @@ subscription Thread($channelId: Int!) {
   threadAdded(channelId: $channelId) {
     id
     text
-    channel {
-      id
-    }
     user {
       id
       name
