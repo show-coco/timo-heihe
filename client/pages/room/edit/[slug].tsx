@@ -5,7 +5,6 @@ import { Card } from "../../../components/card/card";
 import { Checkbox } from "../../../components/checkbox/checkbox";
 import { FileInput } from "../../../components/file-input/file-inpute";
 import { Heading } from "../../../components/heading/heading";
-import { NumberInput } from "../../../components/number-input/number-input";
 import { Radio } from "../../../components/radio/radio";
 import { TextInput } from "../../../components/text-input/text-input";
 import GithubIcon from "../../../assets/icons/github.svg";
@@ -30,11 +29,11 @@ export default function EditRoom() {
     skills,
     categories,
     roomTypes,
-    data,
+    ownerId,
     onSubmit,
   } = useEditTeam();
 
-  useAuthGuard({ ownerId: data?.room.owner.id });
+  useAuthGuard({ ownerId });
 
   console.log(formState);
 
@@ -171,18 +170,18 @@ export default function EditRoom() {
 
               <div className="flex space-x-8">
                 <Radio
-                  checked={formState.isRequired === "1"}
+                  checked={formState.withApplication === "1"}
                   text="なし"
                   name="apply"
                   value="1"
-                  onChange={(e) => setter.setIsRequired(e.target.value)}
+                  onChange={(e) => setter.setWithApplication(e.target.value)}
                 />
                 <Radio
-                  checked={formState.isRequired === "2"}
+                  checked={formState.withApplication === "2"}
                   text="あり"
                   name="apply"
                   value="2"
-                  onChange={(e) => setter.setIsRequired(e.target.value)}
+                  onChange={(e) => setter.setWithApplication(e.target.value)}
                 />
               </div>
             </div>
