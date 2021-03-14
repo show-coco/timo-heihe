@@ -11,27 +11,6 @@ query EditUserPage($userId: String!) {
       id
       name
     }
-    rooms {
-      id
-      title
-      description
-      createdAt
-      recruitNumbers
-      skills {
-        id
-        name
-      }
-      owner {
-        id
-        name
-        avatar
-        userId
-      }
-      members {
-        id
-        userId
-      }
-    }
   }
   skills {
     id

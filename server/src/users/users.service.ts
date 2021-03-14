@@ -53,11 +53,6 @@ export class UsersService {
     const res = await this.userRepository
       .createQueryBuilder('user')
       .leftJoinAndSelect('user.skills', 'userSkills')
-      .leftJoinAndSelect('user.rooms', 'rooms')
-      .leftJoinAndSelect('rooms.room', 'room')
-      .leftJoinAndSelect('room.members', 'members', 'members.roomId = room.id')
-      .leftJoinAndSelect('room.owner', 'owner')
-      .leftJoinAndSelect('room.skills', 'roomSkills')
       .where({ userId })
       .getOne();
 
@@ -70,10 +65,6 @@ export class UsersService {
     const res = await this.userRepository
       .createQueryBuilder('user')
       .leftJoinAndSelect('user.skills', 'skills')
-      .leftJoinAndSelect('user.rooms', 'rooms')
-      .leftJoinAndSelect('rooms.room', 'room')
-      .leftJoinAndSelect('room.owner', 'owner')
-      .leftJoinAndSelect('room.skills', 'roomSkills')
       .getMany();
 
     console.log('response on user->service->findAll', res);
