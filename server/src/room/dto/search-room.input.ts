@@ -13,4 +13,7 @@ export class SearchRoomInput {
 
   @Field(() => Int, { nullable: true })
   typeId?: number;
+
+  @Field(() => [Int], { nullable: true })
+  recruitmentLevelId?: number[];
 }

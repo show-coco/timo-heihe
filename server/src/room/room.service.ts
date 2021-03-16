@@ -74,6 +74,12 @@ export class RoomService {
       query.andWhere('types.id = :id', { id: input.typeId });
     }
 
+    if (input && input.recruitmentLevelId) {
+      query.andWhere('recruitmentLevels.id IN (:...ids)', {
+        ids: input.recruitmentLevelId,
+      });
+    }
+
     const res = await query.getMany();
 
     console.log('res on rooms->service->findAll', res);
