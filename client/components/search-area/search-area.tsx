@@ -3,8 +3,8 @@ import { TextInput } from "../text-input/text-input";
 import { Heading } from "../heading/heading";
 import { Button } from "../button";
 import { Checkbox } from "../checkbox/checkbox";
-import { NumberInput } from "../number-input/number-input";
 import { UseSearch } from "../../hooks/useSearchRooms";
+import { OperationTag } from "../tag/operation";
 
 type Props = Omit<
   UseSearch,
@@ -12,42 +12,39 @@ type Props = Omit<
 >;
 
 export const SearchArea: FC<Props> = ({
-  setName,
+  setKeyword,
   handleSubmit,
   handleChangeCategories,
   handleChangeSkills,
-  setRecruitNumbers,
-  name,
+  setLevelIds,
+  levelIds,
+  title,
   skillIds,
-  categoryAndSkillData,
-  recruitNumbers,
+  searchConditions,
 }: Props) => {
   return (
-    <div className="mt-5 pl-10 w-11/12">
-      <div className="bg-blue-550 text-center rounded-t-md">
-        <TextInput
-          onChange={(e) => setName(e.target.value)}
-          className="w-9/12 my-6"
-          placeholder="チーム名で検索する"
-          value={name}
-        />
-      </div>
-      <div className="bg-white px-8">
-        <div className="pt-6 font-bold text-lg">所属人数で絞る</div>
-        <div className="flex flex-row h-10 w-full rounded-lg relative bg-transparent mt-1">
-          <NumberInput
-            value={recruitNumbers}
-            setValue={setRecruitNumbers}
-            step={5}
+    <div className="sticky top-10">
+      <div className="flex justify-center bg-blue-550 rounded-t-md">
+        <div className="w-9/12">
+          <TextInput
+            onChange={(e) => setKeyword(e.target.value)}
+            className="my-6"
+            placeholder="キーワードで検索する"
+            value={title}
           />
         </div>
+      </div>
 
-        <div className="pt-6 font-bold text-lg">技術で絞る</div>
+      <div className="px-8 bg-white">
+        <Heading as="h3" className="pt-6">
+          技術で絞る
+        </Heading>
+
         <div>
-          {categoryAndSkillData?.skills.map((skill, i) => (
+          {searchConditions?.skills.map((skill, i) => (
             <Checkbox
               key={i}
-              className="mr-4 mt-4"
+              className="mt-4 mr-4"
               value={skill.id?.toString()}
               onChange={(e) => handleChangeSkills(e)}
               checked={skillIds.some(
@@ -59,12 +56,14 @@ export const SearchArea: FC<Props> = ({
           ))}
         </div>
 
-        <div className="pt-6 font-bold text-lg">カテゴリーで絞る</div>
+        <Heading as="h3" className="pt-6">
+          カテゴリーで絞る
+        </Heading>
         <div>
-          {categoryAndSkillData?.categories.map((category, i) => (
+          {searchConditions?.categories.map((category, i) => (
             <Checkbox
               key={i}
-              className="mr-4 mt-4"
+              className="mt-4 mr-4"
               value={category.id?.toString()}
               onChange={(e) => handleChangeCategories(e)}
             >
@@ -73,7 +72,23 @@ export const SearchArea: FC<Props> = ({
           ))}
         </div>
 
-        <div className="text-center p-8">
+        <Heading as="h3" className="pt-6 pb-4">
+          募集レベルで絞る
+        </Heading>
+        <div>
+          {searchConditions?.recruitmentLevels.map((level) => (
+            <OperationTag
+              id={level.id}
+              name={level.name}
+              selectedItemIds={levelIds}
+              isSelected={levelIds.includes(level.id)}
+              key={level.id}
+              setIsSelected={setLevelIds}
+            />
+          ))}
+        </div>
+
+        <div className="p-8 text-center">
           <Button
             onClick={handleSubmit}
             size="medium"

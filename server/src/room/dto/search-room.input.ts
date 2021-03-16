@@ -3,7 +3,7 @@ import { Field, InputType, Int } from '@nestjs/graphql';
 @InputType()
 export class SearchRoomInput {
   @Field({ nullable: true })
-  title?: string;
+  keyword?: string;
 
   @Field(() => [Int], { nullable: true })
   skillIds?: number[];
@@ -13,4 +13,7 @@ export class SearchRoomInput {
 
   @Field(() => Int, { nullable: true })
   typeId?: number;
+
+  @Field(() => [Int], { nullable: true })
+  recruitmentLevelIds?: number[];
 }
