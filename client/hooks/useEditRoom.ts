@@ -50,11 +50,13 @@ export const useEditTeam = () => {
     setImageUrl,
   } = useFileInput();
 
-  const { data, loading } = useRoomEditPageQuery({
+  const { data, loading, error } = useRoomEditPageQuery({
     variables: {
       slug: querySlug?.toString() || "",
     },
   });
+
+  if (error) console.log(error);
 
   const [updateTeam] = useEditRoomMutation();
 
