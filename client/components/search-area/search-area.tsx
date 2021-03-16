@@ -23,7 +23,7 @@ export const SearchArea: FC<Props> = ({
   searchConditions,
 }: Props) => {
   return (
-    <div className="w-11/12 pl-10 mt-5">
+    <div className="sticky flex-1 pl-10 mt-5 top-20">
       <div className="flex justify-center bg-blue-550 rounded-t-md">
         <div className="w-9/12">
           <TextInput

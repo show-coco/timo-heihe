@@ -40,15 +40,17 @@ export default function Home() {
         />
       }
     >
-      <div className="grid grid-cols-2 px-20">
-        <div className="w-11/12 mt-5 space-y-5">
+      <div className="flex px-20">
+        <div className="w-3/5 mt-5 space-y-5">
           {!teams || teams.length === 0 ? (
             <p>ルームがありません</p>
           ) : (
             teams.map((team, i) => <TeamCard {...team} key={i} />)
           )}
         </div>
-        <SearchArea {...searchArea} />
+        <div>
+          <SearchArea {...searchArea} />
+        </div>
       </div>
     </Template>
   );
