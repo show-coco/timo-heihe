@@ -9,23 +9,22 @@ INSERT INTO
   skill
 VALUES
   (1, 'typescript', ''),
-  (2, 'nestjs', '');
+  (2, 'nestjs', ''),
+  (3, 'go', '');
 
 INSERT INTO
   "user" (
-    id,
     "userId",
-    name,
-    email,
-    introduction,
-    avatar,
+    "name",
+    "email",
+    "introduction",
+    "avatar",
     "githubId",
     "twitterId",
     "googleId"
   )
 VALUES
   (
-    1,
     'test1',
     'test1',
     'sample1@example.com',
@@ -36,7 +35,6 @@ VALUES
     '100453910579362727901'
   ),
   (
-    2,
     'test2',
     'test2',
     'sample2@example.com',
@@ -57,17 +55,17 @@ VALUES
 
 INSERT INTO
   room (
-    id,
-    name,
-    title,
-    slug,
-    icon,
-    description,
+    "id",
+    "name",
+    "title",
+    "slug",
+    "icon",
+    "description",
     "repositoryUrl",
-    "recruitNumbers",
-    "isRequired",
-    recruiting,
-    "ownerId"
+    "withApplication",
+    "recruiting",
+    "ownerId",
+    "invidationUrl"
   )
 VALUES
   (
@@ -87,10 +85,10 @@ Web開発やってます
 ### あ(H3)
 こんにちは',
     '',
-    12,
+    false,
     true,
-    true,
-    1
+    1,
+    'https://join.slack.com/t/timo-heihe/shared_invite/zt-nr17990g-Sx~3aCGcdEBWJziwYEN77w'
   ),
   (
     2,
@@ -109,10 +107,10 @@ Androiddddd
 ### あ
 こんにちは',
     '',
-    3,
     true,
     true,
-    2
+    2,
+    null
   ),
   (
     3,
@@ -131,10 +129,10 @@ Androiddddd
 ### あ
 こんにちは',
     '',
-    3,
     true,
     true,
-    2
+    2,
+    null
   ),
   (
     4,
@@ -153,10 +151,10 @@ Androiddddd
 ### あ
 こんにちは',
     '',
-    3,
     true,
     true,
-    2
+    2,
+    null
   ),
   (
     5,
@@ -175,10 +173,10 @@ Androiddddd
 ### あ
 こんにちは',
     '',
-    3,
     true,
     true,
-    2
+    2,
+    null
   );
 
 INSERT INTO
@@ -204,18 +202,6 @@ VALUES
   (5, 3);
 
 INSERT INTO
-  room_members_user ("memberState", "userId", "roomId")
-VALUES
-  ('joining', 1, 1),
-  ('joining', 2, 2),
-  ('joining', 1, 2),
-  ('joining', 2, 3),
-  ('joining', 2, 4),
-  ('joining', 2, 5),
-  ('joining', 1, 3),
-  ('joining', 1, 4);
-
-INSERT INTO
   room_categories_category ("roomId", "categoryId")
 VALUES
   (1, 1),
@@ -231,13 +217,23 @@ VALUES
   (2, 1);
 
 INSERT INTO
-  channel (id, name, "roomId")
+  room_applying_user ("roomId", "userId")
 VALUES
-  (1, 'general', 1),
-  (2, 'random', 1),
-  (3, 'general', 2);
+  (2, 2),
+  (4, 2);
 
 INSERT INTO
-  thread (id, text, "channelId", "userId")
+  recruitment_level ("name")
 VALUES
-  (1, 'こんにちは', 1, 1);
+  ('初級者'),
+  ('中級者'),
+  ('上級者');
+
+INSERT INTO
+  room_recruitment_levels_recruitment_level ("roomId", "recruitmentLevelId")
+VALUES
+  (1, 1),
+  (1, 2),
+  (2, 3),
+  (3, 2),
+  (4, 1);
