@@ -54,9 +54,15 @@ export class RoomService {
       .leftJoinAndSelect('room.skills', 'skills')
       .leftJoinAndSelect('room.categories', 'categories')
       .leftJoinAndSelect('room.owner', 'owner')
+      .leftJoinAndSelect('room.types', 'types')
       .leftJoinAndSelect('room.recruitmentLevels', 'recruitmentLevels');
-    if (input && input.title) {
-      query.andWhere('room.title LIKE :title', { title: `%${input.title}%` });
+    if (input && input.keyword) {
+      query.andWhere(
+        'room.title LIKE :keyword OR room.name LIKE :keyword OR room.slug LIKE :keyword',
+        {
+          keyword: `%${input.keyword}%`,
+        },
+      );
     }
 
     if (input && input.skillIds) {
@@ -71,6 +77,12 @@ export class RoomService {
 
     if (input && input.typeId) {
       query.andWhere('types.id = :id', { id: input.typeId });
+    }
+
+    if (input && input.recruitmentLevelIds) {
+      query.andWhere('recruitmentLevels.id IN (:...ids)', {
+        ids: input.recruitmentLevelIds,
+      });
     }
 
     const res = await query.getMany();

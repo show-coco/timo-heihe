@@ -21,7 +21,7 @@ export type Scalars = {
 
 export type CategoryModel = {
   __typename?: "CategoryModel";
-  id?: Maybe<Scalars["Int"]>;
+  id: Scalars["Int"];
   name: Scalars["String"];
   rooms: Array<RoomModel>;
 };
@@ -259,8 +259,9 @@ export type RoomTypeModel = {
 
 export type SearchRoomInput = {
   categoryIds?: Maybe<Array<Scalars["Int"]>>;
+  keyword?: Maybe<Scalars["String"]>;
+  recruitmentLevelIds?: Maybe<Array<Scalars["Int"]>>;
   skillIds?: Maybe<Array<Scalars["Int"]>>;
-  title?: Maybe<Scalars["String"]>;
   typeId?: Maybe<Scalars["Int"]>;
 };
 

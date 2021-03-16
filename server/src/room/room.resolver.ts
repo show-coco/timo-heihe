@@ -1,15 +1,5 @@
 import { forwardRef, Inject, UseGuards } from '@nestjs/common';
-import {
-  Args,
-  Int,
-  Mutation,
-  Parent,
-  Query,
-  ResolveField,
-  Resolver,
-} from '@nestjs/graphql';
-import { CategoryService } from '../category/category.service';
-import { SkillService } from '../skill/skill.service';
+import { Args, Int, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { UsersService } from '../users/users.service';
 import { CreateRoomInput } from './dto/create-room.input';
 import { UpdateRoomInput } from './dto/update-room.input';
@@ -26,8 +16,6 @@ export class RoomResolver {
   constructor(
     private roomService: RoomService,
     @Inject(forwardRef(() => UsersService)) private usersService: UsersService,
-    private skillService: SkillService,
-    private categoryService: CategoryService,
   ) {}
 
   @Query(() => RoomModel)
