@@ -56,8 +56,13 @@ export class RoomService {
       .leftJoinAndSelect('room.owner', 'owner')
       .leftJoinAndSelect('room.types', 'types')
       .leftJoinAndSelect('room.recruitmentLevels', 'recruitmentLevels');
-    if (input && input.title) {
-      query.andWhere('room.title LIKE :title', { title: `%${input.title}%` });
+    if (input && input.keyword) {
+      query.andWhere(
+        'room.title LIKE :keyword OR room.name LIKE :keyword OR room.slug LIKE :keyword',
+        {
+          keyword: `%${input.keyword}%`,
+        },
+      );
     }
 
     if (input && input.skillIds) {
