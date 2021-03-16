@@ -1,12 +1,17 @@
+/**
+ * ルーム一覧ページ
+ */
 import React, { useMemo } from "react";
+/* components */
+import { SearchArea } from "../components/search-area/search-area";
+import { HomeHeader } from "../components/template/app/header/home";
+import { Template } from "../components/template/app/template";
 import {
   convertToTeamCardObjFromTeams,
   TeamCard,
 } from "../components/card/team-card";
-import { SearchArea } from "../components/search-area/search-area";
+/* hooks */
 import { useSearchTeams } from "../hooks/useSearchRooms";
-import { HomeHeader } from "../components/template/app/header/home";
-import { Template } from "../components/template/app/template";
 
 export default function Home() {
   const {
