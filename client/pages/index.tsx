@@ -45,7 +45,7 @@ export default function Home() {
         />
       }
     >
-      <div className="flex px-20">
+      <div className="flex px-10">
         <div className="w-3/5 mt-5 space-y-5">
           {!teams || teams.length === 0 ? (
             <p>ルームがありません</p>
@@ -53,7 +53,7 @@ export default function Home() {
             teams.map((team, i) => <TeamCard {...team} key={i} />)
           )}
         </div>
-        <div>
+        <div className="flex-1 mt-5 ml-10">
           <SearchArea {...searchArea} />
         </div>
       </div>
