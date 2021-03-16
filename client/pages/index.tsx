@@ -28,7 +28,6 @@ export default function Home() {
 
   if (loading) return <p>Loading</p>;
   if (error) return <p>{error.message}</p>;
-  if (!teams) return <p>ルームがありません</p>;
 
   return (
     <Template
@@ -43,9 +42,11 @@ export default function Home() {
     >
       <div className="grid grid-cols-2 px-20">
         <div className="w-11/12 mt-5 space-y-5">
-          {teams.map((team, i) => (
-            <TeamCard {...team} key={i} />
-          ))}
+          {!teams || teams.length === 0 ? (
+            <p>ルームがありません</p>
+          ) : (
+            teams.map((team, i) => <TeamCard {...team} key={i} />)
+          )}
         </div>
         <SearchArea {...searchArea} />
       </div>
