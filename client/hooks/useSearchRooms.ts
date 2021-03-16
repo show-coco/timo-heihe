@@ -14,7 +14,7 @@ export type UseSearch = {
   handleChangeCategories: (e: React.FormEvent<HTMLInputElement>) => void;
   handleChangeSkills: (e: React.FormEvent<HTMLInputElement>) => void;
   setKeyword: React.Dispatch<React.SetStateAction<string>>;
-  setTypeId: React.Dispatch<React.SetStateAction<number>>;
+  setTypeId: React.Dispatch<React.SetStateAction<number | undefined>>;
   setLevelIds: React.Dispatch<React.SetStateAction<number[]>>;
   levelIds: number[];
   title: string;
@@ -23,7 +23,7 @@ export type UseSearch = {
   roomsData: RoomsQuery | undefined;
   loading: boolean;
   error: ApolloError | undefined;
-  typeId: number;
+  typeId: number | undefined;
 };
 
 export const useSearchTeams = (): UseSearch => {
@@ -33,7 +33,7 @@ export const useSearchTeams = (): UseSearch => {
   const [categoryIds, setCategoryIds] = useState<number[]>([]);
   const [skillIds, setSkillIds] = useState<number[]>(mySkillIds);
   const [levelIds, setLevelIds] = useState<number[]>([]);
-  const [typeId, setTypeId] = useState(TeamType.DEVELOPMENT);
+  const [typeId, setTypeId] = useState<number | undefined>();
   const { data: roomsData, refetch, loading, error } = useRoomsQuery({
     variables: {
       input: {
@@ -58,7 +58,7 @@ export const useSearchTeams = (): UseSearch => {
         categoryIds: categoryIds.length ? categoryIds : null,
         skillIds: skillIds.length ? skillIds : null,
         recruitmentLevelIds: levelIds.length ? levelIds : null,
-        typeId,
+        typeId: typeId || null,
       },
     });
   }, [categoryIds, keyword, levelIds, refetch, skillIds, typeId]);

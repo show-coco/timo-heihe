@@ -9,8 +9,8 @@ import { LoginModal } from "../../../login-modal";
 
 type Props = {
   teamTypes?: RoomTypesFragment[];
-  typeId: number;
-  setTypeId: React.Dispatch<React.SetStateAction<number>>;
+  typeId: number | undefined;
+  setTypeId: React.Dispatch<React.SetStateAction<number | undefined>>;
 };
 
 const LoginNotification: React.FC<{ onOpen: () => void }> = ({
@@ -61,6 +61,18 @@ export const HomeHeader: React.FC<Props> = ({
       </div>
 
       <div className="w-full px-32 space-x-3 bg-white">
+        <Button
+          roundedTop={true}
+          variant={typeId === undefined ? "underline" : "ghost"}
+          className={
+            typeId === undefined
+              ? "text-black-400  "
+              : "text-black-100 hover:text-black-400"
+          }
+          onClick={() => setTypeId(undefined)}
+        >
+          全て
+        </Button>
         {teamTypes?.map((type) => {
           const isSelected = typeId === type.id;
           return (
