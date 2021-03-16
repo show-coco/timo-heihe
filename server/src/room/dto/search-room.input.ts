@@ -15,5 +15,5 @@ export class SearchRoomInput {
   typeId?: number;
 
   @Field(() => [Int], { nullable: true })
-  recruitmentLevelId?: number[];
+  recruitmentLevelIds?: number[];
 }

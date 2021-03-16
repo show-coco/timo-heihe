@@ -4,6 +4,7 @@ import { Heading } from "../heading/heading";
 import { Button } from "../button";
 import { Checkbox } from "../checkbox/checkbox";
 import { UseSearch } from "../../hooks/useSearchRooms";
+import { OperationTag } from "../tag/operation";
 
 type Props = Omit<
   UseSearch,
@@ -11,20 +12,22 @@ type Props = Omit<
 >;
 
 export const SearchArea: FC<Props> = ({
-  setTitle,
+  setKeyword,
   handleSubmit,
   handleChangeCategories,
   handleChangeSkills,
+  setLevelIds,
+  levelIds,
   title,
   skillIds,
-  categoryAndSkillData,
+  searchConditions,
 }: Props) => {
   return (
     <div className="w-11/12 pl-10 mt-5">
       <div className="flex justify-center bg-blue-550 rounded-t-md">
         <div className="w-9/12">
           <TextInput
-            onChange={(e) => setTitle(e.target.value)}
+            onChange={(e) => setKeyword(e.target.value)}
             className="my-6"
             placeholder="キーワードで検索する"
             value={title}
@@ -38,7 +41,7 @@ export const SearchArea: FC<Props> = ({
         </Heading>
 
         <div>
-          {categoryAndSkillData?.skills.map((skill, i) => (
+          {searchConditions?.skills.map((skill, i) => (
             <Checkbox
               key={i}
               className="mt-4 mr-4"
@@ -57,7 +60,7 @@ export const SearchArea: FC<Props> = ({
           カテゴリーで絞る
         </Heading>
         <div>
-          {categoryAndSkillData?.categories.map((category, i) => (
+          {searchConditions?.categories.map((category, i) => (
             <Checkbox
               key={i}
               className="mt-4 mr-4"
@@ -66,6 +69,22 @@ export const SearchArea: FC<Props> = ({
             >
               {category.name}
             </Checkbox>
+          ))}
+        </div>
+
+        <Heading as="h3" className="pt-6 pb-4">
+          募集レベルで絞る
+        </Heading>
+        <div>
+          {searchConditions?.recruitmentLevels.map((level) => (
+            <OperationTag
+              id={level.id}
+              name={level.name}
+              selectedItemIds={levelIds}
+              isSelected={levelIds.includes(level.id)}
+              key={level.id}
+              setIsSelected={setLevelIds}
+            />
           ))}
         </div>
 

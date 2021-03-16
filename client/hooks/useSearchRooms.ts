@@ -13,10 +13,12 @@ export type UseSearch = {
   handleSubmit: () => void;
   handleChangeCategories: (e: React.FormEvent<HTMLInputElement>) => void;
   handleChangeSkills: (e: React.FormEvent<HTMLInputElement>) => void;
-  setTitle: React.Dispatch<React.SetStateAction<string>>;
+  setKeyword: React.Dispatch<React.SetStateAction<string>>;
   setTypeId: React.Dispatch<React.SetStateAction<number>>;
+  setLevelIds: React.Dispatch<React.SetStateAction<number[]>>;
+  levelIds: number[];
   title: string;
-  categoryAndSkillData?: SearchConditionsQuery;
+  searchConditions?: SearchConditionsQuery;
   skillIds: number[];
   roomsData: RoomsQuery | undefined;
   loading: boolean;
@@ -26,10 +28,11 @@ export type UseSearch = {
 
 export const useSearchTeams = (): UseSearch => {
   const { skillIds: mySkillIds } = useAuthContext();
-  const { data: categoryAndSkillData } = useSearchConditionsQuery();
-  const [title, setTitle] = useState<string>("");
+  const { data: searchConditions } = useSearchConditionsQuery();
+  const [keyword, setKeyword] = useState<string>("");
   const [categoryIds, setCategoryIds] = useState<number[]>([]);
   const [skillIds, setSkillIds] = useState<number[]>(mySkillIds);
+  const [levelIds, setLevelIds] = useState<number[]>([]);
   const [typeId, setTypeId] = useState(TeamType.DEVELOPMENT);
   const { data: roomsData, refetch, loading, error } = useRoomsQuery({
     variables: {
@@ -51,13 +54,14 @@ export const useSearchTeams = (): UseSearch => {
   const refetchRooms = useCallback(() => {
     refetch({
       input: {
-        title,
+        keyword,
         categoryIds: categoryIds.length ? categoryIds : null,
         skillIds: skillIds.length ? skillIds : null,
+        recruitmentLevelIds: levelIds.length ? levelIds : null,
         typeId,
       },
     });
-  }, [categoryIds, title, refetch, skillIds, typeId]);
+  }, [categoryIds, keyword, levelIds, refetch, skillIds, typeId]);
 
   const handleSubmit = () => {
     refetchRooms();
@@ -92,14 +96,16 @@ export const useSearchTeams = (): UseSearch => {
     handleSubmit,
     handleChangeCategories,
     handleChangeSkills,
-    setTitle,
+    setKeyword,
     setTypeId,
+    setLevelIds,
+    levelIds,
     skillIds,
     roomsData,
-    categoryAndSkillData,
+    searchConditions,
     loading,
     error,
-    title,
+    title: keyword,
     typeId,
   };
 };

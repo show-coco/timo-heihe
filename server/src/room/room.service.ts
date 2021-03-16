@@ -79,9 +79,9 @@ export class RoomService {
       query.andWhere('types.id = :id', { id: input.typeId });
     }
 
-    if (input && input.recruitmentLevelId) {
+    if (input && input.recruitmentLevelIds) {
       query.andWhere('recruitmentLevels.id IN (:...ids)', {
-        ids: input.recruitmentLevelId,
+        ids: input.recruitmentLevelIds,
       });
     }
 
