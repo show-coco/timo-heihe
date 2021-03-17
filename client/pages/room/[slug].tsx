@@ -23,7 +23,7 @@ import { useModal } from "../../hooks/useModal";
 import { LoginModal } from "../../components/login-modal";
 import { Template } from "../../components/template/app/template";
 import { Tag } from "../../components/tag";
-import { useRoomQuery } from "../../generated/types";
+import { useApplyRoomMutation, useRoomQuery } from "../../generated/types";
 
 export default function ShowRoom() {
   const {
@@ -35,13 +35,14 @@ export default function ShowRoom() {
     dialogSetter,
     // loading,
   } = useTeamDetail();
-  const { isAuthenticated } = useAuthContext();
+  const { isAuthenticated, id } = useAuthContext();
   const { isOpen, onOpen, onClose } = useModal();
   const { data, loading } = useRoomQuery({
     variables: {
       slug: "test1",
     },
   });
+  const [applyRoom] = useApplyRoomMutation();
 
   const room = data?.room;
 
@@ -114,7 +115,13 @@ export default function ShowRoom() {
                 <Button
                   className="px-12 mt-5 shadow-lg"
                   onClick={() => {
-                    // 申請処理
+                    console.log("clicked");
+                    applyRoom({
+                      variables: {
+                        userId: id,
+                        roomId: room.id || 0,
+                      },
+                    });
                   }}
                 >
                   申請する
