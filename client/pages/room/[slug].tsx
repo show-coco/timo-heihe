@@ -24,6 +24,7 @@ import { LoginModal } from "../../components/login-modal";
 import { Template } from "../../components/template/app/template";
 import { Tag } from "../../components/tag";
 import { useApplyRoomMutation, useRoomQuery } from "../../generated/types";
+import { useRouter } from "next/router";
 
 export default function ShowRoom() {
   const {
@@ -37,9 +38,10 @@ export default function ShowRoom() {
   } = useTeamDetail();
   const { isAuthenticated, id } = useAuthContext();
   const { isOpen, onOpen, onClose } = useModal();
+  const router = useRouter();
   const { data, loading } = useRoomQuery({
     variables: {
-      slug: "test1",
+      slug: router.query.slug?.toString() || "",
     },
   });
   const [applyRoom] = useApplyRoomMutation();
