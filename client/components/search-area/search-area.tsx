@@ -3,9 +3,14 @@ import { TextInput } from "../text-input/text-input";
 import { Heading } from "../heading/heading";
 import { Button } from "../button";
 import { Checkbox } from "../checkbox/checkbox";
-import { UseSearch } from "../../hooks/useSearchRooms";
+import {
+  UseSearch,
+  WITH_APPLICATION,
+  WITH_NO_APPLICATION,
+} from "../../hooks/useSearchRooms";
 import { OperationTag } from "../tag/operation";
 import { SkillTranslation } from "../skill/translation";
+import { Radio } from "../radio/radio";
 
 type Props = Omit<
   UseSearch,
@@ -18,6 +23,8 @@ export const SearchArea: FC<Props> = ({
   handleChangeCategories,
   handleChangeSkills,
   setLevelIds,
+  setWithApplication,
+  withApplication,
   levelIds,
   title,
   skillIds,
@@ -87,6 +94,26 @@ export const SearchArea: FC<Props> = ({
               setIsSelected={setLevelIds}
             />
           ))}
+        </div>
+
+        <Heading as="h3" className="pt-6 pb-4">
+          申請の有無
+        </Heading>
+        <div className="flex space-x-8">
+          <Radio
+            checked={withApplication === WITH_NO_APPLICATION}
+            text="なし"
+            name="apply"
+            value={WITH_NO_APPLICATION.toString()}
+            onChange={(e) => setWithApplication(Number(e.target.value))}
+          />
+          <Radio
+            checked={withApplication === WITH_APPLICATION}
+            text="あり"
+            name="apply"
+            value={WITH_APPLICATION.toString()}
+            onChange={(e) => setWithApplication(Number(e.target.value))}
+          />
         </div>
 
         <div className="p-8 text-center">
