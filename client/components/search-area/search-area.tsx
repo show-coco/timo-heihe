@@ -2,15 +2,14 @@ import React, { FC } from "react";
 import { TextInput } from "../text-input/text-input";
 import { Heading } from "../heading/heading";
 import { Button } from "../button";
-import { Checkbox } from "../checkbox/checkbox";
 import {
   UseSearch,
   WITH_APPLICATION,
   WITH_NO_APPLICATION,
 } from "../../hooks/useSearchRooms";
 import { OperationTag } from "../tag/operation";
-import { SkillTranslation } from "../skill/translation";
 import { Radio } from "../radio/radio";
+import { CheckBoxOperaitons } from "../checkbox/operations";
 
 type Props = Omit<
   UseSearch,
@@ -20,13 +19,14 @@ type Props = Omit<
 export const SearchArea: FC<Props> = ({
   setKeyword,
   handleSubmit,
-  handleChangeCategories,
-  handleChangeSkills,
+  setCategoryIds,
+  setSkillIds,
   setLevelIds,
   setWithApplication,
   withApplication,
   levelIds,
-  title,
+  categoryIds,
+  keyword,
   skillIds,
   searchConditions,
 }: Props) => {
@@ -38,7 +38,7 @@ export const SearchArea: FC<Props> = ({
             onChange={(e) => setKeyword(e.target.value)}
             className="my-6"
             placeholder="キーワードで検索する"
-            value={title}
+            value={keyword}
           />
         </div>
       </div>
@@ -49,36 +49,24 @@ export const SearchArea: FC<Props> = ({
         </Heading>
 
         <div>
-          {searchConditions?.skills.map((skill, i) => (
-            <Checkbox
-              key={i}
-              className="mt-4 mr-4"
-              value={skill.id?.toString()}
-              onChange={(e) => handleChangeSkills(e)}
-              checked={skillIds.some(
-                (selectedSkillId) => selectedSkillId === skill.id
-              )}
-            >
-              <SkillTranslation>{skill.name}</SkillTranslation>
-            </Checkbox>
-          ))}
+          <CheckBoxOperaitons
+            setSelectedItems={setSkillIds}
+            selectedItemIds={skillIds}
+            items={searchConditions?.skills || []}
+            className="mt-4 mr-4"
+            isSkill={true}
+          />
         </div>
 
         <Heading as="h3" className="pt-6">
           カテゴリーで絞る
         </Heading>
-        <div>
-          {searchConditions?.categories.map((category, i) => (
-            <Checkbox
-              key={i}
-              className="mt-4 mr-4"
-              value={category.id?.toString()}
-              onChange={(e) => handleChangeCategories(e)}
-            >
-              {category.name}
-            </Checkbox>
-          ))}
-        </div>
+        <CheckBoxOperaitons
+          setSelectedItems={setCategoryIds}
+          selectedItemIds={categoryIds}
+          items={searchConditions?.categories || []}
+          className="mt-4 mr-4"
+        />
 
         <Heading as="h3" className="pt-6 pb-4">
           募集レベルで絞る
