@@ -16,4 +16,7 @@ export class SearchRoomInput {
 
   @Field(() => [Int], { nullable: true })
   recruitmentLevelIds?: number[];
+
+  @Field(() => Boolean, { nullable: true })
+  withApplication?: boolean;
 }

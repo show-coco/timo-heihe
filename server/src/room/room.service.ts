@@ -55,7 +55,11 @@ export class RoomService {
       .leftJoinAndSelect('room.categories', 'categories')
       .leftJoinAndSelect('room.owner', 'owner')
       .leftJoinAndSelect('room.types', 'types')
-      .leftJoinAndSelect('room.recruitmentLevels', 'recruitmentLevels');
+      .leftJoinAndSelect('room.recruitmentLevels', 'recruitmentLevels')
+      .where('room.withApplication = :withApplication', {
+        withApplication: input.withApplication,
+      });
+
     if (input && input.keyword) {
       query.andWhere(
         'room.title LIKE :keyword OR room.name LIKE :keyword OR room.slug LIKE :keyword',
