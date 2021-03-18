@@ -5,6 +5,7 @@ import { Button } from "../button";
 import { Checkbox } from "../checkbox/checkbox";
 import { UseSearch } from "../../hooks/useSearchRooms";
 import { OperationTag } from "../tag/operation";
+import { SkillTranslation } from "../skill/translation";
 
 type Props = Omit<
   UseSearch,
@@ -51,7 +52,7 @@ export const SearchArea: FC<Props> = ({
                 (selectedSkillId) => selectedSkillId === skill.id
               )}
             >
-              {skill.name}
+              <SkillTranslation>{skill.name}</SkillTranslation>
             </Checkbox>
           ))}
         </div>
