@@ -14,7 +14,7 @@ import {
   convertToACData,
   convertToSkillPochiSetArray,
 } from "../../create-room";
-import { EditableLanguagePochiSet } from "../../../components/language/editable-language-pochi-set";
+import { EditableSkillPochiSet } from "../../../components/skill/editable-skill-pochi-set";
 import { TextArea } from "../../../components/text-area";
 import { useAuthGuard } from "../../../hooks/useAuthGurad";
 import { Template } from "../../../components/template/app/template";
@@ -243,10 +243,8 @@ export default function EditRoom() {
                 selectedData={formState.selectedSkills}
               />
               <div>
-                <EditableLanguagePochiSet
-                  languages={convertToSkillPochiSetArray(
-                    formState.selectedSkills
-                  )}
+                <EditableSkillPochiSet
+                  skills={convertToSkillPochiSetArray(formState.selectedSkills)}
                   setSelected={setter.setSkills}
                   selectedData={formState.selectedSkills}
                 />

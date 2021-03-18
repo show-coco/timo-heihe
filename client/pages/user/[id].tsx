@@ -12,8 +12,8 @@ import TwitterIcon from "../../assets/icons/twitter.svg";
 import GithubIcon from "../../assets/icons/github.svg";
 import {
   convertToSkillPochiSetArray,
-  LanguagePochiSet,
-} from "../../components/language/language-pochi-set";
+  SkillPochiSet,
+} from "../../components/skill/skill-pochi-set";
 import { Button } from "../../components/button";
 import { useAuthContext } from "../../providers/useAuthContext";
 import Link from "next/link";
@@ -90,8 +90,8 @@ export default function UserDetail() {
           <Heading as="h2">スキル</Heading>
 
           {data?.user.skills.length ? (
-            <LanguagePochiSet
-              languages={convertToSkillPochiSetArray(data?.user.skills)}
+            <SkillPochiSet
+              skills={convertToSkillPochiSetArray(data?.user.skills)}
             />
           ) : (
             <p>スキルを登録してください</p>

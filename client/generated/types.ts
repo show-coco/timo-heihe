@@ -263,6 +263,7 @@ export type SearchRoomInput = {
   recruitmentLevelIds?: Maybe<Array<Scalars["Int"]>>;
   skillIds?: Maybe<Array<Scalars["Int"]>>;
   typeId?: Maybe<Scalars["Int"]>;
+  withApplication?: Maybe<Scalars["Boolean"]>;
 };
 
 export type SkillModel = {

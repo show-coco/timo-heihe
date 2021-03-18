@@ -48,7 +48,7 @@ export default function Home() {
       <div className="flex px-10">
         <div className="w-3/5 mt-5 space-y-5">
           {!teams || teams.length === 0 ? (
-            <p>ルームがありません</p>
+            <p className="text-lg font-bold text-center">ルームがありません</p>
           ) : (
             teams.map((team, i) => <TeamCard {...team} key={i} />)
           )}

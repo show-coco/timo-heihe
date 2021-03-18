@@ -1,21 +1,21 @@
 import { Meta } from "@storybook/react";
 import React from "react";
-import { LanguagePochi } from "./language-pochi";
-import { LanguagePochiSet } from "./language-pochi-set";
+import { SkillPochi } from "./skill-pochi";
+import { SkillPochiSet } from "./skill-pochi-set";
 
 export default {
   title: "LanguagePochi",
 } as Meta;
 
 export const languagePochi = () => {
-  return <LanguagePochi language="go" />;
+  return <SkillPochi skill="go" />;
 };
 
 export const languagePochiSet = () => {
   return (
     <div className="w-1/2">
-      <LanguagePochiSet
-        languages={[
+      <SkillPochiSet
+        skills={[
           "go",
           "typescript",
           "go",

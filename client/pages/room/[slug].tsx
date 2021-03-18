@@ -9,8 +9,8 @@ import { Heading } from "../../components/heading/heading";
 import PeopleIcon from "../../assets/icons/people.svg";
 import {
   convertToSkillPochiSetArray,
-  LanguagePochiSet,
-} from "../../components/language/language-pochi-set";
+  SkillPochiSet,
+} from "../../components/skill/skill-pochi-set";
 import { Button } from "../../components/button";
 import Link from "next/link";
 import { AvatarWithName } from "../../components/avatar/avatar-with-name";
@@ -128,8 +128,8 @@ export default function ShowRoom() {
 
             <Card className="p-8">
               <Heading as="h3">使用するスキル</Heading>
-              <LanguagePochiSet
-                languages={convertToSkillPochiSetArray([
+              <SkillPochiSet
+                skills={convertToSkillPochiSetArray([
                   { id: 1, name: "typescript" },
                   { id: 2, name: "nestjs" },
                   { id: 3, name: "go" },
