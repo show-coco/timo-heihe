@@ -14,7 +14,7 @@ const skills = {
 };
 
 /**
- *
+ * 小文字でDBに保存されているスキルの名前を、表示する形式に変換する
  */
 export const SkillTranslation: React.FC<Props> = ({ children }: Props) => {
   if (
