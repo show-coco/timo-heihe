@@ -13,7 +13,7 @@ import {
 } from "../../create-room";
 import { AutoComplate } from "../../../components/auto-complate/auto-complate";
 import { Button } from "../../../components/button";
-import { EditableLanguagePochiSet } from "../../../components/language/editable-language-pochi-set";
+import { EditableSkillPochiSet } from "../../../components/skill/editable-skill-pochi-set";
 import { useAuthGuard } from "../../../hooks/useAuthGurad";
 import { Template } from "../../../components/template/app/template";
 
@@ -95,8 +95,8 @@ export default function EditUser() {
               setSelected={setter.setSkills}
               selectedData={formState.selectedSkills}
             />
-            <EditableLanguagePochiSet
-              languages={convertToSkillPochiSetArray(formState.selectedSkills)}
+            <EditableSkillPochiSet
+              skills={convertToSkillPochiSetArray(formState.selectedSkills)}
               setSelected={setter.setSkills}
               selectedData={formState.selectedSkills}
             />
