@@ -7,7 +7,7 @@ import {
   useUpdateUserMutation,
 } from "../generated/types";
 import { useAuthContext } from "../providers/useAuthContext";
-import { convertToSkillsObj } from "./useCreateRoom";
+import { convertToSkillsIds } from "./useCreateRoom";
 import { convertToACSelectedData } from "./useEditRoom";
 import { useFileInput } from "./useFileInput";
 
@@ -56,7 +56,7 @@ export const useEditUser = () => {
     githubId,
     twitterId,
     avatar: imageUrl,
-    skills: convertToSkillsObj(selectedSkills),
+    skills: convertToSkillsIds(selectedSkills),
   });
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
