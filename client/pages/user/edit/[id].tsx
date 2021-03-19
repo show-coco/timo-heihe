@@ -16,6 +16,8 @@ import { Button } from "../../../components/button";
 import { EditableSkillPochiSet } from "../../../components/skill/editable-skill-pochi-set";
 import { useAuthGuard } from "../../../hooks/useAuthGurad";
 import { Template } from "../../../components/template/app/template";
+import ReactMarkdown from "react-markdown";
+import { TextArea } from "../../../components/text-area";
 
 export default function EditUser() {
   const { formState, file, setter, skills, onSubmit } = useEditUser();
@@ -57,12 +59,13 @@ export default function EditUser() {
 
           <div>
             <Heading as="h2">自己紹介</Heading>
-            <TextInput
-              className="w-2/3"
-              value={formState.introduction}
-              placeholder="自己紹介文を設定してください"
-              onChange={(e) => setter.setIntroduction(e.target.value)}
-            />
+            <div className="h-96">
+              <TextArea
+                value={formState.introduction}
+                placeholder="自己紹介文を設定してください"
+                onChange={(e) => setter.setIntroduction(e.target.value)}
+              />
+            </div>
           </div>
 
           <div className="space-y-3">
