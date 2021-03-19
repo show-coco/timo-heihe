@@ -36,6 +36,7 @@ module.exports = {
         purple: {
           100: "#483586",
           150: "#F4E2FF",
+          400: "#D484FF",
         },
         pink: {
           100: "#E3BABA",

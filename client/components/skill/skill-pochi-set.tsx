@@ -19,7 +19,7 @@ export const SkillPochiSet: React.FC<SkillPochiSetProps> = ({
   className,
 }: SkillPochiSetProps) => {
   return (
-    <div className={`flex flex-wrap ${className}`}>
+    <div className={`flex flex-col ${className}`}>
       {skills.map((lang, i) => (
         <SkillPochi skill={lang} key={i} className={`mr-4 mt-2`} />
       ))}
