@@ -68,44 +68,63 @@ export default function CreateRoom() {
                 />
               </div>
             </div>
+            <div className="w-7/12">
+              <div className="flex">
+                <div className={`w-1/4 ${betweenH2}`}>
+                  <span className="flex">
+                    <Heading as="h2">ルームID</Heading>
+                    <span className="text-red-500">*</span>
+                  </span>
 
-            <div className={betweenH2}>
-              <span className="flex">
-                <Heading as="h2">ルームID</Heading>
-                <span className="text-red-500">*</span>
-              </span>
+                  <TextInput
+                    placeholder="ルームIDを入力"
+                    onChange={(e) => setSlug(e.target.value)}
+                  />
+                </div>
 
-              <TextInput
-                placeholder="ルームIDを入力"
-                onChange={(e) => setSlug(e.target.value)}
-              />
+                <div className={`w-full ml-8 ${betweenH2}`}>
+                  <span className="flex">
+                    <Heading as="h2">ルーム名</Heading>
+                    <span className="text-red-500">*</span>
+                  </span>
+
+                  <TextInput
+                    placeholder="ルーム名を入力"
+                    onChange={(e) => setName(e.target.value)}
+                  />
+                </div>
+              </div>
+              <div className={`w-full mt-10 ${betweenH2}`}>
+                <span className="flex">
+                  <Heading as="h2">募集タイトル</Heading>
+                  <span className="text-red-500">*</span>
+                </span>
+
+                <TextInput
+                  placeholder="メンバー募集タイトル"
+                  className="w-2/3"
+                  onChange={(e) => setTitle(e.target.value)}
+                />
+              </div>
             </div>
+            <div className={`flex flex-col flex-wrap w-2/3`}>
+              <Heading as="h2">カテゴリー</Heading>
 
-            <div className={betweenH2}>
-              <span className="flex">
-                <Heading as="h2">ルーム名</Heading>
-                <span className="text-red-500">*</span>
-              </span>
-
-              <TextInput
-                placeholder="ルーム名を入力"
-                onChange={(e) => setName(e.target.value)}
-              />
+              <div>
+                {data?.categories.map((category, i) => (
+                  <Checkbox
+                    key={i}
+                    className="mt-4 mr-4"
+                    value={category.id?.toString()}
+                    onChange={(e) =>
+                      onChangeCategories(e, Number(e.currentTarget.value))
+                    }
+                  >
+                    {category.name}
+                  </Checkbox>
+                ))}
+              </div>
             </div>
-
-            <div className={betweenH2}>
-              <span className="flex">
-                <Heading as="h2">メンバー募集タイトル</Heading>
-                <span className="text-red-500">*</span>
-              </span>
-
-              <TextInput
-                placeholder="メンバー募集タイトル"
-                className="w-2/3"
-                onChange={(e) => setTitle(e.target.value)}
-              />
-            </div>
-
             <div className={betweenH2}>
               <span className="flex">
                 <Heading as="h2">ルームについて</Heading>
@@ -120,7 +139,7 @@ export default function CreateRoom() {
                 />
               </div>
             </div>
-
+            {/* 
             <div className={betweenH2}>
               <span className="flex">
                 <Heading as="h2">募集人数</Heading>
@@ -172,35 +191,16 @@ export default function CreateRoom() {
                   onChange={(e) => setIsRequired(e.target.value)}
                 />
               </div>
-            </div>
-
-            <div className={`flex flex-col flex-wrap w-2/3`}>
-              <Heading as="h2">カテゴリー</Heading>
-
-              <div>
-                {data?.categories.map((category, i) => (
-                  <Checkbox
-                    key={i}
-                    className="mt-4 mr-4"
-                    value={category.id?.toString()}
-                    onChange={(e) =>
-                      onChangeCategories(e, Number(e.currentTarget.value))
-                    }
-                  >
-                    {category.name}
-                  </Checkbox>
-                ))}
-              </div>
-            </div>
-
+            </div> */}
+            {/* 
             <div className={betweenH2}>
               <Heading as="h2">使用するスキル</Heading>
 
-              {/* <TextInput
+              <TextInput
                 placeholder="検索する"
                 name="skills"
                 onChange={(e) => setSkills(e.target.value)}
-              /> */}
+              />
               <AutoComplate
                 data={convertToACData(skills)}
                 placeholder="スキルを検索"
@@ -224,7 +224,7 @@ export default function CreateRoom() {
                   onChange={(e) => setRespositoryUrl(e.target.value)}
                 />
               </div>
-            </div>
+            </div> */}
 
             <Button type="submit">作成する</Button>
           </div>
