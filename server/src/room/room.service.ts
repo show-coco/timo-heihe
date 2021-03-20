@@ -56,6 +56,7 @@ export class RoomService {
       .leftJoinAndSelect('room.owner', 'owner')
       .leftJoinAndSelect('room.types', 'types')
       .leftJoinAndSelect('room.recruitmentLevels', 'recruitmentLevels')
+      .leftJoinAndSelect('room.applyingUsers', 'applyingUsers')
       .where('room.withApplication = :withApplication', {
         withApplication: input.withApplication,
       });
@@ -98,8 +99,7 @@ export class RoomService {
   async findAllByUserId(userId: number, input: MyRoomsInput) {
     const query = this.roomRepository
       .createQueryBuilder('room')
-      .leftJoinAndSelect('room.members', 'members', 'members.roomId = room.id')
-      .leftJoinAndSelect('members.user', 'user', 'members.userId = user.id')
+      .leftJoinAndSelect('room.applyingUsers', 'applyingUsers')
       .where('user.id = :id', { id: userId });
 
     if (input.iAmOwner) {
@@ -110,7 +110,10 @@ export class RoomService {
 
     const res = await query.getMany();
 
-    console.log('response on rooms->service->findAllByUserId', res);
+    console.log(
+      'response on rooms->service->findAllByUserId',
+      res[0].applyingUsers,
+    );
 
     return res;
   }

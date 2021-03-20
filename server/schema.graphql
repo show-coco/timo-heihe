@@ -115,6 +115,7 @@ type RecruitmentLevelModel {
 }
 
 type RoomModel {
+  applyingUsers: [UserModel!]
   categories: [CategoryModel!]!
   createdAt: DateTime
   description: String!
