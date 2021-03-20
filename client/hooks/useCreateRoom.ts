@@ -2,7 +2,11 @@ import { useRouter } from "next/router";
 import React from "react";
 import { useState } from "react";
 import { ACSelectedData } from "../components/auto-complate/auto-complate";
-import { CreateRoomInput, useCreateRoomMutation } from "../generated/types";
+import {
+  CreateRoomInput,
+  useCreateRoomMutation,
+  useSearchConditionsQuery,
+} from "../generated/types";
 import { useAuthContext } from "../providers/useAuthContext";
 import { useFileInput } from "./useFileInput";
 
@@ -20,9 +24,11 @@ export const useCreateRoom = () => {
   const router = useRouter();
   const { id } = useAuthContext();
   const [createRoom, { loading }] = useCreateRoomMutation();
+  const { data: searchConditions } = useSearchConditionsQuery();
   const [title, setTitle] = useState("");
   const [name, setName] = useState("");
   const [slug, setSlug] = useState("");
+  const [levelIds, setLevelIds] = useState<number[]>([]);
   const [description, setDescription] = useState("");
   const [recruitNumber, setRecruitNumber] = useState(0);
   const [repositoryUrl, setRespositoryUrl] = useState("");
@@ -104,6 +110,7 @@ export const useCreateRoom = () => {
     onSubmit,
     onClickFileInput,
     onChangeFileInput,
+    searchConditions,
     setRecruitNumber,
     setRespositoryUrl,
     setIsRequired,
@@ -115,5 +122,7 @@ export const useCreateRoom = () => {
     fileRef,
     imageUrl,
     loading,
+    setLevelIds,
+    levelIds,
   };
 };
