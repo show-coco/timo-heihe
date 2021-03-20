@@ -14,7 +14,7 @@ export type ButtonProps = {
 };
 
 const defaultStyle =
-  "font-bold w-auto inline-flex justify-center items-center relative border-box";
+  "font-bold whitespace-nowrap inline-flex justify-center items-center relative border-box";
 
 const sizes = {
   small: "h-8 min-w-8",
