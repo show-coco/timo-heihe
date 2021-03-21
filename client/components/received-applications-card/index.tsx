@@ -9,7 +9,7 @@ type Props = ReceivedApplyingCardFragment & {
   onReject: () => void;
 };
 
-export const ReceivedApplyingCard: React.FC<Props> = (props: Props) => {
+export const ReceivedAppsCard: React.FC<Props> = (props: Props) => {
   return (
     <Card className="flex items-center justify-between px-5">
       <div className="flex items-center">

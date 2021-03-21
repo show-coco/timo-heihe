@@ -1,6 +1,6 @@
 import React from "react";
 import { Heading } from "../components/heading/heading";
-import { ReceivedApplyingCard } from "../components/received-applying-card";
+import { ReceivedAppsCard } from "../components/received-applications-card";
 import { Template } from "../components/template/app/template";
 import {
   ReceivedApplyingDocument,
@@ -46,7 +46,7 @@ export default function ReceivedApplyingPage() {
   return (
     <Template className="p-10">
       <div className="w-3/5 mx-auto">
-        <Heading as="h1Big" className="mb-8">
+        <Heading as="h1Big" className="mb-8 text-center">
           受け取った申請
         </Heading>
 
@@ -62,7 +62,7 @@ export default function ReceivedApplyingPage() {
                 </Heading>
 
                 {myRoom.applyingUsers.map((applyingUser) => (
-                  <ReceivedApplyingCard
+                  <ReceivedAppsCard
                     {...applyingUser}
                     key={applyingUser.id}
                     onReject={() =>
@@ -74,7 +74,7 @@ export default function ReceivedApplyingPage() {
             ) : null
           )
         ) : (
-          <p>受け取った申請はありません</p>
+          <p className="text-center">受け取った申請はありません</p>
         )}
       </div>
     </Template>
