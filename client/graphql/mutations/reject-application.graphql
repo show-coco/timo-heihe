@@ -1,0 +1,5 @@
+mutation RejectApplication($roomId: Int!, $userId: Int!) {
+  rejectApplication(roomId: $roomId, userId: $userId) {
+    id
+  }
+}
