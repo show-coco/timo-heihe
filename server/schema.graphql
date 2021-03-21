@@ -75,6 +75,7 @@ type Mutation {
   createSkill(createSkillInput: CreateSkillInput!): SkillModel!
   createThread(input: CreateThreadInput!): ThreadModel!
   deleteRoom(id: Int!): RoomModel!
+  rejectApplication(roomId: Int!, userId: Int!): RoomModel!
   removeCategory(id: Int!): CategoryModel!
   removeSkill(id: Int!): SkillModel!
   removeThread(id: Int!): ThreadModel!

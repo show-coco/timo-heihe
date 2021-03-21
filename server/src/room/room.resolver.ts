@@ -69,6 +69,15 @@ export class RoomResolver {
     return this.roomService.apply(userId, roomId);
   }
 
+  @Mutation(() => RoomModel)
+  @UseGuards(GqlJwtAuthGuard)
+  rejectApplication(
+    @Args('userId', { type: () => Int }) userId: number,
+    @Args('roomId', { type: () => Int }) roomId: number,
+  ) {
+    return this.roomService.rejectApplication(userId, roomId);
+  }
+
   // @ResolveField(() => UserModel)
   // owner(@Parent() room: Room) {
   //   return this.usersService.findOne(room.owner.userId);

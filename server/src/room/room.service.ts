@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateRoomInput } from './dto/create-room.input';
@@ -22,6 +22,7 @@ export class RoomService {
       .leftJoinAndSelect('room.skills', 'skills')
       .leftJoinAndSelect('room.types', 'types')
       .leftJoinAndSelect('room.recruitmentLevels', 'recruitmentLevels')
+      .leftJoinAndSelect('room.applyingUsers', 'applyingUsers')
       .where({ id: id })
       .getOne();
 
@@ -175,6 +176,30 @@ export class RoomService {
     const res = await this.findOne(roomId);
     console.log('response on rooms->service->apply', res);
     return res;
+  }
+
+  async rejectApplication(userId: number, roomId: number) {
+    const targetRoom = await this.findOne(roomId);
+
+    if (!targetRoom.applyingUsers.length) {
+      throw new BadRequestException(
+        `User ${userId}(id) has not applied to room ${targetRoom.id}(id)`,
+      );
+    }
+
+    const deleted = targetRoom.applyingUsers.filter(
+      (user) => user.id !== userId,
+    );
+
+    console.log('deleted', deleted);
+
+    const formattedInput: Room = {
+      ...targetRoom,
+      applyingUsers: deleted,
+    };
+
+    const room = await this.roomRepository.save(formattedInput);
+    return room;
   }
 
   async remove(id: number): Promise<{ affected?: number }> {
