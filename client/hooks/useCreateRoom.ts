@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import { ACSelectedData } from "../components/auto-complate/auto-complate";
 import {
@@ -28,19 +28,22 @@ export const useCreateRoom = () => {
   const [title, setTitle] = useState("");
   const [name, setName] = useState("");
   const [slug, setSlug] = useState("");
-  const [levelIds, setLevelIds] = useState<number[]>([]);
+  const [recruiementLevels, setRecruiementLevels] = useState<number[]>([]);
   const [description, setDescription] = useState("");
   const [recruitNumber, setRecruitNumber] = useState(0);
   const [repositoryUrl, setRespositoryUrl] = useState("");
+  const [invidationUrl, setInvidationUrl] = useState("");
   const [isRequired, setIsRequired] = useState("1");
   const [selectedSkills, setSkills] = useState<ACSelectedData[]>([]);
   const [categories, setCategories] = useState<number[]>([]);
+  const [isDisabled, setIsDisabled] = useState<boolean>(true);
   const {
     fileRef,
     onClick: onClickFileInput,
     onChange: onChangeFileInput,
     imageUrl,
   } = useFileInput();
+
   const [types, setTypes] = useState<number[]>([]);
 
   const getVariables = (): CreateRoomInput => ({
@@ -52,17 +55,29 @@ export const useCreateRoom = () => {
     skills: convertToSkillsIds(selectedSkills),
     description,
     repositoryUrl,
-    invidationUrl: "", // TODO
-    recruiementLevels: [], // TODO
+    invidationUrl, // TODO
+    recruiementLevels, // TODO
     withApplication: isRequired === "2",
     categories: categories,
     typeIds: types,
   });
 
-  console.log(getVariables());
-
+  useEffect(() => {
+    if (
+      title.trim() &&
+      name.trim() &&
+      slug.trim() &&
+      categories !== [] &&
+      description.trim()
+    ) {
+      setIsDisabled(false);
+    } else {
+      setIsDisabled(true);
+    }
+  }, [title, name, slug, categories, description]);
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
     try {
       const res = await createRoom({
         variables: {
@@ -114,6 +129,7 @@ export const useCreateRoom = () => {
     setRecruitNumber,
     setRespositoryUrl,
     setIsRequired,
+    isRequired,
     onChangeCategories,
     onChangeType,
     setName,
@@ -122,7 +138,9 @@ export const useCreateRoom = () => {
     fileRef,
     imageUrl,
     loading,
-    setLevelIds,
-    levelIds,
+    setRecruiementLevels,
+    recruiementLevels,
+    setInvidationUrl,
+    isDisabled,
   };
 };

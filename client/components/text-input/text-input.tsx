@@ -5,6 +5,7 @@ type TextInputProps = {
   className?: string;
   name?: string;
   value?: string;
+  required?: boolean;
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
@@ -14,6 +15,7 @@ export const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
     return (
       <input
         type="text"
+        required
         ref={ref}
         className={`border-none bg-blue-100 rounded-sm w-full ${className}`}
         {...props}

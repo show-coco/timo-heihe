@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Fragment } from "react";
 import { SkillModel, useCreateRoomPageQuery } from "../generated/types";
 import {
   ACSelectedData,
@@ -19,6 +19,7 @@ import { TextArea } from "../components/text-area";
 import { useAuthGuard } from "../hooks/useAuthGurad";
 import { Template } from "../components/template/app/template";
 import { OperationTag } from "../components/tag/operation";
+import { TextFileds } from "../components/text-input/text-fileds";
 const betweenH2 = "space-y-2";
 
 export default function CreateRoom() {
@@ -36,10 +37,12 @@ export default function CreateRoom() {
     onChangeCategories,
     setName,
     selectedSkills,
+    isRequired,
     fileRef,
     imageUrl,
-    setLevelIds,
-    levelIds,
+    setRecruiementLevels,
+    recruiementLevels,
+    isDisabled,
   } = useCreateRoom();
   const { data } = useCreateRoomPageQuery();
 
@@ -52,6 +55,7 @@ export default function CreateRoom() {
     <Template className="p-10 px-28 grid grid-cols-8 gap-8">
       <div className="col-span-5">
         {/*左側のカード */}
+
         <Card className="p-8">
           <form onSubmit={onSubmit}>
             <div className="space-y-10">
@@ -107,8 +111,10 @@ export default function CreateRoom() {
               </div>
 
               <div className={`flex flex-col flex-wrap w-2/3`}>
-                <Heading as="h2">カテゴリー</Heading>
-
+                <span className="flex">
+                  <Heading as="h2">カテゴリー</Heading>
+                  <span className="text-red-500">*</span>
+                </span>
                 <div>
                   {data?.categories.map((category, i) => (
                     <Checkbox
@@ -138,7 +144,9 @@ export default function CreateRoom() {
                   />
                 </div>
               </div>
-              <Button type="submit">作成する</Button>
+              <Button type="submit" disabled={isDisabled}>
+                作成する
+              </Button>
             </div>
           </form>
         </Card>
@@ -162,27 +170,31 @@ export default function CreateRoom() {
               onChange={(e) => setIsRequired(e.target.value)}
             />
           </div>
-          <div className={`${betweenH2} mt-10`}>
-            <Heading as="h2">招待URL</Heading>
+          {isRequired === "1" && (
+            <Fragment>
+              <div className={`${betweenH2} mt-10`}>
+                <Heading as="h2">招待URL</Heading>
 
-            <div className="flex items-center space-x-2">
-              <TextInput
-                placeholder="DiscordやSlackの招待URL"
-                onChange={(e) => setRespositoryUrl(e.target.value)}
-              />
-            </div>
-          </div>
-          <div className={`${betweenH2} mt-10`}>
-            <Heading as="h2">Githubリポジトリ</Heading>
+                <div className="flex items-center space-x-2">
+                  <TextInput
+                    placeholder="DiscordやSlackの招待URL"
+                    onChange={(e) => setRespositoryUrl(e.target.value)}
+                  />
+                </div>
+              </div>
+              <div className={`${betweenH2} mt-10`}>
+                <Heading as="h2">Githubリポジトリ</Heading>
 
-            <div className="flex items-center space-x-2">
-              <GithubIcon height="30px" />
-              <TextInput
-                placeholder="URLを入力"
-                onChange={(e) => setRespositoryUrl(e.target.value)}
-              />
-            </div>
-          </div>
+                <div className="flex items-center space-x-2">
+                  <GithubIcon height="30px" />
+                  <TextInput
+                    placeholder="URLを入力"
+                    onChange={(e) => setRespositoryUrl(e.target.value)}
+                  />
+                </div>
+              </div>
+            </Fragment>
+          )}
         </Card>
 
         {/*  募集するレベル帯 */}
@@ -195,10 +207,10 @@ export default function CreateRoom() {
               <OperationTag
                 id={level.id}
                 name={level.name}
-                selectedItemIds={levelIds}
-                isSelected={levelIds.includes(level.id)}
+                selectedItemIds={recruiementLevels}
+                setIsSelected={setRecruiementLevels}
+                isSelected={recruiementLevels.includes(level.id)}
                 key={level.id}
-                setIsSelected={setLevelIds}
               />
             ))}
           </div>
@@ -208,7 +220,7 @@ export default function CreateRoom() {
             <div className="flex items-center space-x-2">
               <TextInput
                 placeholder="フロントエンドエンジニア "
-                onChange={(e) => setRespositoryUrl(e.target.value)}
+                // onChange={(e) => setRespositoryUrl(e.target.value)}
               />
             </div>
           </div>
