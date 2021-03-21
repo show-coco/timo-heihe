@@ -5,7 +5,9 @@ import { Button } from "../button";
 import { Card } from "../card";
 import { Heading } from "../heading/heading";
 
-type Props = ReceivedApplyingCardFragment;
+type Props = ReceivedApplyingCardFragment & {
+  onReject: () => void;
+};
 
 export const ReceivedApplyingCard: React.FC<Props> = (props: Props) => {
   return (
@@ -20,7 +22,7 @@ export const ReceivedApplyingCard: React.FC<Props> = (props: Props) => {
       </div>
 
       <div className="space-x-5">
-        <Button variant="outline" colorScheme="red">
+        <Button variant="outline" colorScheme="red" onClick={props.onReject}>
           拒否
         </Button>
         <Button variant="outline" colorScheme="blue">

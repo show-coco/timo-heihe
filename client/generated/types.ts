@@ -90,6 +90,7 @@ export type Mutation = {
   createSkill: SkillModel;
   createThread: ThreadModel;
   deleteRoom: RoomModel;
+  rejectApplication: RoomModel;
   removeCategory: CategoryModel;
   removeSkill: SkillModel;
   removeThread: ThreadModel;
@@ -128,6 +129,11 @@ export type MutationCreateThreadArgs = {
 
 export type MutationDeleteRoomArgs = {
   id: Scalars["Int"];
+};
+
+export type MutationRejectApplicationArgs = {
+  roomId: Scalars["Int"];
+  userId: Scalars["Int"];
 };
 
 export type MutationRemoveCategoryArgs = {
@@ -461,6 +467,15 @@ export type EditThreadMutation = { __typename?: "Mutation" } & {
     ThreadModel,
     "id" | "text"
   >;
+};
+
+export type RejectApplicationMutationVariables = Exact<{
+  roomId: Scalars["Int"];
+  userId: Scalars["Int"];
+}>;
+
+export type RejectApplicationMutation = { __typename?: "Mutation" } & {
+  rejectApplication: { __typename?: "RoomModel" } & Pick<RoomModel, "id">;
 };
 
 export type UpdateUserMutationVariables = Exact<{
@@ -992,6 +1007,55 @@ export type EditThreadMutationResult = Apollo.MutationResult<EditThreadMutation>
 export type EditThreadMutationOptions = Apollo.BaseMutationOptions<
   EditThreadMutation,
   EditThreadMutationVariables
+>;
+export const RejectApplicationDocument = gql`
+  mutation RejectApplication($roomId: Int!, $userId: Int!) {
+    rejectApplication(roomId: $roomId, userId: $userId) {
+      id
+    }
+  }
+`;
+export type RejectApplicationMutationFn = Apollo.MutationFunction<
+  RejectApplicationMutation,
+  RejectApplicationMutationVariables
+>;
+
+/**
+ * __useRejectApplicationMutation__
+ *
+ * To run a mutation, you first call `useRejectApplicationMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useRejectApplicationMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [rejectApplicationMutation, { data, loading, error }] = useRejectApplicationMutation({
+ *   variables: {
+ *      roomId: // value for 'roomId'
+ *      userId: // value for 'userId'
+ *   },
+ * });
+ */
+export function useRejectApplicationMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    RejectApplicationMutation,
+    RejectApplicationMutationVariables
+  >
+) {
+  return Apollo.useMutation<
+    RejectApplicationMutation,
+    RejectApplicationMutationVariables
+  >(RejectApplicationDocument, baseOptions);
+}
+export type RejectApplicationMutationHookResult = ReturnType<
+  typeof useRejectApplicationMutation
+>;
+export type RejectApplicationMutationResult = Apollo.MutationResult<RejectApplicationMutation>;
+export type RejectApplicationMutationOptions = Apollo.BaseMutationOptions<
+  RejectApplicationMutation,
+  RejectApplicationMutationVariables
 >;
 export const UpdateUserDocument = gql`
   mutation UpdateUser($input: UpdateUserInput!) {
