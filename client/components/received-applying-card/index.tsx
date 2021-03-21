@@ -1,18 +1,21 @@
 import React from "react";
+import { ReceivedApplyingCardFragment } from "../../generated/types";
 import { Avatar } from "../avatar/avatar";
 import { Button } from "../button";
 import { Card } from "../card";
 import { Heading } from "../heading/heading";
 
-export const ReceivedApplyingCard: React.FC = () => {
+type Props = ReceivedApplyingCardFragment;
+
+export const ReceivedApplyingCard: React.FC<Props> = (props: Props) => {
   return (
     <Card className="flex items-center justify-between px-5">
       <div className="flex items-center">
-        <Avatar src="http://flat-icon-design.com/f/f_object_174/s256_f_object_174_0bg.png" />
+        <Avatar src={props.avatar || ""} />
 
         <div className="flex flex-col ml-3">
-          <Heading as="h3">Ropital</Heading>
-          <div>@ropital</div>
+          <Heading as="h3">{props.name}</Heading>
+          <div>@{props.userId}</div>
         </div>
       </div>
 
