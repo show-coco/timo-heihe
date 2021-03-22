@@ -37,6 +37,7 @@ export const useCreateRoom = () => {
   const [selectedSkills, setSkills] = useState<ACSelectedData[]>([]);
   const [categories, setCategories] = useState<number[]>([]);
   const [isDisabled, setIsDisabled] = useState<boolean>(true);
+  const [error, setError] = useState<boolean>(false);
   const {
     fileRef,
     onClick: onClickFileInput,
@@ -73,6 +74,11 @@ export const useCreateRoom = () => {
       setIsDisabled(false);
     } else {
       setIsDisabled(true);
+    }
+    if (slug.match(/[^a-z0-9-_]+/) && slug !== "") {
+      setError(true);
+    } else if (!slug.match(/[^a-z0-9-_]+/)) {
+      setError(false);
     }
   }, [title, name, slug, categories, description]);
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -142,5 +148,6 @@ export const useCreateRoom = () => {
     recruiementLevels,
     setInvidationUrl,
     isDisabled,
+    error,
   };
 };

@@ -19,7 +19,7 @@ import { TextArea } from "../components/text-area";
 import { useAuthGuard } from "../hooks/useAuthGurad";
 import { Template } from "../components/template/app/template";
 import { OperationTag } from "../components/tag/operation";
-import { TextFileds } from "../components/text-input/text-fileds";
+
 const betweenH2 = "space-y-2";
 
 export default function CreateRoom() {
@@ -43,13 +43,13 @@ export default function CreateRoom() {
     setRecruiementLevels,
     recruiementLevels,
     isDisabled,
+    error,
   } = useCreateRoom();
   const { data } = useCreateRoomPageQuery();
 
   useAuthGuard({});
 
   const skills = data?.skills || [];
-  console.log("selectedSkills", selectedSkills);
 
   return (
     <Template className="p-10 px-28 grid grid-cols-8 gap-8">
@@ -83,6 +83,9 @@ export default function CreateRoom() {
                     placeholder="ルームID"
                     onChange={(e) => setSlug(e.target.value)}
                   />
+                  {error && (
+                    <p className="text-red-500">入力は半角数字のみです。</p>
+                  )}
                 </div>
 
                 <div className={`w-full ml-8 ${betweenH2}`}>
@@ -259,18 +262,3 @@ export const convertToACData = (skills: Pick<SkillModel, "id" | "name">[]) => {
 export const convertToSkillPochiSetArray = (skills: ACSelectedData[]) => {
   return skills.map((skill) => skill.name);
 };
-
-// // const categoriesMock = [
-// //   "iOS",
-// //   "Android",
-// //   "Web",
-// //   "ゲーム",
-// //   "iOS",
-// //   "Android",
-// //   "Web",
-// //   "ゲーム",
-// //   "iOS",
-// //   "Android",
-// //   "Web",
-// //   "ゲーム",
-// // ];
