@@ -49,6 +49,9 @@ export class RoomModel {
   @Field(() => [RecruitmentLevelModel])
   recruitmentLevels: RecruitmentLevelModel[];
 
+  @Field(() => [UserModel], { nullable: true })
+  applyingUsers?: UserModel[];
+
   @Field(() => GraphQLISODateTime, { nullable: true })
   createdAt?: Date;
 }

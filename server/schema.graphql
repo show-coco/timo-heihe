@@ -75,6 +75,7 @@ type Mutation {
   createSkill(createSkillInput: CreateSkillInput!): SkillModel!
   createThread(input: CreateThreadInput!): ThreadModel!
   deleteRoom(id: Int!): RoomModel!
+  rejectApplication(roomId: Int!, userId: Int!): RoomModel!
   removeCategory(id: Int!): CategoryModel!
   removeSkill(id: Int!): SkillModel!
   removeThread(id: Int!): ThreadModel!
@@ -115,6 +116,7 @@ type RecruitmentLevelModel {
 }
 
 type RoomModel {
+  applyingUsers: [UserModel!]
   categories: [CategoryModel!]!
   createdAt: DateTime
   description: String!
@@ -143,6 +145,7 @@ input SearchRoomInput {
   recruitmentLevelIds: [Int!]
   skillIds: [Int!]
   typeId: Int
+  withApplication: Boolean
 }
 
 type SkillModel {

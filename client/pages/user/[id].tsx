@@ -12,12 +12,13 @@ import TwitterIcon from "../../assets/icons/twitter.svg";
 import GithubIcon from "../../assets/icons/github.svg";
 import {
   convertToSkillPochiSetArray,
-  LanguagePochiSet,
-} from "../../components/language/language-pochi-set";
+  SkillPochiSet,
+} from "../../components/skill/skill-pochi-set";
 import { Button } from "../../components/button";
 import { useAuthContext } from "../../providers/useAuthContext";
 import Link from "next/link";
 import { Template } from "../../components/template/app/template";
+import ReactMarkdown from "react-markdown";
 
 export default function UserDetail() {
   const router = useRouter();
@@ -49,8 +50,8 @@ export default function UserDetail() {
           </Link>
         </div>
       )}
-      <div className="grid grid-rows-2 gap-10 md:grid-cols-2 md:grid-rows-none">
-        <Card className="p-8 space-y-5">
+      <div className="flex space-x-10">
+        <Card className="w-2/3 p-8 space-y-5">
           <span className="flex items-center space-x-3">
             <Avatar src={data?.user.avatar || ""} size="large" />
 
@@ -62,7 +63,11 @@ export default function UserDetail() {
             </span>
           </span>
 
-          <p>{data?.user.introduction || "自己紹介文を設定してください"}</p>
+          <div className="markdown">
+            <ReactMarkdown>
+              {data?.user.introduction || "自己紹介文を設定してください"}
+            </ReactMarkdown>
+          </div>
 
           <div className="flex space-x-4">
             {data?.user.githubId && (
@@ -86,27 +91,17 @@ export default function UserDetail() {
           </div>
         </Card>
 
-        <Card className="p-8 space-y-5">
+        <Card className="w-1/3 p-8 space-y-5">
           <Heading as="h2">スキル</Heading>
 
-          {data?.user.skills.length ? (
-            <LanguagePochiSet
-              languages={convertToSkillPochiSetArray(data?.user.skills)}
+          {data?.user.skills && data?.user.skills.length ? (
+            <SkillPochiSet
+              skills={convertToSkillPochiSetArray(data?.user.skills)}
             />
           ) : (
             <p>スキルを登録してください</p>
           )}
         </Card>
-      </div>
-
-      <div className="mt-10 space-y-2">
-        <Heading as="h1Small">所属しているルーム</Heading>
-
-        <div className="space-y-5">
-          {teams.map((team) => (
-            <TeamCard {...team} key={team.id} />
-          ))}
-        </div>
       </div>
     </Template>
   );

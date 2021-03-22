@@ -1,0 +1,9 @@
+query ReceivedApplying {
+  myRooms(input: { iAmOwner: true }) {
+    id
+    name
+    applyingUsers {
+      ...ReceivedApplyingCard
+    }
+  }
+}

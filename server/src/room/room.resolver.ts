@@ -1,5 +1,12 @@
 import { forwardRef, Inject, UseGuards } from '@nestjs/common';
-import { Args, Int, Mutation, Query, Resolver } from '@nestjs/graphql';
+import {
+  Args,
+  Int,
+  Mutation,
+  Query,
+  ResolveField,
+  Resolver,
+} from '@nestjs/graphql';
 import { UsersService } from '../users/users.service';
 import { CreateRoomInput } from './dto/create-room.input';
 import { UpdateRoomInput } from './dto/update-room.input';
@@ -60,6 +67,15 @@ export class RoomResolver {
     @Args('roomId', { type: () => Int }) roomId: number,
   ) {
     return this.roomService.apply(userId, roomId);
+  }
+
+  @Mutation(() => RoomModel)
+  @UseGuards(GqlJwtAuthGuard)
+  rejectApplication(
+    @Args('userId', { type: () => Int }) userId: number,
+    @Args('roomId', { type: () => Int }) roomId: number,
+  ) {
+    return this.roomService.rejectApplication(userId, roomId);
   }
 
   // @ResolveField(() => UserModel)

@@ -1,0 +1,6 @@
+fragment ReceivedApplyingCard on UserModel {
+  id
+  name
+  avatar
+  userId
+}
