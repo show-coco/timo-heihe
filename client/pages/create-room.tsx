@@ -12,7 +12,7 @@ import { FileInput } from "../components/file-input/file-inpute";
 import { TextInput } from "../components/text-input/text-input";
 import { Radio } from "../components/radio/radio";
 import { Checkbox } from "../components/checkbox/checkbox";
-import { LanguagePochiSet } from "../components/language/language-pochi-set";
+import { SkillPochiSet } from "../components/skill/skill-pochi-set";
 import { Button } from "../components/button";
 import GithubIcon from "../assets/icons/github.svg";
 import { TextArea } from "../components/text-area";
@@ -240,11 +240,6 @@ export default function CreateRoom() {
               setSelected={setSkills}
               selectedData={selectedSkills}
             />
-            <div>
-              <LanguagePochiSet
-                languages={convertToSkillPochiSetArray(selectedSkills)}
-              />
-            </div>
           </div>
         </Card>
       </div>

@@ -1,16 +1,16 @@
 import React from "react";
 import { ACSelectedData } from "../auto-complate/auto-complate";
-import { LanguagePochi, LanguagePochiProps } from "./language-pochi";
+import { SkillPochi, SkillPochiProps } from "./skill-pochi";
 
 export type LanguagePochiSetProps = {
-  languages: LanguagePochiProps["language"][];
+  skills: SkillPochiProps["skill"][];
   className?: string;
   selectedData: ACSelectedData[];
   setSelected: React.Dispatch<React.SetStateAction<ACSelectedData[]>>;
 };
 
-export const EditableLanguagePochiSet: React.FC<LanguagePochiSetProps> = ({
-  languages,
+export const EditableSkillPochiSet: React.FC<LanguagePochiSetProps> = ({
+  skills,
   className,
   selectedData,
   setSelected,
@@ -28,12 +28,12 @@ export const EditableLanguagePochiSet: React.FC<LanguagePochiSetProps> = ({
 
   return (
     <div className={`flex flex-col ${className}`}>
-      {languages.map((lang, i) => (
-        <LanguagePochi
-          language={lang}
+      {skills.map((skill, i) => (
+        <SkillPochi
+          skill={skill}
           key={i}
           className={`mr-4 mt-2 cursor-pointer editable-language relative`}
-          onClick={(e) => onClick(e, lang)}
+          onClick={(e) => onClick(e, skill)}
         />
       ))}
     </div>

@@ -1,6 +1,6 @@
 import React from "react";
 import { Card } from "./card";
-import { LanguagePochiSet } from "../language/language-pochi-set";
+import { SkillPochiSet } from "../skill/skill-pochi-set";
 import {
   AvatarWithName,
   AvatarWithNameProps,
@@ -86,7 +86,7 @@ export const TeamCard: React.FC<TeamCardProps> = ({
             <FirstParagraphDisplayer className="pt-4 pb-6" text={description} />
 
             <div className="flex items-end">
-              <LanguagePochiSet languages={languages} className="flex-1" />
+              <SkillPochiSet skills={languages} className="flex-1" />
 
               <span className="space-x-2">
                 <span>作成日</span>

@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateRoomInput } from './dto/create-room.input';
@@ -22,6 +22,7 @@ export class RoomService {
       .leftJoinAndSelect('room.skills', 'skills')
       .leftJoinAndSelect('room.types', 'types')
       .leftJoinAndSelect('room.recruitmentLevels', 'recruitmentLevels')
+      .leftJoinAndSelect('room.applyingUsers', 'applyingUsers')
       .where({ id: id })
       .getOne();
 
@@ -55,7 +56,12 @@ export class RoomService {
       .leftJoinAndSelect('room.categories', 'categories')
       .leftJoinAndSelect('room.owner', 'owner')
       .leftJoinAndSelect('room.types', 'types')
-      .leftJoinAndSelect('room.recruitmentLevels', 'recruitmentLevels');
+      .leftJoinAndSelect('room.recruitmentLevels', 'recruitmentLevels')
+      .leftJoinAndSelect('room.applyingUsers', 'applyingUsers')
+      .where('room.withApplication = :withApplication', {
+        withApplication: input.withApplication,
+      });
+
     if (input && input.keyword) {
       query.andWhere(
         'room.title LIKE :keyword OR room.name LIKE :keyword OR room.slug LIKE :keyword',
@@ -94,8 +100,7 @@ export class RoomService {
   async findAllByUserId(userId: number, input: MyRoomsInput) {
     const query = this.roomRepository
       .createQueryBuilder('room')
-      .leftJoinAndSelect('room.members', 'members', 'members.roomId = room.id')
-      .leftJoinAndSelect('members.user', 'user', 'members.userId = user.id')
+      .leftJoinAndSelect('room.applyingUsers', 'applyingUsers')
       .where('user.id = :id', { id: userId });
 
     if (input.iAmOwner) {
@@ -106,7 +111,10 @@ export class RoomService {
 
     const res = await query.getMany();
 
-    console.log('response on rooms->service->findAllByUserId', res);
+    console.log(
+      'response on rooms->service->findAllByUserId',
+      res[0].applyingUsers,
+    );
 
     return res;
   }
@@ -168,6 +176,30 @@ export class RoomService {
     const res = await this.findOne(roomId);
     console.log('response on rooms->service->apply', res);
     return res;
+  }
+
+  async rejectApplication(userId: number, roomId: number) {
+    const targetRoom = await this.findOne(roomId);
+
+    if (!targetRoom.applyingUsers.length) {
+      throw new BadRequestException(
+        `User ${userId}(id) has not applied to room ${targetRoom.id}(id)`,
+      );
+    }
+
+    const deleted = targetRoom.applyingUsers.filter(
+      (user) => user.id !== userId,
+    );
+
+    console.log('deleted', deleted);
+
+    const formattedInput: Room = {
+      ...targetRoom,
+      applyingUsers: deleted,
+    };
+
+    const room = await this.roomRepository.save(formattedInput);
+    return room;
   }
 
   async remove(id: number): Promise<{ affected?: number }> {

@@ -90,6 +90,7 @@ export type Mutation = {
   createSkill: SkillModel;
   createThread: ThreadModel;
   deleteRoom: RoomModel;
+  rejectApplication: RoomModel;
   removeCategory: CategoryModel;
   removeSkill: SkillModel;
   removeThread: ThreadModel;
@@ -128,6 +129,11 @@ export type MutationCreateThreadArgs = {
 
 export type MutationDeleteRoomArgs = {
   id: Scalars["Int"];
+};
+
+export type MutationRejectApplicationArgs = {
+  roomId: Scalars["Int"];
+  userId: Scalars["Int"];
 };
 
 export type MutationRemoveCategoryArgs = {
@@ -234,6 +240,7 @@ export type RecruitmentLevelModel = {
 
 export type RoomModel = {
   __typename?: "RoomModel";
+  applyingUsers?: Maybe<Array<UserModel>>;
   categories: Array<CategoryModel>;
   createdAt?: Maybe<Scalars["DateTime"]>;
   description: Scalars["String"];
@@ -263,6 +270,7 @@ export type SearchRoomInput = {
   recruitmentLevelIds?: Maybe<Array<Scalars["Int"]>>;
   skillIds?: Maybe<Array<Scalars["Int"]>>;
   typeId?: Maybe<Scalars["Int"]>;
+  withApplication?: Maybe<Scalars["Boolean"]>;
 };
 
 export type SkillModel = {
@@ -371,6 +379,11 @@ export type ChatItemFragment = { __typename?: "ThreadModel" } & Pick<
     >;
   };
 
+export type ReceivedApplyingCardFragment = { __typename?: "UserModel" } & Pick<
+  UserModel,
+  "id" | "name" | "avatar" | "userId"
+>;
+
 export type RoomCardFragment = { __typename?: "RoomModel" } & Pick<
   RoomModel,
   | "id"
@@ -405,6 +418,15 @@ export type SkillItemFragment = { __typename?: "SkillModel" } & Pick<
   SkillModel,
   "id" | "name"
 >;
+
+export type ApplyRoomMutationVariables = Exact<{
+  roomId: Scalars["Int"];
+  userId: Scalars["Int"];
+}>;
+
+export type ApplyRoomMutation = { __typename?: "Mutation" } & {
+  applyRoom: { __typename?: "RoomModel" } & Pick<RoomModel, "id" | "title">;
+};
 
 export type CreateRoomMutationVariables = Exact<{
   input: CreateRoomInput;
@@ -447,21 +469,21 @@ export type EditThreadMutation = { __typename?: "Mutation" } & {
   >;
 };
 
+export type RejectApplicationMutationVariables = Exact<{
+  roomId: Scalars["Int"];
+  userId: Scalars["Int"];
+}>;
+
+export type RejectApplicationMutation = { __typename?: "Mutation" } & {
+  rejectApplication: { __typename?: "RoomModel" } & Pick<RoomModel, "id">;
+};
+
 export type UpdateUserMutationVariables = Exact<{
   input: UpdateUserInput;
 }>;
 
 export type UpdateUserMutation = { __typename?: "Mutation" } & {
   updateUser: { __typename?: "UserModel" } & Pick<UserModel, "id" | "userId">;
-};
-
-export type ApplyRoomMutationVariables = Exact<{
-  roomId: Scalars["Int"];
-  userId: Scalars["Int"];
-}>;
-
-export type ApplyRoomMutation = { __typename?: "Mutation" } & {
-  applyRoom: { __typename?: "RoomModel" } & Pick<RoomModel, "id" | "title">;
 };
 
 export type CreateRoomPageQueryVariables = Exact<{ [key: string]: never }>;
@@ -565,6 +587,18 @@ export type MeQuery = { __typename?: "Query" } & {
   > & {
       skills?: Maybe<Array<{ __typename?: "SkillModel" } & SkillItemFragment>>;
     };
+};
+
+export type ReceivedApplyingQueryVariables = Exact<{ [key: string]: never }>;
+
+export type ReceivedApplyingQuery = { __typename?: "Query" } & {
+  myRooms: Array<
+    { __typename?: "RoomModel" } & Pick<RoomModel, "id" | "name"> & {
+        applyingUsers?: Maybe<
+          Array<{ __typename?: "UserModel" } & ReceivedApplyingCardFragment>
+        >;
+      }
+  >;
 };
 
 export type RoomQueryVariables = Exact<{
@@ -678,6 +712,14 @@ export const ChatItemFragmentDoc = gql`
     numberOfMessages
   }
 `;
+export const ReceivedApplyingCardFragmentDoc = gql`
+  fragment ReceivedApplyingCard on UserModel {
+    id
+    name
+    avatar
+    userId
+  }
+`;
 export const RoomCardFragmentDoc = gql`
   fragment RoomCard on RoomModel {
     id
@@ -720,6 +762,56 @@ export const SkillItemFragmentDoc = gql`
     name
   }
 `;
+export const ApplyRoomDocument = gql`
+  mutation ApplyRoom($roomId: Int!, $userId: Int!) {
+    applyRoom(roomId: $roomId, userId: $userId) {
+      id
+      title
+    }
+  }
+`;
+export type ApplyRoomMutationFn = Apollo.MutationFunction<
+  ApplyRoomMutation,
+  ApplyRoomMutationVariables
+>;
+
+/**
+ * __useApplyRoomMutation__
+ *
+ * To run a mutation, you first call `useApplyRoomMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useApplyRoomMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [applyRoomMutation, { data, loading, error }] = useApplyRoomMutation({
+ *   variables: {
+ *      roomId: // value for 'roomId'
+ *      userId: // value for 'userId'
+ *   },
+ * });
+ */
+export function useApplyRoomMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    ApplyRoomMutation,
+    ApplyRoomMutationVariables
+  >
+) {
+  return Apollo.useMutation<ApplyRoomMutation, ApplyRoomMutationVariables>(
+    ApplyRoomDocument,
+    baseOptions
+  );
+}
+export type ApplyRoomMutationHookResult = ReturnType<
+  typeof useApplyRoomMutation
+>;
+export type ApplyRoomMutationResult = Apollo.MutationResult<ApplyRoomMutation>;
+export type ApplyRoomMutationOptions = Apollo.BaseMutationOptions<
+  ApplyRoomMutation,
+  ApplyRoomMutationVariables
+>;
 export const CreateRoomDocument = gql`
   mutation CreateRoom($input: CreateRoomInput!) {
     createRoom(input: $input) {
@@ -916,6 +1008,55 @@ export type EditThreadMutationOptions = Apollo.BaseMutationOptions<
   EditThreadMutation,
   EditThreadMutationVariables
 >;
+export const RejectApplicationDocument = gql`
+  mutation RejectApplication($roomId: Int!, $userId: Int!) {
+    rejectApplication(roomId: $roomId, userId: $userId) {
+      id
+    }
+  }
+`;
+export type RejectApplicationMutationFn = Apollo.MutationFunction<
+  RejectApplicationMutation,
+  RejectApplicationMutationVariables
+>;
+
+/**
+ * __useRejectApplicationMutation__
+ *
+ * To run a mutation, you first call `useRejectApplicationMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useRejectApplicationMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [rejectApplicationMutation, { data, loading, error }] = useRejectApplicationMutation({
+ *   variables: {
+ *      roomId: // value for 'roomId'
+ *      userId: // value for 'userId'
+ *   },
+ * });
+ */
+export function useRejectApplicationMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    RejectApplicationMutation,
+    RejectApplicationMutationVariables
+  >
+) {
+  return Apollo.useMutation<
+    RejectApplicationMutation,
+    RejectApplicationMutationVariables
+  >(RejectApplicationDocument, baseOptions);
+}
+export type RejectApplicationMutationHookResult = ReturnType<
+  typeof useRejectApplicationMutation
+>;
+export type RejectApplicationMutationResult = Apollo.MutationResult<RejectApplicationMutation>;
+export type RejectApplicationMutationOptions = Apollo.BaseMutationOptions<
+  RejectApplicationMutation,
+  RejectApplicationMutationVariables
+>;
 export const UpdateUserDocument = gql`
   mutation UpdateUser($input: UpdateUserInput!) {
     updateUser(updateUserInput: $input) {
@@ -964,56 +1105,6 @@ export type UpdateUserMutationResult = Apollo.MutationResult<UpdateUserMutation>
 export type UpdateUserMutationOptions = Apollo.BaseMutationOptions<
   UpdateUserMutation,
   UpdateUserMutationVariables
->;
-export const ApplyRoomDocument = gql`
-  mutation ApplyRoom($roomId: Int!, $userId: Int!) {
-    applyRoom(roomId: $roomId, userId: $userId) {
-      id
-      title
-    }
-  }
-`;
-export type ApplyRoomMutationFn = Apollo.MutationFunction<
-  ApplyRoomMutation,
-  ApplyRoomMutationVariables
->;
-
-/**
- * __useApplyRoomMutation__
- *
- * To run a mutation, you first call `useApplyRoomMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useApplyRoomMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [applyRoomMutation, { data, loading, error }] = useApplyRoomMutation({
- *   variables: {
- *      roomId: // value for 'roomId'
- *      userId: // value for 'userId'
- *   },
- * });
- */
-export function useApplyRoomMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    ApplyRoomMutation,
-    ApplyRoomMutationVariables
-  >
-) {
-  return Apollo.useMutation<ApplyRoomMutation, ApplyRoomMutationVariables>(
-    ApplyRoomDocument,
-    baseOptions
-  );
-}
-export type ApplyRoomMutationHookResult = ReturnType<
-  typeof useApplyRoomMutation
->;
-export type ApplyRoomMutationResult = Apollo.MutationResult<ApplyRoomMutation>;
-export type ApplyRoomMutationOptions = Apollo.BaseMutationOptions<
-  ApplyRoomMutation,
-  ApplyRoomMutationVariables
 >;
 export const CreateRoomPageDocument = gql`
   query CreateRoomPage {
@@ -1297,6 +1388,66 @@ export function useMeLazyQuery(
 export type MeQueryHookResult = ReturnType<typeof useMeQuery>;
 export type MeLazyQueryHookResult = ReturnType<typeof useMeLazyQuery>;
 export type MeQueryResult = Apollo.QueryResult<MeQuery, MeQueryVariables>;
+export const ReceivedApplyingDocument = gql`
+  query ReceivedApplying {
+    myRooms(input: { iAmOwner: true }) {
+      id
+      name
+      applyingUsers {
+        ...ReceivedApplyingCard
+      }
+    }
+  }
+  ${ReceivedApplyingCardFragmentDoc}
+`;
+
+/**
+ * __useReceivedApplyingQuery__
+ *
+ * To run a query within a React component, call `useReceivedApplyingQuery` and pass it any options that fit your needs.
+ * When your component renders, `useReceivedApplyingQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useReceivedApplyingQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useReceivedApplyingQuery(
+  baseOptions?: Apollo.QueryHookOptions<
+    ReceivedApplyingQuery,
+    ReceivedApplyingQueryVariables
+  >
+) {
+  return Apollo.useQuery<ReceivedApplyingQuery, ReceivedApplyingQueryVariables>(
+    ReceivedApplyingDocument,
+    baseOptions
+  );
+}
+export function useReceivedApplyingLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    ReceivedApplyingQuery,
+    ReceivedApplyingQueryVariables
+  >
+) {
+  return Apollo.useLazyQuery<
+    ReceivedApplyingQuery,
+    ReceivedApplyingQueryVariables
+  >(ReceivedApplyingDocument, baseOptions);
+}
+export type ReceivedApplyingQueryHookResult = ReturnType<
+  typeof useReceivedApplyingQuery
+>;
+export type ReceivedApplyingLazyQueryHookResult = ReturnType<
+  typeof useReceivedApplyingLazyQuery
+>;
+export type ReceivedApplyingQueryResult = Apollo.QueryResult<
+  ReceivedApplyingQuery,
+  ReceivedApplyingQueryVariables
+>;
 export const RoomDocument = gql`
   query Room($slug: String!) {
     room(slug: $slug) {
