@@ -46,11 +46,16 @@ export default function UserDetail() {
       {iAmLoginUser && (
         <div className="flex justify-end mb-4">
           <Link href="/user/edit/[id]" as={`/user/edit/${id}`}>
-            <Button>編集する</Button>
+            <Button className="hidden md:inline">編集する</Button>
+          </Link>
+          <Link href="/user/edit/[id]" as={`/user/edit/${id}`}>
+            <Button variant="outline" colorScheme="blue" className="md:hidden">
+              編集する
+            </Button>
           </Link>
         </div>
       )}
-      <div className="flex space-x-10">
+      <div className="flex flex-col space-x-10 md:flex-row">
         <Card className="w-2/3 p-8 space-y-5">
           <span className="flex items-center space-x-3">
             <Avatar src={data?.user.avatar || ""} size="large" />
@@ -91,17 +96,19 @@ export default function UserDetail() {
           </div>
         </Card>
 
-        <Card className="w-1/3 p-8 space-y-5">
-          <Heading as="h2">スキル</Heading>
+        <div className="w-1/3">
+          <Card className="p-8 space-y-5">
+            <Heading as="h2">スキル</Heading>
 
-          {data?.user.skills && data?.user.skills.length ? (
-            <SkillPochiSet
-              skills={convertToSkillPochiSetArray(data?.user.skills)}
-            />
-          ) : (
-            <p>スキルを登録してください</p>
-          )}
-        </Card>
+            {data?.user.skills && data?.user.skills.length ? (
+              <SkillPochiSet
+                skills={convertToSkillPochiSetArray(data?.user.skills)}
+              />
+            ) : (
+              <p>スキルを登録してください</p>
+            )}
+          </Card>
+        </div>
       </div>
     </Template>
   );
