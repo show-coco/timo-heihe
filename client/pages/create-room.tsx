@@ -74,12 +74,9 @@ export default function CreateRoom() {
 
               <div className="flex">
                 <div className={`w-1/4 ${betweenH2}`}>
-                  <span className="flex">
-                    <Heading as="h2">ルームID</Heading>
-                    <span className="text-red-500">*</span>
-                  </span>
-
                   <TextInput
+                    name="ルームID"
+                    required
                     placeholder="ルームID"
                     onChange={(e) => setSlug(e.target.value)}
                   />
@@ -89,24 +86,18 @@ export default function CreateRoom() {
                 </div>
 
                 <div className={`w-full ml-8 ${betweenH2}`}>
-                  <span className="flex">
-                    <Heading as="h2">ルーム名</Heading>
-                    <span className="text-red-500">*</span>
-                  </span>
-
                   <TextInput
+                    name="ルーム名"
+                    required
                     placeholder="ルーム名を入力"
                     onChange={(e) => setName(e.target.value)}
                   />
                 </div>
               </div>
               <div className={`w-full mt-10 ${betweenH2}`}>
-                <span className="flex">
-                  <Heading as="h2">募集タイトル</Heading>
-                  <span className="text-red-500">*</span>
-                </span>
-
                 <TextInput
+                  name="募集タイトル"
+                  required
                   placeholder="メンバー募集タイトル"
                   className="w-2/3"
                   onChange={(e) => setTitle(e.target.value)}
@@ -134,13 +125,10 @@ export default function CreateRoom() {
                 </div>
               </div>
               <div className={betweenH2}>
-                <span className="flex">
-                  <Heading as="h2">ルームについて</Heading>
-                  <span className="text-red-500">*</span>
-                </span>
-
                 <div className="w-2/3 h-52">
                   <TextArea
+                    name="ルームについて"
+                    required
                     placeholder="ルームについて（Markdown記法）&#13;&#10;最初の一文がルーム一覧の説明文に表示されます。"
                     className="w-2/3"
                     onChange={(e) => setDescription(e.target.value)}
@@ -176,25 +164,19 @@ export default function CreateRoom() {
           {isRequired === "1" && (
             <Fragment>
               <div className={`${betweenH2} mt-10`}>
-                <Heading as="h2">招待URL</Heading>
-
-                <div className="flex items-center space-x-2">
-                  <TextInput
-                    placeholder="DiscordやSlackの招待URL"
-                    onChange={(e) => setRespositoryUrl(e.target.value)}
-                  />
-                </div>
+                <TextInput
+                  name="招待URL"
+                  placeholder="DiscordやSlackの招待URL"
+                  onChange={(e) => setRespositoryUrl(e.target.value)}
+                />
               </div>
               <div className={`${betweenH2} mt-10`}>
-                <Heading as="h2">Githubリポジトリ</Heading>
-
-                <div className="flex items-center space-x-2">
-                  <GithubIcon height="30px" />
-                  <TextInput
-                    placeholder="URLを入力"
-                    onChange={(e) => setRespositoryUrl(e.target.value)}
-                  />
-                </div>
+                <TextInput
+                  name="Githubリポジトリ"
+                  placeholder="URLを入力"
+                  icon={<GithubIcon height="30px" />}
+                  onChange={(e) => setRespositoryUrl(e.target.value)}
+                />
               </div>
             </Fragment>
           )}
@@ -202,7 +184,7 @@ export default function CreateRoom() {
 
         {/*  募集するレベル帯 */}
         <Card className="p-8 mt-10">
-          <Heading as="h2" className="pt-6 pb-4">
+          <Heading as="h2" className="pb-4">
             募集レベル
           </Heading>
           <div>
@@ -218,14 +200,11 @@ export default function CreateRoom() {
             ))}
           </div>
           <div className={`${betweenH2} mt-10`}>
-            <Heading as="h2">募集する役割</Heading>
-
-            <div className="flex items-center space-x-2">
-              <TextInput
-                placeholder="フロントエンドエンジニア "
-                // onChange={(e) => setRespositoryUrl(e.target.value)}
-              />
-            </div>
+            <TextInput
+              name="募集する役割"
+              placeholder="フロントエンドエンジニア "
+              // onChange={(e) => setRespositoryUrl(e.target.value)}
+            />
           </div>
         </Card>
 
