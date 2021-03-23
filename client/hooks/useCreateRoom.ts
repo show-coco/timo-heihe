@@ -75,11 +75,13 @@ export const useCreateRoom = () => {
     } else {
       setIsDisabled(true);
     }
-    if (slug.match(/[^a-z0-9-_]+/) && slug !== "") {
+    if (slug.match(/[^a-z0-9-_]/) && slug !== "") {
       setError(true);
-    } else if (!slug.match(/[^a-z0-9-_]+/)) {
+    } else if (!slug.match(/[^a-z0-9-_]/)) {
       setError(false);
     }
+    const includesInvalidChars = (slug: string) => /[^a-z0-9-_]/.test(slug);
+    console.log(includesInvalidChars(slug));
   }, [title, name, slug, categories, description]);
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
