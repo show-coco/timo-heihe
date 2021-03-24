@@ -43,22 +43,23 @@ export default function UserDetail() {
 
   return (
     <Template className="p-10">
-      {iAmLoginUser && (
+      {/* {iAmLoginUser && (
         <div className="flex justify-end mb-4">
           <Link href="/user/edit/[id]" as={`/user/edit/${id}`}>
-            <Button className="hidden md:inline">編集する</Button>
-          </Link>
-          <Link href="/user/edit/[id]" as={`/user/edit/${id}`}>
-            <Button variant="outline" colorScheme="blue" className="md:hidden">
-              編集する
-            </Button>
+            <Button>編集する</Button>
           </Link>
         </div>
-      )}
+      )} */}
       <div className="flex flex-col space-x-10 md:flex-row">
         <Card className="w-2/3 p-8 space-y-5">
           <span className="flex items-center space-x-3">
             <Avatar src={data?.user.avatar || ""} size="large" />
+
+            <Link href="/user/edit/[id]" as={`/user/edit/${id}`}>
+              <Button variant="outline" colorScheme="blue" className="hidden">
+                編集する
+              </Button>
+            </Link>
 
             <span>
               <Heading className="text-xl" as="h2">

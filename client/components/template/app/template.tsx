@@ -19,10 +19,8 @@ export const Template: React.FC<TemplateProps> = ({
         {header}
       </header>
 
-      <div className="flex flex-row min-h-screen">
-        <div className="flex flex-col flex-1">
-          <main className={`flex-1 bg-blue-100 ${className}`}>{children}</main>
-        </div>
+      <div className="min-h-screen">
+        <main className={`bg-blue-100 ${className}`}>{children}</main>
       </div>
     </>
   );
