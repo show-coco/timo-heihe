@@ -63,7 +63,7 @@ export default function UserDetail() {
               </div>
             </div>
 
-            <div className="flex flex-row px-5 md:px-0">
+            <div className="flex flex-row">
               <span>@{data?.user.userId}</span>
               {iAmLoginUser && (
                 <Link href="/user/edit/[id]" as={`/user/edit/${id}`}>
