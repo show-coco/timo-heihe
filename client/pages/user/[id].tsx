@@ -42,34 +42,51 @@ export default function UserDetail() {
   const teams = convertToTeamCardObjFromTeams(data?.user.teams || []);
 
   return (
-    <Template className="p-10">
-      {/* {iAmLoginUser && (
-        <div className="flex justify-end mb-4">
+    <Template className="md:p-10">
+      {iAmLoginUser && (
+        <div className="justify-end hidden mb-4 md:flex">
           <Link href="/user/edit/[id]" as={`/user/edit/${id}`}>
             <Button>編集する</Button>
           </Link>
         </div>
-      )} */}
-      <div className="flex flex-col space-x-10 md:flex-row">
-        <Card className="w-2/3 p-8 space-y-5">
-          <span className="flex items-center space-x-3">
-            <Avatar src={data?.user.avatar || ""} size="large" />
+      )}
 
-            <Link href="/user/edit/[id]" as={`/user/edit/${id}`}>
-              <Button variant="outline" colorScheme="blue" className="hidden">
-                編集する
-              </Button>
-            </Link>
+      <div className="flex flex-col space-x-10 md:flex-row">
+        <Card className="bg-blue-100 md:space-y-5 md:p-8 md:bg-white md:w-2/3">
+          <span className="flex flex-col items-center p-5 bg-white md:p-0">
+            <div className="flex flex-row">
+              <Avatar src={data?.user.avatar || ""} size="large" />
+              <div className="flex items-center">
+                <Heading className="text-xl" as="h2">
+                  {data?.user.name || ""}
+                </Heading>
+              </div>
+            </div>
+
+            <div className="flex flex-row px-5 md:px-0">
+              <span>@{data?.user.userId}</span>
+              {iAmLoginUser && (
+                <Link href="/user/edit/[id]" as={`/user/edit/${id}`}>
+                  <Button
+                    variant="outline"
+                    colorScheme="blue"
+                    className="md:hidden"
+                  >
+                    編集する
+                  </Button>
+                </Link>
+              )}
+            </div>
 
             <span>
-              <Heading className="text-xl" as="h2">
+              {/* <Heading className="text-xl" as="h2">
                 {data?.user.name || ""}
-              </Heading>
-              <span>@{data?.user.userId}</span>
+              </Heading> */}
+              {/* <span>@{data?.user.userId}</span> */}
             </span>
           </span>
 
-          <div className="markdown">
+          <div className="p-8 markdown md:p-0">
             <ReactMarkdown>
               {data?.user.introduction || "自己紹介文を設定してください"}
             </ReactMarkdown>
