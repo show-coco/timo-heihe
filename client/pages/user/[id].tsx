@@ -53,8 +53,8 @@ export default function UserDetail() {
 
       <div className="flex flex-col space-x-10 md:flex-row">
         <Card className="bg-blue-100 md:space-y-5 md:p-8 md:bg-white md:w-2/3">
-          <span className="flex flex-col items-center p-5 bg-white md:p-0">
-            <div className="flex flex-row">
+          <span className="flex flex-col items-center p-5 bg-white md:items-start md:p-0">
+            <div className="flex flex-row space-x-2">
               <Avatar src={data?.user.avatar || ""} size="large" />
               <div className="flex items-center">
                 <Heading className="text-xl" as="h2">
@@ -64,13 +64,15 @@ export default function UserDetail() {
             </div>
 
             <div className="flex flex-row">
-              <span>@{data?.user.userId}</span>
+              <span className="w-20 break-words md:w-full">
+                @{data?.user.userId}
+              </span>
               {iAmLoginUser && (
                 <Link href="/user/edit/[id]" as={`/user/edit/${id}`}>
                   <Button
                     variant="outline"
                     colorScheme="blue"
-                    className="md:hidden"
+                    className="w-24 h-5 md:hidden"
                   >
                     編集する
                   </Button>
@@ -114,8 +116,8 @@ export default function UserDetail() {
           </div>
         </Card>
 
-        <div className="w-1/3">
-          <Card className="p-8 space-y-5">
+        <div className="md:w-1/3">
+          <Card className="p-8 space-y-5 bg-blue-100 md:bg-white">
             <Heading as="h2">スキル</Heading>
 
             {data?.user.skills && data?.user.skills.length ? (
