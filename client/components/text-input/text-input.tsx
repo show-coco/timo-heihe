@@ -28,7 +28,6 @@ export const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
           {props.icon && props.icon}
           <input
             type="text"
-            required
             ref={ref}
             className={`border-none bg-blue-100 rounded-sm w-full ${className}`}
             {...props}

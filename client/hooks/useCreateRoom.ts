@@ -21,6 +21,8 @@ export const convertToSkillsIds = (skills: ACSelectedData[]): number[] => {
 };
 
 export const useCreateRoom = () => {
+  const TRUE = "1";
+  const FALSE = "2";
   const router = useRouter();
   const { id } = useAuthContext();
   const [createRoom, { loading }] = useCreateRoomMutation();
@@ -33,7 +35,7 @@ export const useCreateRoom = () => {
   const [recruitNumber, setRecruitNumber] = useState(0);
   const [repositoryUrl, setRespositoryUrl] = useState("");
   const [invidationUrl, setInvidationUrl] = useState("");
-  const [isRequired, setIsRequired] = useState("1");
+  const [isRequired, setIsRequired] = useState(TRUE);
   const [selectedSkills, setSkills] = useState<ACSelectedData[]>([]);
   const [categories, setCategories] = useState<number[]>([]);
   const [isDisabled, setIsDisabled] = useState<boolean>(true);
@@ -56,9 +58,9 @@ export const useCreateRoom = () => {
     skills: convertToSkillsIds(selectedSkills),
     description,
     repositoryUrl,
-    invidationUrl, // TODO
-    recruiementLevels, // TODO
-    withApplication: isRequired === "2",
+    invidationUrl,
+    recruiementLevels,
+    withApplication: isRequired === FALSE,
     categories: categories,
     typeIds: types,
   });

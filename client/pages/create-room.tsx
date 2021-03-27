@@ -12,7 +12,6 @@ import { FileInput } from "../components/file-input/file-inpute";
 import { TextInput } from "../components/text-input/text-input";
 import { Radio } from "../components/radio/radio";
 import { Checkbox } from "../components/checkbox/checkbox";
-import { SkillPochiSet } from "../components/skill/skill-pochi-set";
 import { Button } from "../components/button";
 import GithubIcon from "../assets/icons/github.svg";
 import { TextArea } from "../components/text-area";
