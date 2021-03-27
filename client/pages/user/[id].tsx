@@ -42,28 +42,53 @@ export default function UserDetail() {
   const teams = convertToTeamCardObjFromTeams(data?.user.teams || []);
 
   return (
-    <Template className="p-10">
+    <Template className="md:p-10">
       {iAmLoginUser && (
-        <div className="flex justify-end mb-4">
+        <div className="justify-end hidden mb-4 md:flex">
           <Link href="/user/edit/[id]" as={`/user/edit/${id}`}>
             <Button>編集する</Button>
           </Link>
         </div>
       )}
-      <div className="flex space-x-10">
-        <Card className="w-2/3 p-8 space-y-5">
-          <span className="flex items-center space-x-3">
-            <Avatar src={data?.user.avatar || ""} size="large" />
+
+      <div className="flex flex-col space-x-10 md:flex-row">
+        <Card className="bg-blue-100 md:space-y-5 md:p-8 md:bg-white md:w-2/3">
+          <span className="flex flex-col items-center p-5 bg-white md:items-start md:p-0">
+            <div className="flex flex-row space-x-2">
+              <Avatar src={data?.user.avatar || ""} size="large" />
+              <div className="flex items-center">
+                <Heading className="text-xl" as="h2">
+                  {data?.user.name || ""}
+                </Heading>
+              </div>
+            </div>
+
+            <div className="flex flex-row">
+              <span className="w-20 break-words md:w-full">
+                @{data?.user.userId}
+              </span>
+              {iAmLoginUser && (
+                <Link href="/user/edit/[id]" as={`/user/edit/${id}`}>
+                  <Button
+                    variant="outline"
+                    colorScheme="blue"
+                    className="w-24 h-5 md:hidden"
+                  >
+                    編集する
+                  </Button>
+                </Link>
+              )}
+            </div>
 
             <span>
-              <Heading className="text-xl" as="h2">
+              {/* <Heading className="text-xl" as="h2">
                 {data?.user.name || ""}
-              </Heading>
-              <span>@{data?.user.userId}</span>
+              </Heading> */}
+              {/* <span>@{data?.user.userId}</span> */}
             </span>
           </span>
 
-          <div className="markdown">
+          <div className="p-8 markdown md:p-0">
             <ReactMarkdown>
               {data?.user.introduction || "自己紹介文を設定してください"}
             </ReactMarkdown>
@@ -91,17 +116,19 @@ export default function UserDetail() {
           </div>
         </Card>
 
-        <Card className="w-1/3 p-8 space-y-5">
-          <Heading as="h2">スキル</Heading>
+        <div className="md:w-1/3">
+          <Card className="p-8 space-y-5 bg-blue-100 md:bg-white">
+            <Heading as="h2">スキル</Heading>
 
-          {data?.user.skills && data?.user.skills.length ? (
-            <SkillPochiSet
-              skills={convertToSkillPochiSetArray(data?.user.skills)}
-            />
-          ) : (
-            <p>スキルを登録してください</p>
-          )}
-        </Card>
+            {data?.user.skills && data?.user.skills.length ? (
+              <SkillPochiSet
+                skills={convertToSkillPochiSetArray(data?.user.skills)}
+              />
+            ) : (
+              <p>スキルを登録してください</p>
+            )}
+          </Card>
+        </div>
       </div>
     </Template>
   );

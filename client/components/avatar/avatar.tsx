@@ -45,15 +45,22 @@ export const Avatar = React.forwardRef<HTMLDivElement, AvatarProps>(
     const Variant = variants[variant];
 
     return src ? (
-      <span
-        className={`${defaultStyle} ${SizeStyle} ${className} ${Variant}`}
-        role={role}
-        tabIndex={tabIndex}
-        {...props}
-        ref={ref}
-      >
-        <Image src={src} width="100%" height="100%" className={`${Variant}`} />
-      </span>
+      <div>
+        <span
+          className={`${defaultStyle} ${SizeStyle} ${className} ${Variant}`}
+          role={role}
+          tabIndex={tabIndex}
+          {...props}
+          ref={ref}
+        >
+          <Image
+            src={src}
+            width="100%"
+            height="100%"
+            className={`${Variant}`}
+          />
+        </span>
+      </div>
     ) : (
       <div
         role={role}

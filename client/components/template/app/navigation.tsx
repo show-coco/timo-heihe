@@ -8,6 +8,8 @@ import { Button } from "../../button";
 import { Avatar } from "../../avatar/avatar";
 import { PopUp } from "./popup";
 
+import MenuIcon from "../../../assets/icons/menu.svg";
+
 const textStyle = "font-semibold text-base text-gray-700 cursor-pointer";
 
 export const Navigation: React.FC = () => {
@@ -19,20 +21,30 @@ export const Navigation: React.FC = () => {
     <>
       <LoginModal isOpen={isOpen} onRequestClose={onClose} />
 
-      <div className="w-full p-4 px-12 h-3/5">
-        <div className="flex justify-between w-full mx-auto ">
-          <div className="flex items-center space-x-16 text-3xl font-bold text-orange-400 align-middle">
-            <Link href="/">Cloud Circle</Link>
+      <div className="flex items-center w-full px-4 md:py-4 h-14 md:px-12 md:h-3/5">
+        <div className="flex justify-between w-full mx-auto">
+          <div className="flex items-center space-x-16 align-middle">
+            <Link href="/">
+              <span className="text-lg font-bold text-orange-400 md:text-3xl">
+                Cloud Circle
+              </span>
+            </Link>
 
             <Link href="/">
-              <span className={`${textStyle} align-middle`} role="button">
+              <span
+                className={`${textStyle} align-middle hidden md:inline`}
+                role="button"
+              >
                 ルームを探す
               </span>
             </Link>
 
             {isAuthenticated && (
               <Link href="/received-applications">
-                <span className={`${textStyle} align-middle`} role="button">
+                <span
+                  className={`${textStyle} align-middle hidden md:inline`}
+                  role="button"
+                >
                   受け取った申請
                 </span>
               </Link>
@@ -40,7 +52,7 @@ export const Navigation: React.FC = () => {
 
             {isAuthenticated && (
               <Link href="/chat">
-                <span className={textStyle} role="button">
+                <span className={`${textStyle} hidden md:inline`} role="button">
                   チャット
                 </span>
               </Link>
@@ -54,7 +66,7 @@ export const Navigation: React.FC = () => {
                   <Button
                     variant="outline"
                     size="small"
-                    className="mr-10 font-medium align-middle rounded-full"
+                    className="hidden mr-10 font-medium align-middle rounded-full md:inline"
                   >
                     ルームを作成
                   </Button>
@@ -63,34 +75,20 @@ export const Navigation: React.FC = () => {
                 <Button
                   variant="outline"
                   size="small"
-                  className="mr-10 font-medium align-middle rounded-full"
+                  className="hidden mr-10 font-medium align-middle rounded-full md:inline"
                   onClick={onOpen}
                 >
                   ルームを作成
                 </Button>
               )}
-              {/* <Link href="/create-room">
-              <Button
-                variant="secoundary"
-                size="small"
-                className="font-medium align-middle rounded-full "
-              >
-                イベントを作成
-              </Button>
-            </Link> */}
             </div>
-            <div className="flex items-center overflow-hidden ">
-              {/* <IconButton
-              icon={<DotIcon width="30px" height="30px" fill="#555555" />}
-              variant="ghost"
-              className="mr-10 align-middle"
-            /> */}
 
+            <div className="items-center hidden overflow-hidden md:flex">
               {isAuthenticated ? (
                 <Avatar
                   src={avatar}
                   name={name}
-                  className="align-middle cursor-pointer hover:opacity-80 "
+                  className="align-middle cursor-pointer hover:opacity-80"
                   onClick={() => setIsShown(!isShown)}
                 />
               ) : (
@@ -100,6 +98,9 @@ export const Navigation: React.FC = () => {
               )}
               {isShown && <PopUp logout={logout} userId={userId} name={name} />}
             </div>
+            <Button isIcon variant="ghost" className="md:hidden">
+              <MenuIcon />
+            </Button>
           </div>
 
           {/* <div className="flex items-center">
