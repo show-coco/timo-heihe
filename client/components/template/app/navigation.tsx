@@ -21,18 +21,18 @@ export const Navigation: React.FC = () => {
     <>
       <LoginModal isOpen={isOpen} onRequestClose={onClose} />
 
-      <div className="flex items-center w-full px-4 md:py-4 h-14 md:px-12 md:h-3/5">
+      <div className="flex items-center w-full px-4 md:py-4 h-14 md:px-10 md:h-20">
         <div className="flex justify-between w-full mx-auto">
-          <div className="flex items-center space-x-16 align-middle">
+          <div className="flex items-center mr-5 space-x-8 align-middle">
             <Link href="/">
-              <span className="text-lg font-bold text-orange-400 md:text-3xl">
+              <span className="text-lg font-bold text-orange-400 md:text-3xl whitespace-nowrap">
                 Cloud Circle
               </span>
             </Link>
 
             <Link href="/">
               <span
-                className={`${textStyle} align-middle hidden md:inline`}
+                className={`${textStyle} align-middle hidden md:inline whitespace-nowrap`}
                 role="button"
               >
                 ルームを探す
@@ -42,7 +42,7 @@ export const Navigation: React.FC = () => {
             {isAuthenticated && (
               <Link href="/received-applications">
                 <span
-                  className={`${textStyle} align-middle hidden md:inline`}
+                  className={`${textStyle} align-middle hidden md:inline whitespace-nowrap`}
                   role="button"
                 >
                   受け取った申請
@@ -52,7 +52,10 @@ export const Navigation: React.FC = () => {
 
             {isAuthenticated && (
               <Link href="/chat">
-                <span className={`${textStyle} hidden md:inline`} role="button">
+                <span
+                  className={`${textStyle} hidden md:inline whitespace-nowrap`}
+                  role="button"
+                >
                   チャット
                 </span>
               </Link>
@@ -60,28 +63,26 @@ export const Navigation: React.FC = () => {
           </div>
 
           <div className="flex items-center">
-            <div className="pr-10">
-              {isAuthenticated ? (
-                <Link href="/create-room">
-                  <Button
-                    variant="outline"
-                    size="small"
-                    className="hidden mr-10 font-medium align-middle rounded-full md:inline"
-                  >
-                    ルームを作成
-                  </Button>
-                </Link>
-              ) : (
+            {isAuthenticated ? (
+              <Link href="/create-room">
                 <Button
                   variant="outline"
                   size="small"
                   className="hidden mr-10 font-medium align-middle rounded-full md:inline"
-                  onClick={onOpen}
                 >
                   ルームを作成
                 </Button>
-              )}
-            </div>
+              </Link>
+            ) : (
+              <Button
+                variant="outline"
+                size="small"
+                className="hidden mr-10 font-medium align-middle rounded-full md:inline"
+                onClick={onOpen}
+              >
+                ルームを作成
+              </Button>
+            )}
 
             <div className="items-center hidden overflow-hidden md:flex">
               {isAuthenticated ? (

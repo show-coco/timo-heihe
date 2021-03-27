@@ -84,6 +84,10 @@ module.exports = {
       10: "2.5rem",
       14: "3.5rem",
     },
+    minHeight: {
+      pc: "calc(100vh - 5rem)",
+      mobile: "calc(100vh - 3.5rem)",
+    },
   },
   variants: {
     extend: {},
