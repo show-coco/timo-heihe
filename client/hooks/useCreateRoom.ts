@@ -83,7 +83,7 @@ export const useCreateRoom = () => {
       setError(false);
     }
     const includesInvalidChars = (slug: string) => /[^a-z0-9-_]/.test(slug);
-    console.log(includesInvalidChars(slug));
+    setError(includesInvalidChars(slug));
   }, [title, name, slug, categories, description]);
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
