@@ -21,7 +21,7 @@ export const Navigation: React.FC = () => {
     <>
       <LoginModal isOpen={isOpen} onRequestClose={onClose} />
 
-      <div className="flex items-center w-full px-4 md:py-4 h-14 md:px-12 md:h-3/5">
+      <div className="flex items-center w-full px-4 md:py-4 h-14 md:px-12 md:h-20">
         <div className="flex justify-between w-full mx-auto">
           <div className="flex items-center space-x-16 align-middle">
             <Link href="/">

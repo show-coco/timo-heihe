@@ -19,9 +19,9 @@ export const Template: React.FC<TemplateProps> = ({
         {header}
       </header>
 
-      <div className="min-h-screen">
-        <main className={`bg-blue-100 ${className}`}>{children}</main>
-      </div>
+      <main className={`bg-blue-100 min-h-mobile md:min-h-pc ${className}`}>
+        {children}
+      </main>
     </>
   );
 };
