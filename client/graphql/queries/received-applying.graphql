@@ -3,7 +3,9 @@ query ReceivedApplying {
     id
     name
     applyingUsers {
-      ...ReceivedApplyingCard
+      user {
+        ...ReceivedApplyingCard
+      }
     }
   }
 }

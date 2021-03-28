@@ -27,7 +27,7 @@ export default function ReceivedApplyingPage() {
         const newMyRooms = existingApps?.myRooms.map((myRoom) => ({
           ...myRoom,
           applyingUsers: myRoom.applyingUsers?.filter(
-            (user) => user.id !== userId || myRoom.id !== roomId
+            (user) => user.user?.id !== userId || myRoom.id !== roomId
           ),
         }));
 
@@ -63,10 +63,10 @@ export default function ReceivedApplyingPage() {
 
                 {myRoom.applyingUsers.map((applyingUser) => (
                   <ReceivedAppsCard
-                    {...applyingUser}
-                    key={applyingUser.id}
+                    {...applyingUser.user}
+                    key={applyingUser.user?.id}
                     onReject={() =>
-                      onClickReject(applyingUser.id, myRoom.id || 0)
+                      onClickReject(applyingUser.user?.id || 0, myRoom.id || 0)
                     }
                   />
                 ))}

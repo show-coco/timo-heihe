@@ -238,9 +238,16 @@ export type RecruitmentLevelModel = {
   name: Scalars["String"];
 };
 
+export type RoomApplyingUserModel = {
+  __typename?: "RoomApplyingUserModel";
+  room: RoomModel;
+  state: State;
+  user: UserModel;
+};
+
 export type RoomModel = {
   __typename?: "RoomModel";
-  applyingUsers?: Maybe<Array<UserModel>>;
+  applyingUsers?: Maybe<Array<RoomApplyingUserModel>>;
   categories: Array<CategoryModel>;
   createdAt?: Maybe<Scalars["DateTime"]>;
   description: Scalars["String"];
@@ -279,6 +286,12 @@ export type SkillModel = {
   id: Scalars["Int"];
   name: Scalars["String"];
 };
+
+export enum State {
+  Applying = "APPLYING",
+  Approved = "APPROVED",
+  Rejected = "REJECTED",
+}
 
 export type Subscription = {
   __typename?: "Subscription";
@@ -595,7 +608,11 @@ export type ReceivedApplyingQuery = { __typename?: "Query" } & {
   myRooms: Array<
     { __typename?: "RoomModel" } & Pick<RoomModel, "id" | "name"> & {
         applyingUsers?: Maybe<
-          Array<{ __typename?: "UserModel" } & ReceivedApplyingCardFragment>
+          Array<
+            { __typename?: "RoomApplyingUserModel" } & {
+              user: { __typename?: "UserModel" } & ReceivedApplyingCardFragment;
+            }
+          >
         >;
       }
   >;
@@ -1394,7 +1411,9 @@ export const ReceivedApplyingDocument = gql`
       id
       name
       applyingUsers {
-        ...ReceivedApplyingCard
+        user {
+          ...ReceivedApplyingCard
+        }
       }
     }
   }
