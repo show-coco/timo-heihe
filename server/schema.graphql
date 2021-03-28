@@ -89,6 +89,7 @@ type Mutation {
 
 input MyRoomsInput {
   iAmOwner: Boolean
+  state: State
 }
 
 type Query {
@@ -116,9 +117,9 @@ type RecruitmentLevelModel {
 }
 
 type RoomApplyingUserModel {
-  room: RoomModel
+  room: RoomModel!
   state: State!
-  user: UserModel
+  user: UserModel!
 }
 
 type RoomModel {

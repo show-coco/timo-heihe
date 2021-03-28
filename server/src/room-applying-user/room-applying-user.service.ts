@@ -21,4 +21,16 @@ export class RoomApplyingUserService {
 
     this.roomApplyingUserRepository.save(application);
   }
+
+  reject(userId: number, roomId: number) {
+    const application = this.roomApplyingUserRepository.create({
+      user: { id: userId },
+      room: {
+        id: roomId,
+      },
+      state: State.REJECTED,
+    });
+
+    this.roomApplyingUserRepository.save(application);
+  }
 }

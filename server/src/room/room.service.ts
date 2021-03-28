@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateRoomInput } from './dto/create-room.input';
@@ -7,6 +7,7 @@ import { Room } from './entities/room.entity';
 import { SearchRoomInput } from './dto/search-room.input';
 import { MyRoomsInput } from './dto/my-rooms.input';
 import { RoomApplyingUserService } from 'src/room-applying-user/room-applying-user.service';
+import { State } from 'src/room-applying-user/entities/room-applying-user.entity';
 
 @Injectable()
 export class RoomService {
@@ -112,13 +113,20 @@ export class RoomService {
         .where('owner.id = :id', { id: userId });
     }
 
-    const res = await query.getMany();
+    if (input.state) {
+      query.andWhere('applyingUsers.state = :state', { state: input.state });
+    }
 
-    console.log(
-      'response on rooms->service->findAllByUserId',
-      res[0].applyingUsers,
-    );
+    const result = await query.getMany();
 
+    const res: Room[] = result.map((room) => ({
+      ...room,
+      applyingUsers: room.applyingUsers.filter((user) =>
+        user.user ? user.user : null,
+      ),
+    }));
+
+    console.log('response on rooms->service->findAllByUserId', res);
     return res;
   }
 
@@ -175,27 +183,11 @@ export class RoomService {
   }
 
   async rejectApplication(userId: number, roomId: number) {
-    const targetRoom = await this.findOne(roomId);
+    this.roomApplyingUserService.reject(userId, roomId);
 
-    if (!targetRoom.applyingUsers.length) {
-      throw new BadRequestException(
-        `User ${userId}(id) has not applied to room ${targetRoom.id}(id)`,
-      );
-    }
-
-    const deleted = targetRoom.applyingUsers.filter(
-      (user) => user.user.id !== userId,
-    );
-
-    console.log('deleted', deleted);
-
-    const formattedInput: Room = {
-      ...targetRoom,
-      applyingUsers: deleted,
-    };
-
-    const room = await this.roomRepository.save(formattedInput);
-    return room;
+    const res = await this.findOne(roomId);
+    console.log('response on rooms->service->apply', res);
+    return res;
   }
 
   async remove(id: number): Promise<{ affected?: number }> {

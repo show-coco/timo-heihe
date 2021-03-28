@@ -9,11 +9,11 @@ registerEnumType(State, {
 
 @ObjectType()
 export class RoomApplyingUserModel {
-  @Field(() => UserModel, { nullable: true })
-  user?: UserModel;
+  @Field(() => UserModel)
+  user: UserModel;
 
-  @Field(() => RoomModel, { nullable: true })
-  room?: RoomModel;
+  @Field(() => RoomModel)
+  room: RoomModel;
 
   @Field(() => State)
   state: State;

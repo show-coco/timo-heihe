@@ -174,6 +174,7 @@ export type MutationUpdateUserArgs = {
 
 export type MyRoomsInput = {
   iAmOwner?: Maybe<Scalars["Boolean"]>;
+  state?: Maybe<State>;
 };
 
 export type Query = {
@@ -1407,7 +1408,7 @@ export type MeLazyQueryHookResult = ReturnType<typeof useMeLazyQuery>;
 export type MeQueryResult = Apollo.QueryResult<MeQuery, MeQueryVariables>;
 export const ReceivedApplyingDocument = gql`
   query ReceivedApplying {
-    myRooms(input: { iAmOwner: true }) {
+    myRooms(input: { iAmOwner: true, state: APPLYING }) {
       id
       name
       applyingUsers {
