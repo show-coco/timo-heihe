@@ -6,12 +6,14 @@ import { UpdateRoomInput } from './dto/update-room.input';
 import { Room } from './entities/room.entity';
 import { SearchRoomInput } from './dto/search-room.input';
 import { MyRoomsInput } from './dto/my-rooms.input';
+import { RoomApplyingUserService } from 'src/room-applying-user/room-applying-user.service';
 
 @Injectable()
 export class RoomService {
   constructor(
     @InjectRepository(Room)
     private roomRepository: Repository<Room>,
+    private roomApplyingUserService: RoomApplyingUserService,
   ) {}
 
   async findOne(id: number): Promise<Room> {
@@ -101,6 +103,7 @@ export class RoomService {
     const query = this.roomRepository
       .createQueryBuilder('room')
       .leftJoinAndSelect('room.applyingUsers', 'applyingUsers')
+      .leftJoinAndSelect('applyingUsers.user', 'user')
       .where('user.id = :id', { id: userId });
 
     if (input.iAmOwner) {
@@ -164,14 +167,7 @@ export class RoomService {
   }
 
   async apply(userId: number, roomId: number): Promise<Room> {
-    const targetRoom = await this.findOne(roomId);
-
-    const formattedInput: Room = {
-      ...targetRoom,
-      applyingUsers: [{ id: userId }],
-    };
-
-    await this.roomRepository.save(formattedInput);
+    this.roomApplyingUserService.apply(userId, roomId);
 
     const res = await this.findOne(roomId);
     console.log('response on rooms->service->apply', res);
@@ -188,7 +184,7 @@ export class RoomService {
     }
 
     const deleted = targetRoom.applyingUsers.filter(
-      (user) => user.id !== userId,
+      (user) => user.user.id !== userId,
     );
 
     console.log('deleted', deleted);

@@ -10,6 +10,7 @@ import {
 } from 'typeorm';
 import { Thread } from '../../thread/entities/thread.entity';
 import { Message } from '../../message/entities/message.entity';
+import { RoomApplyingUser } from 'src/room-applying-user/entities/room-applying-user.entity';
 
 @Entity()
 export class User {
@@ -53,6 +54,8 @@ export class User {
   @OneToMany(() => Message, (message) => message.user, { nullable: true })
   messages?: Message[];
 
-  @ManyToMany(() => Room, (room) => room.applyingUsers, { nullable: true })
-  applyingRooms?: Room[];
+  @OneToMany(() => RoomApplyingUser, (applyingRoom) => applyingRoom.user, {
+    nullable: true,
+  })
+  applyingRooms?: RoomApplyingUser[];
 }

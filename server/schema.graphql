@@ -115,8 +115,14 @@ type RecruitmentLevelModel {
   name: String!
 }
 
+type RoomApplyingUserModel {
+  room: RoomModel
+  state: State!
+  user: UserModel
+}
+
 type RoomModel {
-  applyingUsers: [UserModel!]
+  applyingUsers: [RoomApplyingUserModel!]
   categories: [CategoryModel!]!
   createdAt: DateTime
   description: String!
@@ -152,6 +158,12 @@ type SkillModel {
   icon: String!
   id: Int!
   name: String!
+}
+
+enum State {
+  APPLYING
+  APPROVED
+  REJECTED
 }
 
 type Subscription {
