@@ -5,6 +5,7 @@ import { Template } from "../components/template/app/template";
 import {
   ReceivedApplyingDocument,
   ReceivedApplyingQuery,
+  useAcceptApplicationMutation,
   useReceivedApplyingQuery,
   useRejectApplicationMutation,
 } from "../generated/types";
@@ -12,6 +13,7 @@ import {
 export default function ReceivedApplyingPage() {
   const { data, loading } = useReceivedApplyingQuery();
   const [reject] = useRejectApplicationMutation();
+  const [accept] = useAcceptApplicationMutation();
 
   const onClickReject = (userId: number, roomId: number) => {
     reject({
@@ -41,6 +43,15 @@ export default function ReceivedApplyingPage() {
     });
   };
 
+  const onClickAccept = (userId: number, roomId: number) => {
+    accept({
+      variables: {
+        userId,
+        roomId,
+      },
+    });
+  };
+
   const isExists = data?.myRooms.some((myRoom) => myRoom.applyingUsers?.length);
 
   return (
@@ -66,8 +77,11 @@ export default function ReceivedApplyingPage() {
                     {...applyingUser.user}
                     key={applyingUser.user?.id}
                     onReject={() =>
-                      onClickReject(applyingUser.user?.id || 0, myRoom.id || 0)
+                      onClickReject(applyingUser.user?.id, myRoom.id || 0)
                     }
+                    onAccept={() => {
+                      onClickAccept(applyingUser.user?.id, myRoom.id || 0);
+                    }}
                   />
                 ))}
               </div>

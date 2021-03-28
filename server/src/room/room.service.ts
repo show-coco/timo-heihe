@@ -186,7 +186,15 @@ export class RoomService {
     this.roomApplyingUserService.reject(userId, roomId);
 
     const res = await this.findOne(roomId);
-    console.log('response on rooms->service->apply', res);
+    console.log('response on rooms->service->rejectApplication', res);
+    return res;
+  }
+
+  async acceptApplication(userId: number, roomId: number) {
+    this.roomApplyingUserService.accept(userId, roomId);
+
+    const res = await this.findOne(roomId);
+    console.log('response on rooms->service->acceptApplication', res);
     return res;
   }
 

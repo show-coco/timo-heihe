@@ -7,6 +7,7 @@ import { Heading } from "../heading/heading";
 
 type Props = ReceivedApplyingCardFragment & {
   onReject: () => void;
+  onAccept: () => void;
 };
 
 export const ReceivedAppsCard: React.FC<Props> = (props: Props) => {
@@ -25,7 +26,7 @@ export const ReceivedAppsCard: React.FC<Props> = (props: Props) => {
         <Button variant="outline" colorScheme="red" onClick={props.onReject}>
           拒否
         </Button>
-        <Button variant="outline" colorScheme="blue">
+        <Button variant="outline" colorScheme="blue" onClick={props.onAccept}>
           メッセージを送る
         </Button>
       </div>
