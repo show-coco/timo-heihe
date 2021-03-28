@@ -143,3 +143,14 @@ h3 {
   list-style: disc;
   margin-left: 22px;
 }
+
+.ReactModal__Content {
+  width: 80%;
+  padding: 0;
+}
+
+@media (min-width: 768px) { 
+  .ReactModal__Content {
+    width: 35%;
+  }
+}
