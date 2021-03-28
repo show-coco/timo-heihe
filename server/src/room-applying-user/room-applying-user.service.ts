@@ -10,27 +10,27 @@ export class RoomApplyingUserService {
     private roomApplyingUserRepository: Repository<RoomApplyingUser>,
   ) {}
 
-  apply(userId: number, roomId: number) {
+  update(userId: number, roomId: number, state: State) {
     const application = this.roomApplyingUserRepository.create({
       user: { id: userId },
       room: {
         id: roomId,
       },
-      state: State.APPLYING,
+      state,
     });
 
     this.roomApplyingUserRepository.save(application);
   }
 
-  reject(userId: number, roomId: number) {
-    const application = this.roomApplyingUserRepository.create({
-      user: { id: userId },
-      room: {
-        id: roomId,
-      },
-      state: State.REJECTED,
-    });
+  apply(userId: number, roomId: number) {
+    this.update(userId, roomId, State.APPLYING);
+  }
 
-    this.roomApplyingUserRepository.save(application);
+  reject(userId: number, roomId: number) {
+    this.update(userId, roomId, State.REJECTED);
+  }
+
+  accept(userId: number, roomId: number) {
+    this.update(userId, roomId, State.APPROVED);
   }
 }
