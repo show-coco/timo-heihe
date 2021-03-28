@@ -1,12 +1,5 @@
 import { forwardRef, Inject, UseGuards } from '@nestjs/common';
-import {
-  Args,
-  Int,
-  Mutation,
-  Query,
-  ResolveField,
-  Resolver,
-} from '@nestjs/graphql';
+import { Args, Int, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { UsersService } from '../users/users.service';
 import { CreateRoomInput } from './dto/create-room.input';
 import { UpdateRoomInput } from './dto/update-room.input';
@@ -78,24 +71,12 @@ export class RoomResolver {
     return this.roomService.rejectApplication(userId, roomId);
   }
 
-  // @ResolveField(() => UserModel)
-  // owner(@Parent() room: Room) {
-  //   return this.usersService.findOne(room.owner.userId);
-  // }
-
-  // @ResolveField(() => UserModel)
-  // skills(@Parent() room: Room) {
-  //   console.log('request on rooms->resolver->skills', room);
-
-  //   return room.skills.map((skill) => {
-  //     return this.skillService.findOne(skill.id);
-  //   });
-  // }
-
-  // @ResolveField(() => UserModel)
-  // categories(@Parent() room: Room) {
-  //   return room.categories.map((category) => {
-  //     return this.categoryService.findOne(category.id);
-  //   });
-  // }
+  @Mutation(() => RoomModel)
+  @UseGuards(GqlJwtAuthGuard)
+  acceptApplication(
+    @Args('userId', { type: () => Int }) userId: number,
+    @Args('roomId', { type: () => Int }) roomId: number,
+  ) {
+    return this.roomService.acceptApplication(userId, roomId);
+  }
 }

@@ -19,6 +19,8 @@ import { RoomTypeModule } from './room-type/room-type.module';
 import { RoomType } from './room-type/entities/room-type.entity';
 import { RecruitmentLevelModule } from './recruitment-level/recruitment-level.module';
 import { RecruitmentLevel } from './recruitment-level/entities/recruitment-level.entity';
+import { RoomApplyingUser } from './room-applying-user/entities/room-applying-user.entity';
+import { RoomApplyingUserModule } from './room-applying-user/room-applying-user.module';
 
 @Module({
   imports: [
@@ -58,6 +60,7 @@ import { RecruitmentLevel } from './recruitment-level/entities/recruitment-level
         Message,
         RoomType,
         RecruitmentLevel,
+        RoomApplyingUser,
       ],
       synchronize: true,
     }),
@@ -70,6 +73,7 @@ import { RecruitmentLevel } from './recruitment-level/entities/recruitment-level
     MessageModule,
     RoomTypeModule,
     RecruitmentLevelModule,
+    RoomApplyingUserModule,
   ],
 })
 export class AppModule {}

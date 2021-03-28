@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateRoomInput } from './dto/create-room.input';
@@ -6,12 +6,14 @@ import { UpdateRoomInput } from './dto/update-room.input';
 import { Room } from './entities/room.entity';
 import { SearchRoomInput } from './dto/search-room.input';
 import { MyRoomsInput } from './dto/my-rooms.input';
+import { RoomApplyingUserService } from '../room-applying-user/room-applying-user.service';
 
 @Injectable()
 export class RoomService {
   constructor(
     @InjectRepository(Room)
     private roomRepository: Repository<Room>,
+    private roomApplyingUserService: RoomApplyingUserService,
   ) {}
 
   async findOne(id: number): Promise<Room> {
@@ -101,6 +103,7 @@ export class RoomService {
     const query = this.roomRepository
       .createQueryBuilder('room')
       .leftJoinAndSelect('room.applyingUsers', 'applyingUsers')
+      .leftJoinAndSelect('applyingUsers.user', 'user')
       .where('user.id = :id', { id: userId });
 
     if (input.iAmOwner) {
@@ -109,13 +112,20 @@ export class RoomService {
         .where('owner.id = :id', { id: userId });
     }
 
-    const res = await query.getMany();
+    if (input.state) {
+      query.andWhere('applyingUsers.state = :state', { state: input.state });
+    }
 
-    console.log(
-      'response on rooms->service->findAllByUserId',
-      res[0].applyingUsers,
-    );
+    const result = await query.getMany();
 
+    const res: Room[] = result.map((room) => ({
+      ...room,
+      applyingUsers: room.applyingUsers.filter((user) =>
+        user.user ? user.user : null,
+      ),
+    }));
+
+    console.log('response on rooms->service->findAllByUserId', res);
     return res;
   }
 
@@ -164,14 +174,7 @@ export class RoomService {
   }
 
   async apply(userId: number, roomId: number): Promise<Room> {
-    const targetRoom = await this.findOne(roomId);
-
-    const formattedInput: Room = {
-      ...targetRoom,
-      applyingUsers: [{ id: userId }],
-    };
-
-    await this.roomRepository.save(formattedInput);
+    this.roomApplyingUserService.apply(userId, roomId);
 
     const res = await this.findOne(roomId);
     console.log('response on rooms->service->apply', res);
@@ -179,27 +182,19 @@ export class RoomService {
   }
 
   async rejectApplication(userId: number, roomId: number) {
-    const targetRoom = await this.findOne(roomId);
+    this.roomApplyingUserService.reject(userId, roomId);
 
-    if (!targetRoom.applyingUsers.length) {
-      throw new BadRequestException(
-        `User ${userId}(id) has not applied to room ${targetRoom.id}(id)`,
-      );
-    }
+    const res = await this.findOne(roomId);
+    console.log('response on rooms->service->rejectApplication', res);
+    return res;
+  }
 
-    const deleted = targetRoom.applyingUsers.filter(
-      (user) => user.id !== userId,
-    );
+  async acceptApplication(userId: number, roomId: number) {
+    this.roomApplyingUserService.accept(userId, roomId);
 
-    console.log('deleted', deleted);
-
-    const formattedInput: Room = {
-      ...targetRoom,
-      applyingUsers: deleted,
-    };
-
-    const room = await this.roomRepository.save(formattedInput);
-    return room;
+    const res = await this.findOne(roomId);
+    console.log('response on rooms->service->acceptApplication', res);
+    return res;
   }
 
   async remove(id: number): Promise<{ affected?: number }> {

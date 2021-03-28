@@ -83,6 +83,7 @@ export type MessageModel = {
 
 export type Mutation = {
   __typename?: "Mutation";
+  acceptApplication: RoomModel;
   applyRoom: RoomModel;
   createCategory: CategoryModel;
   createMessage: MessageModel;
@@ -100,6 +101,11 @@ export type Mutation = {
   updateSkill: SkillModel;
   updateThread: ThreadModel;
   updateUser: UserModel;
+};
+
+export type MutationAcceptApplicationArgs = {
+  roomId: Scalars["Int"];
+  userId: Scalars["Int"];
 };
 
 export type MutationApplyRoomArgs = {
@@ -174,6 +180,7 @@ export type MutationUpdateUserArgs = {
 
 export type MyRoomsInput = {
   iAmOwner?: Maybe<Scalars["Boolean"]>;
+  state?: Maybe<State>;
 };
 
 export type Query = {
@@ -238,9 +245,16 @@ export type RecruitmentLevelModel = {
   name: Scalars["String"];
 };
 
+export type RoomApplyingUserModel = {
+  __typename?: "RoomApplyingUserModel";
+  room: RoomModel;
+  state: State;
+  user: UserModel;
+};
+
 export type RoomModel = {
   __typename?: "RoomModel";
-  applyingUsers?: Maybe<Array<UserModel>>;
+  applyingUsers?: Maybe<Array<RoomApplyingUserModel>>;
   categories: Array<CategoryModel>;
   createdAt?: Maybe<Scalars["DateTime"]>;
   description: Scalars["String"];
@@ -279,6 +293,12 @@ export type SkillModel = {
   id: Scalars["Int"];
   name: Scalars["String"];
 };
+
+export enum State {
+  Applying = "APPLYING",
+  Approved = "APPROVED",
+  Rejected = "REJECTED",
+}
 
 export type Subscription = {
   __typename?: "Subscription";
@@ -418,6 +438,15 @@ export type SkillItemFragment = { __typename?: "SkillModel" } & Pick<
   SkillModel,
   "id" | "name"
 >;
+
+export type AcceptApplicationMutationVariables = Exact<{
+  roomId: Scalars["Int"];
+  userId: Scalars["Int"];
+}>;
+
+export type AcceptApplicationMutation = { __typename?: "Mutation" } & {
+  acceptApplication: { __typename?: "RoomModel" } & Pick<RoomModel, "id">;
+};
 
 export type ApplyRoomMutationVariables = Exact<{
   roomId: Scalars["Int"];
@@ -595,7 +624,11 @@ export type ReceivedApplyingQuery = { __typename?: "Query" } & {
   myRooms: Array<
     { __typename?: "RoomModel" } & Pick<RoomModel, "id" | "name"> & {
         applyingUsers?: Maybe<
-          Array<{ __typename?: "UserModel" } & ReceivedApplyingCardFragment>
+          Array<
+            { __typename?: "RoomApplyingUserModel" } & {
+              user: { __typename?: "UserModel" } & ReceivedApplyingCardFragment;
+            }
+          >
         >;
       }
   >;
@@ -762,6 +795,55 @@ export const SkillItemFragmentDoc = gql`
     name
   }
 `;
+export const AcceptApplicationDocument = gql`
+  mutation AcceptApplication($roomId: Int!, $userId: Int!) {
+    acceptApplication(roomId: $roomId, userId: $userId) {
+      id
+    }
+  }
+`;
+export type AcceptApplicationMutationFn = Apollo.MutationFunction<
+  AcceptApplicationMutation,
+  AcceptApplicationMutationVariables
+>;
+
+/**
+ * __useAcceptApplicationMutation__
+ *
+ * To run a mutation, you first call `useAcceptApplicationMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useAcceptApplicationMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [acceptApplicationMutation, { data, loading, error }] = useAcceptApplicationMutation({
+ *   variables: {
+ *      roomId: // value for 'roomId'
+ *      userId: // value for 'userId'
+ *   },
+ * });
+ */
+export function useAcceptApplicationMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    AcceptApplicationMutation,
+    AcceptApplicationMutationVariables
+  >
+) {
+  return Apollo.useMutation<
+    AcceptApplicationMutation,
+    AcceptApplicationMutationVariables
+  >(AcceptApplicationDocument, baseOptions);
+}
+export type AcceptApplicationMutationHookResult = ReturnType<
+  typeof useAcceptApplicationMutation
+>;
+export type AcceptApplicationMutationResult = Apollo.MutationResult<AcceptApplicationMutation>;
+export type AcceptApplicationMutationOptions = Apollo.BaseMutationOptions<
+  AcceptApplicationMutation,
+  AcceptApplicationMutationVariables
+>;
 export const ApplyRoomDocument = gql`
   mutation ApplyRoom($roomId: Int!, $userId: Int!) {
     applyRoom(roomId: $roomId, userId: $userId) {
@@ -1390,11 +1472,13 @@ export type MeLazyQueryHookResult = ReturnType<typeof useMeLazyQuery>;
 export type MeQueryResult = Apollo.QueryResult<MeQuery, MeQueryVariables>;
 export const ReceivedApplyingDocument = gql`
   query ReceivedApplying {
-    myRooms(input: { iAmOwner: true }) {
+    myRooms(input: { iAmOwner: true, state: APPLYING }) {
       id
       name
       applyingUsers {
-        ...ReceivedApplyingCard
+        user {
+          ...ReceivedApplyingCard
+        }
       }
     }
   }
