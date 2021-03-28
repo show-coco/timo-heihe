@@ -1,6 +1,6 @@
 import { forwardRef, Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { RoomApplyingUserModule } from 'src/room-applying-user/room-applying-user.module';
+import { RoomApplyingUserModule } from '../room-applying-user/room-applying-user.module';
 import { CategoryModule } from '../category/category.module';
 import { SkillModule } from '../skill/skill.module';
 import { UsersModule } from '../users/users.module';

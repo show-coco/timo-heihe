@@ -1,6 +1,6 @@
 import { Field, ObjectType, registerEnumType } from '@nestjs/graphql';
-import { RoomModel } from 'src/room/models/room.model';
-import { UserModel } from 'src/users/models/user.model';
+import { RoomModel } from '../../room/models/room.model';
+import { UserModel } from '../../users/models/user.model';
 import { State } from '../entities/room-applying-user.entity';
 
 registerEnumType(State, {

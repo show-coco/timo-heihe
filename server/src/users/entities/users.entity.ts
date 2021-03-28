@@ -10,7 +10,7 @@ import {
 } from 'typeorm';
 import { Thread } from '../../thread/entities/thread.entity';
 import { Message } from '../../message/entities/message.entity';
-import { RoomApplyingUser } from 'src/room-applying-user/entities/room-applying-user.entity';
+import { RoomApplyingUser } from '../../room-applying-user/entities/room-applying-user.entity';
 
 @Entity()
 export class User {

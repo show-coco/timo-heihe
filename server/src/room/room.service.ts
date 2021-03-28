@@ -6,8 +6,7 @@ import { UpdateRoomInput } from './dto/update-room.input';
 import { Room } from './entities/room.entity';
 import { SearchRoomInput } from './dto/search-room.input';
 import { MyRoomsInput } from './dto/my-rooms.input';
-import { RoomApplyingUserService } from 'src/room-applying-user/room-applying-user.service';
-import { State } from 'src/room-applying-user/entities/room-applying-user.entity';
+import { RoomApplyingUserService } from '../room-applying-user/room-applying-user.service';
 
 @Injectable()
 export class RoomService {

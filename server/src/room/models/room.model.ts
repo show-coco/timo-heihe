@@ -4,7 +4,7 @@ import { SkillModel } from '../../skill/models/skill.model';
 import { UserModel } from '../../users/models/user.model';
 import { RoomTypeModel } from '../../room-type/models/room-type.model';
 import { RecruitmentLevelModel } from '../../recruitment-level/models/recruitment-level.model';
-import { RoomApplyingUserModel } from 'src/room-applying-user/models/room-applying-user.model';
+import { RoomApplyingUserModel } from '../../room-applying-user/models/room-applying-user.model';
 
 @ObjectType()
 export class RoomModel {

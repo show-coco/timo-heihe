@@ -14,7 +14,7 @@ import {
 } from 'typeorm';
 import { RoomType } from '../../room-type/entities/room-type.entity';
 import { RecruitmentLevel } from '../../recruitment-level/entities/recruitment-level.entity';
-import { RoomApplyingUser } from 'src/room-applying-user/entities/room-applying-user.entity';
+import { RoomApplyingUser } from '../../room-applying-user/entities/room-applying-user.entity';
 
 @Entity()
 export class Room {
