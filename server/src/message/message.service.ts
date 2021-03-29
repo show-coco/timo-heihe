@@ -23,11 +23,19 @@ export class MessageService {
     return res;
   }
 
-  async findAll() {
+  async findAll(userId: number, otherPersonId: number) {
     const res = await this.messageRepository
       .createQueryBuilder('message')
-      .leftJoinAndSelect('message.thread', 'thread.id = message.threadId')
-      .leftJoinAndSelect('message.user', 'user.id = message.userId')
+      .leftJoinAndSelect('message.sender', 'sender')
+      .leftJoinAndSelect('message.receiver', 'receiver')
+      .where('receiver.id = :userId AND sender.id = :otherPersonId', {
+        userId,
+        otherPersonId,
+      })
+      .orWhere('receiver.id = :otherPersonId AND sender.id = :userId', {
+        otherPersonId,
+        userId,
+      })
       .getMany();
 
     console.log('response on message->service->findAll', res);

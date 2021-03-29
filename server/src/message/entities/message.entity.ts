@@ -1,4 +1,3 @@
-import { Thread } from '../../thread/entities/thread.entity';
 import { User } from '../../users/entities/users.entity';
 import {
   Column,
@@ -6,6 +5,7 @@ import {
   Entity,
   ManyToOne,
   PrimaryGeneratedColumn,
+  UpdateDateColumn,
 } from 'typeorm';
 
 @Entity()
@@ -16,12 +16,15 @@ export class Message {
   @Column()
   text: string;
 
+  @ManyToOne(() => User)
+  sender: User;
+
+  @ManyToOne(() => User)
+  receiver: User;
+
   @CreateDateColumn({ type: 'timestamp' })
   createdAt: Date;
 
-  @ManyToOne(() => Thread)
-  thread: Thread;
-
-  @ManyToOne(() => User)
-  user: User;
+  @UpdateDateColumn({ type: 'timestamp' })
+  updatedAt: Date;
 }

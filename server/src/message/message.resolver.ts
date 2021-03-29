@@ -12,7 +12,10 @@ import { UpdateMessageInput } from './dto/update-message.input';
 import { MessageModel } from './models/message.model';
 import { provideKeys, subscriptionKeys } from '../constants';
 import { PubSubEngine } from 'apollo-server-express';
-import { Inject } from '@nestjs/common';
+import { Inject, UseGuards } from '@nestjs/common';
+import { GqlJwtAuthGuard } from 'src/auth/jwt-auth.guards';
+import { CurrentUser } from 'src/users/dto/current-user';
+import { Payload } from 'src/auth/types/payload';
 
 @Resolver(() => MessageModel)
 export class MessageResolver {
@@ -27,8 +30,12 @@ export class MessageResolver {
   }
 
   @Query(() => [MessageModel])
-  messages() {
-    return this.messageService.findAll();
+  @UseGuards(GqlJwtAuthGuard)
+  messages(
+    @CurrentUser() user: Payload,
+    @Args('otherPersonId', { type: () => Int }) otherPersonId: number,
+  ) {
+    return this.messageService.findAll(user.sub, otherPersonId);
   }
 
   @Mutation(() => MessageModel)
