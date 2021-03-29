@@ -399,6 +399,11 @@ export type ChatItemFragment = { __typename?: "ThreadModel" } & Pick<
     >;
   };
 
+export type MessageTimelineFragment = { __typename?: "UserModel" } & Pick<
+  UserModel,
+  "id" | "userId" | "name"
+>;
+
 export type ReceivedApplyingCardFragment = { __typename?: "UserModel" } & Pick<
   UserModel,
   "id" | "name" | "avatar" | "userId"
@@ -618,6 +623,22 @@ export type MeQuery = { __typename?: "Query" } & {
     };
 };
 
+export type MessageTimelinesQueryVariables = Exact<{ [key: string]: never }>;
+
+export type MessageTimelinesQuery = { __typename?: "Query" } & {
+  myRooms: Array<
+    { __typename?: "RoomModel" } & Pick<RoomModel, "id" | "name"> & {
+        applyingUsers?: Maybe<
+          Array<
+            { __typename?: "RoomApplyingUserModel" } & {
+              user: { __typename?: "UserModel" } & MessageTimelineFragment;
+            }
+          >
+        >;
+      }
+  >;
+};
+
 export type ReceivedApplyingQueryVariables = Exact<{ [key: string]: never }>;
 
 export type ReceivedApplyingQuery = { __typename?: "Query" } & {
@@ -743,6 +764,13 @@ export const ChatItemFragmentDoc = gql`
     }
     createdAt
     numberOfMessages
+  }
+`;
+export const MessageTimelineFragmentDoc = gql`
+  fragment MessageTimeline on UserModel {
+    id
+    userId
+    name
   }
 `;
 export const ReceivedApplyingCardFragmentDoc = gql`
@@ -1470,6 +1498,68 @@ export function useMeLazyQuery(
 export type MeQueryHookResult = ReturnType<typeof useMeQuery>;
 export type MeLazyQueryHookResult = ReturnType<typeof useMeLazyQuery>;
 export type MeQueryResult = Apollo.QueryResult<MeQuery, MeQueryVariables>;
+export const MessageTimelinesDocument = gql`
+  query MessageTimelines {
+    myRooms(input: { iAmOwner: true, state: APPROVED }) {
+      id
+      name
+      applyingUsers {
+        user {
+          ...MessageTimeline
+        }
+      }
+    }
+  }
+  ${MessageTimelineFragmentDoc}
+`;
+
+/**
+ * __useMessageTimelinesQuery__
+ *
+ * To run a query within a React component, call `useMessageTimelinesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useMessageTimelinesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useMessageTimelinesQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useMessageTimelinesQuery(
+  baseOptions?: Apollo.QueryHookOptions<
+    MessageTimelinesQuery,
+    MessageTimelinesQueryVariables
+  >
+) {
+  return Apollo.useQuery<MessageTimelinesQuery, MessageTimelinesQueryVariables>(
+    MessageTimelinesDocument,
+    baseOptions
+  );
+}
+export function useMessageTimelinesLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    MessageTimelinesQuery,
+    MessageTimelinesQueryVariables
+  >
+) {
+  return Apollo.useLazyQuery<
+    MessageTimelinesQuery,
+    MessageTimelinesQueryVariables
+  >(MessageTimelinesDocument, baseOptions);
+}
+export type MessageTimelinesQueryHookResult = ReturnType<
+  typeof useMessageTimelinesQuery
+>;
+export type MessageTimelinesLazyQueryHookResult = ReturnType<
+  typeof useMessageTimelinesLazyQuery
+>;
+export type MessageTimelinesQueryResult = Apollo.QueryResult<
+  MessageTimelinesQuery,
+  MessageTimelinesQueryVariables
+>;
 export const ReceivedApplyingDocument = gql`
   query ReceivedApplying {
     myRooms(input: { iAmOwner: true, state: APPLYING }) {

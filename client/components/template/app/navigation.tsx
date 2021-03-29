@@ -51,12 +51,12 @@ export const Navigation: React.FC = () => {
             )}
 
             {isAuthenticated && (
-              <Link href="/chat">
+              <Link href="/messages">
                 <span
                   className={`${textStyle} hidden md:inline whitespace-nowrap`}
                   role="button"
                 >
-                  チャット
+                  メッセージ
                 </span>
               </Link>
             )}
