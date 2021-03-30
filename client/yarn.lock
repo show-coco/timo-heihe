@@ -1838,6 +1838,11 @@
   resolved "https://registry.yarnpkg.com/@hapi/hoek/-/hoek-9.1.1.tgz"
   integrity sha512-CAEbWH7OIur6jEOzaai83jq3FmKmv4PmX1JYfs9IrYcGEVI/lyL1EXJGCj7eFVJ0bg5QR8LMxBlEtA+xKiLpFw==
 
+"@hookform/error-message@^0.0.5":
+  version "0.0.5"
+  resolved "https://registry.yarnpkg.com/@hookform/error-message/-/error-message-0.0.5.tgz#606912b506513669980c440f383ff6c78a7aca3a"
+  integrity sha512-es7eLLFA3SXNYAT8aUjvf7Gok1eMHK+9DMILtJA7ZEwYZlCCCPifhpoZmY+5SOopEtF7e+qxFOjX+MJnI3jOcg==
+
 "@iarna/toml@^2.2.5":
   version "2.2.5"
   resolved "https://registry.yarnpkg.com/@iarna/toml/-/toml-2.2.5.tgz"
@@ -11243,10 +11248,10 @@ react-helmet-async@^1.0.2:
     react-fast-compare "^3.2.0"
     shallowequal "^1.1.0"
 
-react-hook-form@^6.15.4:
-  version "6.15.4"
-  resolved "https://registry.yarnpkg.com/react-hook-form/-/react-hook-form-6.15.4.tgz#328003e1ccc096cd158899ffe7e3b33735a9b024"
-  integrity sha512-K+Sw33DtTMengs8OdqFJI3glzNl1wBzSefD/ksQw/hJf9CnOHQAU6qy82eOrh0IRNt2G53sjr7qnnw1JDjvx1w==
+react-hook-form@^6.15.5:
+  version "6.15.5"
+  resolved "https://registry.yarnpkg.com/react-hook-form/-/react-hook-form-6.15.5.tgz#c2578f9ce6a6df7b33015587d40cd880dc13e2db"
+  integrity sha512-so2jEPYKdVk1olMo+HQ9D9n1hVzaPPFO4wsjgSeZ964R7q7CHsYRbVF0PGBi83FcycA5482WHflasdwLIUVENg==
 
 react-hotkeys@2.0.0:
   version "2.0.0"

@@ -20,9 +20,8 @@ export const OperationTag: React.FC<Props> = ({
   isSelected,
   setIsSelected,
 }: Props) => {
-  console.log(selectedItemIds);
-
   const style = isSelected ? selectedStyle : unselectedStyle;
+
   const onClick = (id: number) => {
     if (selectedItemIds.includes(id)) {
       const newSelectedItemIds = selectedItemIds.filter(

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Fragment } from "react";
 import { SkillModel, useCreateRoomPageQuery } from "../generated/types";
 import {
   ACSelectedData,
@@ -10,15 +10,14 @@ import { Heading } from "../components/heading/heading";
 import { Avatar } from "../components/avatar/avatar";
 import { FileInput } from "../components/file-input/file-inpute";
 import { TextInput } from "../components/text-input/text-input";
-import { NumberInput } from "../components/number-input/number-input";
 import { Radio } from "../components/radio/radio";
 import { Checkbox } from "../components/checkbox/checkbox";
-import { SkillPochiSet } from "../components/skill/skill-pochi-set";
 import { Button } from "../components/button";
 import GithubIcon from "../assets/icons/github.svg";
 import { TextArea } from "../components/text-area";
 import { useAuthGuard } from "../hooks/useAuthGurad";
 import { Template } from "../components/template/app/template";
+import { OperationTag } from "../components/tag/operation";
 
 const betweenH2 = "space-y-2";
 
@@ -28,208 +27,200 @@ export default function CreateRoom() {
     setRespositoryUrl,
     setSkills,
     setDescription,
-    setRecruitNumber,
     setSlug,
     onClickFileInput,
     onChangeFileInput,
     onSubmit,
     setIsRequired,
-    onChangeType,
+    searchConditions,
     onChangeCategories,
     setName,
-    recruitNumber,
     selectedSkills,
+    isRequired,
     fileRef,
     imageUrl,
+    setRecruiementLevels,
+    recruiementLevels,
+    isDisabled,
+    error,
   } = useCreateRoom();
   const { data } = useCreateRoomPageQuery();
 
   useAuthGuard({});
 
   const skills = data?.skills || [];
-  console.log("selectedSkills", selectedSkills);
 
   return (
-    <Template className="p-10">
-      <Card className="p-8">
-        <form onSubmit={onSubmit}>
-          <div className="space-y-10">
-            <Heading as="h1Small">新しいルームを作成する</Heading>
+    <Template className="p-10 px-28 grid grid-cols-8 gap-8">
+      <div className="col-span-5">
+        {/*左側のカード */}
 
-            <div className={betweenH2}>
-              <Heading as="h2">ルームアイコン</Heading>
-
-              <div className="flex items-center space-x-7">
-                <Avatar src={imageUrl} />
-                <FileInput
-                  ref={fileRef}
-                  onClick={onClickFileInput}
-                  onChange={onChangeFileInput}
-                />
+        <Card className="p-8">
+          <form onSubmit={onSubmit}>
+            <div className="space-y-10">
+              <Heading as="h1Small">新しいルームを作成する</Heading>
+              <div className={betweenH2}>
+                <Heading as="h2">ルームアイコン</Heading>
+                <div className="flex items-center space-x-7">
+                  <Avatar src={imageUrl} />
+                  <FileInput
+                    ref={fileRef}
+                    onClick={onClickFileInput}
+                    onChange={onChangeFileInput}
+                  />
+                </div>
               </div>
-            </div>
 
-            <div className={betweenH2}>
-              <span className="flex">
-                <Heading as="h2">ルームID</Heading>
-                <span className="text-red-500">*</span>
-              </span>
+              <div className="flex">
+                <div className={`w-1/4 ${betweenH2}`}>
+                  <TextInput
+                    name="ルームID"
+                    required
+                    placeholder="ルームID"
+                    onChange={(e) => setSlug(e.target.value)}
+                  />
+                  {error && (
+                    <p className="text-red-500">入力は半角数字のみです。</p>
+                  )}
+                </div>
 
-              <TextInput
-                placeholder="ルームIDを入力"
-                onChange={(e) => setSlug(e.target.value)}
-              />
-            </div>
-
-            <div className={betweenH2}>
-              <span className="flex">
-                <Heading as="h2">ルーム名</Heading>
-                <span className="text-red-500">*</span>
-              </span>
-
-              <TextInput
-                placeholder="ルーム名を入力"
-                onChange={(e) => setName(e.target.value)}
-              />
-            </div>
-
-            <div className={betweenH2}>
-              <span className="flex">
-                <Heading as="h2">メンバー募集タイトル</Heading>
-                <span className="text-red-500">*</span>
-              </span>
-
-              <TextInput
-                placeholder="メンバー募集タイトル"
-                className="w-2/3"
-                onChange={(e) => setTitle(e.target.value)}
-              />
-            </div>
-
-            <div className={betweenH2}>
-              <span className="flex">
-                <Heading as="h2">ルームについて</Heading>
-                <span className="text-red-500">*</span>
-              </span>
-
-              <div className="w-2/3 h-52">
-                <TextArea
-                  placeholder="ルームについて（Markdown記法）&#13;&#10;最初の一文がルーム一覧の説明文に表示されます。"
-                  className="w-2/3"
-                  onChange={(e) => setDescription(e.target.value)}
-                />
+                <div className={`w-full ml-8 ${betweenH2}`}>
+                  <TextInput
+                    name="ルーム名"
+                    required
+                    placeholder="ルーム名を入力"
+                    onChange={(e) => setName(e.target.value)}
+                  />
+                </div>
               </div>
-            </div>
-
-            <div className={betweenH2}>
-              <span className="flex">
-                <Heading as="h2">募集人数</Heading>
-                <span className="text-red-500">*</span>
-              </span>
-
-              <div className="relative flex flex-row w-full h-10 mt-1 bg-transparent rounded-lg">
-                <NumberInput
-                  value={recruitNumber}
-                  setValue={setRecruitNumber}
-                />
-              </div>
-            </div>
-
-            <div className={`flex flex-col flex-wrap w-2/3`}>
-              <Heading as="h2">ルームタイプ</Heading>
-
-              <div>
-                {data?.roomTypes.map((type, i) => (
-                  <Checkbox
-                    key={i}
-                    className="mt-4 mr-4"
-                    value={type.id}
-                    onChange={(e) => onChangeType(e, type.id)}
-                  >
-                    {type.name}
-                  </Checkbox>
-                ))}
-              </div>
-            </div>
-
-            <div className={betweenH2}>
-              <span className="flex">
-                <Heading as="h2">参加時の申請</Heading>
-                <span className="text-red-500">*</span>
-              </span>
-
-              <div className="flex space-x-8">
-                <Radio
-                  text="なし"
-                  name="apply"
-                  value="1"
-                  onChange={(e) => setIsRequired(e.target.value)}
-                />
-                <Radio
-                  text="あり"
-                  name="apply"
-                  value="2"
-                  onChange={(e) => setIsRequired(e.target.value)}
-                />
-              </div>
-            </div>
-
-            <div className={`flex flex-col flex-wrap w-2/3`}>
-              <Heading as="h2">カテゴリー</Heading>
-
-              <div>
-                {data?.categories.map((category, i) => (
-                  <Checkbox
-                    key={i}
-                    className="mt-4 mr-4"
-                    value={category.id?.toString()}
-                    onChange={(e) =>
-                      onChangeCategories(e, Number(e.currentTarget.value))
-                    }
-                  >
-                    {category.name}
-                  </Checkbox>
-                ))}
-              </div>
-            </div>
-
-            <div className={betweenH2}>
-              <Heading as="h2">使用するスキル</Heading>
-
-              {/* <TextInput
-                placeholder="検索する"
-                name="skills"
-                onChange={(e) => setSkills(e.target.value)}
-              /> */}
-              <AutoComplate
-                data={convertToACData(skills)}
-                placeholder="スキルを検索"
-                setSelected={setSkills}
-                selectedData={selectedSkills}
-              />
-              <div>
-                <SkillPochiSet
-                  skills={convertToSkillPochiSetArray(selectedSkills)}
-                />
-              </div>
-            </div>
-
-            <div className={betweenH2}>
-              <Heading as="h2">Githubリポジトリ</Heading>
-
-              <div className="flex items-center space-x-2">
-                <GithubIcon height="30px" />
+              <div className={`w-full mt-10 ${betweenH2}`}>
                 <TextInput
-                  placeholder="URLを入力"
+                  name="募集タイトル"
+                  required
+                  placeholder="メンバー募集タイトル"
+                  className="w-2/3"
+                  onChange={(e) => setTitle(e.target.value)}
+                />
+              </div>
+
+              <div className={`flex flex-col flex-wrap w-2/3`}>
+                <span className="flex">
+                  <Heading as="h2">カテゴリー</Heading>
+                  <span className="text-red-500">*</span>
+                </span>
+                <div>
+                  {data?.categories.map((category, i) => (
+                    <Checkbox
+                      key={i}
+                      className="mt-4 mr-4"
+                      value={category.id?.toString()}
+                      onChange={(e) =>
+                        onChangeCategories(e, Number(e.currentTarget.value))
+                      }
+                    >
+                      {category.name}
+                    </Checkbox>
+                  ))}
+                </div>
+              </div>
+              <div className={betweenH2}>
+                <div className="w-2/3 h-52">
+                  <TextArea
+                    name="ルームについて"
+                    required
+                    placeholder="ルームについて（Markdown記法）&#13;&#10;最初の一文がルーム一覧の説明文に表示されます。"
+                    className="w-2/3"
+                    onChange={(e) => setDescription(e.target.value)}
+                  />
+                </div>
+              </div>
+              <Button type="submit" disabled={isDisabled}>
+                作成する
+              </Button>
+            </div>
+          </form>
+        </Card>
+      </div>
+
+      {/* 右側のカード */}
+      <div className="col-span-3">
+        <Card className="p-8">
+          <Heading as="h1Small">ルームへの申請</Heading>
+          <div className="flex space-x-8">
+            <Radio
+              text="なし"
+              name="apply"
+              value="1"
+              onChange={(e) => setIsRequired(e.target.value)}
+            />
+            <Radio
+              text="あり"
+              name="apply"
+              value="2"
+              onChange={(e) => setIsRequired(e.target.value)}
+            />
+          </div>
+          {isRequired === "1" && (
+            <Fragment>
+              <div className={`${betweenH2} mt-10`}>
+                <TextInput
+                  name="招待URL"
+                  placeholder="DiscordやSlackの招待URL"
                   onChange={(e) => setRespositoryUrl(e.target.value)}
                 />
               </div>
-            </div>
+              <div className={`${betweenH2} mt-10`}>
+                <TextInput
+                  name="Githubリポジトリ"
+                  placeholder="URLを入力"
+                  icon={<GithubIcon height="30px" />}
+                  onChange={(e) => setRespositoryUrl(e.target.value)}
+                />
+              </div>
+            </Fragment>
+          )}
+        </Card>
 
-            <Button type="submit">作成する</Button>
+        {/*  募集するレベル帯 */}
+        <Card className="p-8 mt-10">
+          <Heading as="h2" className="pb-4">
+            募集レベル
+          </Heading>
+          <div>
+            {searchConditions?.recruitmentLevels.map((level) => (
+              <OperationTag
+                id={level.id}
+                name={level.name}
+                selectedItemIds={recruiementLevels}
+                setIsSelected={setRecruiementLevels}
+                isSelected={recruiementLevels.includes(level.id)}
+                key={level.id}
+              />
+            ))}
           </div>
-        </form>
-      </Card>
+          <div className={`${betweenH2} mt-10`}>
+            <TextInput
+              name="募集する役割"
+              placeholder="フロントエンドエンジニア "
+              // onChange={(e) => setRespositoryUrl(e.target.value)}
+            />
+          </div>
+        </Card>
+
+        {/*  使用するスキル */}
+        <Card className="p-8 mt-10">
+          <div className={betweenH2}>
+            <Heading as="h2">使用するスキル</Heading>
+
+            <AutoComplate
+              data={convertToACData(skills)}
+              placeholder="スキルを検索"
+              setSelected={setSkills}
+              selectedData={selectedSkills}
+            />
+          </div>
+        </Card>
+      </div>
     </Template>
   );
 }
@@ -244,18 +235,3 @@ export const convertToACData = (skills: Pick<SkillModel, "id" | "name">[]) => {
 export const convertToSkillPochiSetArray = (skills: ACSelectedData[]) => {
   return skills.map((skill) => skill.name);
 };
-
-// // const categoriesMock = [
-// //   "iOS",
-// //   "Android",
-// //   "Web",
-// //   "ゲーム",
-// //   "iOS",
-// //   "Android",
-// //   "Web",
-// //   "ゲーム",
-// //   "iOS",
-// //   "Android",
-// //   "Web",
-// //   "ゲーム",
-// // ];

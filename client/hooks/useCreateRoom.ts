@@ -1,8 +1,12 @@
 import { useRouter } from "next/router";
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import { ACSelectedData } from "../components/auto-complate/auto-complate";
-import { CreateRoomInput, useCreateRoomMutation } from "../generated/types";
+import {
+  CreateRoomInput,
+  useCreateRoomMutation,
+  useSearchConditionsQuery,
+} from "../generated/types";
 import { useAuthContext } from "../providers/useAuthContext";
 import { useFileInput } from "./useFileInput";
 
@@ -17,24 +21,32 @@ export const convertToSkillsIds = (skills: ACSelectedData[]): number[] => {
 };
 
 export const useCreateRoom = () => {
+  const TRUE = "1";
+  const FALSE = "2";
   const router = useRouter();
   const { id } = useAuthContext();
   const [createRoom, { loading }] = useCreateRoomMutation();
+  const { data: searchConditions } = useSearchConditionsQuery();
   const [title, setTitle] = useState("");
   const [name, setName] = useState("");
   const [slug, setSlug] = useState("");
+  const [recruiementLevels, setRecruiementLevels] = useState<number[]>([]);
   const [description, setDescription] = useState("");
   const [recruitNumber, setRecruitNumber] = useState(0);
   const [repositoryUrl, setRespositoryUrl] = useState("");
-  const [isRequired, setIsRequired] = useState("1");
+  const [invidationUrl, setInvidationUrl] = useState("");
+  const [isRequired, setIsRequired] = useState(TRUE);
   const [selectedSkills, setSkills] = useState<ACSelectedData[]>([]);
   const [categories, setCategories] = useState<number[]>([]);
+  const [isDisabled, setIsDisabled] = useState<boolean>(true);
+  const [error, setError] = useState<boolean>(false);
   const {
     fileRef,
     onClick: onClickFileInput,
     onChange: onChangeFileInput,
     imageUrl,
   } = useFileInput();
+
   const [types, setTypes] = useState<number[]>([]);
 
   const getVariables = (): CreateRoomInput => ({
@@ -46,17 +58,36 @@ export const useCreateRoom = () => {
     skills: convertToSkillsIds(selectedSkills),
     description,
     repositoryUrl,
-    invidationUrl: "", // TODO
-    recruiementLevels: [], // TODO
-    withApplication: isRequired === "2",
+    invidationUrl,
+    recruiementLevels,
+    withApplication: isRequired === FALSE,
     categories: categories,
     typeIds: types,
   });
 
-  console.log(getVariables());
-
+  useEffect(() => {
+    if (
+      title.trim() &&
+      name.trim() &&
+      slug.trim() &&
+      categories !== [] &&
+      description.trim()
+    ) {
+      setIsDisabled(false);
+    } else {
+      setIsDisabled(true);
+    }
+    if (slug.match(/[^a-z0-9-_]/) && slug !== "") {
+      setError(true);
+    } else if (!slug.match(/[^a-z0-9-_]/)) {
+      setError(false);
+    }
+    const includesInvalidChars = (slug: string) => /[^a-z0-9-_]/.test(slug);
+    setError(includesInvalidChars(slug));
+  }, [title, name, slug, categories, description]);
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
     try {
       const res = await createRoom({
         variables: {
@@ -104,9 +135,11 @@ export const useCreateRoom = () => {
     onSubmit,
     onClickFileInput,
     onChangeFileInput,
+    searchConditions,
     setRecruitNumber,
     setRespositoryUrl,
     setIsRequired,
+    isRequired,
     onChangeCategories,
     onChangeType,
     setName,
@@ -115,5 +148,10 @@ export const useCreateRoom = () => {
     fileRef,
     imageUrl,
     loading,
+    setRecruiementLevels,
+    recruiementLevels,
+    setInvidationUrl,
+    isDisabled,
+    error,
   };
 };
