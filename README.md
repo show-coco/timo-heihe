@@ -20,23 +20,7 @@ Cloud Circleはエンジニアのためのコミュニティプラットフォ�
 ## 始め方
 
 ```bash
-$ cd client && yarn install
-$ cd server && yarn install
-```
-
-### DBサーバ起動
-```bash
 $ docker-compose up -d
-```
-
-### クライアントサーバ起動
-```bash
-$ cd client && yarn dev
-```
-
-### アプリサーバ起動
-```
-$ cd server && yarn start:dev
 ```
 
 ## サンプルデータの作成
