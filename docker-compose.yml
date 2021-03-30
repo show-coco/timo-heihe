@@ -11,8 +11,28 @@ services:
       - default
     ports:
       - 6543:5432
-    expose:
-      - '5432'
     volumes:
       - ./local-data/db:/var/lib/postgresql/data
       - ./seeds/seed.sql:/seed.sql
+
+  server:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    ports:
+      - 8080:8080
+    volumes:
+      - ./server/src:/app/src
+    depends_on:
+      - db
+    env_file:
+      - ./server/.env.dev
+
+  client:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    volumes:
+      - ./client:/app/
+    ports:
+      - "3000:3000"
