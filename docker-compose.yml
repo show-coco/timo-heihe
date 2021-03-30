@@ -20,10 +20,19 @@ services:
       context: ./server
       dockerfile: Dockerfile
     ports:
-      - 3001:3001
+      - 8080:8080
     volumes:
       - ./server/src:/app/src
     depends_on:
       - db
     env_file:
       - ./server/.env.dev
+
+  client:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    volumes:
+      - ./client:/app/
+    ports:
+      - "3000:3000"
