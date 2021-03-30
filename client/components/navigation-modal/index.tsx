@@ -14,7 +14,7 @@ export const NavigationModal: React.FC<Props> = (props: Props) => {
     <Modal {...props}>
       {props.isAuth ? (
         <div className="flex flex-col">
-          <div className="flex flex-row pb-2">
+          <div className="flex flex-row justify-center pb-3">
             <Avatar
               src={
                 "http://flat-icon-design.com/f/f_object_96/s256_f_object_96_0bg.png"
@@ -24,23 +24,31 @@ export const NavigationModal: React.FC<Props> = (props: Props) => {
             />
             <span className="flex items-center">貯金 ブタ子</span>
           </div>
-          <div className="flex flex-col divide-y">
-            <Link href="/">プロフィール</Link>
-            <Link href="/">ルームを探す</Link>
-            <Link href="/">メッセージ</Link>
-            <Link href="/">受け取った申請</Link>
-            <Link href="/">ログアウト</Link>
+          <div className="flex flex-col space-y-3 divide-y divide-gray-200">
+            <span>
+              <Link href="/">プロフィール</Link>
+            </span>
+            <span className="pt-3">
+              <Link href="/">ルームを探す</Link>
+            </span>
+            <span className="pt-3">
+              <Link href="/">メッセージ</Link>
+            </span>
+            <span className="pt-3">
+              <Link href="/">受け取った申請</Link>
+            </span>
+            <span className="pt-3">
+              <Link href="/">ログアウト</Link>
+            </span>
           </div>
         </div>
       ) : (
-        <div className="flex flex-col items-center justify-center divide-y">
-          <div className="flex flex-col">
+        <div className="flex flex-col divide-y divide-gray-200">
+          <div className="grid justify-items-center">
             <Link href="/">ルームを探す</Link>
           </div>
-          <div>
-            <div className="w-40">
-              <LoginButton className="mt-5 shadow-sm" />
-            </div>
+          <div className="grid pt-3 justify-items-center">
+            <LoginButton className="items-center" />
           </div>
         </div>
       )}
