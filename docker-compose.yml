@@ -27,12 +27,3 @@ services:
       - db
     env_file:
       - ./server/.env.dev
-
-  client:
-    build:
-      context: ./client
-      dockerfile: Dockerfile
-    volumes:
-      - ./client:/app/
-    ports:
-      - "3000:3000"
