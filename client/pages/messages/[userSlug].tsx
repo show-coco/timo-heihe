@@ -4,7 +4,7 @@ import { MessagesTemplate } from "../../components/template/messages";
 
 export default function Message() {
   const router = useRouter();
-  const id = router.query.id;
+  const id = router.query.userSlug;
 
   return (
     <MessagesTemplate>
