@@ -8,11 +8,13 @@ import {
   JoinTable,
   ManyToMany,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import { RoomType } from '../../room-type/entities/room-type.entity';
 import { RecruitmentLevel } from '../../recruitment-level/entities/recruitment-level.entity';
+import { RoomApplyingUser } from '../../room-applying-user/entities/room-applying-user.entity';
 
 @Entity()
 export class Room {
@@ -65,9 +67,10 @@ export class Room {
   @JoinTable()
   recruitmentLevels: RecruitmentLevel[];
 
-  @ManyToMany(() => User, (room) => room.applyingRooms, { nullable: true })
-  @JoinTable({ name: 'room_applying_user' })
-  applyingUsers?: Partial<User>[];
+  @OneToMany(() => RoomApplyingUser, (applyingUsers) => applyingUsers.room, {
+    nullable: true,
+  })
+  applyingUsers?: RoomApplyingUser[];
 
   @CreateDateColumn({ type: 'timestamp' })
   createdAt?: Date;

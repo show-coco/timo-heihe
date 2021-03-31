@@ -1,9 +1,11 @@
 query ReceivedApplying {
-  myRooms(input: { iAmOwner: true }) {
+  myRooms(input: { iAmOwner: true, state: APPLYING }) {
     id
     name
     applyingUsers {
-      ...ReceivedApplyingCard
+      user {
+        ...ReceivedApplyingCard
+      }
     }
   }
 }

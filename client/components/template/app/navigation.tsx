@@ -40,7 +40,7 @@ export const Navigation: React.FC = () => {
         <div className="flex justify-between w-full mx-auto">
           <div className="flex items-center mr-5 space-x-8 align-middle">
             <Link href="/">
-              <span className="text-lg font-bold text-orange-400 md:text-3xl whitespace-nowrap">
+              <span className="text-lg font-bold text-orange-400 cursor-pointer md:text-3xl whitespace-nowrap">
                 Cloud Circle
               </span>
             </Link>

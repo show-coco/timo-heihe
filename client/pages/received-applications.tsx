@@ -5,6 +5,7 @@ import { Template } from "../components/template/app/template";
 import {
   ReceivedApplyingDocument,
   ReceivedApplyingQuery,
+  useAcceptApplicationMutation,
   useReceivedApplyingQuery,
   useRejectApplicationMutation,
 } from "../generated/types";
@@ -12,6 +13,7 @@ import {
 export default function ReceivedApplyingPage() {
   const { data, loading } = useReceivedApplyingQuery();
   const [reject] = useRejectApplicationMutation();
+  const [accept] = useAcceptApplicationMutation();
 
   const onClickReject = (userId: number, roomId: number) => {
     reject({
@@ -27,7 +29,7 @@ export default function ReceivedApplyingPage() {
         const newMyRooms = existingApps?.myRooms.map((myRoom) => ({
           ...myRoom,
           applyingUsers: myRoom.applyingUsers?.filter(
-            (user) => user.id !== userId || myRoom.id !== roomId
+            (user) => user.user?.id !== userId || myRoom.id !== roomId
           ),
         }));
 
@@ -37,6 +39,15 @@ export default function ReceivedApplyingPage() {
           query: ReceivedApplyingDocument,
           data: { myRooms: newMyRooms || [] },
         });
+      },
+    });
+  };
+
+  const onClickAccept = (userId: number, roomId: number) => {
+    accept({
+      variables: {
+        userId,
+        roomId,
       },
     });
   };
@@ -63,11 +74,14 @@ export default function ReceivedApplyingPage() {
 
                 {myRoom.applyingUsers.map((applyingUser) => (
                   <ReceivedAppsCard
-                    {...applyingUser}
-                    key={applyingUser.id}
+                    {...applyingUser.user}
+                    key={applyingUser.user?.id}
                     onReject={() =>
-                      onClickReject(applyingUser.id, myRoom.id || 0)
+                      onClickReject(applyingUser.user?.id, myRoom.id || 0)
                     }
+                    onAccept={() => {
+                      onClickAccept(applyingUser.user?.id, myRoom.id || 0);
+                    }}
                   />
                 ))}
               </div>
