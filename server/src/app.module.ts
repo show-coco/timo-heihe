@@ -43,8 +43,8 @@ import { RoomApplyingUserModule } from './room-applying-user/room-applying-user.
     }),
     TypeOrmModule.forRoot({
       type: 'postgres',
-      host: 'localhost',
-      port: 6543,
+      host: 'db',
+      port: 5432,
       username: 'timoheihe',
       password: 'postgres',
       database: 'postgres',
