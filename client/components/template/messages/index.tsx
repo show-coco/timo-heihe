@@ -28,7 +28,7 @@ export const MessagesTemplate: React.FC<Props> = ({ children }: Props) => {
         <div className="flex w-full bg-white border">
           <MessageTimeline users={filteredUsers} />
 
-          {children}
+          <div className="w-full">{children}</div>
         </div>
       </div>
     </Template>
