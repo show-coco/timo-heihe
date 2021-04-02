@@ -51,10 +51,10 @@ export default function UserDetail() {
         </div>
       )}
 
-      <div className="flex flex-col space-x-10 md:flex-row">
+      <div className="flex flex-col md:space-x-10 md:flex-row">
         <Card className="bg-blue-100 md:space-y-5 md:p-8 md:bg-white md:w-2/3">
-          <span className="relative flex flex-col items-center p-5 px-12 bg-white md:items-start md:p-0">
-            <div className="flex flex-row justify-between w-full px-10 md:justify-start md:px-0">
+          <span className="flex flex-col items-center p-5 px-12 bg-white md:items-start md:p-0">
+            <div className="flex flex-row w-full md:justify-start">
               <Avatar
                 src={data?.user.avatar || ""}
                 size="large"
@@ -67,8 +67,8 @@ export default function UserDetail() {
               </div>
             </div>
 
-            <div className="flex flex-row items-end w-full px-10 md:px-0 flex-between md:justify-center">
-              <span className="w-20 break-words md:w-full">
+            <div className="flex flex-row items-end justify-between w-full md:justify-center">
+              <span className="w-2/3 pr-5 break-words md:w-full">
                 @{data?.user.userId}
               </span>
               {iAmLoginUser && (
@@ -98,7 +98,7 @@ export default function UserDetail() {
             </ReactMarkdown>
           </div>
 
-          <div className="flex space-x-4">
+          <div className="flex ">
             {data?.user.githubId && (
               <a
                 className="cursor-pointer"
