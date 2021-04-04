@@ -180,7 +180,7 @@ export type QueryMessageArgs = {
 };
 
 export type QueryMessagesArgs = {
-  otherPersonId: Scalars["Int"];
+  opponentSlug: Scalars["String"];
 };
 
 export type QueryMyRoomsArgs = {
@@ -337,6 +337,16 @@ export type MessageTimelineFragment = { __typename?: "UserModel" } & Pick<
   UserModel,
   "id" | "userId" | "name" | "avatar"
 >;
+
+export type MessageFragment = { __typename?: "MessageModel" } & Pick<
+  MessageModel,
+  "id" | "text" | "createdAt"
+> & {
+    sender: { __typename?: "UserModel" } & Pick<
+      UserModel,
+      "id" | "avatar" | "name"
+    >;
+  };
 
 export type ReceivedApplyingCardFragment = { __typename?: "UserModel" } & Pick<
   UserModel,
@@ -554,6 +564,14 @@ export type MessageTimelinesQuery = { __typename?: "Query" } & {
   >;
 };
 
+export type MessagesQueryVariables = Exact<{
+  opponentSlug: Scalars["String"];
+}>;
+
+export type MessagesQuery = { __typename?: "Query" } & {
+  messages: Array<{ __typename?: "MessageModel" } & MessageFragment>;
+};
+
 export type ReceivedApplyingQueryVariables = Exact<{ [key: string]: never }>;
 
 export type ReceivedApplyingQuery = { __typename?: "Query" } & {
@@ -658,6 +676,18 @@ export const MessageTimelineFragmentDoc = gql`
     userId
     name
     avatar
+  }
+`;
+export const MessageFragmentDoc = gql`
+  fragment Message on MessageModel {
+    id
+    text
+    createdAt
+    sender {
+      id
+      avatar
+      name
+    }
   }
 `;
 export const ReceivedApplyingCardFragmentDoc = gql`
@@ -1348,6 +1378,58 @@ export type MessageTimelinesLazyQueryHookResult = ReturnType<
 export type MessageTimelinesQueryResult = Apollo.QueryResult<
   MessageTimelinesQuery,
   MessageTimelinesQueryVariables
+>;
+export const MessagesDocument = gql`
+  query Messages($opponentSlug: String!) {
+    messages(opponentSlug: $opponentSlug) {
+      ...Message
+    }
+  }
+  ${MessageFragmentDoc}
+`;
+
+/**
+ * __useMessagesQuery__
+ *
+ * To run a query within a React component, call `useMessagesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useMessagesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useMessagesQuery({
+ *   variables: {
+ *      opponentSlug: // value for 'opponentSlug'
+ *   },
+ * });
+ */
+export function useMessagesQuery(
+  baseOptions: Apollo.QueryHookOptions<MessagesQuery, MessagesQueryVariables>
+) {
+  return Apollo.useQuery<MessagesQuery, MessagesQueryVariables>(
+    MessagesDocument,
+    baseOptions
+  );
+}
+export function useMessagesLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    MessagesQuery,
+    MessagesQueryVariables
+  >
+) {
+  return Apollo.useLazyQuery<MessagesQuery, MessagesQueryVariables>(
+    MessagesDocument,
+    baseOptions
+  );
+}
+export type MessagesQueryHookResult = ReturnType<typeof useMessagesQuery>;
+export type MessagesLazyQueryHookResult = ReturnType<
+  typeof useMessagesLazyQuery
+>;
+export type MessagesQueryResult = Apollo.QueryResult<
+  MessagesQuery,
+  MessagesQueryVariables
 >;
 export const ReceivedApplyingDocument = gql`
   query ReceivedApplying {

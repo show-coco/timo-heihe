@@ -23,17 +23,17 @@ export class MessageService {
     return res;
   }
 
-  async findAll(userId: number, otherPersonId: number) {
+  async findAll(userId: number, oppponentSlug: string) {
     const res = await this.messageRepository
       .createQueryBuilder('message')
       .leftJoinAndSelect('message.sender', 'sender')
       .leftJoinAndSelect('message.receiver', 'receiver')
-      .where('receiver.id = :userId AND sender.id = :otherPersonId', {
+      .where('receiver.id = :userId AND sender.userId = :oppponentSlug', {
         userId,
-        otherPersonId,
+        oppponentSlug,
       })
-      .orWhere('receiver.id = :otherPersonId AND sender.id = :userId', {
-        otherPersonId,
+      .orWhere('receiver.userId = :oppponentSlug AND sender.id = :userId', {
+        oppponentSlug,
         userId,
       })
       .getMany();

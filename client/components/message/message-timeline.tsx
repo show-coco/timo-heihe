@@ -1,8 +1,9 @@
 import React from "react";
+import { UseMessageUsers } from "../../hooks/useMessageUsers";
 import { MessageTimelineItem } from "./item";
 
 type Props = {
-  users: React.ComponentProps<typeof MessageTimelineItem>["user"][];
+  users: UseMessageUsers["users"];
 };
 
 export const MessageTimeline: React.FC<Props> = ({ users }: Props) => {

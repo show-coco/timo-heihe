@@ -1,0 +1,5 @@
+query Messages($opponentSlug: String!) {
+  messages(opponentSlug: $opponentSlug) {
+    ...Message
+  }
+}

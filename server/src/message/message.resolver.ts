@@ -33,9 +33,9 @@ export class MessageResolver {
   @UseGuards(GqlJwtAuthGuard)
   messages(
     @CurrentUser() user: Payload,
-    @Args('otherPersonId', { type: () => Int }) otherPersonId: number,
+    @Args('opponentSlug', { type: () => String }) opponentSlug: string,
   ) {
-    return this.messageService.findAll(user.sub, otherPersonId);
+    return this.messageService.findAll(user.sub, opponentSlug);
   }
 
   @Mutation(() => MessageModel)
