@@ -1,6 +1,7 @@
 import { useRouter } from "next/router";
 import React from "react";
 import { Avatar } from "../../components/avatar/avatar";
+import { MessageItem } from "../../components/message/message";
 import { MessagesTemplate } from "../../components/template/messages";
 import { UserInfo } from "../../components/user-info/user-info";
 import { useMessagesQuery, useOpponentUserQuery } from "../../generated/types";
@@ -37,7 +38,11 @@ export default function Message() {
 
         <div className="px-5">
           {messageData?.messages.map((message) => (
-            <div key={message.id}>{message.text}</div>
+            <MessageItem
+              {...message}
+              key={message.id}
+              opponentSlug={slug?.toString()}
+            />
           ))}
         </div>
       </div>

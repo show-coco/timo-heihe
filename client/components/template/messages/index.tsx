@@ -1,6 +1,6 @@
 import React from "react";
 import { UseMessageUsers } from "../../../hooks/useMessageUsers";
-import { MessageTimeline } from "../../message/message-timeline";
+import { MessageTimeline } from "../../message-timeline/timeline";
 import { Template } from "../app/template";
 
 type Props = {

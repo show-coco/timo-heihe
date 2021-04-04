@@ -6,5 +6,6 @@ fragment Message on MessageModel {
     id
     avatar
     name
+    userId
   }
 }

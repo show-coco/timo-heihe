@@ -344,7 +344,7 @@ export type MessageFragment = { __typename?: "MessageModel" } & Pick<
 > & {
     sender: { __typename?: "UserModel" } & Pick<
       UserModel,
-      "id" | "avatar" | "name"
+      "id" | "avatar" | "name" | "userId"
     >;
   };
 
@@ -700,6 +700,7 @@ export const MessageFragmentDoc = gql`
       id
       avatar
       name
+      userId
     }
   }
 `;
