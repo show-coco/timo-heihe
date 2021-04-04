@@ -388,6 +388,11 @@ export type SkillItemFragment = { __typename?: "SkillModel" } & Pick<
   "id" | "name"
 >;
 
+export type UserInfoFragment = { __typename?: "UserModel" } & Pick<
+  UserModel,
+  "id" | "avatar" | "name" | "userId"
+>;
+
 export type AcceptApplicationMutationVariables = Exact<{
   roomId: Scalars["Int"];
   userId: Scalars["Int"];
@@ -572,6 +577,14 @@ export type MessagesQuery = { __typename?: "Query" } & {
   messages: Array<{ __typename?: "MessageModel" } & MessageFragment>;
 };
 
+export type OpponentUserQueryVariables = Exact<{
+  slug: Scalars["String"];
+}>;
+
+export type OpponentUserQuery = { __typename?: "Query" } & {
+  user: { __typename?: "UserModel" } & UserInfoFragment;
+};
+
 export type ReceivedApplyingQueryVariables = Exact<{ [key: string]: never }>;
 
 export type ReceivedApplyingQuery = { __typename?: "Query" } & {
@@ -738,6 +751,14 @@ export const SkillItemFragmentDoc = gql`
   fragment SkillItem on SkillModel {
     id
     name
+  }
+`;
+export const UserInfoFragmentDoc = gql`
+  fragment UserInfo on UserModel {
+    id
+    avatar
+    name
+    userId
   }
 `;
 export const AcceptApplicationDocument = gql`
@@ -1430,6 +1451,63 @@ export type MessagesLazyQueryHookResult = ReturnType<
 export type MessagesQueryResult = Apollo.QueryResult<
   MessagesQuery,
   MessagesQueryVariables
+>;
+export const OpponentUserDocument = gql`
+  query OpponentUser($slug: String!) {
+    user(userId: $slug) {
+      ...UserInfo
+    }
+  }
+  ${UserInfoFragmentDoc}
+`;
+
+/**
+ * __useOpponentUserQuery__
+ *
+ * To run a query within a React component, call `useOpponentUserQuery` and pass it any options that fit your needs.
+ * When your component renders, `useOpponentUserQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useOpponentUserQuery({
+ *   variables: {
+ *      slug: // value for 'slug'
+ *   },
+ * });
+ */
+export function useOpponentUserQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    OpponentUserQuery,
+    OpponentUserQueryVariables
+  >
+) {
+  return Apollo.useQuery<OpponentUserQuery, OpponentUserQueryVariables>(
+    OpponentUserDocument,
+    baseOptions
+  );
+}
+export function useOpponentUserLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    OpponentUserQuery,
+    OpponentUserQueryVariables
+  >
+) {
+  return Apollo.useLazyQuery<OpponentUserQuery, OpponentUserQueryVariables>(
+    OpponentUserDocument,
+    baseOptions
+  );
+}
+export type OpponentUserQueryHookResult = ReturnType<
+  typeof useOpponentUserQuery
+>;
+export type OpponentUserLazyQueryHookResult = ReturnType<
+  typeof useOpponentUserLazyQuery
+>;
+export type OpponentUserQueryResult = Apollo.QueryResult<
+  OpponentUserQuery,
+  OpponentUserQueryVariables
 >;
 export const ReceivedApplyingDocument = gql`
   query ReceivedApplying {

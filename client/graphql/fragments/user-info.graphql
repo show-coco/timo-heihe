@@ -1,0 +1,6 @@
+fragment UserInfo on UserModel {
+  id
+  avatar
+  name
+  userId
+}

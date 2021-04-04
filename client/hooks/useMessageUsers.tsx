@@ -17,6 +17,8 @@ export const useMessageUsers = (): UseMessageUsers => {
       users: [],
     };
 
+  console.log(data);
+
   const users = data.myRooms
     .flatMap((room) => room.applyingUsers)
     .flatMap((applyingUsers) => applyingUsers?.user);
