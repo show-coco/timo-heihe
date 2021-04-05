@@ -57,6 +57,11 @@ export type CreateSkillInput = {
   name: Scalars["String"];
 };
 
+export type FetchMessageInput = {
+  cursor: Scalars["DateTime"];
+  opponentSlug: Scalars["String"];
+};
+
 export type MessageModel = {
   __typename?: "MessageModel";
   createdAt: Scalars["DateTime"];
@@ -180,7 +185,7 @@ export type QueryMessageArgs = {
 };
 
 export type QueryMessagesArgs = {
-  opponentSlug: Scalars["String"];
+  input: FetchMessageInput;
 };
 
 export type QueryMyRoomsArgs = {
@@ -570,7 +575,7 @@ export type MessageTimelinesQuery = { __typename?: "Query" } & {
 };
 
 export type MessagesQueryVariables = Exact<{
-  opponentSlug: Scalars["String"];
+  input: FetchMessageInput;
 }>;
 
 export type MessagesQuery = { __typename?: "Query" } & {
@@ -1402,8 +1407,8 @@ export type MessageTimelinesQueryResult = Apollo.QueryResult<
   MessageTimelinesQueryVariables
 >;
 export const MessagesDocument = gql`
-  query Messages($opponentSlug: String!) {
-    messages(opponentSlug: $opponentSlug) {
+  query Messages($input: FetchMessageInput!) {
+    messages(input: $input) {
       ...Message
     }
   }
@@ -1422,7 +1427,7 @@ export const MessagesDocument = gql`
  * @example
  * const { data, loading, error } = useMessagesQuery({
  *   variables: {
- *      opponentSlug: // value for 'opponentSlug'
+ *      input: // value for 'input'
  *   },
  * });
  */

@@ -1,20 +1,25 @@
 import { useRouter } from "next/router";
 import React from "react";
-import { Avatar } from "../../components/avatar/avatar";
+import InfiniteScroll from "react-infinite-scroll-component";
 import { MessageItem } from "../../components/message/message";
 import { MessagesTemplate } from "../../components/template/messages";
 import { UserInfo } from "../../components/user-info/user-info";
 import { useMessagesQuery, useOpponentUserQuery } from "../../generated/types";
 import { useMessageUsers } from "../../hooks/useMessageUsers";
 
+const currentDate = new Date();
+
 export default function Message() {
   const router = useRouter();
   const slug = router.query.userSlug;
   const { users } = useMessageUsers();
 
-  const { data: messageData, error } = useMessagesQuery({
+  const { data: messageData, error, fetchMore } = useMessagesQuery({
     variables: {
-      opponentSlug: slug?.toString() || "",
+      input: {
+        opponentSlug: slug?.toString() || "",
+        cursor: currentDate,
+      },
     },
   });
   const { data: opponentData, loading } = useOpponentUserQuery({
@@ -24,6 +29,7 @@ export default function Message() {
   });
 
   if (error) console.error(error);
+  console.log(messageData);
 
   return (
     <MessagesTemplate users={users}>
@@ -36,15 +42,52 @@ export default function Message() {
           <div>情報が取得できませんでした</div>
         )}
 
-        <div className="px-5">
-          {messageData?.messages.map((message) => (
-            <MessageItem
-              {...message}
-              key={message.id}
-              opponentSlug={slug?.toString()}
-            />
-          ))}
-        </div>
+        {messageData ? (
+          <div
+            id="scrollableDiv"
+            className="flex flex-col-reverse px-5 overflow-auto h-96"
+          >
+            <InfiniteScroll
+              hasMore={true}
+              inverse={true}
+              scrollableTarget="scrollableDiv"
+              next={async () => {
+                console.log(
+                  "vea",
+                  messageData.messages[messageData.messages.length - 1]
+                    .createdAt
+                );
+                await fetchMore({
+                  variables: {
+                    input: {
+                      opponentSlug: slug?.toString() || "",
+                      cursor:
+                        messageData.messages[messageData.messages.length - 1]
+                          .createdAt,
+                    },
+                  },
+                });
+              }}
+              loader={<div>Loading...</div>}
+              dataLength={messageData?.messages.length || 0}
+              style={{
+                padding: "0 10px",
+                display: "flex",
+                flexDirection: "column-reverse",
+              }}
+            >
+              {messageData?.messages.map((message, i) => (
+                <MessageItem
+                  {...message}
+                  key={i}
+                  opponentSlug={slug?.toString()}
+                />
+              ))}
+            </InfiniteScroll>
+          </div>
+        ) : (
+          <div>メッセージがありません。何か送信してみましょう</div>
+        )}
       </div>
     </MessagesTemplate>
   );

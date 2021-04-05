@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateMessageInput } from './dto/create-message.input';
+import { FetchMessageInput } from './dto/fetch-message.input';
 import { UpdateMessageInput } from './dto/update-message.input';
 import { Message } from './entities/message.entity';
 
@@ -23,19 +24,23 @@ export class MessageService {
     return res;
   }
 
-  async findAll(userId: number, oppponentSlug: string) {
+  async findAll(userId: number, input: FetchMessageInput) {
+    console.log('cursorrrrr', input.cursor);
     const res = await this.messageRepository
       .createQueryBuilder('message')
       .leftJoinAndSelect('message.sender', 'sender')
       .leftJoinAndSelect('message.receiver', 'receiver')
-      .where('receiver.id = :userId AND sender.userId = :oppponentSlug', {
+      .where('receiver.id = :userId AND sender.userId = :opponentSlug', {
         userId,
-        oppponentSlug,
+        opponentSlug: input.opponentSlug,
       })
-      .orWhere('receiver.userId = :oppponentSlug AND sender.id = :userId', {
-        oppponentSlug,
+      .orWhere('receiver.userId = :opponentSlug AND sender.id = :userId', {
+        opponentSlug: input.opponentSlug,
         userId,
       })
+      .andWhere('message.createdAt < :date', { date: input.cursor })
+      .limit(10)
+      .orderBy('message.createdAt', 'DESC')
       .getMany();
 
     console.log('response on message->service->findAll', res);

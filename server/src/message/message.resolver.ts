@@ -16,6 +16,7 @@ import { Inject, UseGuards } from '@nestjs/common';
 import { GqlJwtAuthGuard } from 'src/auth/jwt-auth.guards';
 import { CurrentUser } from 'src/users/dto/current-user';
 import { Payload } from 'src/auth/types/payload';
+import { FetchMessageInput } from './dto/fetch-message.input';
 
 @Resolver(() => MessageModel)
 export class MessageResolver {
@@ -33,9 +34,9 @@ export class MessageResolver {
   @UseGuards(GqlJwtAuthGuard)
   messages(
     @CurrentUser() user: Payload,
-    @Args('opponentSlug', { type: () => String }) opponentSlug: string,
+    @Args('input') input: FetchMessageInput,
   ) {
-    return this.messageService.findAll(user.sub, opponentSlug);
+    return this.messageService.findAll(user.sub, input);
   }
 
   @Mutation(() => MessageModel)

@@ -90,6 +90,7 @@ module.exports = {
     },
     maxWidth: {
       "1/2": "50%",
+      full: "100%",
     },
   },
   variants: {
