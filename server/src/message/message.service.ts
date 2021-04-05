@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { LessThan, LessThanOrEqual, Repository } from 'typeorm';
 import { CreateMessageInput } from './dto/create-message.input';
 import { FetchMessageInput } from './dto/fetch-message.input';
 import { UpdateMessageInput } from './dto/update-message.input';
@@ -38,7 +38,9 @@ export class MessageService {
         opponentSlug: input.opponentSlug,
         userId,
       })
-      .andWhere('message.createdAt < :date', { date: input.cursor })
+      .where({
+        createdAt: LessThan(input.cursor),
+      })
       .limit(10)
       .orderBy('message.createdAt', 'DESC')
       .getMany();
