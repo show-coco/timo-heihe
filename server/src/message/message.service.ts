@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { LessThan, LessThanOrEqual, Repository } from 'typeorm';
+import { UsersService } from 'src/users/users.service';
+import { LessThan, Repository } from 'typeorm';
 import { CreateMessageInput } from './dto/create-message.input';
 import { FetchMessageInput } from './dto/fetch-message.input';
 import { UpdateMessageInput } from './dto/update-message.input';
@@ -10,6 +11,7 @@ import { Message } from './entities/message.entity';
 export class MessageService {
   constructor(
     @InjectRepository(Message) private messageRepository: Repository<Message>,
+    private readonly usersService: UsersService,
   ) {}
 
   async findOne(id: number): Promise<Message> {
@@ -25,25 +27,31 @@ export class MessageService {
   }
 
   async findAll(userId: number, input: FetchMessageInput) {
-    console.log('cursorrrrr', input.cursor);
-    const res = await this.messageRepository
-      .createQueryBuilder('message')
-      .leftJoinAndSelect('message.sender', 'sender')
-      .leftJoinAndSelect('message.receiver', 'receiver')
-      .where('receiver.id = :userId AND sender.userId = :opponentSlug', {
-        userId,
-        opponentSlug: input.opponentSlug,
-      })
-      .orWhere('receiver.userId = :opponentSlug AND sender.id = :userId', {
-        opponentSlug: input.opponentSlug,
-        userId,
-      })
-      .where({
-        createdAt: LessThan(input.cursor),
-      })
-      .limit(10)
-      .orderBy('message.createdAt', 'DESC')
-      .getMany();
+    console.log('cursorrrrr', input.opponentSlug, userId);
+    const opponent = await this.usersService.findOne(input.opponentSlug);
+    const res = await this.messageRepository.find({
+      relations: ['sender', 'receiver'],
+      where: [
+        {
+          receiver: {
+            id: userId,
+          },
+          sender: { id: opponent.id },
+          createdAt: LessThan(input.cursor),
+        },
+        {
+          receiver: {
+            id: opponent.id,
+          },
+          sender: {
+            id: userId,
+          },
+          createdAt: LessThan(input.cursor),
+        },
+      ],
+      take: 10,
+      order: { createdAt: 'DESC' },
+    });
 
     console.log('response on message->service->findAll', res);
     return res;

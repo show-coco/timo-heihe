@@ -63,11 +63,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         Query: {
           fields: {
             messages: {
-              // Don't cache separate results based on
-              // any of this field's arguments.
-              keyArgs: false,
-              // Concatenate the incoming list items with
-              // the existing list items.
+              keyArgs: ["input", ["opponentSlug"]],
               merge(existing = [], incoming) {
                 return [...existing, ...incoming];
               },
