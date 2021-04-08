@@ -1,10 +1,10 @@
-import { InputType, Field, Int } from '@nestjs/graphql';
+import { InputType, Field } from '@nestjs/graphql';
 
 @InputType()
 export class CreateMessageInput {
   @Field()
   text: string;
 
-  @Field(() => Int)
-  userId: number;
+  @Field()
+  opponentSlug: string;
 }

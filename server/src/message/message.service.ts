@@ -57,21 +57,22 @@ export class MessageService {
     return res;
   }
 
-  async create(createMessageInput: CreateMessageInput) {
+  async create(userId: number, createMessageInput: CreateMessageInput) {
     const input: CreateMessageInput = JSON.parse(
       JSON.stringify(createMessageInput),
     );
     console.log('paramater on message->service->create', input);
+    const opponent = await this.usersService.findOne(input.opponentSlug);
 
-    const returns = await this.messageRepository.save(input);
+    const message = this.messageRepository.create({
+      ...input,
+      sender: { id: userId },
+      receiver: { id: opponent.id },
+    });
+
+    const returns = await this.messageRepository.save(message);
     const res = await this.messageRepository
       .createQueryBuilder('message')
-      .leftJoinAndSelect(
-        'message.thread',
-        'thread',
-        'thread.id = message.threadId',
-      )
-      .leftJoinAndSelect('thread.room', 'room', 'room.id = thread.roomId')
       .where({ id: returns.id })
       .getOne();
 

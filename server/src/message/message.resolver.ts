@@ -40,8 +40,15 @@ export class MessageResolver {
   }
 
   @Mutation(() => MessageModel)
-  async createMessage(@Args('input') createMessageInput: CreateMessageInput) {
-    const newMessage = await this.messageService.create(createMessageInput);
+  @UseGuards(GqlJwtAuthGuard)
+  async createMessage(
+    @CurrentUser() user: Payload,
+    @Args('input') createMessageInput: CreateMessageInput,
+  ) {
+    const newMessage = await this.messageService.create(
+      user.sub,
+      createMessageInput,
+    );
     this.pubSub.publish(subscriptionKeys.MESSAGE_ADDED, {
       messageAdded: newMessage,
     });

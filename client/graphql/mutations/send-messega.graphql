@@ -1,0 +1,5 @@
+mutation SendMessage($text: String!, $opponentSlug: String!) {
+  createMessage(input: { text: $text, opponentSlug: $opponentSlug }) {
+    id
+  }
+}
