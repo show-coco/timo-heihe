@@ -26,6 +26,7 @@ import { Tag } from "../../components/tag";
 import { useApplyRoomMutation, useRoomQuery } from "../../generated/types";
 import { useRouter } from "next/router";
 import Head from "../../components/head";
+
 export default function ShowRoom() {
   const {
     onApply,

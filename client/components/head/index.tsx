@@ -1,12 +1,12 @@
 import Head from "next/head";
 
-interface Props {
+export type Props = {
   title?: string;
   description?: string;
   keyword?: string;
   image?: string;
   url?: string;
-}
+};
 
 export default function head({
   title,
