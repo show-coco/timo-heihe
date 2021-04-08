@@ -6,7 +6,7 @@ import Document, {
   Main,
   NextScript,
 } from "next/document";
-import { HeadContent } from "../components/head";
+
 export default class MyDocument extends Document<{}> {
   static async getInitialProps(ctx: DocumentContext) {
     const initialProps = await Document.getInitialProps(ctx);
@@ -17,15 +17,7 @@ export default class MyDocument extends Document<{}> {
   render() {
     return (
       <Html lang="ja">
-        <Head>
-          <HeadContent
-            title={"CloudCircle"}
-            description={
-              "CloudCircleはエンジニアのためのコミュニティプラットフォームです。みんなと繋がり、開発・研究して仲間と経験をつくろう！"
-            }
-            image={`https://ogp-kaitoyokohamaa.vercel.app/CloudCircle`}
-          />
-        </Head>
+        <Head />
         <body>
           <Main />
           <NextScript />

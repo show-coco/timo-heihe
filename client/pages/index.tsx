@@ -12,7 +12,7 @@ import {
 } from "../components/card/team-card";
 /* hooks */
 import { useSearchTeams } from "../hooks/useSearchRooms";
-
+import Head from "../components/head";
 export default function Home() {
   const {
     roomsData,
@@ -45,6 +45,13 @@ export default function Home() {
         />
       }
     >
+      <Head
+        title={"CloudCircle"}
+        description={
+          "CloudCircleはエンジニアのためのコミュニティプラットフォームです。みんなと繋がり、開発・研究して仲間と経験をつくろう！"
+        }
+        image={`https://ogp-kaitoyokohamaa.vercel.app/CloudCircle`}
+      />
       <div className="flex px-10">
         <div className="w-3/5 mt-5 space-y-5">
           {!teams || teams.length === 0 ? (
