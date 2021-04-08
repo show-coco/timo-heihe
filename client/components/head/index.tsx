@@ -1,11 +1,11 @@
 import Head from "next/head";
 
 interface Props {
-  title: string;
-  description: string;
-  keyword: string;
-  image: string;
-  url: string;
+  title?: string;
+  description?: string;
+  keyword?: string;
+  image?: string;
+  url?: string;
 }
 
 export default function head({
@@ -17,6 +17,7 @@ export default function head({
 }: Props) {
   return (
     <Head>
+      <title>{title}</title>
       <meta property="og:title" content={title} />
       <meta property="og:description" content={description} />
       <meta name="keywords" content={keyword} />
