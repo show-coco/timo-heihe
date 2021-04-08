@@ -73,6 +73,8 @@ export class MessageService {
     const returns = await this.messageRepository.save(message);
     const res = await this.messageRepository
       .createQueryBuilder('message')
+      .leftJoinAndSelect('message.sender', 'sender')
+      .leftJoinAndSelect('message.receiver', 'receiver')
       .where({ id: returns.id })
       .getOne();
 

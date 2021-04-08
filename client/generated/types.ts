@@ -453,7 +453,7 @@ export type SendMessageMutationVariables = Exact<{
 }>;
 
 export type SendMessageMutation = { __typename?: "Mutation" } & {
-  createMessage: { __typename?: "MessageModel" } & Pick<MessageModel, "id">;
+  createMessage: { __typename?: "MessageModel" } & MessageFragment;
 };
 
 export type UpdateUserMutationVariables = Exact<{
@@ -1025,9 +1025,10 @@ export type RejectApplicationMutationOptions = Apollo.BaseMutationOptions<
 export const SendMessageDocument = gql`
   mutation SendMessage($text: String!, $opponentSlug: String!) {
     createMessage(input: { text: $text, opponentSlug: $opponentSlug }) {
-      id
+      ...Message
     }
   }
+  ${MessageFragmentDoc}
 `;
 export type SendMessageMutationFn = Apollo.MutationFunction<
   SendMessageMutation,
