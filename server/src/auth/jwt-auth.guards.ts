@@ -13,7 +13,7 @@ import { jwtConstants } from './auth.constants';
 export class GqlJwtAuthGuard implements CanActivate {
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const ctx = GqlExecutionContext.create(context).getContext();
-    if (!ctx.headers.authorization) {
+    if (!ctx.headers || !ctx.headers.authorization) {
       return false;
     }
     ctx.user = await this.validateToken(ctx.headers.authorization);

@@ -34,6 +34,12 @@ export class RoomResolver {
     return this.roomService.findAllByUserId(user.sub, input);
   }
 
+  @Query(() => [RoomModel])
+  @UseGuards(GqlJwtAuthGuard)
+  opponents(@CurrentUser() user: Payload) {
+    return this.roomService.findOpponents(user.sub);
+  }
+
   @Mutation(() => RoomModel)
   @UseGuards(GqlJwtAuthGuard)
   updateRoom(@Args('input') input: UpdateRoomInput) {

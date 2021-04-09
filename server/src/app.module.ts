@@ -38,7 +38,12 @@ import { RoomApplyingUserModule } from './room-applying-user/room-applying-user.
       playground: true,
       autoSchemaFile: 'schema.graphql',
       sortSchema: true,
-      context: ({ req }) => ({ headers: req && req.headers }),
+      context: ({ req }) => {
+        console.log('reqqq', req && req.headers);
+        return {
+          headers: req && req.headers,
+        };
+      },
       installSubscriptionHandlers: true,
     }),
     TypeOrmModule.forRoot({

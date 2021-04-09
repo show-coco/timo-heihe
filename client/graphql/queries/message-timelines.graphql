@@ -1,7 +1,10 @@
 query MessageTimelines {
-  myRooms(input: { iAmOwner: true, state: APPROVED }) {
+  opponents {
     id
     name
+    owner {
+      ...MessageTimeline
+    }
     applyingUsers {
       user {
         ...MessageTimeline

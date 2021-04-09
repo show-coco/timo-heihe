@@ -7,9 +7,7 @@ import { TextInput } from "../../components/text-input/text-input";
 import { UserInfo } from "../../components/user-info/user-info";
 import {
   MessageFragment,
-  MessagesDocument,
-  MessagesQuery,
-  MessagesQueryVariables,
+  useMessageAddedSubscription,
   useMessagesQuery,
   useOpponentUserQuery,
   useSendMessageMutation,
@@ -40,15 +38,24 @@ export default function Message() {
       slug: slug?.toString() || "",
     },
   });
+  const { data: addedMessage } = useMessageAddedSubscription({
+    variables: {
+      slug: slug?.toString() || "",
+    },
+  });
   const [sendMessage] = useSendMessageMutation();
 
   console.log("messagesData", messages);
 
   useEffect(() => {
     if (messageData) {
-      setMessages(messageData.messages);
+      setMessages([...messageData.messages]);
     }
-  }, [messageData]);
+    if (addedMessage) {
+      console.log("messageAdded", addedMessage);
+      setMessages([...messages, addedMessage.messageAdded]);
+    }
+  }, [addedMessage, messageData]);
 
   if (error) console.error(error);
 

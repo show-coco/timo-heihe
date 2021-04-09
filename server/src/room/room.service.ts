@@ -7,6 +7,7 @@ import { Room } from './entities/room.entity';
 import { SearchRoomInput } from './dto/search-room.input';
 import { MyRoomsInput } from './dto/my-rooms.input';
 import { RoomApplyingUserService } from '../room-applying-user/room-applying-user.service';
+import { State } from 'src/room-applying-user/entities/room-applying-user.entity';
 
 @Injectable()
 export class RoomService {
@@ -126,6 +127,27 @@ export class RoomService {
     }));
 
     console.log('response on rooms->service->findAllByUserId', res);
+    return res;
+  }
+
+  async findOpponents(userId: number) {
+    const result = await this.roomRepository
+      .createQueryBuilder('room')
+      .leftJoinAndSelect('room.applyingUsers', 'applyingUsers')
+      .leftJoinAndSelect('applyingUsers.user', 'user')
+      .leftJoinAndSelect('room.owner', 'owner')
+      .where('user.id = :id OR owner.id = :id', { id: userId })
+      .andWhere('applyingUsers.state = :state', { state: State.APPROVED })
+      .getMany();
+
+    const res: Room[] = result.map((room) => ({
+      ...room,
+      applyingUsers: room.applyingUsers.filter((user) =>
+        user.user ? user.user : null,
+      ),
+    }));
+
+    console.log('response on room->service->findOpponent', res);
     return res;
   }
 
