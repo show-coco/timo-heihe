@@ -47,9 +47,6 @@ export default function Home() {
     >
       <Meta
         title={"CloudCircle"}
-        description={
-          "CloudCircleはエンジニアのためのコミュニティプラットフォームです。みんなと繋がり、開発・研究して仲間と経験をつくろう！"
-        }
         image={`https://ogp-mu.vercel.app/CloudCircle`}
       />
       <div className="flex px-10">

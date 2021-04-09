@@ -54,9 +54,6 @@ export default function CreateRoom() {
     <Template className="p-10 px-28 grid grid-cols-8 gap-8">
       <Meta
         title={"ルーム作成 | CloudCircle"}
-        description={
-          "CloudCircleはエンジニアのためのコミュニティプラットフォームです。みんなと繋がり、開発・研究して仲間と経験をつくろう！"
-        }
         image={`https://ogp-mu.vercel.app/ルーム作成`}
       />
       <div className="col-span-5">

@@ -10,10 +10,7 @@ function Login() {
     <div className="relative block w-screen h-screen overflow-hidden bg-gradient-to-t from-yellow-100">
       <Meta
         title={"CloudCircle"}
-        description={
-          "CloudCircleはエンジニアのためのコミュニティプラットフォームです。みんなと繋がり、開発・研究して仲間と経験をつくろう！"
-        }
-        image={`https://ogp-mu.vercel.app/ログインして`}
+        image={`https://ogp-mu.vercel.app/ログイン`}
       />
       <Circle className="absolute w-96 h-96 -top-12 -right-20 bg-gradient-to-t from-yellow-400" />
 

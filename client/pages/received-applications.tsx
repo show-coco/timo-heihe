@@ -9,7 +9,7 @@ import {
   useReceivedApplyingQuery,
   useRejectApplicationMutation,
 } from "../generated/types";
-
+import { Meta } from "../components/head";
 export default function ReceivedApplyingPage() {
   const { data, loading } = useReceivedApplyingQuery();
   const [reject] = useRejectApplicationMutation();
@@ -56,6 +56,10 @@ export default function ReceivedApplyingPage() {
 
   return (
     <Template className="p-10">
+      <Meta
+        title={"受け取った申請 | CloudCircle"}
+        image={`https://ogp-mu.vercel.app/受け取った申請`}
+      />
       <div className="w-3/5 mx-auto">
         <Heading as="h1Big" className="mb-8 text-center">
           受け取った申請

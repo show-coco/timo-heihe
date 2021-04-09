@@ -31,11 +31,8 @@ export default function ChatPage() {
   return (
     <>
       <Meta
-        title={"chat | CloudCircle"}
-        description={
-          "CloudCircleはエンジニアのためのコミュニティプラットフォームです。みんなと繋がり、開発・研究して仲間と経験をつくろう！"
-        }
-        image={`https://ogp-mu.vercel.app/chat`}
+        title={"チャット | CloudCircle"}
+        image={`https://ogp-mu.vercel.app/チャット`}
       />
       <CreateChannelModal
         {...createRoomModal}
