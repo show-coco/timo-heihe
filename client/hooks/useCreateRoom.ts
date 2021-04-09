@@ -12,6 +12,9 @@ import { useFileInput } from "./useFileInput";
 
 const includesInvalidChars = (slug: string) => /[^a-z0-9-_]/.test(slug);
 
+const toggleArrayItem = <T>(arr: T[], item: T): T[] =>
+  arr.includes(item) ? arr.filter((i) => i !== item) : [...arr, item];
+
 export const convertToCategoriesObj = (categories: number[]) => {
   return categories.map((category) => ({
     id: category,
@@ -80,8 +83,7 @@ export const useCreateRoom = () => {
       setIsDisabled(true);
     }
 
-    setError(slug  === "" || includesInvalidChars(slug));
-
+    setError(slug === "" || includesInvalidChars(slug));
   }, [title, name, slug, categories, description]);
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -102,27 +104,14 @@ export const useCreateRoom = () => {
     event: React.FormEvent<HTMLInputElement>,
     clickedTypeId: number
   ) => {
-    const valueExists = types.includes(clickedTypeId);
-    if (valueExists) {
-      const newTypes = types.filter((type) => type !== clickedTypeId);
-      setTypes(newTypes);
-    } else {
-      setTypes([...types, clickedTypeId]);
-    }
+    setTypes(toggleArrayItem(types, clickedTypeId));
   };
 
   const onChangeCategories = (
     event: React.FormEvent<HTMLInputElement>,
     id: number
   ) => {
-    let newCategories = categories.slice();
-
-    if (categories.includes(id)) {
-      newCategories = categories.filter((value) => value !== id);
-    } else {
-      newCategories.push(id);
-    }
-    setCategories(newCategories);
+    setCategories(toggleArrayItem(categories, id));
   };
 
   return {
