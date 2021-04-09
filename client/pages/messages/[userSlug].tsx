@@ -15,6 +15,7 @@ import {
 import { useMessageUsers } from "../../hooks/useMessageUsers";
 import SendIcon from "../../assets/icons/send.svg";
 import { IconButton } from "../../components/button/icon-button";
+import { useAuthContext } from "../../providers/useAuthContext";
 
 const currentDate = new Date();
 
@@ -24,6 +25,7 @@ export default function Message() {
   const { users } = useMessageUsers();
   const [text, setText] = useState("");
   const [messages, setMessages] = useState<MessageFragment[]>([]);
+  const { userId } = useAuthContext();
 
   const { data: messageData, error, fetchMore } = useMessagesQuery({
     variables: {
@@ -38,12 +40,16 @@ export default function Message() {
       slug: slug?.toString() || "",
     },
   });
-  const { data: addedMessage } = useMessageAddedSubscription({
-    variables: {
-      slug: slug?.toString() || "",
-    },
-  });
+  const { data: addedMessage, error: addedError } = useMessageAddedSubscription(
+    {
+      variables: {
+        slug: userId,
+      },
+    }
+  );
   const [sendMessage] = useSendMessageMutation();
+
+  console.log("evniranv", addedError);
 
   console.log("messagesData", messages);
 
@@ -53,7 +59,7 @@ export default function Message() {
     }
     if (addedMessage) {
       console.log("messageAdded", addedMessage);
-      setMessages([...messages, addedMessage.messageAdded]);
+      setMessages([addedMessage.messageAdded, ...messages]);
     }
   }, [addedMessage, messageData]);
 

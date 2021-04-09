@@ -68,8 +68,14 @@ export class MessageResolver {
   // }
 
   @Subscription(() => MessageModel, {
-    filter: (payload, variables) =>
-      payload.messageAdded.receiver.userId === variables.slug,
+    filter: (payload, variables) => {
+      console.log(
+        'vbhavbeiv ae',
+        payload.messageAdded.receiver.userId,
+        variables.slug,
+      );
+      return payload.messageAdded.receiver.userId === variables.slug;
+    },
   })
   messageAdded(@Args('slug') slug: string) {
     const addedMessage = this.pubSub.asyncIterator(
