@@ -10,6 +10,8 @@ import {
 import { useAuthContext } from "../providers/useAuthContext";
 import { useFileInput } from "./useFileInput";
 
+const includesInvalidChars = (slug: string) => /[^a-z0-9-_]/.test(slug);
+
 export const convertToCategoriesObj = (categories: number[]) => {
   return categories.map((category) => ({
     id: category,
@@ -77,13 +79,9 @@ export const useCreateRoom = () => {
     } else {
       setIsDisabled(true);
     }
-    if (slug.match(/[^a-z0-9-_]/) && slug !== "") {
-      setError(true);
-    } else if (!slug.match(/[^a-z0-9-_]/)) {
-      setError(false);
-    }
-    const includesInvalidChars = (slug: string) => /[^a-z0-9-_]/.test(slug);
-    setError(includesInvalidChars(slug));
+
+    setError(slug  === "" || includesInvalidChars(slug));
+
   }, [title, name, slug, categories, description]);
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
