@@ -1,4 +1,6 @@
 import React from "react";
+import { GetServerSideProps } from "next";
+
 import { Avatar } from "../../components/avatar/avatar";
 import { Card } from "../../components/card/card";
 import {
@@ -25,9 +27,14 @@ import { Template } from "../../components/template/app/template";
 import { Tag } from "../../components/tag";
 import { useApplyRoomMutation, useRoomQuery } from "../../generated/types";
 import { useRouter } from "next/router";
-import Head from "../../components/head";
+import { Meta } from "../../components/head";
 
-export default function ShowRoom() {
+type Props = {
+  url: string;
+  title: string;
+};
+
+export default function ShowRoom({ url, title }: Props) {
   const {
     onApply,
     iCanEdit,
@@ -49,15 +56,13 @@ export default function ShowRoom() {
 
   const room = data?.room;
 
-  console.log(data);
-
   // if (loading) return <p>Loading...</p>;
   // if (!room) return <p>データがありません</p>;
-  const url = `https://ogp-kaitoyokohamaa.vercel.app/${room?.title}.${room?.owner.name}`;
+
   return (
     <>
       <LoginModal isOpen={isOpen} onRequestClose={onClose} />
-      <Head title={room?.title} image={url} />
+      <Meta title={title} image={`${url}`} />
       <Template className="p-10">
         <div className="flex flex-row space-x-10">
           <Card className="flex-1 p-8">
@@ -177,3 +182,18 @@ export default function ShowRoom() {
     </>
   );
 }
+
+export const getServerSideProps: GetServerSideProps = async ({
+  params,
+  query,
+}) => {
+  const { title } = query;
+
+  const url = `https://ogp-mu.vercel.app/${title}.${params?.slug}`;
+  return {
+    props: {
+      url,
+      title,
+    },
+  };
+};

@@ -13,7 +13,7 @@ import { CreateRoomModal } from "../components/chat/modals/create-room";
 import { MoveToRecruitModal } from "../components/chat/modals/move-to-recruit";
 import { useAuthGuard } from "../hooks/useAuthGurad";
 import { Template } from "../components/template/app/template";
-import Head from "../components/head";
+import { Meta } from "../components/head";
 export default function ChatPage() {
   const {
     status,
@@ -30,12 +30,12 @@ export default function ChatPage() {
 
   return (
     <>
-      <Head
+      <Meta
         title={"chat | CloudCircle"}
         description={
           "CloudCircleはエンジニアのためのコミュニティプラットフォームです。みんなと繋がり、開発・研究して仲間と経験をつくろう！"
         }
-        image={`https://ogp-kaitoyokohamaa.vercel.app/chat`}
+        image={`https://ogp-mu.vercel.app/chat`}
       />
       <CreateChannelModal
         {...createRoomModal}

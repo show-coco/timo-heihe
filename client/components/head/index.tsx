@@ -8,18 +8,19 @@ export type Props = {
   url?: string;
 };
 
-export default function head({
-  title,
-  description,
-  keyword,
-  image,
-  url,
-}: Props) {
+export const Meta = ({ title, description, keyword, image, url }: Props) => {
   return (
     <Head>
       <title>{title}</title>
       <meta property="og:title" content={title} />
-      <meta property="og:description" content={description} />
+      <meta
+        property="og:description"
+        content={
+          description
+            ? description
+            : "CloudCircleはエンジニアのためのコミュニティプラットフォームです。みんなと繋がり、開発・研究して仲間と経験をつくろう！"
+        }
+      />
       <meta name="keywords" content={keyword} />
       {/* website,blog,articleの中から抜粋*/}
       <meta property="og:type" content={`article`} />
@@ -30,9 +31,16 @@ export default function head({
       <meta name="twitter:site" content="@test" />
       <meta name="twitter:url" content={image} />
       <meta name="twitter:title" content={title} />
-      <meta name="twitter:description" content={description} />
+      <meta
+        name="twitter:description"
+        content={
+          description
+            ? description
+            : "CloudCircleはエンジニアのためのコミュニティプラットフォームです。みんなと繋がり、開発・研究して仲間と経験をつくろう！"
+        }
+      />
       <meta name="twitter:image" content={image} />
       <link rel="canonical" href={url} />
     </Head>
   );
-}
+};

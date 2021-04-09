@@ -4,16 +4,16 @@ import { Circle } from "../components/circle";
 import { LoginButton } from "../components/login-button";
 import { Button } from "../components/button";
 import Link from "next/link";
-import Head from "../components/head";
+import { Meta } from "../components/head";
 function Login() {
   return (
     <div className="relative block w-screen h-screen overflow-hidden bg-gradient-to-t from-yellow-100">
-      <Head
+      <Meta
         title={"CloudCircle"}
         description={
           "CloudCircleはエンジニアのためのコミュニティプラットフォームです。みんなと繋がり、開発・研究して仲間と経験をつくろう！"
         }
-        image={`https://ogp-kaitoyokohamaa.vercel.app/ログイン`}
+        image={`https://ogp-mu.vercel.app/ログインして`}
       />
       <Circle className="absolute w-96 h-96 -top-12 -right-20 bg-gradient-to-t from-yellow-400" />
 

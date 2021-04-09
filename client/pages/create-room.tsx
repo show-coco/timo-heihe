@@ -18,7 +18,7 @@ import { TextArea } from "../components/text-area";
 import { useAuthGuard } from "../hooks/useAuthGurad";
 import { Template } from "../components/template/app/template";
 import { OperationTag } from "../components/tag/operation";
-import Head from "../components/head";
+import { Meta } from "../components/head";
 const betweenH2 = "space-y-2";
 
 export default function CreateRoom() {
@@ -52,12 +52,12 @@ export default function CreateRoom() {
 
   return (
     <Template className="p-10 px-28 grid grid-cols-8 gap-8">
-      <Head
+      <Meta
         title={"ルーム作成 | CloudCircle"}
         description={
           "CloudCircleはエンジニアのためのコミュニティプラットフォームです。みんなと繋がり、開発・研究して仲間と経験をつくろう！"
         }
-        image={`https://ogp-kaitoyokohamaa.vercel.app/ルーム作成`}
+        image={`https://ogp-mu.vercel.app/ルーム作成`}
       />
       <div className="col-span-5">
         {/*左側のカード */}
