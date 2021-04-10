@@ -1,7 +1,7 @@
 import { AppProps } from "next/dist/next-server/lib/router/router";
 import React from "react";
 import "../styles/globals.css";
-import Document, { Html, Head, Main, NextScript } from "next/document";
+import Head from "next/head";
 import {
   ApolloClient,
   ApolloProvider,
@@ -75,11 +75,12 @@ function MyApp({ Component, pageProps }: AppProps) {
   });
 
   return (
-    <Html lang="ja">
+    <>
       <Head>
         <meta
           name="viewport"
           content="width=device-width, initial-scale=1, shrink-to-fit=no"
+          lang="ja"
         />
         {/* <link rel="shortcut icon" href="/favicon.png" key="shortcutIcon" /> */}
         {/* <link rel="manifest" href="/manifest.json" /> */}
@@ -89,7 +90,7 @@ function MyApp({ Component, pageProps }: AppProps) {
           <Component {...pageProps} />
         </AuthProvider>
       </ApolloProvider>
-    </Html>
+    </>
   );
 }
 
