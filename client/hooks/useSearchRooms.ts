@@ -44,15 +44,15 @@ export const useSearchTeams = (): UseSearch => {
   const { data: roomsData, refetch, loading, error } = useRoomsQuery({
     variables: {
       input: {
-        skillIds: mySkillIds,
-        typeId: TeamType.DEVELOPMENT,
+        keyword: null,
+        categoryIds: null,
+        skillIds: mySkillIds.length ? mySkillIds : null,
+        recruitmentLevelIds: null,
+        withApplication: false,
+        typeId: null,
       },
     },
   });
-
-  useEffect(() => {
-    setSkillIds(mySkillIds);
-  }, [mySkillIds]);
 
   useEffect(() => {
     refetchRooms();

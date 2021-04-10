@@ -63,6 +63,37 @@ export default function Message() {
     }
   }, [addedMessage, messageData]);
 
+  const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    await sendMessage({
+      variables: {
+        text: text,
+        opponentSlug: slug?.toString() || "",
+      },
+      update: (_, { data }) => {
+        if (data?.createMessage) {
+          setMessages([data.createMessage, ...messages]);
+        }
+      },
+    });
+    setText("");
+  };
+
+  const onNext = async () => {
+    const { data } = await fetchMore({
+      variables: {
+        input: {
+          opponentSlug: slug?.toString() || "",
+          cursor: messages[messages.length - 1].createdAt,
+        },
+      },
+    });
+
+    console.log("veaneani", data.messages);
+
+    setMessages([...messages, ...data.messages]);
+  };
+
   if (error) console.error(error);
 
   return (
@@ -86,20 +117,7 @@ export default function Message() {
                 hasMore={true}
                 inverse={true}
                 scrollableTarget="scrollableDiv"
-                next={async () => {
-                  const { data } = await fetchMore({
-                    variables: {
-                      input: {
-                        opponentSlug: slug?.toString() || "",
-                        cursor: messages[messages.length - 1].createdAt,
-                      },
-                    },
-                  });
-
-                  console.log("veaneani", data.messages);
-
-                  setMessages([...messages, ...data.messages]);
-                }}
+                next={onNext}
                 loader={<div>Loading...</div>}
                 dataLength={messages.length || 0}
                 style={{
@@ -123,29 +141,22 @@ export default function Message() {
         </div>
 
         <div className="px-3 pt-5">
-          <div className="relative">
-            <TextInput onChange={(e) => setText(e.target.value)} />
-            <span className="absolute top-0 right-2">
-              <IconButton
-                isIcon
-                icon={<SendIcon />}
-                variant="ghost"
-                onClick={() =>
-                  sendMessage({
-                    variables: {
-                      text: text,
-                      opponentSlug: slug?.toString() || "",
-                    },
-                    update: (_, { data }) => {
-                      if (data?.createMessage) {
-                        setMessages([data.createMessage, ...messages]);
-                      }
-                    },
-                  })
-                }
+          <form onSubmit={onSubmit}>
+            <div className="relative">
+              <TextInput
+                onChange={(e) => setText(e.target.value)}
+                value={text}
               />
-            </span>
-          </div>
+              <span className="absolute top-0 right-2">
+                <IconButton
+                  isIcon
+                  icon={<SendIcon />}
+                  variant="ghost"
+                  type="submit"
+                />
+              </span>
+            </div>
+          </form>
         </div>
       </div>
     </MessagesTemplate>
