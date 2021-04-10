@@ -50,17 +50,12 @@ export default function Message() {
   );
   const [sendMessage] = useSendMessageMutation();
 
-  console.log("evniranv", addedError);
-
-  console.log("messagesData", messages);
-
   useEffect(() => {
     if (messageData) {
       setHasNext(true);
       setMessages([...messageData.messages]);
     }
     if (addedMessage) {
-      console.log("messageAdded", addedMessage);
       setMessages([addedMessage.messageAdded, ...messages]);
     }
   }, [addedMessage, messageData]);
