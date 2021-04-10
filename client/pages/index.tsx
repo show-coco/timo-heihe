@@ -17,7 +17,6 @@ export default function Home() {
   const {
     roomsData,
     error,
-    loading,
     typeId,
     setTypeId,
     ...searchArea
@@ -27,7 +26,6 @@ export default function Home() {
     return roomsData?.rooms && convertToTeamCardObjFromTeams(roomsData.rooms);
   }, [roomsData]);
 
-  if (loading) return <p>Loading</p>;
   if (error) return <p>{error.message}</p>;
 
   return (
