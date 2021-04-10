@@ -49,7 +49,7 @@ export class RoomService {
   }
 
   async findAll(searchRoomInput?: SearchRoomInput): Promise<Room[]> {
-    const input: SearchRoomInput | undefined =
+    const input: SearchRoomInput =
       searchRoomInput && JSON.parse(JSON.stringify(searchRoomInput));
     console.log('paramater on rooms->service->findAll', input);
 
@@ -65,7 +65,7 @@ export class RoomService {
         withApplication: input.withApplication,
       });
 
-    if (input && input.keyword) {
+    if (input?.keyword) {
       query.andWhere(
         'room.title LIKE :keyword OR room.name LIKE :keyword OR room.slug LIKE :keyword',
         {
@@ -74,21 +74,21 @@ export class RoomService {
       );
     }
 
-    if (input && input.skillIds) {
+    if (input?.skillIds) {
       query.andWhere('skills.id IN (:...ids)', {
         ids: input.skillIds,
       });
     }
 
-    if (input && input.categoryIds) {
+    if (input?.categoryIds) {
       query.andWhere('categories.id IN (:...ids)', { ids: input.categoryIds });
     }
 
-    if (input && input.typeId) {
+    if (input?.typeId) {
       query.andWhere('types.id = :id', { id: input.typeId });
     }
 
-    if (input && input.recruitmentLevelIds) {
+    if (input?.recruitmentLevelIds) {
       query.andWhere('recruitmentLevels.id IN (:...ids)', {
         ids: input.recruitmentLevelIds,
       });
