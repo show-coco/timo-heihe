@@ -12,7 +12,7 @@ import {
 } from "../components/card/team-card";
 /* hooks */
 import { useSearchTeams } from "../hooks/useSearchRooms";
-import { Meta } from "../components/head";
+import { Meta } from "../components/meta";
 export default function Home() {
   const {
     roomsData,
@@ -39,7 +39,7 @@ export default function Home() {
         />
       }
     >
-      <Meta title={"CloudCircle"} />
+      <Meta title={"ルーム一覧ページ | CloudCircle"} />
       <div className="flex px-10">
         <div className="w-3/5 mt-5 space-y-5">
           {!teams || teams.length === 0 ? (

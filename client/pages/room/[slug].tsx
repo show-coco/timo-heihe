@@ -23,7 +23,7 @@ import { Template } from "../../components/template/app/template";
 import { Tag } from "../../components/tag";
 import { useApplyRoomMutation, useRoomQuery } from "../../generated/types";
 import { useRouter } from "next/router";
-import { Meta } from "../../components/head";
+import { Meta } from "../../components/meta";
 
 type Props = {
   url: string;

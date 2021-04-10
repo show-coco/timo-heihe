@@ -9,7 +9,7 @@ import {
   useReceivedApplyingQuery,
   useRejectApplicationMutation,
 } from "../generated/types";
-import { Meta } from "../components/head";
+import { Meta } from "../components/meta";
 export default function ReceivedApplyingPage() {
   const { data, loading } = useReceivedApplyingQuery();
   const [reject] = useRejectApplicationMutation();

@@ -4,7 +4,7 @@ import { Circle } from "../components/circle";
 import { LoginButton } from "../components/login-button";
 import { Button } from "../components/button";
 import Link from "next/link";
-import { Meta } from "../components/head";
+import { Meta } from "../components/meta";
 function Login() {
   return (
     <div className="relative block w-screen h-screen overflow-hidden bg-gradient-to-t from-yellow-100">

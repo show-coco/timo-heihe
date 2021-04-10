@@ -18,7 +18,7 @@ import { TextArea } from "../components/text-area";
 import { useAuthGuard } from "../hooks/useAuthGurad";
 import { Template } from "../components/template/app/template";
 import { OperationTag } from "../components/tag/operation";
-import { Meta } from "../components/head";
+import { Meta } from "../components/meta";
 
 const betweenH2 = "space-y-2";
 

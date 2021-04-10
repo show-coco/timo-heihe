@@ -16,7 +16,7 @@ import { useMessageUsers } from "../../hooks/useMessageUsers";
 import SendIcon from "../../assets/icons/send.svg";
 import { IconButton } from "../../components/button/icon-button";
 import { useAuthContext } from "../../providers/useAuthContext";
-
+import { Meta } from "../../components/meta";
 const currentDate = new Date();
 
 export default function Message() {
@@ -94,6 +94,7 @@ export default function Message() {
 
   return (
     <MessagesTemplate users={users}>
+      <Meta title={"メッセージ | CloudCircle"} />
       <div>
         <div className="divide-y">
           {loading ? (
