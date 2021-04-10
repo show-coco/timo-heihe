@@ -67,7 +67,7 @@ export class RoomService {
 
     if (input?.keyword) {
       query.andWhere(
-        'room.title LIKE :keyword OR room.name LIKE :keyword OR room.slug LIKE :keyword',
+        'room.title ILIKE :keyword OR room.name ILIKE :keyword OR room.slug ILIKE :keyword',
         {
           keyword: `%${input.keyword}%`,
         },

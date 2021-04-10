@@ -45,7 +45,7 @@ export const useSearchTeams = (): UseSearch => {
   const { data: roomsData, refetch, loading, error } = useRoomsQuery({
     variables: {
       input: {
-        keyword,
+        keyword: null,
         categoryIds: null,
         skillIds: mySkillIds.length ? mySkillIds : null,
         recruitmentLevelIds: null,
