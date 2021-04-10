@@ -53,7 +53,7 @@ export default function CreateRoom() {
 
   return (
     <Template className="p-10 px-28 grid grid-cols-8 gap-8">
-      <Meta title={"ルーム作成 | CloudCircle"} image={`/ogp.png`} />
+      <Meta title={"ルーム作成 | CloudCircle"} />
 
       <div className="col-span-5">
         {/*左側のカード */}

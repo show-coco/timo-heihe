@@ -189,7 +189,7 @@ export const getServerSideProps: GetServerSideProps = async ({
 }) => {
   const { title } = query;
 
-  const url = `https://ogp-mu.vercel.app/${title}.${params?.slug}`;
+  const url = `https://ogp-mu.vercel.app/${title}.${params?.slug}.png`;
   return {
     props: {
       url,

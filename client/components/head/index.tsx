@@ -25,11 +25,11 @@ export const Meta = ({ title, description, keyword, image, url }: Props) => {
       {/* website,blog,articleの中から抜粋*/}
       <meta property="og:type" content={`article`} />
       <meta property="og:url" content={url} />
-      <meta property="og:image" content={image} />
+      <meta property="og:image" content={image ? image : "/ogp.png"} />
       <meta property="og:site_name" content={title} />
       <meta name="twitter:card" content={"summary_large_image"} />
       <meta name="twitter:site" content="@test" />
-      <meta name="twitter:url" content={image} />
+      <meta name="twitter:url" content={image ? image : "/ogp.png"} />
       <meta name="twitter:title" content={title} />
       <meta
         name="twitter:description"
@@ -39,7 +39,7 @@ export const Meta = ({ title, description, keyword, image, url }: Props) => {
             : "CloudCircleはエンジニアのためのコミュニティプラットフォームです。みんなと繋がり、開発・研究して仲間と経験をつくろう！"
         }
       />
-      <meta name="twitter:image" content={image} />
+      <meta name="twitter:image" content={image ? image : "/ogp.png"} />
       <link rel="canonical" href={url} />
     </Head>
   );

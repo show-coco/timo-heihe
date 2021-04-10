@@ -45,10 +45,7 @@ export default function Home() {
         />
       }
     >
-      <Meta
-        title={"CloudCircle"}
-        image={`https://ogp-mu.vercel.app/CloudCircle`}
-      />
+      <Meta title={"CloudCircle"} />
       <div className="flex px-10">
         <div className="w-3/5 mt-5 space-y-5">
           {!teams || teams.length === 0 ? (

@@ -8,10 +8,7 @@ import { Meta } from "../components/head";
 function Login() {
   return (
     <div className="relative block w-screen h-screen overflow-hidden bg-gradient-to-t from-yellow-100">
-      <Meta
-        title={"CloudCircle"}
-        image={`https://ogp-mu.vercel.app/ログイン`}
-      />
+      <Meta title={"ログイン | CloudCircle"} />
       <Circle className="absolute w-96 h-96 -top-12 -right-20 bg-gradient-to-t from-yellow-400" />
 
       <div className="py-8">
