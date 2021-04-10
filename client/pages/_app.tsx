@@ -1,7 +1,7 @@
 import { AppProps } from "next/dist/next-server/lib/router/router";
 import React from "react";
 import "../styles/globals.css";
-import Head from "next/head";
+import Document, { Html, Head, Main, NextScript } from "next/document";
 import {
   ApolloClient,
   ApolloProvider,
@@ -75,7 +75,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   });
 
   return (
-    <>
+    <Html lang="ja">
       <Head>
         <meta
           name="viewport"
@@ -89,7 +89,7 @@ function MyApp({ Component, pageProps }: AppProps) {
           <Component {...pageProps} />
         </AuthProvider>
       </ApolloProvider>
-    </>
+    </Html>
   );
 }
 
