@@ -8,7 +8,7 @@ type CardProps = {
   tabIndex?: number;
 };
 
-const defaultStyle = "md:p-3 rounded-md bg-white";
+const defaultStyle = "md:p-5 rounded-md bg-white";
 const variants = {
   outline: "border-2 border-gray-300",
   shadow: "shadow-lg",
