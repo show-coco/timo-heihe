@@ -8,7 +8,6 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { Thread } from '../../thread/entities/thread.entity';
 import { Message } from '../../message/entities/message.entity';
 import { RoomApplyingUser } from '../../room-applying-user/entities/room-applying-user.entity';
 
@@ -48,11 +47,11 @@ export class User {
   @JoinTable()
   skills?: Skill[];
 
-  @OneToMany(() => Thread, (thread) => thread.user, { nullable: true })
-  threads?: Thread[];
+  @OneToMany(() => Message, (message) => message.receiver, { nullable: true })
+  receivedMessages?: Message[];
 
-  @OneToMany(() => Message, (message) => message.user, { nullable: true })
-  messages?: Message[];
+  @OneToMany(() => Message, (message) => message.sender, { nullable: true })
+  sendedMessages?: Message[];
 
   @OneToMany(() => RoomApplyingUser, (applyingRoom) => applyingRoom.user, {
     nullable: true,

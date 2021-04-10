@@ -6,6 +6,7 @@ module.exports = {
       "lh6.googleusercontent.com",
       "firebasestorage.googleapis.com",
       "flat-icon-design.com",
+      "lh4.googleusercontent.com",
     ],
   },
 };

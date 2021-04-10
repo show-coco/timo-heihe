@@ -1,0 +1,11 @@
+fragment Message on MessageModel {
+  id
+  text
+  createdAt
+  sender {
+    id
+    avatar
+    name
+    userId
+  }
+}

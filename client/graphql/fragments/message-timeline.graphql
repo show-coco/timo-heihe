@@ -1,0 +1,6 @@
+fragment MessageTimeline on UserModel {
+  id
+  userId
+  name
+  avatar
+}

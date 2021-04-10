@@ -26,18 +26,13 @@ export type CategoryModel = {
   rooms: Array<RoomModel>;
 };
 
-export type ConnectThreadInput = {
-  id: Scalars["Int"];
-};
-
 export type CreateCategoryInput = {
   name: Scalars["String"];
 };
 
 export type CreateMessageInput = {
+  opponentSlug: Scalars["String"];
   text: Scalars["String"];
-  thread: ConnectThreadInput;
-  userId: Scalars["Int"];
 };
 
 export type CreateRoomInput = {
@@ -62,23 +57,18 @@ export type CreateSkillInput = {
   name: Scalars["String"];
 };
 
-export type CreateThreadInput = {
-  text: Scalars["String"];
-  userId: Scalars["Int"];
-};
-
-export type FetchThreadInput = {
-  channelId: Scalars["Int"];
-  cursor: Scalars["String"];
+export type FetchMessageInput = {
+  cursor: Scalars["DateTime"];
+  opponentSlug: Scalars["String"];
 };
 
 export type MessageModel = {
   __typename?: "MessageModel";
   createdAt: Scalars["DateTime"];
   id: Scalars["Int"];
+  receiver: UserModel;
+  sender: UserModel;
   text: Scalars["String"];
-  thread: ThreadModel;
-  user: UserModel;
 };
 
 export type Mutation = {
@@ -89,17 +79,14 @@ export type Mutation = {
   createMessage: MessageModel;
   createRoom: RoomModel;
   createSkill: SkillModel;
-  createThread: ThreadModel;
   deleteRoom: RoomModel;
   rejectApplication: RoomModel;
   removeCategory: CategoryModel;
   removeSkill: SkillModel;
-  removeThread: ThreadModel;
   updateCategory: CategoryModel;
   updateMessage: MessageModel;
   updateRoom: RoomModel;
   updateSkill: SkillModel;
-  updateThread: ThreadModel;
   updateUser: UserModel;
 };
 
@@ -129,10 +116,6 @@ export type MutationCreateSkillArgs = {
   createSkillInput: CreateSkillInput;
 };
 
-export type MutationCreateThreadArgs = {
-  input: CreateThreadInput;
-};
-
 export type MutationDeleteRoomArgs = {
   id: Scalars["Int"];
 };
@@ -147,10 +130,6 @@ export type MutationRemoveCategoryArgs = {
 };
 
 export type MutationRemoveSkillArgs = {
-  id: Scalars["Int"];
-};
-
-export type MutationRemoveThreadArgs = {
   id: Scalars["Int"];
 };
 
@@ -170,10 +149,6 @@ export type MutationUpdateSkillArgs = {
   updateSkillInput: UpdateSkillInput;
 };
 
-export type MutationUpdateThreadArgs = {
-  input: UpdateThreadInput;
-};
-
 export type MutationUpdateUserArgs = {
   updateUserInput: UpdateUserInput;
 };
@@ -191,14 +166,13 @@ export type Query = {
   message: MessageModel;
   messages: Array<MessageModel>;
   myRooms: Array<RoomModel>;
+  opponents: Array<RoomModel>;
   recruitmentLevels: Array<RecruitmentLevelModel>;
   room: RoomModel;
   rooms: Array<RoomModel>;
   roomTypes: Array<RoomTypeModel>;
   skill: SkillModel;
   skills: Array<SkillModel>;
-  thread: ThreadModel;
-  threads?: Maybe<Array<ThreadModel>>;
   user: UserModel;
   users: Array<UserModel>;
 };
@@ -209,6 +183,10 @@ export type QueryCategoryArgs = {
 
 export type QueryMessageArgs = {
   id: Scalars["Int"];
+};
+
+export type QueryMessagesArgs = {
+  input: FetchMessageInput;
 };
 
 export type QueryMyRoomsArgs = {
@@ -225,14 +203,6 @@ export type QueryRoomsArgs = {
 
 export type QuerySkillArgs = {
   id: Scalars["Int"];
-};
-
-export type QueryThreadArgs = {
-  id: Scalars["Int"];
-};
-
-export type QueryThreadsArgs = {
-  input: FetchThreadInput;
 };
 
 export type QueryUserArgs = {
@@ -303,24 +273,10 @@ export enum State {
 export type Subscription = {
   __typename?: "Subscription";
   messageAdded: MessageModel;
-  threadAdded: ThreadModel;
 };
 
 export type SubscriptionMessageAddedArgs = {
-  roomId: Scalars["Int"];
-};
-
-export type SubscriptionThreadAddedArgs = {
-  channelId: Scalars["Int"];
-};
-
-export type ThreadModel = {
-  __typename?: "ThreadModel";
-  createdAt: Scalars["DateTime"];
-  id: Scalars["Int"];
-  numberOfMessages: Scalars["Int"];
-  text: Scalars["String"];
-  user: UserModel;
+  slug: Scalars["String"];
 };
 
 export type UpdateCategoryInput = {
@@ -330,9 +286,8 @@ export type UpdateCategoryInput = {
 
 export type UpdateMessageInput = {
   id: Scalars["Int"];
+  opponentSlug?: Maybe<Scalars["String"]>;
   text?: Maybe<Scalars["String"]>;
-  thread?: Maybe<ConnectThreadInput>;
-  userId?: Maybe<Scalars["Int"]>;
 };
 
 export type UpdateRoomInput = {
@@ -356,11 +311,6 @@ export type UpdateSkillInput = {
   icon?: Maybe<Scalars["String"]>;
   id: Scalars["Int"];
   name?: Maybe<Scalars["String"]>;
-};
-
-export type UpdateThreadInput = {
-  id: Scalars["Int"];
-  text: Scalars["String"];
 };
 
 export type UpdateUserInput = {
@@ -389,13 +339,18 @@ export type UserModel = {
   userId: Scalars["String"];
 };
 
-export type ChatItemFragment = { __typename?: "ThreadModel" } & Pick<
-  ThreadModel,
-  "id" | "text" | "createdAt" | "numberOfMessages"
+export type MessageTimelineFragment = { __typename?: "UserModel" } & Pick<
+  UserModel,
+  "id" | "userId" | "name" | "avatar"
+>;
+
+export type MessageFragment = { __typename?: "MessageModel" } & Pick<
+  MessageModel,
+  "id" | "text" | "createdAt"
 > & {
-    user: { __typename?: "UserModel" } & Pick<
+    sender: { __typename?: "UserModel" } & Pick<
       UserModel,
-      "id" | "name" | "avatar"
+      "id" | "avatar" | "name" | "userId"
     >;
   };
 
@@ -439,6 +394,11 @@ export type SkillItemFragment = { __typename?: "SkillModel" } & Pick<
   "id" | "name"
 >;
 
+export type UserInfoFragment = { __typename?: "UserModel" } & Pick<
+  UserModel,
+  "id" | "avatar" | "name" | "userId"
+>;
+
 export type AcceptApplicationMutationVariables = Exact<{
   roomId: Scalars["Int"];
   userId: Scalars["Int"];
@@ -468,14 +428,6 @@ export type CreateRoomMutation = { __typename?: "Mutation" } & {
   >;
 };
 
-export type CreateThreadMutationVariables = Exact<{
-  input: CreateThreadInput;
-}>;
-
-export type CreateThreadMutation = { __typename?: "Mutation" } & {
-  createThread: { __typename?: "ThreadModel" } & ChatItemFragment;
-};
-
 export type EditRoomMutationVariables = Exact<{
   input: UpdateRoomInput;
 }>;
@@ -487,17 +439,6 @@ export type EditRoomMutation = { __typename?: "Mutation" } & {
   >;
 };
 
-export type EditThreadMutationVariables = Exact<{
-  input: UpdateThreadInput;
-}>;
-
-export type EditThreadMutation = { __typename?: "Mutation" } & {
-  updateThread: { __typename?: "ThreadModel" } & Pick<
-    ThreadModel,
-    "id" | "text"
-  >;
-};
-
 export type RejectApplicationMutationVariables = Exact<{
   roomId: Scalars["Int"];
   userId: Scalars["Int"];
@@ -505,6 +446,15 @@ export type RejectApplicationMutationVariables = Exact<{
 
 export type RejectApplicationMutation = { __typename?: "Mutation" } & {
   rejectApplication: { __typename?: "RoomModel" } & Pick<RoomModel, "id">;
+};
+
+export type SendMessageMutationVariables = Exact<{
+  text: Scalars["String"];
+  opponentSlug: Scalars["String"];
+}>;
+
+export type SendMessageMutation = { __typename?: "Mutation" } & {
+  createMessage: { __typename?: "MessageModel" } & MessageFragment;
 };
 
 export type UpdateUserMutationVariables = Exact<{
@@ -618,6 +568,39 @@ export type MeQuery = { __typename?: "Query" } & {
     };
 };
 
+export type MessageTimelinesQueryVariables = Exact<{ [key: string]: never }>;
+
+export type MessageTimelinesQuery = { __typename?: "Query" } & {
+  opponents: Array<
+    { __typename?: "RoomModel" } & Pick<RoomModel, "id" | "name"> & {
+        owner: { __typename?: "UserModel" } & MessageTimelineFragment;
+        applyingUsers?: Maybe<
+          Array<
+            { __typename?: "RoomApplyingUserModel" } & {
+              user: { __typename?: "UserModel" } & MessageTimelineFragment;
+            }
+          >
+        >;
+      }
+  >;
+};
+
+export type MessagesQueryVariables = Exact<{
+  input: FetchMessageInput;
+}>;
+
+export type MessagesQuery = { __typename?: "Query" } & {
+  messages: Array<{ __typename?: "MessageModel" } & MessageFragment>;
+};
+
+export type OpponentUserQueryVariables = Exact<{
+  slug: Scalars["String"];
+}>;
+
+export type OpponentUserQuery = { __typename?: "Query" } & {
+  user: { __typename?: "UserModel" } & UserInfoFragment;
+};
+
 export type ReceivedApplyingQueryVariables = Exact<{ [key: string]: never }>;
 
 export type ReceivedApplyingQuery = { __typename?: "Query" } & {
@@ -716,33 +699,33 @@ export type UserDetailPageQuery = { __typename?: "Query" } & {
     };
 };
 
-export type ThreadSubscriptionVariables = Exact<{
-  channelId: Scalars["Int"];
+export type MessageAddedSubscriptionVariables = Exact<{
+  slug: Scalars["String"];
 }>;
 
-export type ThreadSubscription = { __typename?: "Subscription" } & {
-  threadAdded: { __typename?: "ThreadModel" } & Pick<
-    ThreadModel,
-    "id" | "text" | "createdAt" | "numberOfMessages"
-  > & {
-      user: { __typename?: "UserModel" } & Pick<
-        UserModel,
-        "id" | "name" | "avatar"
-      >;
-    };
+export type MessageAddedSubscription = { __typename?: "Subscription" } & {
+  messageAdded: { __typename?: "MessageModel" } & MessageFragment;
 };
 
-export const ChatItemFragmentDoc = gql`
-  fragment ChatItem on ThreadModel {
+export const MessageTimelineFragmentDoc = gql`
+  fragment MessageTimeline on UserModel {
+    id
+    userId
+    name
+    avatar
+  }
+`;
+export const MessageFragmentDoc = gql`
+  fragment Message on MessageModel {
     id
     text
-    user {
-      id
-      name
-      avatar
-    }
     createdAt
-    numberOfMessages
+    sender {
+      id
+      avatar
+      name
+      userId
+    }
   }
 `;
 export const ReceivedApplyingCardFragmentDoc = gql`
@@ -793,6 +776,14 @@ export const SkillItemFragmentDoc = gql`
   fragment SkillItem on SkillModel {
     id
     name
+  }
+`;
+export const UserInfoFragmentDoc = gql`
+  fragment UserInfo on UserModel {
+    id
+    avatar
+    name
+    userId
   }
 `;
 export const AcceptApplicationDocument = gql`
@@ -944,55 +935,6 @@ export type CreateRoomMutationOptions = Apollo.BaseMutationOptions<
   CreateRoomMutation,
   CreateRoomMutationVariables
 >;
-export const CreateThreadDocument = gql`
-  mutation CreateThread($input: CreateThreadInput!) {
-    createThread(input: $input) {
-      ...ChatItem
-    }
-  }
-  ${ChatItemFragmentDoc}
-`;
-export type CreateThreadMutationFn = Apollo.MutationFunction<
-  CreateThreadMutation,
-  CreateThreadMutationVariables
->;
-
-/**
- * __useCreateThreadMutation__
- *
- * To run a mutation, you first call `useCreateThreadMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useCreateThreadMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [createThreadMutation, { data, loading, error }] = useCreateThreadMutation({
- *   variables: {
- *      input: // value for 'input'
- *   },
- * });
- */
-export function useCreateThreadMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    CreateThreadMutation,
-    CreateThreadMutationVariables
-  >
-) {
-  return Apollo.useMutation<
-    CreateThreadMutation,
-    CreateThreadMutationVariables
-  >(CreateThreadDocument, baseOptions);
-}
-export type CreateThreadMutationHookResult = ReturnType<
-  typeof useCreateThreadMutation
->;
-export type CreateThreadMutationResult = Apollo.MutationResult<CreateThreadMutation>;
-export type CreateThreadMutationOptions = Apollo.BaseMutationOptions<
-  CreateThreadMutation,
-  CreateThreadMutationVariables
->;
 export const EditRoomDocument = gql`
   mutation EditRoom($input: UpdateRoomInput!) {
     updateRoom(input: $input) {
@@ -1040,55 +982,6 @@ export type EditRoomMutationResult = Apollo.MutationResult<EditRoomMutation>;
 export type EditRoomMutationOptions = Apollo.BaseMutationOptions<
   EditRoomMutation,
   EditRoomMutationVariables
->;
-export const EditThreadDocument = gql`
-  mutation EditThread($input: UpdateThreadInput!) {
-    updateThread(input: $input) {
-      id
-      text
-    }
-  }
-`;
-export type EditThreadMutationFn = Apollo.MutationFunction<
-  EditThreadMutation,
-  EditThreadMutationVariables
->;
-
-/**
- * __useEditThreadMutation__
- *
- * To run a mutation, you first call `useEditThreadMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useEditThreadMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [editThreadMutation, { data, loading, error }] = useEditThreadMutation({
- *   variables: {
- *      input: // value for 'input'
- *   },
- * });
- */
-export function useEditThreadMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    EditThreadMutation,
-    EditThreadMutationVariables
-  >
-) {
-  return Apollo.useMutation<EditThreadMutation, EditThreadMutationVariables>(
-    EditThreadDocument,
-    baseOptions
-  );
-}
-export type EditThreadMutationHookResult = ReturnType<
-  typeof useEditThreadMutation
->;
-export type EditThreadMutationResult = Apollo.MutationResult<EditThreadMutation>;
-export type EditThreadMutationOptions = Apollo.BaseMutationOptions<
-  EditThreadMutation,
-  EditThreadMutationVariables
 >;
 export const RejectApplicationDocument = gql`
   mutation RejectApplication($roomId: Int!, $userId: Int!) {
@@ -1138,6 +1031,56 @@ export type RejectApplicationMutationResult = Apollo.MutationResult<RejectApplic
 export type RejectApplicationMutationOptions = Apollo.BaseMutationOptions<
   RejectApplicationMutation,
   RejectApplicationMutationVariables
+>;
+export const SendMessageDocument = gql`
+  mutation SendMessage($text: String!, $opponentSlug: String!) {
+    createMessage(input: { text: $text, opponentSlug: $opponentSlug }) {
+      ...Message
+    }
+  }
+  ${MessageFragmentDoc}
+`;
+export type SendMessageMutationFn = Apollo.MutationFunction<
+  SendMessageMutation,
+  SendMessageMutationVariables
+>;
+
+/**
+ * __useSendMessageMutation__
+ *
+ * To run a mutation, you first call `useSendMessageMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useSendMessageMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [sendMessageMutation, { data, loading, error }] = useSendMessageMutation({
+ *   variables: {
+ *      text: // value for 'text'
+ *      opponentSlug: // value for 'opponentSlug'
+ *   },
+ * });
+ */
+export function useSendMessageMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    SendMessageMutation,
+    SendMessageMutationVariables
+  >
+) {
+  return Apollo.useMutation<SendMessageMutation, SendMessageMutationVariables>(
+    SendMessageDocument,
+    baseOptions
+  );
+}
+export type SendMessageMutationHookResult = ReturnType<
+  typeof useSendMessageMutation
+>;
+export type SendMessageMutationResult = Apollo.MutationResult<SendMessageMutation>;
+export type SendMessageMutationOptions = Apollo.BaseMutationOptions<
+  SendMessageMutation,
+  SendMessageMutationVariables
 >;
 export const UpdateUserDocument = gql`
   mutation UpdateUser($input: UpdateUserInput!) {
@@ -1470,6 +1413,180 @@ export function useMeLazyQuery(
 export type MeQueryHookResult = ReturnType<typeof useMeQuery>;
 export type MeLazyQueryHookResult = ReturnType<typeof useMeLazyQuery>;
 export type MeQueryResult = Apollo.QueryResult<MeQuery, MeQueryVariables>;
+export const MessageTimelinesDocument = gql`
+  query MessageTimelines {
+    opponents {
+      id
+      name
+      owner {
+        ...MessageTimeline
+      }
+      applyingUsers {
+        user {
+          ...MessageTimeline
+        }
+      }
+    }
+  }
+  ${MessageTimelineFragmentDoc}
+`;
+
+/**
+ * __useMessageTimelinesQuery__
+ *
+ * To run a query within a React component, call `useMessageTimelinesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useMessageTimelinesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useMessageTimelinesQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useMessageTimelinesQuery(
+  baseOptions?: Apollo.QueryHookOptions<
+    MessageTimelinesQuery,
+    MessageTimelinesQueryVariables
+  >
+) {
+  return Apollo.useQuery<MessageTimelinesQuery, MessageTimelinesQueryVariables>(
+    MessageTimelinesDocument,
+    baseOptions
+  );
+}
+export function useMessageTimelinesLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    MessageTimelinesQuery,
+    MessageTimelinesQueryVariables
+  >
+) {
+  return Apollo.useLazyQuery<
+    MessageTimelinesQuery,
+    MessageTimelinesQueryVariables
+  >(MessageTimelinesDocument, baseOptions);
+}
+export type MessageTimelinesQueryHookResult = ReturnType<
+  typeof useMessageTimelinesQuery
+>;
+export type MessageTimelinesLazyQueryHookResult = ReturnType<
+  typeof useMessageTimelinesLazyQuery
+>;
+export type MessageTimelinesQueryResult = Apollo.QueryResult<
+  MessageTimelinesQuery,
+  MessageTimelinesQueryVariables
+>;
+export const MessagesDocument = gql`
+  query Messages($input: FetchMessageInput!) {
+    messages(input: $input) {
+      ...Message
+    }
+  }
+  ${MessageFragmentDoc}
+`;
+
+/**
+ * __useMessagesQuery__
+ *
+ * To run a query within a React component, call `useMessagesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useMessagesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useMessagesQuery({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useMessagesQuery(
+  baseOptions: Apollo.QueryHookOptions<MessagesQuery, MessagesQueryVariables>
+) {
+  return Apollo.useQuery<MessagesQuery, MessagesQueryVariables>(
+    MessagesDocument,
+    baseOptions
+  );
+}
+export function useMessagesLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    MessagesQuery,
+    MessagesQueryVariables
+  >
+) {
+  return Apollo.useLazyQuery<MessagesQuery, MessagesQueryVariables>(
+    MessagesDocument,
+    baseOptions
+  );
+}
+export type MessagesQueryHookResult = ReturnType<typeof useMessagesQuery>;
+export type MessagesLazyQueryHookResult = ReturnType<
+  typeof useMessagesLazyQuery
+>;
+export type MessagesQueryResult = Apollo.QueryResult<
+  MessagesQuery,
+  MessagesQueryVariables
+>;
+export const OpponentUserDocument = gql`
+  query OpponentUser($slug: String!) {
+    user(userId: $slug) {
+      ...UserInfo
+    }
+  }
+  ${UserInfoFragmentDoc}
+`;
+
+/**
+ * __useOpponentUserQuery__
+ *
+ * To run a query within a React component, call `useOpponentUserQuery` and pass it any options that fit your needs.
+ * When your component renders, `useOpponentUserQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useOpponentUserQuery({
+ *   variables: {
+ *      slug: // value for 'slug'
+ *   },
+ * });
+ */
+export function useOpponentUserQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    OpponentUserQuery,
+    OpponentUserQueryVariables
+  >
+) {
+  return Apollo.useQuery<OpponentUserQuery, OpponentUserQueryVariables>(
+    OpponentUserDocument,
+    baseOptions
+  );
+}
+export function useOpponentUserLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    OpponentUserQuery,
+    OpponentUserQueryVariables
+  >
+) {
+  return Apollo.useLazyQuery<OpponentUserQuery, OpponentUserQueryVariables>(
+    OpponentUserDocument,
+    baseOptions
+  );
+}
+export type OpponentUserQueryHookResult = ReturnType<
+  typeof useOpponentUserQuery
+>;
+export type OpponentUserLazyQueryHookResult = ReturnType<
+  typeof useOpponentUserLazyQuery
+>;
+export type OpponentUserQueryResult = Apollo.QueryResult<
+  OpponentUserQuery,
+  OpponentUserQueryVariables
+>;
 export const ReceivedApplyingDocument = gql`
   query ReceivedApplying {
     myRooms(input: { iAmOwner: true, state: APPLYING }) {
@@ -1782,50 +1899,43 @@ export type UserDetailPageQueryResult = Apollo.QueryResult<
   UserDetailPageQuery,
   UserDetailPageQueryVariables
 >;
-export const ThreadDocument = gql`
-  subscription Thread($channelId: Int!) {
-    threadAdded(channelId: $channelId) {
-      id
-      text
-      user {
-        id
-        name
-        avatar
-      }
-      createdAt
-      numberOfMessages
+export const MessageAddedDocument = gql`
+  subscription MessageAdded($slug: String!) {
+    messageAdded(slug: $slug) {
+      ...Message
     }
   }
+  ${MessageFragmentDoc}
 `;
 
 /**
- * __useThreadSubscription__
+ * __useMessageAddedSubscription__
  *
- * To run a query within a React component, call `useThreadSubscription` and pass it any options that fit your needs.
- * When your component renders, `useThreadSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useMessageAddedSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useMessageAddedSubscription` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useThreadSubscription({
+ * const { data, loading, error } = useMessageAddedSubscription({
  *   variables: {
- *      channelId: // value for 'channelId'
+ *      slug: // value for 'slug'
  *   },
  * });
  */
-export function useThreadSubscription(
+export function useMessageAddedSubscription(
   baseOptions: Apollo.SubscriptionHookOptions<
-    ThreadSubscription,
-    ThreadSubscriptionVariables
+    MessageAddedSubscription,
+    MessageAddedSubscriptionVariables
   >
 ) {
   return Apollo.useSubscription<
-    ThreadSubscription,
-    ThreadSubscriptionVariables
-  >(ThreadDocument, baseOptions);
+    MessageAddedSubscription,
+    MessageAddedSubscriptionVariables
+  >(MessageAddedDocument, baseOptions);
 }
-export type ThreadSubscriptionHookResult = ReturnType<
-  typeof useThreadSubscription
+export type MessageAddedSubscriptionHookResult = ReturnType<
+  typeof useMessageAddedSubscription
 >;
-export type ThreadSubscriptionResult = Apollo.SubscriptionResult<ThreadSubscription>;
+export type MessageAddedSubscriptionResult = Apollo.SubscriptionResult<MessageAddedSubscription>;

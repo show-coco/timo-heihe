@@ -75,7 +75,6 @@ export const AuthProvider: React.FC<Props> = ({ children }: Props) => {
   }, [data, data?.me]);
 
   console.log(error);
-  if (loading) return <p>Loading...</p>;
 
   const login = (token: string, { name, id, userId }: AuthUser) => {
     jwtManager.setJwt(token);

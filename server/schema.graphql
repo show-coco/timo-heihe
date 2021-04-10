@@ -8,17 +8,12 @@ type CategoryModel {
   rooms: [RoomModel!]!
 }
 
-input ConnectThreadInput {
-  id: Int!
-}
-
 input CreateCategoryInput {
   name: String!
 }
 
 input CreateMessageInput {
   text: String!
-  thread: ConnectThreadInput!
   userId: Int!
 }
 
@@ -44,27 +39,17 @@ input CreateSkillInput {
   name: String!
 }
 
-input CreateThreadInput {
-  text: String!
-  userId: Int!
-}
-
 """
 A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
 """
 scalar DateTime
 
-input FetchThreadInput {
-  channelId: Int!
-  cursor: String!
-}
-
 type MessageModel {
   createdAt: DateTime!
   id: Int!
+  receiver: UserModel!
+  sender: UserModel!
   text: String!
-  thread: ThreadModel!
-  user: UserModel!
 }
 
 type Mutation {
@@ -74,17 +59,14 @@ type Mutation {
   createMessage(input: CreateMessageInput!): MessageModel!
   createRoom(input: CreateRoomInput!): RoomModel!
   createSkill(createSkillInput: CreateSkillInput!): SkillModel!
-  createThread(input: CreateThreadInput!): ThreadModel!
   deleteRoom(id: Int!): RoomModel!
   rejectApplication(roomId: Int!, userId: Int!): RoomModel!
   removeCategory(id: Int!): CategoryModel!
   removeSkill(id: Int!): SkillModel!
-  removeThread(id: Int!): ThreadModel!
   updateCategory(updateCategoryInput: UpdateCategoryInput!): CategoryModel!
   updateMessage(input: UpdateMessageInput!): MessageModel!
   updateRoom(input: UpdateRoomInput!): RoomModel!
   updateSkill(updateSkillInput: UpdateSkillInput!): SkillModel!
-  updateThread(input: UpdateThreadInput!): ThreadModel!
   updateUser(updateUserInput: UpdateUserInput!): UserModel!
 }
 
@@ -98,7 +80,7 @@ type Query {
   category(id: Int!): CategoryModel!
   me: UserModel!
   message(id: Int!): MessageModel!
-  messages: [MessageModel!]!
+  messages(otherPersonId: Int!): [MessageModel!]!
   myRooms(input: MyRoomsInput!): [RoomModel!]!
   recruitmentLevels: [RecruitmentLevelModel!]!
   room(slug: String!): RoomModel!
@@ -106,8 +88,6 @@ type Query {
   roomTypes: [RoomTypeModel!]!
   skill(id: Int!): SkillModel!
   skills: [SkillModel!]!
-  thread(id: Int!): ThreadModel!
-  threads(input: FetchThreadInput!): [ThreadModel!]
   user(userId: String!): UserModel!
   users: [UserModel!]!
 }
@@ -170,15 +150,6 @@ enum State {
 
 type Subscription {
   messageAdded(roomId: Int!): MessageModel!
-  threadAdded(channelId: Int!): ThreadModel!
-}
-
-type ThreadModel {
-  createdAt: DateTime!
-  id: Int!
-  numberOfMessages: Int!
-  text: String!
-  user: UserModel!
 }
 
 input UpdateCategoryInput {
@@ -189,7 +160,6 @@ input UpdateCategoryInput {
 input UpdateMessageInput {
   id: Int!
   text: String
-  thread: ConnectThreadInput
   userId: Int
 }
 
@@ -214,11 +184,6 @@ input UpdateSkillInput {
   icon: String
   id: Int!
   name: String
-}
-
-input UpdateThreadInput {
-  id: Int!
-  text: String!
 }
 
 input UpdateUserInput {

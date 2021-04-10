@@ -1,0 +1,14 @@
+query MessageTimelines {
+  opponents {
+    id
+    name
+    owner {
+      ...MessageTimeline
+    }
+    applyingUsers {
+      user {
+        ...MessageTimeline
+      }
+    }
+  }
+}
