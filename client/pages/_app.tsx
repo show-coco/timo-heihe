@@ -58,7 +58,20 @@ const splitLink =
 function MyApp({ Component, pageProps }: AppProps) {
   const client = new ApolloClient({
     link: splitLink,
-    cache: new InMemoryCache(),
+    cache: new InMemoryCache({
+      // typePolicies: {
+      //   Query: {
+      //     fields: {
+      //       messages: {
+      //         keyArgs: ["input", ["opponentSlug"]],
+      //         merge(existing = [], incoming) {
+      //           return [...existing, ...incoming];
+      //         },
+      //       },
+      //     },
+      //   },
+      // },
+    }),
   });
 
   return (
@@ -67,6 +80,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         <meta
           name="viewport"
           content="width=device-width, initial-scale=1, shrink-to-fit=no"
+          lang="ja"
         />
         {/* <link rel="shortcut icon" href="/favicon.png" key="shortcutIcon" /> */}
         {/* <link rel="manifest" href="/manifest.json" /> */}

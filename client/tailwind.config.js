@@ -88,6 +88,10 @@ module.exports = {
       pc: "calc(100vh - 5rem)",
       mobile: "calc(100vh - 3.5rem)",
     },
+    maxWidth: {
+      "1/2": "50%",
+      full: "100%",
+    },
   },
   variants: {
     extend: {},

@@ -10,6 +10,11 @@ import {
 import { useAuthContext } from "../providers/useAuthContext";
 import { useFileInput } from "./useFileInput";
 
+const includesInvalidChars = (slug: string) => /[^a-z0-9-_]/.test(slug);
+
+const toggleArrayItem = <T>(arr: T[], item: T): T[] =>
+  arr.includes(item) ? arr.filter((i) => i !== item) : [...arr, item];
+
 export const convertToCategoriesObj = (categories: number[]) => {
   return categories.map((category) => ({
     id: category,
@@ -20,9 +25,14 @@ export const convertToSkillsIds = (skills: ACSelectedData[]): number[] => {
   return skills.map((skill) => Number(skill.id));
 };
 
+export const ROOM_TYPE = {
+  PUBLIC: "1",
+  PRIVATE:  "2"
+} as const;
+
+export type RoomTypeValueType = typeof ROOM_TYPE[keyof typeof ROOM_TYPE];
+
 export const useCreateRoom = () => {
-  const TRUE = "1";
-  const FALSE = "2";
   const router = useRouter();
   const { id } = useAuthContext();
   const [createRoom, { loading }] = useCreateRoomMutation();
@@ -35,7 +45,7 @@ export const useCreateRoom = () => {
   const [recruitNumber, setRecruitNumber] = useState(0);
   const [repositoryUrl, setRespositoryUrl] = useState("");
   const [invidationUrl, setInvidationUrl] = useState("");
-  const [isRequired, setIsRequired] = useState(TRUE);
+  const [isRequired, setIsRequired] = useState<RoomTypeValueType>(ROOM_TYPE.PUBLIC);
   const [selectedSkills, setSkills] = useState<ACSelectedData[]>([]);
   const [categories, setCategories] = useState<number[]>([]);
   const [isDisabled, setIsDisabled] = useState<boolean>(true);
@@ -60,7 +70,7 @@ export const useCreateRoom = () => {
     repositoryUrl,
     invidationUrl,
     recruiementLevels,
-    withApplication: isRequired === FALSE,
+    withApplication: isRequired === ROOM_TYPE.PRIVATE,
     categories: categories,
     typeIds: types,
   });
@@ -77,13 +87,8 @@ export const useCreateRoom = () => {
     } else {
       setIsDisabled(true);
     }
-    if (slug.match(/[^a-z0-9-_]/) && slug !== "") {
-      setError(true);
-    } else if (!slug.match(/[^a-z0-9-_]/)) {
-      setError(false);
-    }
-    const includesInvalidChars = (slug: string) => /[^a-z0-9-_]/.test(slug);
-    setError(includesInvalidChars(slug));
+
+    setError(slug === "" || includesInvalidChars(slug));
   }, [title, name, slug, categories, description]);
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -104,27 +109,14 @@ export const useCreateRoom = () => {
     event: React.FormEvent<HTMLInputElement>,
     clickedTypeId: number
   ) => {
-    const valueExists = types.includes(clickedTypeId);
-    if (valueExists) {
-      const newTypes = types.filter((type) => type !== clickedTypeId);
-      setTypes(newTypes);
-    } else {
-      setTypes([...types, clickedTypeId]);
-    }
+    setTypes(toggleArrayItem(types, clickedTypeId));
   };
 
   const onChangeCategories = (
     event: React.FormEvent<HTMLInputElement>,
     id: number
   ) => {
-    let newCategories = categories.slice();
-
-    if (categories.includes(id)) {
-      newCategories = categories.filter((value) => value !== id);
-    } else {
-      newCategories.push(id);
-    }
-    setCategories(newCategories);
+    setCategories(toggleArrayItem(categories, id));
   };
 
   return {

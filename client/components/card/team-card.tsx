@@ -89,7 +89,7 @@ export const TeamCard: React.FC<TeamCardProps> = ({
             <FirstParagraphDisplayer className="pt-4 pb-6" text={description} />
 
             <div className="flex items-end">
-              <SkillPochiSet skills={languages} className="flex-1" />
+              <SkillPochiSet skills={languages} className="flex-row flex-1" />
 
               <span className="space-x-2">
                 <span>作成日</span>
@@ -102,57 +102,3 @@ export const TeamCard: React.FC<TeamCardProps> = ({
     </div>
   );
 };
-
-// export const mockTeams: TeamCardProps[] = [
-//   {
-//     id: 1,
-//     title: "Web開発",
-//     owner: {
-//       name: "Ropital",
-//       src: "https://bit.ly/ryan-florence",
-//       userId: "1",
-//     },
-//     description:
-//       "チーム募集Webアプリを開発しています。PrismaやTypeScript, GraphQL,Goなどを使用 しています！モダン技術が好きな方是非きてください！",
-//     languages: ["go", "typescript", "go", "typescript", "go", "typescript"],
-//     createdAt: "2020/9/12",
-//     member: {
-//       current: 22,
-//       limit: 50,
-//     },
-//   },
-//   {
-//     id: 2,
-//     title: "Web開発",
-//     owner: {
-//       name: "Ropital",
-//       src: "https://bit.ly/ryan-florence",
-//       userId: "2",
-//     },
-//     description:
-//       "チーム募集Webアプリを開発しています。PrismaやTypeScript, GraphQL,Goなどを使用 しています！モダン技術が好きな方是非きてください！",
-//     languages: ["go", "typescript", "go", "typescript", "go", "typescript"],
-//     createdAt: "2020/9/12",
-//     member: {
-//       current: 22,
-//       limit: 50,
-//     },
-//   },
-//   {
-//     id: 3,
-//     title: "Web開発",
-//     owner: {
-//       name: "Ropital",
-//       src: "https://bit.ly/ryan-florence",
-//       userId: "3",
-//     },
-//     description:
-//       "チーム募集Webアプリを開発しています。PrismaやTypeScript, GraphQL,Goなどを使用 しています！モダン技術が好きな方是非きてください！",
-//     languages: ["go", "typescript", "go", "typescript", "go", "typescript"],
-//     createdAt: "2020/9/12",
-//     member: {
-//       current: 22,
-//       limit: 50,
-//     },
-//   },
-// ];

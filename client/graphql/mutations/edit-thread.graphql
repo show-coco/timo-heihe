@@ -1,6 +1,0 @@
-mutation EditThread($input: UpdateThreadInput!) {
-  updateThread(input: $input) {
-    id
-    text
-  }
-}

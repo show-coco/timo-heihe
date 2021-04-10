@@ -1,0 +1,5 @@
+query OpponentUser($slug: String!) {
+  user(userId: $slug) {
+    ...UserInfo
+  }
+}

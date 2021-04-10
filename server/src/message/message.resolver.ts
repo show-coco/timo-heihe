@@ -12,7 +12,11 @@ import { UpdateMessageInput } from './dto/update-message.input';
 import { MessageModel } from './models/message.model';
 import { provideKeys, subscriptionKeys } from '../constants';
 import { PubSubEngine } from 'apollo-server-express';
-import { Inject } from '@nestjs/common';
+import { Inject, UseGuards } from '@nestjs/common';
+import { GqlJwtAuthGuard } from 'src/auth/jwt-auth.guards';
+import { CurrentUser } from 'src/users/dto/current-user';
+import { Payload } from 'src/auth/types/payload';
+import { FetchMessageInput } from './dto/fetch-message.input';
 
 @Resolver(() => MessageModel)
 export class MessageResolver {
@@ -27,13 +31,24 @@ export class MessageResolver {
   }
 
   @Query(() => [MessageModel])
-  messages() {
-    return this.messageService.findAll();
+  @UseGuards(GqlJwtAuthGuard)
+  messages(
+    @CurrentUser() user: Payload,
+    @Args('input') input: FetchMessageInput,
+  ) {
+    return this.messageService.findAll(user.sub, input);
   }
 
   @Mutation(() => MessageModel)
-  async createMessage(@Args('input') createMessageInput: CreateMessageInput) {
-    const newMessage = await this.messageService.create(createMessageInput);
+  @UseGuards(GqlJwtAuthGuard)
+  async createMessage(
+    @CurrentUser() user: Payload,
+    @Args('input') createMessageInput: CreateMessageInput,
+  ) {
+    const newMessage = await this.messageService.create(
+      user.sub,
+      createMessageInput,
+    );
     this.pubSub.publish(subscriptionKeys.MESSAGE_ADDED, {
       messageAdded: newMessage,
     });
@@ -53,10 +68,16 @@ export class MessageResolver {
   // }
 
   @Subscription(() => MessageModel, {
-    filter: (payload, variables) =>
-      payload.messageAdded.thread.room.id === variables.roomId,
+    filter: (payload, variables) => {
+      console.log(
+        'vbhavbeiv ae',
+        payload.messageAdded.receiver.userId,
+        variables.slug,
+      );
+      return payload.messageAdded.receiver.userId === variables.slug;
+    },
   })
-  messageAdded(@Args('roomId', { type: () => Int }) roomId: number) {
+  messageAdded(@Args('slug') slug: string) {
     const addedMessage = this.pubSub.asyncIterator(
       subscriptionKeys.MESSAGE_ADDED,
     );

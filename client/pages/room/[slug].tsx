@@ -8,7 +8,6 @@ import {
   convertToCategoryArray,
 } from "../../components/category/category-set";
 import { Heading } from "../../components/heading/heading";
-import PeopleIcon from "../../assets/icons/people.svg";
 import {
   convertToSkillPochiSetArray,
   SkillPochiSet,
@@ -16,9 +15,6 @@ import {
 import { Button } from "../../components/button";
 import Link from "next/link";
 import { AvatarWithName } from "../../components/avatar/avatar-with-name";
-import { useTeamDetail } from "../../hooks/useRoomDetail";
-import { SimpleDialog } from "../../components/dialog/simple-dialog";
-import { AvatarLink } from "../../components/avatar/avatar-link";
 import ReactMarkdown from "react-markdown";
 import { useAuthContext } from "../../providers/useAuthContext";
 import { useModal } from "../../hooks/useModal";
@@ -35,19 +31,10 @@ type Props = {
 };
 
 export default function ShowRoom({ url, title }: Props) {
-  const {
-    onApply,
-    iCanEdit,
-    slug,
-    //   room,
-    dialogState,
-    dialogSetter,
-    // loading,
-  } = useTeamDetail();
   const { isAuthenticated, id } = useAuthContext();
   const { isOpen, onOpen, onClose } = useModal();
   const router = useRouter();
-  const { data, loading } = useRoomQuery({
+  const { data } = useRoomQuery({
     variables: {
       slug: router.query.slug?.toString() || "",
     },
@@ -59,11 +46,23 @@ export default function ShowRoom({ url, title }: Props) {
   // if (loading) return <p>Loading...</p>;
   // if (!room) return <p>データがありません</p>;
 
+  const iamOwner = room?.owner.id === id;
+
   return (
     <>
       <LoginModal isOpen={isOpen} onRequestClose={onClose} />
       <Meta title={title} image={`${url}`} />
       <Template className="p-10">
+        {iamOwner && (
+          <div className="flex justify-end mb-4">
+            <Link
+              href="/room/edit/[slug]"
+              as={`/room/edit/${router.query.slug?.toString() || ""}`}
+            >
+              <Button>編集する</Button>
+            </Link>
+          </div>
+        )}
         <div className="flex flex-row space-x-10">
           <Card className="flex-1 p-8">
             <div className="flex justify-between">

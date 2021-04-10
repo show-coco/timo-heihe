@@ -1,5 +1,4 @@
 import { Field, GraphQLISODateTime, Int, ObjectType } from '@nestjs/graphql';
-import { ThreadModel } from '../../thread/models/thread.model';
 import { UserModel } from '../../users/models/user.model';
 
 @ObjectType()
@@ -10,12 +9,12 @@ export class MessageModel {
   @Field()
   text: string;
 
-  @Field(() => GraphQLISODateTime)
-  createdAt: Date;
-
-  @Field(() => ThreadModel)
-  thread: ThreadModel;
+  @Field(() => UserModel)
+  sender: UserModel;
 
   @Field(() => UserModel)
-  user: UserModel;
+  receiver: UserModel;
+
+  @Field(() => GraphQLISODateTime)
+  createdAt: Date;
 }

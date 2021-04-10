@@ -7,6 +7,7 @@ import { Room } from './entities/room.entity';
 import { SearchRoomInput } from './dto/search-room.input';
 import { MyRoomsInput } from './dto/my-rooms.input';
 import { RoomApplyingUserService } from '../room-applying-user/room-applying-user.service';
+import { State } from 'src/room-applying-user/entities/room-applying-user.entity';
 
 @Injectable()
 export class RoomService {
@@ -48,7 +49,7 @@ export class RoomService {
   }
 
   async findAll(searchRoomInput?: SearchRoomInput): Promise<Room[]> {
-    const input: SearchRoomInput | undefined =
+    const input: SearchRoomInput =
       searchRoomInput && JSON.parse(JSON.stringify(searchRoomInput));
     console.log('paramater on rooms->service->findAll', input);
 
@@ -64,30 +65,30 @@ export class RoomService {
         withApplication: input.withApplication,
       });
 
-    if (input && input.keyword) {
+    if (input?.keyword) {
       query.andWhere(
-        'room.title LIKE :keyword OR room.name LIKE :keyword OR room.slug LIKE :keyword',
+        'room.title ILIKE :keyword OR room.name ILIKE :keyword OR room.slug ILIKE :keyword',
         {
           keyword: `%${input.keyword}%`,
         },
       );
     }
 
-    if (input && input.skillIds) {
+    if (input?.skillIds) {
       query.andWhere('skills.id IN (:...ids)', {
         ids: input.skillIds,
       });
     }
 
-    if (input && input.categoryIds) {
+    if (input?.categoryIds) {
       query.andWhere('categories.id IN (:...ids)', { ids: input.categoryIds });
     }
 
-    if (input && input.typeId) {
+    if (input?.typeId) {
       query.andWhere('types.id = :id', { id: input.typeId });
     }
 
-    if (input && input.recruitmentLevelIds) {
+    if (input?.recruitmentLevelIds) {
       query.andWhere('recruitmentLevels.id IN (:...ids)', {
         ids: input.recruitmentLevelIds,
       });
@@ -126,6 +127,27 @@ export class RoomService {
     }));
 
     console.log('response on rooms->service->findAllByUserId', res);
+    return res;
+  }
+
+  async findOpponents(userId: number) {
+    const result = await this.roomRepository
+      .createQueryBuilder('room')
+      .leftJoinAndSelect('room.applyingUsers', 'applyingUsers')
+      .leftJoinAndSelect('applyingUsers.user', 'user')
+      .leftJoinAndSelect('room.owner', 'owner')
+      .where('user.id = :id OR owner.id = :id', { id: userId })
+      .andWhere('applyingUsers.state = :state', { state: State.APPROVED })
+      .getMany();
+
+    const res: Room[] = result.map((room) => ({
+      ...room,
+      applyingUsers: room.applyingUsers.filter((user) =>
+        user.user ? user.user : null,
+      ),
+    }));
+
+    console.log('response on room->service->findOpponent', res);
     return res;
   }
 

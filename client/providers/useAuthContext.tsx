@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { createContext } from "react";
@@ -27,7 +26,7 @@ type Props = {
   children: React.ReactNode;
 };
 
-const LoginUserContext = createContext<AuthContextType>({
+const AuthContext = createContext<AuthContextType>({
   id: 0,
   userId: "",
   name: "",
@@ -40,7 +39,7 @@ const LoginUserContext = createContext<AuthContextType>({
 });
 
 export const useAuthContext = (): AuthContextType =>
-  React.useContext(LoginUserContext);
+  React.useContext(AuthContext);
 
 export const AuthProvider: React.FC<Props> = ({ children }: Props) => {
   const [id, setId] = useState(0);
@@ -75,7 +74,6 @@ export const AuthProvider: React.FC<Props> = ({ children }: Props) => {
   }, [data, data?.me]);
 
   console.log(error);
-  if (loading) return <p>Loading...</p>;
 
   const login = (token: string, { name, id, userId }: AuthUser) => {
     jwtManager.setJwt(token);
@@ -96,7 +94,7 @@ export const AuthProvider: React.FC<Props> = ({ children }: Props) => {
   };
 
   return (
-    <LoginUserContext.Provider
+    <AuthContext.Provider
       value={{
         id,
         userId,
@@ -110,6 +108,6 @@ export const AuthProvider: React.FC<Props> = ({ children }: Props) => {
       }}
     >
       {children}
-    </LoginUserContext.Provider>
+    </AuthContext.Provider>
   );
 };

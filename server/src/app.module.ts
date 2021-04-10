@@ -11,9 +11,7 @@ import { SkillModule } from './skill/skill.module';
 import { Room } from './room/entities/room.entity';
 import { Category } from './category/entities/category.entity';
 import { Skill } from './skill/entities/skill.entity';
-import { ThreadModule } from './thread/thread.module';
 import { MessageModule } from './message/message.module';
-import { Thread } from './thread/entities/thread.entity';
 import { Message } from './message/entities/message.entity';
 import { RoomTypeModule } from './room-type/room-type.module';
 import { RoomType } from './room-type/entities/room-type.entity';
@@ -33,7 +31,6 @@ import { RoomApplyingUserModule } from './room-applying-user/room-applying-user.
         RoomModule,
         CategoryModule,
         SkillModule,
-        ThreadModule,
         MessageModule,
         RoomTypeModule,
         RecruitmentLevelModule,
@@ -41,7 +38,12 @@ import { RoomApplyingUserModule } from './room-applying-user/room-applying-user.
       playground: true,
       autoSchemaFile: 'schema.graphql',
       sortSchema: true,
-      context: ({ req }) => ({ headers: req && req.headers }),
+      context: ({ req }) => {
+        console.log('reqqq', req && req.headers);
+        return {
+          headers: req && req.headers,
+        };
+      },
       installSubscriptionHandlers: true,
     }),
     TypeOrmModule.forRoot({
@@ -56,7 +58,6 @@ import { RoomApplyingUserModule } from './room-applying-user/room-applying-user.
         Room,
         Category,
         Skill,
-        Thread,
         Message,
         RoomType,
         RecruitmentLevel,
@@ -69,7 +70,6 @@ import { RoomApplyingUserModule } from './room-applying-user/room-applying-user.
     RoomModule,
     CategoryModule,
     SkillModule,
-    ThreadModule,
     MessageModule,
     RoomTypeModule,
     RecruitmentLevelModule,
