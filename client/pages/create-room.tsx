@@ -5,7 +5,7 @@ import {
   AutoComplate,
 } from "../components/auto-complate/auto-complate";
 import { Card } from "../components/card/card";
-import { useCreateRoom } from "../hooks/useCreateRoom";
+import { useCreateRoom, ROOM_TYPE } from "../hooks/useCreateRoom";
 import { Heading } from "../components/heading/heading";
 import { Avatar } from "../components/avatar/avatar";
 import { FileInput } from "../components/file-input/file-inpute";
@@ -150,14 +150,14 @@ export default function CreateRoom() {
             <Radio
               text="なし"
               name="apply"
-              value="1"
-              onChange={(e) => setIsRequired(e.target.value)}
+              value={ROOM_TYPE.PUBLIC}
+              onChange={() => setIsRequired(ROOM_TYPE.PUBLIC)}
             />
             <Radio
               text="あり"
               name="apply"
-              value="2"
-              onChange={(e) => setIsRequired(e.target.value)}
+              value={ROOM_TYPE.PRIVATE}
+              onChange={() => setIsRequired(ROOM_TYPE.PRIVATE)}
             />
           </div>
           {isRequired === "1" && (
