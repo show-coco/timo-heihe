@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useModal } from "../../../hooks/useModal";
 import { useAuthContext } from "../../../providers/useAuthContext";
 import { LoginModal } from "../../login-modal";
+import { NavigationModal } from "../../navigation-modal";
 import { Button } from "../../button";
 import { Avatar } from "../../avatar/avatar";
 import { PopUp } from "./popup";
@@ -15,11 +16,25 @@ const textStyle = "font-semibold text-base text-gray-700 cursor-pointer";
 export const Navigation: React.FC = () => {
   const [isShown, setIsShown] = useState(false);
   const { logout, avatar, userId, name, isAuthenticated } = useAuthContext();
-  const { isOpen, onOpen, onClose } = useModal();
+  const {
+    isOpen: loginIsOpen,
+    onOpen: onOpenLogin,
+    onClose: onCloseLogin,
+  } = useModal();
+  const {
+    isOpen: navIsOpen,
+    onOpen: onOpenNav,
+    onClose: onCloseNav,
+  } = useModal();
 
   return (
     <>
-      <LoginModal isOpen={isOpen} onRequestClose={onClose} />
+      <LoginModal isOpen={loginIsOpen} onRequestClose={onCloseLogin} />
+      <NavigationModal
+        isOpen={navIsOpen}
+        onRequestClose={onCloseNav}
+        isAuth={isAuthenticated}
+      />
 
       <div className="flex items-center w-full px-4 md:py-4 h-14 md:px-10 md:h-20">
         <div className="flex justify-between w-full mx-auto">
@@ -78,7 +93,7 @@ export const Navigation: React.FC = () => {
                 variant="outline"
                 size="small"
                 className="hidden mr-10 font-medium align-middle rounded-full md:inline"
-                onClick={onOpen}
+                onClick={onOpenLogin}
               >
                 ルームを作成
               </Button>
@@ -93,15 +108,32 @@ export const Navigation: React.FC = () => {
                   onClick={() => setIsShown(!isShown)}
                 />
               ) : (
-                <Button colorScheme="blue" onClick={onOpen}>
+                <Button colorScheme="blue" onClick={onOpenLogin}>
                   Login
                 </Button>
               )}
               {isShown && <PopUp logout={logout} userId={userId} name={name} />}
             </div>
-            <Button isIcon variant="ghost" className="md:hidden">
-              <MenuIcon />
-            </Button>
+
+            {isAuthenticated ? (
+              <Button
+                isIcon
+                variant="ghost"
+                className="md:hidden"
+                onClick={onOpenNav}
+              >
+                <MenuIcon />
+              </Button>
+            ) : (
+              <Button
+                isIcon
+                variant="ghost"
+                className="md:hidden"
+                onClick={onOpenNav}
+              >
+                <MenuIcon />
+              </Button>
+            )}
           </div>
 
           {/* <div className="flex items-center">
