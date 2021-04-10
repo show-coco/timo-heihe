@@ -41,18 +41,19 @@ export const useSearchTeams = (): UseSearch => {
   const [levelIds, setLevelIds] = useState<number[]>([]);
   const [typeId, setTypeId] = useState<number | undefined>(undefined);
   const [withApplication, setWithApplication] = useState(WITH_NO_APPLICATION);
+  console.log("skillIds", skillIds);
   const { data: roomsData, refetch, loading, error } = useRoomsQuery({
     variables: {
       input: {
-        skillIds: mySkillIds,
-        typeId: TeamType.DEVELOPMENT,
+        keyword,
+        categoryIds: null,
+        skillIds: mySkillIds.length ? mySkillIds : null,
+        recruitmentLevelIds: null,
+        withApplication: false,
+        typeId: null,
       },
     },
   });
-
-  useEffect(() => {
-    setSkillIds(mySkillIds);
-  }, [mySkillIds]);
 
   useEffect(() => {
     refetchRooms();

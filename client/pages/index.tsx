@@ -24,11 +24,7 @@ export default function Home() {
   } = useSearchTeams();
 
   const teams = useMemo(() => {
-    return (
-      roomsData &&
-      roomsData.rooms &&
-      convertToTeamCardObjFromTeams(roomsData?.rooms)
-    );
+    return roomsData?.rooms && convertToTeamCardObjFromTeams(roomsData.rooms);
   }, [roomsData]);
 
   if (loading) return <p>Loading</p>;
