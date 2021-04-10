@@ -11,7 +11,7 @@ type Props = {
 export const MessageTimelineItem: React.FC<Props> = ({ user }: Props) => {
   return user ? (
     <Link href="/messages/[userSlug]" as={`/messages/${user.userId}`}>
-      <div key={user.id} className="flex items-center h-16 px-3">
+      <div key={user.id} className="flex items-center h-16 px-3 cursor-pointer">
         <Avatar src={user.avatar || ""} name={user.name} size="small" />
 
         <div className="w-full ml-3">
