@@ -30,10 +30,7 @@ export default function ChatPage() {
 
   return (
     <>
-      <Meta
-        title={"チャット | CloudCircle"}
-        image={`https://ogp-mu.vercel.app/チャット`}
-      />
+      <Meta title={"チャット | CloudCircle"} image={`/ogp.png`} />
       <CreateChannelModal
         {...createRoomModal}
         channelName={status.channelName}
