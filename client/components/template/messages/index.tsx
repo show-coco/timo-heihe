@@ -18,7 +18,7 @@ export const MessagesTemplate: React.FC<Props> = ({
         <div className="flex w-full bg-white border">
           <MessageTimeline users={users} />
 
-          <div className="w-full">{children}</div>
+          <div className="w-3/4">{children}</div>
         </div>
       </div>
     </Template>

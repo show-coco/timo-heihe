@@ -26,6 +26,7 @@ export default function Message() {
   const [text, setText] = useState("");
   const [messages, setMessages] = useState<MessageFragment[]>([]);
   const { userId } = useAuthContext();
+  const [hasNext, setHasNext] = useState(false);
 
   const { data: messageData, error, fetchMore } = useMessagesQuery({
     variables: {
@@ -49,16 +50,12 @@ export default function Message() {
   );
   const [sendMessage] = useSendMessageMutation();
 
-  console.log("evniranv", addedError);
-
-  console.log("messagesData", messages);
-
   useEffect(() => {
     if (messageData) {
+      setHasNext(true);
       setMessages([...messageData.messages]);
     }
     if (addedMessage) {
-      console.log("messageAdded", addedMessage);
       setMessages([addedMessage.messageAdded, ...messages]);
     }
   }, [addedMessage, messageData]);
@@ -89,8 +86,7 @@ export default function Message() {
       },
     });
 
-    console.log("veaneani", data.messages);
-
+    setHasNext(Boolean(data.messages.length));
     setMessages([...messages, ...data.messages]);
   };
 
@@ -114,7 +110,7 @@ export default function Message() {
               className="flex flex-col-reverse px-5 overflow-auto h-96"
             >
               <InfiniteScroll
-                hasMore={true}
+                hasMore={hasNext}
                 inverse={true}
                 scrollableTarget="scrollableDiv"
                 next={onNext}

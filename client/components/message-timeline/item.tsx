@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { useRouter } from "next/router";
 import React from "react";
 import { MessageTimelineFragment } from "../../generated/types";
 import { Avatar } from "../avatar/avatar";
@@ -9,9 +10,16 @@ type Props = {
 };
 
 export const MessageTimelineItem: React.FC<Props> = ({ user }: Props) => {
+  const router = useRouter();
+  const bgColor =
+    router.asPath === `/messages/${user?.userId}` && "bg-orange-50";
+
   return user ? (
     <Link href="/messages/[userSlug]" as={`/messages/${user.userId}`}>
-      <div key={user.id} className="flex items-center h-16 px-3 cursor-pointer">
+      <div
+        key={user.id}
+        className={`flex items-center h-16 px-3 cursor-pointer ${bgColor}`}
+      >
         <Avatar src={user.avatar || ""} name={user.name} size="small" />
 
         <div className="w-full ml-3">
