@@ -25,9 +25,14 @@ export const convertToSkillsIds = (skills: ACSelectedData[]): number[] => {
   return skills.map((skill) => Number(skill.id));
 };
 
+export const ROOM_TYPE = {
+  PUBLIC: "1",
+  PRIVATE:  "2"
+} as const;
+
+export type RoomTypeValueType = typeof ROOM_TYPE[keyof typeof ROOM_TYPE];
+
 export const useCreateRoom = () => {
-  const TRUE = "1";
-  const FALSE = "2";
   const router = useRouter();
   const { id } = useAuthContext();
   const [createRoom, { loading }] = useCreateRoomMutation();
@@ -40,7 +45,7 @@ export const useCreateRoom = () => {
   const [recruitNumber, setRecruitNumber] = useState(0);
   const [repositoryUrl, setRespositoryUrl] = useState("");
   const [invidationUrl, setInvidationUrl] = useState("");
-  const [isRequired, setIsRequired] = useState(TRUE);
+  const [isRequired, setIsRequired] = useState<RoomTypeValueType>(ROOM_TYPE.PUBLIC);
   const [selectedSkills, setSkills] = useState<ACSelectedData[]>([]);
   const [categories, setCategories] = useState<number[]>([]);
   const [isDisabled, setIsDisabled] = useState<boolean>(true);
@@ -65,7 +70,7 @@ export const useCreateRoom = () => {
     repositoryUrl,
     invidationUrl,
     recruiementLevels,
-    withApplication: isRequired === FALSE,
+    withApplication: isRequired === ROOM_TYPE.PRIVATE,
     categories: categories,
     typeIds: types,
   });
