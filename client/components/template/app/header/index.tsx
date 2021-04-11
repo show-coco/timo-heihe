@@ -13,7 +13,8 @@ import { useAuthContext } from "../../../../providers/useAuthContext";
 /* Icons */
 import MenuIcon from "../../../../assets/icons/menu.svg";
 
-const textStyle = "font-semibold text-base text-gray-700 cursor-pointer";
+const linkStyle =
+  "font-semibold text-base text-gray-700 cursor-pointer hidden md:inline whitespace-nowrap";
 
 export const AppHeader: React.FC = () => {
   const [isShown, setIsShown] = useState(false);
@@ -42,39 +43,24 @@ export const AppHeader: React.FC = () => {
         <div className="flex justify-between w-full mx-auto">
           <div className="flex items-center mr-5 space-x-8 align-middle">
             <Link href="/">
-              <span className="text-lg font-bold text-orange-400 cursor-pointer md:text-3xl whitespace-nowrap">
+              <a className="text-lg font-bold text-orange-400 cursor-pointer md:text-3xl whitespace-nowrap">
                 Cloud Circle
-              </span>
+              </a>
             </Link>
 
             <Link href="/">
-              <span
-                className={`${textStyle} align-middle hidden md:inline whitespace-nowrap`}
-                role="button"
-              >
-                ルームを探す
-              </span>
+              <a className={`${linkStyle}`}>ルームを探す</a>
             </Link>
 
             {isAuthenticated && (
               <Link href="/received-applications">
-                <span
-                  className={`${textStyle} align-middle hidden md:inline whitespace-nowrap`}
-                  role="button"
-                >
-                  受け取った申請
-                </span>
+                <a className={`${linkStyle}`}>受け取った申請</a>
               </Link>
             )}
 
             {isAuthenticated && (
               <Link href="/messages">
-                <span
-                  className={`${textStyle} hidden md:inline whitespace-nowrap`}
-                  role="button"
-                >
-                  メッセージ
-                </span>
+                <a className={`${linkStyle}`}>メッセージ</a>
               </Link>
             )}
           </div>
@@ -85,7 +71,7 @@ export const AppHeader: React.FC = () => {
                 <Button
                   variant="outline"
                   size="small"
-                  className="hidden mr-10 font-medium align-middle rounded-full md:inline"
+                  className="hidden mr-10 font-medium md:inline"
                 >
                   ルームを作成
                 </Button>
@@ -94,7 +80,7 @@ export const AppHeader: React.FC = () => {
               <Button
                 variant="outline"
                 size="small"
-                className="hidden mr-10 font-medium align-middle rounded-full md:inline"
+                className="hidden mr-10 font-medium md:inline"
                 onClick={onOpenLogin}
               >
                 ルームを作成
@@ -137,13 +123,6 @@ export const AppHeader: React.FC = () => {
               </Button>
             )}
           </div>
-
-          {/* <div className="flex items-center">
-          <LogoutIcon class="w-5 h-5 fill-current mr-3" />
-          <span className={textStyle} onClick={logout} role="button">
-            ログアウト
-          </span>
-        </div> */}
         </div>
       </div>
     </>
