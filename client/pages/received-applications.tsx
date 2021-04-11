@@ -55,9 +55,9 @@ export default function ReceivedApplyingPage() {
   const isExists = data?.myRooms.some((myRoom) => myRoom.applyingUsers?.length);
 
   return (
-    <Template className="p-10">
+    <Template className="p-5 md:p-10">
       <Meta title={"受け取った申請 | CloudCircle"} />
-      <div className="w-3/5 mx-auto">
+      <div className="mx-auto md:w-3/5">
         <Heading as="h1Big" className="mb-8 text-center">
           受け取った申請
         </Heading>
