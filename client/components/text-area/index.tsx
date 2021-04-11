@@ -17,7 +17,7 @@ export const TextArea: React.FC<TextAreaProps> = ({
     <Fragment>
       <div className="flex">
         {props.name && (
-          <label className="text-lg font-bold text-gray-700 m-0 ">
+          <label className="m-0 text-lg font-bold text-gray-700">
             {props.name}
             {props.required && <span className="text-red-500">*</span>}
           </label>

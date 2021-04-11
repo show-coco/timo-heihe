@@ -29,6 +29,7 @@ export default function CreateRoom() {
     onChangeFileInput,
     onSubmit,
     onChangeCategories,
+    onChangeType,
     searchConditions,
     setter,
     state,
@@ -96,6 +97,23 @@ export default function CreateRoom() {
               </div>
 
               <div className={`flex flex-col flex-wrap w-2/3`}>
+                <Heading as="h2">ルームタイプ</Heading>
+
+                <div>
+                  {data?.roomTypes.map((type, i) => (
+                    <Checkbox
+                      key={i}
+                      className="mt-4 mr-4"
+                      value={type.id}
+                      onChange={(e) => onChangeType(e, type.id)}
+                    >
+                      {type.name}
+                    </Checkbox>
+                  ))}
+                </div>
+              </div>
+
+              <div className={`flex flex-col flex-wrap w-2/3`}>
                 <span className="flex">
                   <Heading as="h2">カテゴリー</Heading>
                   <span className="text-red-500">*</span>
@@ -121,7 +139,7 @@ export default function CreateRoom() {
                     name="ルームについて"
                     required
                     placeholder="ルームについて（Markdown記法）&#13;&#10;最初の一文がルーム一覧の説明文に表示されます。"
-                    className="w-2/3"
+                    className="w-2/3 mt-3"
                     onChange={(e) => setter.setDescription(e.target.value)}
                   />
                 </div>
@@ -137,7 +155,10 @@ export default function CreateRoom() {
       {/* 右側のカード */}
       <div className="col-span-3">
         <Card className="p-8">
-          <Heading as="h1Small">ルームへの申請</Heading>
+          <span className="flex mb-3">
+            <Heading as="h1Small">ルームへの申請</Heading>
+            <span className="text-red-500">*</span>
+          </span>
           <div className="flex space-x-8">
             <Radio
               text="なし"
@@ -153,24 +174,22 @@ export default function CreateRoom() {
             />
           </div>
           {state.isRequired === "1" && (
-            <Fragment>
-              <div className={`${betweenH2} mt-10`}>
-                <TextInput
-                  name="招待URL"
-                  placeholder="DiscordやSlackの招待URL"
-                  onChange={(e) => setter.setRespositoryUrl(e.target.value)}
-                />
-              </div>
-              <div className={`${betweenH2} mt-10`}>
-                <TextInput
-                  name="Githubリポジトリ"
-                  placeholder="URLを入力"
-                  icon={<GithubIcon height="30px" />}
-                  onChange={(e) => setter.setRespositoryUrl(e.target.value)}
-                />
-              </div>
-            </Fragment>
+            <div className={`${betweenH2} mt-4`}>
+              <TextInput
+                name="招待URL"
+                placeholder="DiscordやSlackの招待URL"
+                onChange={(e) => setter.setRespositoryUrl(e.target.value)}
+              />
+            </div>
           )}
+          <div className={`${betweenH2} mt-4`}>
+            <TextInput
+              name="Githubリポジトリ"
+              placeholder="URLを入力"
+              icon={<GithubIcon height="30px" />}
+              onChange={(e) => setter.setRespositoryUrl(e.target.value)}
+            />
+          </div>
         </Card>
 
         {/*  募集するレベル帯 */}
@@ -190,13 +209,13 @@ export default function CreateRoom() {
               />
             ))}
           </div>
-          <div className={`${betweenH2} mt-10`}>
+          {/* <div className={`${betweenH2} mt-10`}>
             <TextInput
               name="募集する役割"
               placeholder="フロントエンドエンジニア "
               // onChange={(e) => setRespositoryUrl(e.target.value)}
             />
-          </div>
+          </div> */}
         </Card>
 
         {/*  使用するスキル */}
