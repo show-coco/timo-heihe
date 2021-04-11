@@ -10,8 +10,7 @@ import { dateFormatter, YEAR_MANTH_DAY_SLASH } from "../../utils/dateFormat";
 import Link from "next/link";
 import { FirstParagraphDisplayer } from "../parser/first-paragraph-displayer";
 
-export type TeamCardProps = {
-  id: number;
+export type RoomCardProps = {
   title: string;
   slug: string;
   owner: AvatarWithNameProps;
@@ -23,7 +22,7 @@ export type TeamCardProps = {
 
 export const convertToTeamCardObjFromTeams = (
   queryObj: RoomCardFragment[]
-): TeamCardProps[] => {
+): RoomCardProps[] => {
   return queryObj.map((team) => {
     return {
       ...team,
@@ -49,8 +48,7 @@ const convertToSKillsArray = (
   return skills?.map((skill) => skill.name);
 };
 
-export const TeamCard: React.FC<TeamCardProps> = ({
-  id,
+export const RoomCard: React.FC<RoomCardProps> = ({
   title,
   slug,
   owner,
@@ -58,7 +56,7 @@ export const TeamCard: React.FC<TeamCardProps> = ({
   languages,
   createdAt,
   className,
-}: TeamCardProps) => {
+}: RoomCardProps) => {
   return (
     <div>
       <Link
@@ -72,7 +70,7 @@ export const TeamCard: React.FC<TeamCardProps> = ({
             tabIndex={0}
             role="button"
           >
-            <div className="flex items-center">
+            <div className="flex flex-col md:items-center md:flex-row">
               <h3 className="flex-1">{title}</h3>
 
               <span>
@@ -91,10 +89,7 @@ export const TeamCard: React.FC<TeamCardProps> = ({
             <div className="flex items-end">
               <SkillPochiSet skills={languages} className="flex-row flex-1" />
 
-              <span className="space-x-2">
-                <span>作成日</span>
-                <span>{createdAt}</span>
-              </span>
+              <span>{createdAt}</span>
             </div>
           </Card>
         </div>

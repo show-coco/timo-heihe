@@ -2,10 +2,6 @@ import { useRouter } from "next/router";
 import React, { useMemo } from "react";
 import { Avatar } from "../../components/avatar/avatar";
 import { Card } from "../../components/card/card";
-import {
-  convertToTeamCardObjFromTeams,
-  TeamCard,
-} from "../../components/card/team-card";
 import { Heading } from "../../components/heading/heading";
 import { useUserDetailPageQuery } from "../../generated/types";
 import TwitterIcon from "../../assets/icons/twitter.svg";
@@ -37,9 +33,6 @@ export default function UserDetail() {
     data?.user.id,
     loginUserId,
   ]);
-
-  // FIXME
-  const teams = convertToTeamCardObjFromTeams(data?.user.teams || []);
 
   return (
     <Template className="md:p-10">
