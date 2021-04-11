@@ -19,6 +19,7 @@ import { useAuthGuard } from "../hooks/useAuthGurad";
 import { Template } from "../components/template/app/template";
 import { OperationTag } from "../components/tag/operation";
 import { Meta } from "../components/meta";
+import { EditableSkillPochiSet } from "../components/skill/editable-skill-pochi-set";
 
 const betweenH2 = "space-y-2";
 
@@ -33,14 +34,14 @@ export default function CreateRoom() {
     onChangeFileInput,
     onSubmit,
     setIsRequired,
-    searchConditions,
     onChangeCategories,
     setName,
+    setRecruiementLevels,
+    searchConditions,
     selectedSkills,
     isRequired,
     fileRef,
     imageUrl,
-    setRecruiementLevels,
     recruiementLevels,
     isDisabled,
     error,
@@ -220,6 +221,13 @@ export default function CreateRoom() {
               setSelected={setSkills}
               selectedData={selectedSkills}
             />
+            <div>
+              <EditableSkillPochiSet
+                skills={convertToSkillPochiSetArray(selectedSkills)}
+                setSelected={setSkills}
+                selectedData={selectedSkills}
+              />
+            </div>
           </div>
         </Card>
       </div>
