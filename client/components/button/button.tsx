@@ -2,7 +2,7 @@ import React from "react";
 
 export type ButtonProps = {
   variant?: "solid" | "outline" | "ghost" | "underline";
-  colorScheme?: "orange" | "blue" | "red";
+  colorScheme?: "orange" | "blue" | "red" | "black";
   size?: "small" | "medium" | "large";
   isIcon?: boolean;
   onClick?: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
@@ -22,8 +22,13 @@ const sizes = {
   large: "h-14",
 };
 
+const iconSizes = {
+  small: "h-8 w-8",
+  medium: "h-10 w-10",
+  large: "h-14 w-14",
+};
+
 const paddings = {
-  icon: "p-0",
   small: "px-4",
   medium: "px-6",
   large: "px-8",
@@ -47,12 +52,14 @@ const colorSchemesForSolid = {
   orange: `bg-orange-primary ${hoverAnimation["orange"]}`,
   blue: `bg-blue-500 ${hoverAnimation["blue"]}`,
   red: `bg-red-500 ${hoverAnimation["red"]}`,
+  black: `bg-black-400`,
 };
 
 const colorSchemeseForOutline = {
   orange: `text-orange-primary border-orange-500`,
   blue: `text-blue-500 border-blue-500`,
   red: `text-red-500 border-red-500`,
+  black: `text-white border-white`,
 };
 
 // eslint-disable-next-line react/display-name
@@ -81,7 +88,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         colorSchemeStyle = colorSchemeseForOutline[colorScheme];
     }
     const disabledStyle = props.disabled ? "opacity-50" : "";
-    const paddingStyle = isIcon ? paddings["icon"] : paddings[size];
+    const paddingStyle = isIcon ? iconSizes[size] : paddings[size];
     const roundedStyle = roundedTop ? "rounded-t-md" : "rounded-md";
 
     return (

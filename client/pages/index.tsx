@@ -1,8 +1,6 @@
-/**
- * ルーム一覧ページ
- */
+/* ルーム一覧ページ */
 import React, { useMemo } from "react";
-/* components */
+/* Components */
 import { SearchArea } from "../components/search-area/search-area";
 import { HomeHeader } from "../components/template/app/header/home";
 import { Template } from "../components/template/app/template";
@@ -10,8 +8,13 @@ import {
   convertToTeamCardObjFromTeams,
   RoomCard,
 } from "../components/card/team-card";
-/* hooks */
+/* Hooks */
 import { useSearchTeams } from "../hooks/useSearchRooms";
+import { Button } from "../components/button";
+/* Icons */
+import TargetIcon from "../assets/icons/search.svg";
+import { Modal } from "../components/modal/modal";
+import { useModal } from "../hooks/useModal";
 
 export default function Home() {
   const {
@@ -21,6 +24,7 @@ export default function Home() {
     setTypeId,
     ...searchArea
   } = useSearchTeams();
+  const { isOpen, onClose, onOpen } = useModal();
 
   const teams = useMemo(() => {
     return roomsData?.rooms && convertToTeamCardObjFromTeams(roomsData.rooms);
@@ -49,9 +53,34 @@ export default function Home() {
         </div>
 
         <div className="flex-1 hidden mt-5 ml-10 md:block">
-          <SearchArea {...searchArea} />
+          <SearchArea {...searchArea} onClose={onClose} />
         </div>
       </div>
+
+      <span className="fixed right-3 bottom-3 md:hidden">
+        <Button
+          isIcon
+          colorScheme="black"
+          className="rounded-full shadow-md"
+          size="large"
+          onClick={onOpen}
+        >
+          <TargetIcon />
+        </Button>
+
+        <Modal
+          isOpen={isOpen}
+          onRequestClose={onClose}
+          style={{
+            content: {
+              height: "80vh",
+              width: "90%",
+            },
+          }}
+        >
+          <SearchArea {...searchArea} onClose={onClose} />
+        </Modal>
+      </span>
     </Template>
   );
 }
