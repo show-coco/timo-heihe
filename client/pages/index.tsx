@@ -8,7 +8,7 @@ import { HomeHeader } from "../components/template/app/header/home";
 import { Template } from "../components/template/app/template";
 import {
   convertToTeamCardObjFromTeams,
-  TeamCard,
+  RoomCard,
 } from "../components/card/team-card";
 /* hooks */
 import { useSearchTeams } from "../hooks/useSearchRooms";
@@ -30,7 +30,7 @@ export default function Home() {
 
   return (
     <Template
-      className="p-10"
+      className="md:p-10"
       header={
         <HomeHeader
           teamTypes={roomsData?.roomTypes}
@@ -39,15 +39,16 @@ export default function Home() {
         />
       }
     >
-      <div className="flex px-10">
-        <div className="w-3/5 mt-5 space-y-5">
+      <div className="flex md:px-10">
+        <div className="w-full mt-5 space-y-5 md:w-3/5">
           {!teams || teams.length === 0 ? (
             <p className="text-lg font-bold text-center">ルームがありません</p>
           ) : (
-            teams.map((team, i) => <TeamCard {...team} key={i} />)
+            teams.map((team, i) => <RoomCard {...team} key={i} />)
           )}
         </div>
-        <div className="flex-1 mt-5 ml-10">
+
+        <div className="flex-1 hidden mt-5 ml-10 md:block">
           <SearchArea {...searchArea} />
         </div>
       </div>
