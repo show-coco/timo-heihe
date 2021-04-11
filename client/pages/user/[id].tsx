@@ -19,7 +19,7 @@ import { useAuthContext } from "../../providers/useAuthContext";
 import Link from "next/link";
 import { Template } from "../../components/template/app/template";
 import ReactMarkdown from "react-markdown";
-import { Meta } from "../../components/head";
+import { Meta } from "../../components/meta";
 export default function UserDetail() {
   const router = useRouter();
   const id = router.query.id;

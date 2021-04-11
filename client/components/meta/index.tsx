@@ -13,6 +13,7 @@ export const Meta = ({ title, description, keyword, image, url }: Props) => {
     <Head>
       <title>{title}</title>
       <meta property="og:title" content={title} />
+      <meta content="text/html; charset=shift_jis" http-equiv="Content-Type" />
       <meta
         property="og:description"
         content={

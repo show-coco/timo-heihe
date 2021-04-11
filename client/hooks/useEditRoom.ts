@@ -131,7 +131,9 @@ export const useEditTeam = () => {
           },
         },
       });
-      router.push(`/room/${res.data?.updateRoom.slug}`);
+      router.push(
+        `/room/${res.data?.updateRoom.slug}?title=${res.data?.updateRoom.title}`
+      );
     } catch (e) {
       console.log(e);
     }

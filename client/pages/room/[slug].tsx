@@ -34,6 +34,7 @@ export default function ShowRoom({ url, title }: Props) {
   const { isAuthenticated, id } = useAuthContext();
   const { isOpen, onOpen, onClose } = useModal();
   const router = useRouter();
+  console.log(url);
   const { data } = useRoomQuery({
     variables: {
       slug: router.query.slug?.toString() || "",
@@ -56,7 +57,7 @@ export default function ShowRoom({ url, title }: Props) {
         {iamOwner && (
           <div className="flex justify-end mb-4">
             <Link
-              href="/room/edit/[slug]"
+              href={`/room/edit/[slug]?title=${room?.title}`}
               as={`/room/edit/${router.query.slug?.toString() || ""}`}
             >
               <Button>編集する</Button>
@@ -183,8 +184,8 @@ export default function ShowRoom({ url, title }: Props) {
 }
 
 export const getServerSideProps: GetServerSideProps = async ({
-  params,
   query,
+  params,
 }) => {
   const { title } = query;
 
