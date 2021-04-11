@@ -17,9 +17,9 @@ const defaultStyle =
   "font-bold whitespace-nowrap inline-flex justify-center items-center relative border-box";
 
 const sizes = {
-  small: "h-8 min-w-8",
-  medium: "h-10 min-w-10",
-  large: "h-14 min-w-14",
+  small: "h-8",
+  medium: "h-10",
+  large: "h-14",
 };
 
 const paddings = {

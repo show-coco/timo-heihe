@@ -43,13 +43,13 @@ export const HomeHeader: React.FC<Props> = ({
         </div>
       )}
 
-      <div className="w-full px-32 space-x-3 bg-white">
+      <div className="flex space-x-3 overflow-y-scroll bg-white md:px-32">
         <Button
           roundedTop={true}
           variant={typeId === undefined ? "underline" : "ghost"}
           className={
             typeId === undefined
-              ? "text-black-400  "
+              ? "text-black-400"
               : "text-black-100 hover:text-black-400"
           }
           onClick={() => setTypeId(undefined)}
