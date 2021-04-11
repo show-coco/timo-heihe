@@ -1,11 +1,8 @@
-import React, { Fragment } from "react";
+/* ルーム作成ページ */
+import React from "react";
 import { SkillModel, useCreateRoomPageQuery } from "../generated/types";
-import {
-  ACSelectedData,
-  AutoComplate,
-} from "../components/auto-complate/auto-complate";
+/* Components */
 import { Card } from "../components/card/card";
-import { useCreateRoom, ROOM_TYPE } from "../hooks/useCreateRoom";
 import { Heading } from "../components/heading/heading";
 import { Avatar } from "../components/avatar/avatar";
 import { FileInput } from "../components/file-input/file-inpute";
@@ -13,13 +10,20 @@ import { TextInput } from "../components/text-input/text-input";
 import { Radio } from "../components/radio/radio";
 import { Checkbox } from "../components/checkbox/checkbox";
 import { Button } from "../components/button";
-import GithubIcon from "../assets/icons/github.svg";
 import { TextArea } from "../components/text-area";
-import { useAuthGuard } from "../hooks/useAuthGurad";
 import { Template } from "../components/template/app/template";
 import { OperationTag } from "../components/tag/operation";
 import { Meta } from "../components/meta";
 import { EditableSkillPochiSet } from "../components/skill/editable-skill-pochi-set";
+import {
+  ACSelectedData,
+  AutoComplate,
+} from "../components/auto-complate/auto-complate";
+/* Hooks */
+import { useAuthGuard } from "../hooks/useAuthGurad";
+import { useCreateRoom, ROOM_TYPE } from "../hooks/useCreateRoom";
+/* Icons */
+import GithubIcon from "../assets/icons/github.svg";
 
 const betweenH2 = "space-y-2";
 
