@@ -2,7 +2,7 @@
 import React, { useMemo } from "react";
 /* Components */
 import { SearchArea } from "../components/search-area/search-area";
-import { HomeHeader } from "../components/template/app/header/home";
+import { HomeHeader } from "../components/template/home/header";
 import { Template } from "../components/template/app/template";
 import {
   convertToTeamCardObjFromTeams,

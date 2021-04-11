@@ -1,19 +1,21 @@
+/* ヘッダー */
 import React, { useState } from "react";
-
 import Link from "next/link";
-import { useModal } from "../../../hooks/useModal";
-import { useAuthContext } from "../../../providers/useAuthContext";
-import { LoginModal } from "../../login-modal";
-import { NavigationModal } from "../../navigation-modal";
-import { Button } from "../../button";
-import { Avatar } from "../../avatar/avatar";
-import { PopUp } from "./popup";
-
-import MenuIcon from "../../../assets/icons/menu.svg";
+/* Components */
+import { LoginModal } from "../../../login-modal";
+import { NavigationModal } from "../../../navigation-modal";
+import { Button } from "../../../button";
+import { Avatar } from "../../../avatar/avatar";
+import { PopUp } from "../popup";
+/* Hooks */
+import { useModal } from "../../../../hooks/useModal";
+import { useAuthContext } from "../../../../providers/useAuthContext";
+/* Icons */
+import MenuIcon from "../../../../assets/icons/menu.svg";
 
 const textStyle = "font-semibold text-base text-gray-700 cursor-pointer";
 
-export const Navigation: React.FC = () => {
+export const AppHeader: React.FC = () => {
   const [isShown, setIsShown] = useState(false);
   const { logout, avatar, userId, name, isAuthenticated } = useAuthContext();
   const {

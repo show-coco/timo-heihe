@@ -1,6 +1,7 @@
 import Link from "next/link";
 import React from "react";
-import { AuthContextType } from "../../../providers/useAuthContext";
+import { AuthContextType } from "../../../../providers/useAuthContext";
+import { Ellipsis } from "../../../ellipsis";
 
 const linkStye =
   "hover:bg-opacity-10 hover:bg-black-100 py-2 pl-3 cursor-pointer";
@@ -13,8 +14,8 @@ export const PopUp: React.FC<Props> = ({ userId, name, logout }: Props) => {
       <div className="border-b-2">
         <Link href="/user/[id]" as={`/user/${userId}`}>
           <div className={`${linkStye}  rounded-t-xl`}>
-            <div className="font-bold">{name}</div>
-            <div className="overflow-hidden pr-1">@{userId}</div>
+            <Ellipsis className="font-bold">{name}</Ellipsis>
+            <Ellipsis className="pr-1 overflow-hidden">{`@${userId}`}</Ellipsis>
           </div>
         </Link>
       </div>
