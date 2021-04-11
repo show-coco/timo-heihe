@@ -1,4 +1,6 @@
 import React from "react";
+import { GetServerSideProps } from "next";
+
 import { Avatar } from "../../components/avatar/avatar";
 import { Card } from "../../components/card/card";
 import {
@@ -21,11 +23,18 @@ import { Template } from "../../components/template/app/template";
 import { Tag } from "../../components/tag";
 import { useApplyRoomMutation, useRoomQuery } from "../../generated/types";
 import { useRouter } from "next/router";
+import { Meta } from "../../components/meta";
 
-export default function ShowRoom() {
+type Props = {
+  url: string;
+  title: string;
+};
+
+export default function ShowRoom({ url, title }: Props) {
   const { isAuthenticated, id } = useAuthContext();
   const { isOpen, onOpen, onClose } = useModal();
   const router = useRouter();
+  console.log(url);
   const { data } = useRoomQuery({
     variables: {
       slug: router.query.slug?.toString() || "",
@@ -34,17 +43,21 @@ export default function ShowRoom() {
   const [applyRoom] = useApplyRoomMutation();
 
   const room = data?.room;
+
+  // if (loading) return <p>Loading...</p>;
+  // if (!room) return <p>データがありません</p>;
+
   const iamOwner = room?.owner.id === id;
 
   return (
     <>
       <LoginModal isOpen={isOpen} onRequestClose={onClose} />
-
+      <Meta title={title} image={`${url}`} />
       <Template className="p-10">
         {iamOwner && (
           <div className="flex justify-end mb-4">
             <Link
-              href="/room/edit/[slug]"
+              href={`/room/edit/[slug]?title=${room?.title}`}
               as={`/room/edit/${router.query.slug?.toString() || ""}`}
             >
               <Button>編集する</Button>
@@ -68,7 +81,7 @@ export default function ShowRoom() {
                       size="large"
                     />
                   </div>
-                  <Heading as="h1Big">{room?.name || ""}</Heading>
+                  <Heading as="h1Big">{room?.title || ""}</Heading>
                 </div>
               </div>
             </div>
@@ -169,3 +182,18 @@ export default function ShowRoom() {
     </>
   );
 }
+
+export const getServerSideProps: GetServerSideProps = async ({
+  query,
+  params,
+}) => {
+  const { title } = query;
+
+  const url = `https://ogp-mu.vercel.app/${title}.${params?.slug}.png`;
+  return {
+    props: {
+      url,
+      title,
+    },
+  };
+};

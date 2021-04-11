@@ -90,7 +90,7 @@ export const useCreateRoom = () => {
       setIsDisabled(true);
     }
 
-    setError(slug === "" || includesInvalidChars(slug));
+    setError(includesInvalidChars(slug));
   }, [title, name, slug, categories, description]);
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -101,7 +101,9 @@ export const useCreateRoom = () => {
           input: getVariables(),
         },
       });
-      router.push(`/room/${res.data?.createRoom.slug}`);
+      router.push(
+        `/room/${res.data?.createRoom.slug}?title=${res.data?.createRoom.title}`
+      );
     } catch (e) {
       console.log(e);
     }

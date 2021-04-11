@@ -15,7 +15,7 @@ import { useAuthContext } from "../../providers/useAuthContext";
 import Link from "next/link";
 import { Template } from "../../components/template/app/template";
 import ReactMarkdown from "react-markdown";
-
+import { Meta } from "../../components/meta";
 export default function UserDetail() {
   const router = useRouter();
   const id = router.query.id;
@@ -36,6 +36,7 @@ export default function UserDetail() {
 
   return (
     <Template className="md:p-10">
+      <Meta title={"ユーザー詳細 | CloudCircle"} />
       {iAmLoginUser && (
         <div className="justify-end hidden mb-4 md:flex">
           <Link href="/user/edit/[id]" as={`/user/edit/${id}`}>

@@ -59,7 +59,10 @@ export const RoomCard: React.FC<RoomCardProps> = ({
 }: RoomCardProps) => {
   return (
     <div>
-      <Link href="/room/[slug]" as={`/room/${slug}`}>
+      <Link
+        href={`/room/[slug]?title=${title}`}
+        as={`/room/${slug}?title=${title}`}
+      >
         <div>
           <Card
             variant="none"

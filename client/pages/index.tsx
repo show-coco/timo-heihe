@@ -10,6 +10,9 @@ import {
 } from "../components/card/team-card";
 /* Hooks */
 import { useSearchTeams } from "../hooks/useSearchRooms";
+
+import { Meta } from "../components/meta";
+
 import { Button } from "../components/button";
 /* Icons */
 import TargetIcon from "../assets/icons/search.svg";
@@ -43,6 +46,8 @@ export default function Home() {
         />
       }
     >
+      <Meta title={"ルーム一覧ページ | CloudCircle"} />
+
       <div className="flex md:px-10">
         <div className="w-full mt-5 space-y-5 md:w-3/5">
           {!teams || teams.length === 0 ? (
