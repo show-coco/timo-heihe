@@ -81,7 +81,7 @@ export default function ShowRoom({ url, title }: Props) {
                       size="large"
                     />
                   </div>
-                  <Heading as="h1Big">{room?.name || ""}</Heading>
+                  <Heading as="h1Big">{room?.title || ""}</Heading>
                 </div>
               </div>
             </div>
