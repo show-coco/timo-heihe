@@ -14,7 +14,9 @@ import { CheckBoxOperaitons } from "../checkbox/operations";
 type Props = Omit<
   UseSearch,
   "error" | "loading" | "roomsData" | "typeId" | "setTypeId"
->;
+> & {
+  onClose: () => void;
+};
 
 export const SearchArea: FC<Props> = ({
   setKeyword,
@@ -23,6 +25,7 @@ export const SearchArea: FC<Props> = ({
   setSkillIds,
   setLevelIds,
   setWithApplication,
+  onClose,
   withApplication,
   levelIds,
   categoryIds,
@@ -31,19 +34,19 @@ export const SearchArea: FC<Props> = ({
   searchConditions,
 }: Props) => {
   return (
-    <div className="sticky top-10">
-      <div className="flex justify-center bg-blue-550 rounded-t-md">
-        <div className="w-9/12">
+    <div className="md:sticky md:top-10">
+      <div className="flex justify-center md:bg-blue-550 rounded-t-md">
+        <div className="w-full md:w-9/12">
           <TextInput
             onChange={(e) => setKeyword(e.target.value)}
-            className="my-6"
+            className="md:my-6"
             placeholder="キーワードで検索する"
             value={keyword}
           />
         </div>
       </div>
 
-      <div className="px-8 bg-white">
+      <div className="bg-white md:px-8">
         <Heading as="h3" className="pt-6">
           技術で絞る
         </Heading>
@@ -84,7 +87,7 @@ export const SearchArea: FC<Props> = ({
           ))}
         </div>
 
-        <Heading as="h3" className="pt-6 pb-4">
+        <Heading as="h3" className="pt-4 pb-4 md:pt-6">
           申請の有無
         </Heading>
         <div className="flex space-x-8">
@@ -104,11 +107,22 @@ export const SearchArea: FC<Props> = ({
           />
         </div>
 
-        <div className="p-8 text-center">
+        <div className="p-5 text-center md:p-8">
           <Button
             onClick={handleSubmit}
             size="medium"
-            className="px-10"
+            className="hidden px-10 md:inline"
+            type="submit"
+          >
+            検索
+          </Button>
+          <Button
+            onClick={() => {
+              handleSubmit();
+              onClose();
+            }}
+            size="medium"
+            className="px-10 md:hidden"
             type="submit"
           >
             検索

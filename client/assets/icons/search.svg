@@ -1,3 +1,10 @@
-<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+<svg xmlns="http://www.w3.org/2000/svg" width="29.112" height="29.117" viewBox="0 0 29.112 29.117">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #fff;
+      }
+    </style>
+  </defs>
+  <path id="Icon_awesome-search" data-name="Icon awesome-search" class="cls-1" d="M28.716,25.174,23.047,19.5a1.364,1.364,0,0,0-.967-.4h-.927a11.822,11.822,0,1,0-2.047,2.047v.927a1.364,1.364,0,0,0,.4.967l5.669,5.669a1.359,1.359,0,0,0,1.928,0l1.609-1.609a1.371,1.371,0,0,0,.006-1.933ZM11.828,19.106a7.279,7.279,0,1,1,7.279-7.279A7.274,7.274,0,0,1,11.828,19.106Z"/>
 </svg>

@@ -27,7 +27,7 @@ export const convertToSkillsIds = (skills: ACSelectedData[]): number[] => {
 
 export const ROOM_TYPE = {
   PUBLIC: "1",
-  PRIVATE:  "2"
+  PRIVATE: "2",
 } as const;
 
 export type RoomTypeValueType = typeof ROOM_TYPE[keyof typeof ROOM_TYPE];
@@ -45,7 +45,9 @@ export const useCreateRoom = () => {
   const [recruitNumber, setRecruitNumber] = useState(0);
   const [repositoryUrl, setRespositoryUrl] = useState("");
   const [invidationUrl, setInvidationUrl] = useState("");
-  const [isRequired, setIsRequired] = useState<RoomTypeValueType>(ROOM_TYPE.PUBLIC);
+  const [isRequired, setIsRequired] = useState<RoomTypeValueType>(
+    ROOM_TYPE.PUBLIC
+  );
   const [selectedSkills, setSkills] = useState<ACSelectedData[]>([]);
   const [categories, setCategories] = useState<number[]>([]);
   const [isDisabled, setIsDisabled] = useState<boolean>(true);
