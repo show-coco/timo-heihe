@@ -25,24 +25,13 @@ const betweenH2 = "space-y-2";
 
 export default function CreateRoom() {
   const {
-    setTitle,
-    setRespositoryUrl,
-    setSkills,
-    setDescription,
-    setSlug,
     onClickFileInput,
     onChangeFileInput,
     onSubmit,
-    setIsRequired,
     onChangeCategories,
-    setName,
-    setRecruiementLevels,
     searchConditions,
-    selectedSkills,
-    isRequired,
-    fileRef,
-    imageUrl,
-    recruiementLevels,
+    setter,
+    state,
     isDisabled,
     error,
   } = useCreateRoom();
@@ -65,9 +54,9 @@ export default function CreateRoom() {
               <div className={betweenH2}>
                 <Heading as="h2">ルームアイコン</Heading>
                 <div className="flex items-center space-x-7">
-                  <Avatar src={imageUrl} />
+                  <Avatar src={state.imageUrl} />
                   <FileInput
-                    ref={fileRef}
+                    ref={state.fileRef}
                     onClick={onClickFileInput}
                     onChange={onChangeFileInput}
                   />
@@ -80,7 +69,7 @@ export default function CreateRoom() {
                     name="ルームID"
                     required
                     placeholder="ルームID"
-                    onChange={(e) => setSlug(e.target.value)}
+                    onChange={(e) => setter.setSlug(e.target.value)}
                   />
                   {error && (
                     <p className="text-red-500">入力は半角数字のみです。</p>
@@ -92,7 +81,7 @@ export default function CreateRoom() {
                     name="ルーム名"
                     required
                     placeholder="ルーム名を入力"
-                    onChange={(e) => setName(e.target.value)}
+                    onChange={(e) => setter.setName(e.target.value)}
                   />
                 </div>
               </div>
@@ -102,7 +91,7 @@ export default function CreateRoom() {
                   required
                   placeholder="メンバー募集タイトル"
                   className="w-2/3"
-                  onChange={(e) => setTitle(e.target.value)}
+                  onChange={(e) => setter.setTitle(e.target.value)}
                 />
               </div>
 
@@ -133,7 +122,7 @@ export default function CreateRoom() {
                     required
                     placeholder="ルームについて（Markdown記法）&#13;&#10;最初の一文がルーム一覧の説明文に表示されます。"
                     className="w-2/3"
-                    onChange={(e) => setDescription(e.target.value)}
+                    onChange={(e) => setter.setDescription(e.target.value)}
                   />
                 </div>
               </div>
@@ -154,22 +143,22 @@ export default function CreateRoom() {
               text="なし"
               name="apply"
               value={ROOM_TYPE.PUBLIC}
-              onChange={() => setIsRequired(ROOM_TYPE.PUBLIC)}
+              onChange={() => setter.setIsRequired(ROOM_TYPE.PUBLIC)}
             />
             <Radio
               text="あり"
               name="apply"
               value={ROOM_TYPE.PRIVATE}
-              onChange={() => setIsRequired(ROOM_TYPE.PRIVATE)}
+              onChange={() => setter.setIsRequired(ROOM_TYPE.PRIVATE)}
             />
           </div>
-          {isRequired === "1" && (
+          {state.isRequired === "1" && (
             <Fragment>
               <div className={`${betweenH2} mt-10`}>
                 <TextInput
                   name="招待URL"
                   placeholder="DiscordやSlackの招待URL"
-                  onChange={(e) => setRespositoryUrl(e.target.value)}
+                  onChange={(e) => setter.setRespositoryUrl(e.target.value)}
                 />
               </div>
               <div className={`${betweenH2} mt-10`}>
@@ -177,7 +166,7 @@ export default function CreateRoom() {
                   name="Githubリポジトリ"
                   placeholder="URLを入力"
                   icon={<GithubIcon height="30px" />}
-                  onChange={(e) => setRespositoryUrl(e.target.value)}
+                  onChange={(e) => setter.setRespositoryUrl(e.target.value)}
                 />
               </div>
             </Fragment>
@@ -194,9 +183,9 @@ export default function CreateRoom() {
               <OperationTag
                 id={level.id}
                 name={level.name}
-                selectedItemIds={recruiementLevels}
-                setIsSelected={setRecruiementLevels}
-                isSelected={recruiementLevels.includes(level.id)}
+                selectedItemIds={state.recruiementLevels}
+                setIsSelected={setter.setRecruiementLevels}
+                isSelected={state.recruiementLevels.includes(level.id)}
                 key={level.id}
               />
             ))}
@@ -218,16 +207,14 @@ export default function CreateRoom() {
             <AutoComplate
               data={convertToACData(skills)}
               placeholder="スキルを検索"
-              setSelected={setSkills}
-              selectedData={selectedSkills}
+              setSelected={setter.setSkills}
+              selectedData={state.selectedSkills}
             />
-            <div>
-              <EditableSkillPochiSet
-                skills={convertToSkillPochiSetArray(selectedSkills)}
-                setSelected={setSkills}
-                selectedData={selectedSkills}
-              />
-            </div>
+            <EditableSkillPochiSet
+              skills={convertToSkillPochiSetArray(state.selectedSkills)}
+              setSelected={setter.setSkills}
+              selectedData={state.selectedSkills}
+            />
           </div>
         </Card>
       </div>
