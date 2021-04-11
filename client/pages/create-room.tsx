@@ -52,12 +52,11 @@ export default function CreateRoom() {
   const skills = data?.skills || [];
 
   return (
-    <Template className="p-10 px-28 grid grid-cols-8 gap-8">
+    <Template className="grid grid-cols-8 gap-8 p-10 px-28">
       <Meta title={"ルーム作成 | CloudCircle"} />
 
       <div className="col-span-5">
         {/*左側のカード */}
-
         <Card className="p-8">
           <form onSubmit={onSubmit}>
             <div className="space-y-10">
