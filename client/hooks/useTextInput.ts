@@ -35,13 +35,19 @@ export const useTextInput = ({
 }: Props) => {
   const [value, setValue] = useState(initialValue);
   const [errors, setErrors] = useState<FormErrorType[]>([]);
+  const [changedCount, setChangedCount] = useState(0);
 
   useEffect(() => {
     console.log("errors", errors);
   }, [errors]);
 
   useEffect(() => {
-    valid();
+    if (changedCount < 2) {
+      setChangedCount(2);
+    } else {
+      console.log("hello");
+      valid();
+    }
   }, [value]);
 
   const onChange = (
