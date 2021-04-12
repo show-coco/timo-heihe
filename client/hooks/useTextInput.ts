@@ -10,6 +10,8 @@ type Props = {
   initialValue?: string;
   regex?: RegexType;
   required?: boolean;
+  max?: number;
+  min?: number;
 };
 
 const includesInvalidChars = (text: string, regex: RegexType) =>
@@ -24,7 +26,18 @@ export const FORM_ERRORS = {
     code: 2,
     message: "必須項目です",
   },
-} as const;
+  MIN: {
+    code: 3,
+    message: "文字以上入力してください",
+  },
+  MAX: {
+    code: 4,
+    message: "文字以下で入力してください",
+  },
+};
+
+const MIN_MESSAGE = "文字以上入力してください";
+const MAX_MESSAGE = "文字以下で入力してください";
 
 export type FormErrorType = typeof FORM_ERRORS[keyof typeof FORM_ERRORS];
 
@@ -32,6 +45,8 @@ export const useTextInput = ({
   initialValue = "",
   regex,
   required = false,
+  min,
+  max,
 }: Props) => {
   const [value, setValue] = useState(initialValue);
   const [errors, setErrors] = useState<FormErrorType[]>([]);
@@ -45,7 +60,6 @@ export const useTextInput = ({
     if (changedCount < 2) {
       setChangedCount(2);
     } else {
-      console.log("hello");
       valid();
     }
   }, [value]);
@@ -64,6 +78,16 @@ export const useTextInput = ({
           newErrors.push(FORM_ERRORS.HALF_SIZE_NUMBER);
           break;
       }
+    }
+
+    if (min && value.length < min) {
+      FORM_ERRORS.MIN.message = min + MIN_MESSAGE;
+      newErrors.push(FORM_ERRORS.MIN);
+    }
+
+    if (max && value.length > max) {
+      FORM_ERRORS.MAX.message = max + MAX_MESSAGE;
+      newErrors.push(FORM_ERRORS.MAX);
     }
 
     if (required && value === "") {

@@ -1,5 +1,5 @@
 /* ルーム作成ページ */
-import React from "react";
+import React, { useMemo } from "react";
 import { SkillModel, useCreateRoomPageQuery } from "../generated/types";
 /* Components */
 import { Card } from "../components/card/card";
@@ -47,6 +47,10 @@ export default function CreateRoom() {
 
   const skills = data?.skills || [];
 
+  const slugErrors = useMemo(() => {
+    return form.slug.errors.filter((error) => error !== FORM_ERRORS.REQUIRED);
+  }, [form.slug.errors]);
+
   return (
     <Template className="grid grid-cols-8 gap-8 p-10 px-28">
       <Meta title={"ルーム作成 | CloudCircle"} />
@@ -78,10 +82,13 @@ export default function CreateRoom() {
                     onChange={form.slug.onChange}
                     errors={form.slug.errors}
                   />
-                  <p className="text-red-500">
-                    {form.slug.errors.includes(FORM_ERRORS.HALF_SIZE_NUMBER) &&
-                      form.slug.errors[0].message}
-                  </p>
+                  <ul>
+                    {slugErrors.map((error) => (
+                      <li key={error.code} className="text-red-500">
+                        ・{error.message}
+                      </li>
+                    ))}
+                  </ul>
                 </div>
 
                 <div className={`w-full ml-8 ${betweenH2}`}>

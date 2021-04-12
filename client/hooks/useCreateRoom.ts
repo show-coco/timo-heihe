@@ -48,6 +48,8 @@ export const useCreateRoom = () => {
   const slug = useTextInput({
     regex: REGEXES.HALF_SIZE_NUMBER,
     required: true,
+    min: 3,
+    max: 20,
   });
   const description = useTextInput({
     required: true,
