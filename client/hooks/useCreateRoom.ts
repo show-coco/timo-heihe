@@ -1,16 +1,18 @@
+/* ルーム作成ページのロジック */
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import React, { useEffect } from "react";
-import { useState } from "react";
+/* Types */
 import { ACSelectedData } from "../components/auto-complate/auto-complate";
 import {
   CreateRoomInput,
   useCreateRoomMutation,
   useSearchConditionsQuery,
 } from "../generated/types";
+/* Contexts */
 import { useAuthContext } from "../providers/useAuthContext";
+/* Hooks */
 import { useFileInput } from "./useFileInput";
-
-const includesInvalidChars = (slug: string) => /[^a-z0-9-_]/.test(slug);
+import { REGEXES, useTextInput } from "./useTextInput";
 
 const toggleArrayItem = <T>(arr: T[], item: T): T[] =>
   arr.includes(item) ? arr.filter((i) => i !== item) : [...arr, item];
@@ -37,21 +39,29 @@ export const useCreateRoom = () => {
   const { id } = useAuthContext();
   const [createRoom, { loading }] = useCreateRoomMutation();
   const { data: searchConditions } = useSearchConditionsQuery();
-  const [title, setTitle] = useState("");
-  const [name, setName] = useState("");
-  const [slug, setSlug] = useState("");
+  const title = useTextInput({
+    required: true,
+  });
+  const name = useTextInput({
+    required: true,
+  });
+  const slug = useTextInput({
+    regex: REGEXES.HALF_SIZE_NUMBER,
+    required: true,
+  });
+  const description = useTextInput({
+    required: true,
+  });
   const [recruiementLevels, setRecruiementLevels] = useState<number[]>([]);
-  const [description, setDescription] = useState("");
   const [recruitNumber, setRecruitNumber] = useState(0);
   const [repositoryUrl, setRespositoryUrl] = useState("");
   const [invidationUrl, setInvidationUrl] = useState("");
-  const [isRequired, setIsRequired] = useState<RoomTypeValueType>(
+  const [isPrivate, setIsPrivate] = useState<RoomTypeValueType>(
     ROOM_TYPE.PUBLIC
   );
   const [selectedSkills, setSkills] = useState<ACSelectedData[]>([]);
   const [categories, setCategories] = useState<number[]>([]);
   const [isDisabled, setIsDisabled] = useState<boolean>(true);
-  const [error, setError] = useState<boolean>(false);
   const {
     fileRef,
     onClick: onClickFileInput,
@@ -62,36 +72,39 @@ export const useCreateRoom = () => {
   const [types, setTypes] = useState<number[]>([]);
 
   const getVariables = (): CreateRoomInput => ({
-    title,
-    name,
-    slug,
+    title: title.value,
+    name: name.value,
+    slug: slug.value,
     owner: id,
-    icon: imageUrl,
-    skills: convertToSkillsIds(selectedSkills),
-    description,
     repositoryUrl,
     invidationUrl,
+    icon: imageUrl,
+    skills: convertToSkillsIds(selectedSkills),
+    description: description.value,
     recruiementLevels,
-    withApplication: isRequired === ROOM_TYPE.PRIVATE,
+    withApplication: isPrivate === ROOM_TYPE.PRIVATE,
     categories: categories,
     typeIds: types,
   });
 
   useEffect(() => {
     if (
-      title.trim() &&
-      name.trim() &&
-      slug.trim() &&
-      categories !== [] &&
-      description.trim()
+      slug.errors.length ||
+      description.errors.length ||
+      title.errors.length ||
+      name.errors.length
     ) {
-      setIsDisabled(false);
-    } else {
       setIsDisabled(true);
+    } else {
+      setIsDisabled(false);
     }
+  }, [
+    description.errors.length,
+    name.errors.length,
+    slug.errors.length,
+    title.errors.length,
+  ]);
 
-    setError(includesInvalidChars(slug));
-  }, [title, name, slug, categories, description]);
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -133,7 +146,7 @@ export const useCreateRoom = () => {
     state: {
       recruiementLevels,
       selectedSkills,
-      isRequired,
+      isPrivate,
       recruitNumber,
       imageUrl,
       fileRef,
@@ -141,17 +154,18 @@ export const useCreateRoom = () => {
     setter: {
       setRecruitNumber,
       setRespositoryUrl,
-      setIsRequired,
-      setTitle,
+      setIsPrivate,
       setSkills,
-      setDescription,
-      setSlug,
       setRecruiementLevels,
       setInvidationUrl,
-      setName,
+    },
+    form: {
+      slug,
+      title,
+      name,
+      description,
     },
     loading,
     isDisabled,
-    error,
   };
 };

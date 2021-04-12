@@ -1,4 +1,5 @@
 import React, { Fragment } from "react";
+import { FormErrorType } from "../../hooks/useTextInput";
 
 type TextInputProps = {
   placeholder?: string;
@@ -8,11 +9,14 @@ type TextInputProps = {
   required?: boolean;
   icon?: React.ReactNode;
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  errors?: FormErrorType[];
 };
 
 // eslint-disable-next-line react/display-name
 export const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
   ({ className, ...props }: TextInputProps, ref) => {
+    const borderStyle = props.errors?.length ? "border-red-500" : "border-none";
+
     const propsStyle = props.required ? "flex" : "block";
     return (
       <Fragment>
@@ -29,7 +33,7 @@ export const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
           <input
             type="text"
             ref={ref}
-            className={`border-none bg-blue-100 rounded-sm w-full ${className}`}
+            className={`bg-blue-100 rounded-sm w-full ${borderStyle} ${className}`}
             {...props}
           />
         </div>

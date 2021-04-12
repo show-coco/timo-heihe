@@ -24,6 +24,7 @@ import { useAuthGuard } from "../hooks/useAuthGurad";
 import { useCreateRoom, ROOM_TYPE } from "../hooks/useCreateRoom";
 /* Icons */
 import GithubIcon from "../assets/icons/github.svg";
+import { FORM_ERRORS } from "../hooks/useTextInput";
 
 const betweenH2 = "space-y-2";
 
@@ -38,7 +39,7 @@ export default function CreateRoom() {
     setter,
     state,
     isDisabled,
-    error,
+    form,
   } = useCreateRoom();
   const { data } = useCreateRoomPageQuery();
 
@@ -74,11 +75,13 @@ export default function CreateRoom() {
                     name="ルームID"
                     required
                     placeholder="ルームID"
-                    onChange={(e) => setter.setSlug(e.target.value)}
+                    onChange={form.slug.onChange}
+                    errors={form.slug.errors}
                   />
-                  {error && (
-                    <p className="text-red-500">入力は半角数字のみです。</p>
-                  )}
+                  <p className="text-red-500">
+                    {form.slug.errors.includes(FORM_ERRORS.HALF_SIZE_NUMBER) &&
+                      form.slug.errors[0].message}
+                  </p>
                 </div>
 
                 <div className={`w-full ml-8 ${betweenH2}`}>
@@ -86,7 +89,8 @@ export default function CreateRoom() {
                     name="ルーム名"
                     required
                     placeholder="ルーム名を入力"
-                    onChange={(e) => setter.setName(e.target.value)}
+                    onChange={form.name.onChange}
+                    errors={form.name.errors}
                   />
                 </div>
               </div>
@@ -96,7 +100,8 @@ export default function CreateRoom() {
                   required
                   placeholder="メンバー募集タイトル"
                   className="w-2/3"
-                  onChange={(e) => setter.setTitle(e.target.value)}
+                  onChange={form.title.onChange}
+                  errors={form.title.errors}
                 />
               </div>
 
@@ -137,17 +142,20 @@ export default function CreateRoom() {
                   ))}
                 </div>
               </div>
-              <div className={betweenH2}>
-                <div className="w-2/3 h-52">
+
+              <div className={`${betweenH2} h-52`}>
+                <div className="w-2/3 h-full">
                   <TextArea
                     name="ルームについて"
                     required
                     placeholder="ルームについて（Markdown記法）&#13;&#10;最初の一文がルーム一覧の説明文に表示されます。"
                     className="w-2/3 mt-3"
-                    onChange={(e) => setter.setDescription(e.target.value)}
+                    onChange={form.description.onChange}
+                    errors={form.description.errors}
                   />
                 </div>
               </div>
+
               <Button type="submit" disabled={isDisabled}>
                 作成する
               </Button>
@@ -168,16 +176,16 @@ export default function CreateRoom() {
               text="なし"
               name="apply"
               value={ROOM_TYPE.PUBLIC}
-              onChange={() => setter.setIsRequired(ROOM_TYPE.PUBLIC)}
+              onChange={() => setter.setIsPrivate(ROOM_TYPE.PUBLIC)}
             />
             <Radio
               text="あり"
               name="apply"
               value={ROOM_TYPE.PRIVATE}
-              onChange={() => setter.setIsRequired(ROOM_TYPE.PRIVATE)}
+              onChange={() => setter.setIsPrivate(ROOM_TYPE.PRIVATE)}
             />
           </div>
-          {state.isRequired === "1" && (
+          {state.isPrivate === "1" && (
             <div className={`${betweenH2} mt-4`}>
               <TextInput
                 name="招待URL"
@@ -213,13 +221,6 @@ export default function CreateRoom() {
               />
             ))}
           </div>
-          {/* <div className={`${betweenH2} mt-10`}>
-            <TextInput
-              name="募集する役割"
-              placeholder="フロントエンドエンジニア "
-              // onChange={(e) => setRespositoryUrl(e.target.value)}
-            />
-          </div> */}
         </Card>
 
         {/*  使用するスキル */}
