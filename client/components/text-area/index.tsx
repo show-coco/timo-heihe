@@ -1,5 +1,5 @@
 import React, { Fragment } from "react";
-import { FormErrorType } from "../../hooks/useTextInput";
+import { TextInputErrorType } from "../../hooks/useTextInput";
 
 type TextAreaProps = {
   placeholder?: string;
@@ -8,7 +8,7 @@ type TextAreaProps = {
   name?: string;
   required?: boolean;
   onChange?: (event: React.ChangeEvent<HTMLTextAreaElement>) => void;
-  errors?: FormErrorType[];
+  errors?: TextInputErrorType[];
 };
 
 export const TextArea: React.FC<TextAreaProps> = ({

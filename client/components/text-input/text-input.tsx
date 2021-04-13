@@ -1,5 +1,5 @@
 import React, { Fragment } from "react";
-import { FormErrorType } from "../../hooks/useTextInput";
+import { TextInputErrorType } from "../../hooks/useTextInput";
 
 type TextInputProps = {
   placeholder?: string;
@@ -9,7 +9,7 @@ type TextInputProps = {
   required?: boolean;
   icon?: React.ReactNode;
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  errors?: FormErrorType[];
+  errors?: TextInputErrorType[];
 };
 
 // eslint-disable-next-line react/display-name

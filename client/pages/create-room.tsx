@@ -24,7 +24,7 @@ import { useAuthGuard } from "../hooks/useAuthGurad";
 import { useCreateRoom, ROOM_TYPE } from "../hooks/useCreateRoom";
 /* Icons */
 import GithubIcon from "../assets/icons/github.svg";
-import { FORM_ERRORS } from "../hooks/useTextInput";
+import { TEXT_INPUT_ERRORS } from "../hooks/useTextInput";
 
 const betweenH2 = "space-y-2";
 
@@ -33,7 +33,6 @@ export default function CreateRoom() {
     onClickFileInput,
     onChangeFileInput,
     onSubmit,
-    onChangeCategories,
     onChangeType,
     searchConditions,
     setter,
@@ -48,7 +47,9 @@ export default function CreateRoom() {
   const skills = data?.skills || [];
 
   const slugErrors = useMemo(() => {
-    return form.slug.errors.filter((error) => error !== FORM_ERRORS.REQUIRED);
+    return form.slug.errors.filter(
+      (error) => error !== TEXT_INPUT_ERRORS.REQUIRED
+    );
   }, [form.slug.errors]);
 
   return (
@@ -134,15 +135,19 @@ export default function CreateRoom() {
                   <Heading as="h2">カテゴリー</Heading>
                   <span className="text-red-500">*</span>
                 </span>
+                <ul>
+                  {form.categories.errors.map((error) => (
+                    <li key={error.code} className="text-red-500">
+                      ・{error.message}
+                    </li>
+                  ))}
+                </ul>
                 <div>
                   {data?.categories.map((category, i) => (
                     <Checkbox
                       key={i}
                       className="mt-4 mr-4"
-                      value={category.id?.toString()}
-                      onChange={(e) =>
-                        onChangeCategories(e, Number(e.currentTarget.value))
-                      }
+                      onChange={() => form.categories.onChange(category.id)}
                     >
                       {category.name}
                     </Checkbox>

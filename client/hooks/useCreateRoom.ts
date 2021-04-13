@@ -13,6 +13,7 @@ import { useAuthContext } from "../providers/useAuthContext";
 /* Hooks */
 import { useFileInput } from "./useFileInput";
 import { REGEXES, useTextInput } from "./useTextInput";
+import { useCheckbox } from "./useCheckbox";
 
 const toggleArrayItem = <T>(arr: T[], item: T): T[] =>
   arr.includes(item) ? arr.filter((i) => i !== item) : [...arr, item];
@@ -62,7 +63,9 @@ export const useCreateRoom = () => {
     ROOM_TYPE.PUBLIC
   );
   const [selectedSkills, setSkills] = useState<ACSelectedData[]>([]);
-  const [categories, setCategories] = useState<number[]>([]);
+  const categories = useCheckbox({
+    min: 1,
+  });
   const [isDisabled, setIsDisabled] = useState<boolean>(true);
   const {
     fileRef,
@@ -85,7 +88,7 @@ export const useCreateRoom = () => {
     description: description.value,
     recruiementLevels,
     withApplication: isPrivate === ROOM_TYPE.PRIVATE,
-    categories: categories,
+    categories: categories.values,
     typeIds: types,
   });
 
@@ -94,13 +97,15 @@ export const useCreateRoom = () => {
       slug.errors.length ||
       description.errors.length ||
       title.errors.length ||
-      name.errors.length
+      name.errors.length ||
+      categories.errors.length
     ) {
       setIsDisabled(true);
     } else {
       setIsDisabled(false);
     }
   }, [
+    categories.errors.length,
     description.errors.length,
     name.errors.length,
     slug.errors.length,
@@ -131,18 +136,10 @@ export const useCreateRoom = () => {
     setTypes(toggleArrayItem(types, clickedTypeId));
   };
 
-  const onChangeCategories = (
-    event: React.FormEvent<HTMLInputElement>,
-    id: number
-  ) => {
-    setCategories(toggleArrayItem(categories, id));
-  };
-
   return {
     onSubmit,
     onClickFileInput,
     onChangeFileInput,
-    onChangeCategories,
     onChangeType,
     searchConditions,
     state: {
@@ -166,6 +163,7 @@ export const useCreateRoom = () => {
       title,
       name,
       description,
+      categories,
     },
     loading,
     isDisabled,

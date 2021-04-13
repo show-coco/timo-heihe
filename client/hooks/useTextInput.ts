@@ -17,7 +17,7 @@ type Props = {
 const includesInvalidChars = (text: string, regex: RegexType) =>
   new RegExp(regex).test(text);
 
-export const FORM_ERRORS = {
+export const TEXT_INPUT_ERRORS = {
   HALF_SIZE_NUMBER: {
     code: 1,
     message: "半角英数字を入力してください",
@@ -39,7 +39,7 @@ export const FORM_ERRORS = {
 const MIN_MESSAGE = "文字以上入力してください";
 const MAX_MESSAGE = "文字以下で入力してください";
 
-export type FormErrorType = typeof FORM_ERRORS[keyof typeof FORM_ERRORS];
+export type TextInputErrorType = typeof TEXT_INPUT_ERRORS[keyof typeof TEXT_INPUT_ERRORS];
 
 export const useTextInput = ({
   initialValue = "",
@@ -49,7 +49,7 @@ export const useTextInput = ({
   max,
 }: Props) => {
   const [value, setValue] = useState(initialValue);
-  const [errors, setErrors] = useState<FormErrorType[]>([]);
+  const [errors, setErrors] = useState<TextInputErrorType[]>([]);
   const [changedCount, setChangedCount] = useState(0);
 
   useEffect(() => {
@@ -71,27 +71,27 @@ export const useTextInput = ({
   };
 
   const valid = useCallback(() => {
-    let newErrors: FormErrorType[] = [];
+    let newErrors: TextInputErrorType[] = [];
     if (regex && includesInvalidChars(value, regex)) {
       switch (regex) {
         case REGEXES.HALF_SIZE_NUMBER:
-          newErrors.push(FORM_ERRORS.HALF_SIZE_NUMBER);
+          newErrors.push(TEXT_INPUT_ERRORS.HALF_SIZE_NUMBER);
           break;
       }
     }
 
     if (min && value.length < min) {
-      FORM_ERRORS.MIN.message = min + MIN_MESSAGE;
-      newErrors.push(FORM_ERRORS.MIN);
+      TEXT_INPUT_ERRORS.MIN.message = min + MIN_MESSAGE;
+      newErrors.push(TEXT_INPUT_ERRORS.MIN);
     }
 
     if (max && value.length > max) {
-      FORM_ERRORS.MAX.message = max + MAX_MESSAGE;
-      newErrors.push(FORM_ERRORS.MAX);
+      TEXT_INPUT_ERRORS.MAX.message = max + MAX_MESSAGE;
+      newErrors.push(TEXT_INPUT_ERRORS.MAX);
     }
 
     if (required && value === "") {
-      newErrors.push(FORM_ERRORS.REQUIRED);
+      newErrors.push(TEXT_INPUT_ERRORS.REQUIRED);
     }
     setErrors(newErrors);
   }, [value]);
