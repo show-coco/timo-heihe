@@ -1,8 +1,6 @@
 import React from "react";
 
-
 import { GetServerSideProps } from "next";
-
 
 import { Avatar } from "../../components/avatar/avatar";
 import { Card } from "../../components/card/card";
@@ -37,13 +35,12 @@ type Props = {
   title: string;
 };
 
-
 export default function ShowRoom({ url, title }: Props) {
   const { isAuthenticated, id } = useAuthContext();
   const { isOpen, onOpen, onClose } = useModal();
 
   const router = useRouter();
-  console.log(url);
+
   const { data } = useRoomQuery({
     variables: {
       slug: router.query.slug?.toString() || "",
@@ -57,12 +54,10 @@ export default function ShowRoom({ url, title }: Props) {
   // if (!room) return <p>データがありません</p>;
 
   const iamOwner = room?.owner.id === id;
-  const { url } = UseShareBtn();
+  const { shareUrl } = UseShareBtn();
   return (
     <>
       <LoginModal isOpen={isOpen} onRequestClose={onClose} />
-
-
 
       <Meta title={title} image={`${url}`} />
 
@@ -98,9 +93,8 @@ export default function ShowRoom({ url, title }: Props) {
                   </div>
 
                   <div>
-                    <ShareBtn url={url} />
+                    <ShareBtn shareUrl={shareUrl} />
                   </div>
-
                 </div>
               </div>
             </div>

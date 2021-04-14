@@ -7,17 +7,17 @@ import {
 } from "react-share";
 
 type Props = {
-  url: string;
+  shareUrl: string;
 };
-export const ShareBtn: VFC<Props> = ({ url }: Props) => {
+export const ShareBtn: VFC<Props> = ({ shareUrl }: Props) => {
   return (
     <div className="flex ">
-      <FacebookShareButton url={url}>
-        <FacebookIcon className="w-10" round={true} />
+      <FacebookShareButton url={shareUrl}>
+        <FacebookIcon className="w-10 hover:opacity-80" round={true} />
       </FacebookShareButton>
 
-      <TwitterShareButton url={url}>
-        <TwitterIcon className="w-10 ml-2" round={true} />
+      <TwitterShareButton url={shareUrl}>
+        <TwitterIcon className="w-10 ml-2 hover:opacity-70" round={true} />
       </TwitterShareButton>
     </div>
   );
