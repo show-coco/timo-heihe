@@ -1,4 +1,4 @@
-version: '3'
+version: "3"
 
 services:
   db:
@@ -12,7 +12,7 @@ services:
     ports:
       - 6543:5432
     volumes:
-      - ./local-data/db:/var/lib/postgresql/data
+      - db-data:/var/lib/postgresql/data
       - ./seeds/seed.sql:/seed.sql
 
   server:
@@ -27,3 +27,6 @@ services:
       - db
     env_file:
       - ./server/.env.dev
+
+volumes:
+  db-data: {}

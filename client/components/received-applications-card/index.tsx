@@ -12,7 +12,7 @@ type Props = ReceivedApplyingCardFragment & {
 
 export const ReceivedAppsCard: React.FC<Props> = (props: Props) => {
   return (
-    <Card className="flex items-center justify-between px-5">
+    <Card className="flex justify-between px-5 py-5 md:items-center">
       <div className="flex items-center">
         <Avatar src={props.avatar || ""} />
 
@@ -22,12 +22,22 @@ export const ReceivedAppsCard: React.FC<Props> = (props: Props) => {
         </div>
       </div>
 
-      <div className="space-x-5">
-        <Button variant="outline" colorScheme="red" onClick={props.onReject}>
+      <div className="flex flex-col space-y-3 md:space-y-0 md:space-x-5 md:block">
+        <Button
+          variant="outline"
+          colorScheme="red"
+          onClick={props.onReject}
+          size="small"
+        >
           拒否
         </Button>
-        <Button variant="outline" colorScheme="blue" onClick={props.onAccept}>
-          メッセージを送る
+        <Button
+          variant="outline"
+          colorScheme="blue"
+          onClick={props.onAccept}
+          size="small"
+        >
+          メッセージ
         </Button>
       </div>
     </Card>

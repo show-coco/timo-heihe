@@ -2,10 +2,6 @@ import { useRouter } from "next/router";
 import React, { useMemo } from "react";
 import { Avatar } from "../../components/avatar/avatar";
 import { Card } from "../../components/card/card";
-import {
-  convertToTeamCardObjFromTeams,
-  TeamCard,
-} from "../../components/card/team-card";
 import { Heading } from "../../components/heading/heading";
 import { useUserDetailPageQuery } from "../../generated/types";
 import TwitterIcon from "../../assets/icons/twitter.svg";
@@ -19,7 +15,7 @@ import { useAuthContext } from "../../providers/useAuthContext";
 import Link from "next/link";
 import { Template } from "../../components/template/app/template";
 import ReactMarkdown from "react-markdown";
-
+import { Meta } from "../../components/meta";
 export default function UserDetail() {
   const router = useRouter();
   const id = router.query.id;
@@ -38,11 +34,9 @@ export default function UserDetail() {
     loginUserId,
   ]);
 
-  // FIXME
-  const teams = convertToTeamCardObjFromTeams(data?.user.teams || []);
-
   return (
     <Template className="md:p-10">
+      <Meta title={"ユーザー詳細 | CloudCircle"} />
       {iAmLoginUser && (
         <div className="justify-end hidden mb-4 md:flex">
           <Link href="/user/edit/[id]" as={`/user/edit/${id}`}>

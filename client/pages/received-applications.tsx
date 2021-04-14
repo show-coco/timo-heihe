@@ -9,7 +9,7 @@ import {
   useReceivedApplyingQuery,
   useRejectApplicationMutation,
 } from "../generated/types";
-
+import { Meta } from "../components/meta";
 export default function ReceivedApplyingPage() {
   const { data, loading } = useReceivedApplyingQuery();
   const [reject] = useRejectApplicationMutation();
@@ -55,8 +55,9 @@ export default function ReceivedApplyingPage() {
   const isExists = data?.myRooms.some((myRoom) => myRoom.applyingUsers?.length);
 
   return (
-    <Template className="p-10">
-      <div className="w-3/5 mx-auto">
+    <Template className="p-5 md:p-10">
+      <Meta title={"受け取った申請 | CloudCircle"} />
+      <div className="mx-auto md:w-3/5">
         <Heading as="h1Big" className="mb-8 text-center">
           受け取った申請
         </Heading>
