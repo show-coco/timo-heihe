@@ -1,4 +1,5 @@
 import React from "react";
+
 import { Avatar } from "../../components/avatar/avatar";
 import { Card } from "../../components/card/card";
 import {
@@ -20,11 +21,14 @@ import { LoginModal } from "../../components/login-modal";
 import { Template } from "../../components/template/app/template";
 import { Tag } from "../../components/tag";
 import { useApplyRoomMutation, useRoomQuery } from "../../generated/types";
+import { UseShareBtn } from "../../hooks/useShareBtn";
 import { useRouter } from "next/router";
 import { ShareBtn } from "../../components/share-btn";
+
 export default function ShowRoom() {
   const { isAuthenticated, id } = useAuthContext();
   const { isOpen, onOpen, onClose } = useModal();
+
   const router = useRouter();
   const { data } = useRoomQuery({
     variables: {
@@ -35,11 +39,11 @@ export default function ShowRoom() {
 
   const room = data?.room;
   const iamOwner = room?.owner.id === id;
-
+  const { url } = UseShareBtn();
   return (
     <>
       <LoginModal isOpen={isOpen} onRequestClose={onClose} />
-
+      {console.log(router.asPath)}
       <Template className="p-10">
         {iamOwner && (
           <div className="flex justify-end mb-4">
@@ -51,6 +55,7 @@ export default function ShowRoom() {
             </Link>
           </div>
         )}
+
         <div className="flex flex-row space-x-10">
           <Card className="flex-1 p-8">
             <div className="flex justify-between">
@@ -60,17 +65,18 @@ export default function ShowRoom() {
                   className="mb-4"
                 />
 
-                <div className="flex items-center space-x-3">
-                  <div>
+                <div className="flex justify-between space-x-3 ">
+                  <div className="flex items-center">
                     <Avatar
                       src={room?.icon || ""}
                       name={room?.name}
                       size="large"
                     />
+                    <Heading as="h1Big">{room?.name || ""}</Heading>
                   </div>
-                  <Heading as="h1Big">{room?.name || ""}</Heading>
+
                   <div>
-                    <ShareBtn />
+                    <ShareBtn url={url} />
                   </div>
                 </div>
               </div>
