@@ -21,7 +21,7 @@ import { Template } from "../../components/template/app/template";
 import { Tag } from "../../components/tag";
 import { useApplyRoomMutation, useRoomQuery } from "../../generated/types";
 import { useRouter } from "next/router";
-
+import { ShareBtn } from "../../components/share-btn";
 export default function ShowRoom() {
   const { isAuthenticated, id } = useAuthContext();
   const { isOpen, onOpen, onClose } = useModal();
@@ -69,6 +69,9 @@ export default function ShowRoom() {
                     />
                   </div>
                   <Heading as="h1Big">{room?.name || ""}</Heading>
+                  <div>
+                    <ShareBtn />
+                  </div>
                 </div>
               </div>
             </div>

@@ -29,6 +29,7 @@
     "react-infinite-scroll-component": "^6.0.0",
     "react-markdown": "^5.0.3",
     "react-modal": "^3.12.1",
+    "react-share": "^4.4.0",
     "subscriptions-transport-ws": "^0.9.18",
     "tailwindcss": "npm:@tailwindcss/postcss7-compat"
   },
