@@ -37,8 +37,6 @@ export default function EditRoom() {
 
   useAuthGuard({ ownerId });
 
-  console.log(formState);
-
   return (
     <Template className="pt-10 lg:p-10">
       <Heading as="h1Big" className="pb-10 text-center">
