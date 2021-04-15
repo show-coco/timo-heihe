@@ -2,18 +2,16 @@
 import React, { useMemo } from "react";
 /* Components */
 import { SearchArea } from "../components/search-area/search-area";
-import { HomeHeader } from "../components/template/app/header/home";
+import { HomeHeader } from "../components/template/home/header";
 import { Template } from "../components/template/app/template";
+import { Meta } from "../components/meta";
+import { Button } from "../components/button";
 import {
   convertToTeamCardObjFromTeams,
   RoomCard,
 } from "../components/card/team-card";
 /* Hooks */
 import { useSearchTeams } from "../hooks/useSearchRooms";
-
-import { Meta } from "../components/meta";
-
-import { Button } from "../components/button";
 /* Icons */
 import TargetIcon from "../assets/icons/search.svg";
 import { Modal } from "../components/modal/modal";

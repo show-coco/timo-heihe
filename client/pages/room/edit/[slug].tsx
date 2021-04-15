@@ -242,13 +242,11 @@ export default function EditRoom() {
                 setSelected={setter.setSkills}
                 selectedData={formState.selectedSkills}
               />
-              <div>
-                <EditableSkillPochiSet
-                  skills={convertToSkillPochiSetArray(formState.selectedSkills)}
-                  setSelected={setter.setSkills}
-                  selectedData={formState.selectedSkills}
-                />
-              </div>
+              <EditableSkillPochiSet
+                skills={convertToSkillPochiSetArray(formState.selectedSkills)}
+                setSelected={setter.setSkills}
+                selectedData={formState.selectedSkills}
+              />
             </div>
           </Card>
         </div>
