@@ -53,10 +53,10 @@ export default function CreateRoom() {
   }, [form.slug.errors]);
 
   return (
-    <Template className="grid grid-cols-8 gap-8 p-10 px-28">
+    <Template className="flex flex-col lg:py-10 lg:space-x-10 lg:flex-row lg:px-28">
       <Meta title={"ルーム作成 | CloudCircle"} />
 
-      <div className="col-span-5">
+      <div className="flex-1">
         {/*左側のカード */}
         <Card className="p-8">
           <form onSubmit={onSubmit}>
@@ -74,8 +74,8 @@ export default function CreateRoom() {
                 </div>
               </div>
 
-              <div className="flex">
-                <div className={`w-1/4 ${betweenH2}`}>
+              <div className="flex flex-col lg:flex-row">
+                <div className={`lg:w-1/4 ${betweenH2}`}>
                   <TextInput
                     name="ルームID"
                     required
@@ -92,7 +92,7 @@ export default function CreateRoom() {
                   </ul>
                 </div>
 
-                <div className={`w-full ml-8 ${betweenH2}`}>
+                <div className={`w-full mt mt-10 lg:mt-0 lg:ml-8 ${betweenH2}`}>
                   <TextInput
                     name="ルーム名"
                     required
@@ -155,20 +155,24 @@ export default function CreateRoom() {
                 </div>
               </div>
 
-              <div className={`${betweenH2} h-52`}>
-                <div className="w-2/3 h-full">
+              <div className={`${betweenH2} h-64`}>
+                <div className="h-full">
                   <TextArea
                     name="ルームについて"
                     required
                     placeholder="ルームについて（Markdown記法）&#13;&#10;最初の一文がルーム一覧の説明文に表示されます。"
-                    className="w-2/3 mt-3"
+                    className="h-56 mt-3 "
                     onChange={form.description.onChange}
                     errors={form.description.errors}
                   />
                 </div>
               </div>
 
-              <Button type="submit" disabled={isDisabled}>
+              <Button
+                type="submit"
+                disabled={isDisabled}
+                className="hidden lg:inline-flex"
+              >
                 作成する
               </Button>
             </div>
@@ -177,7 +181,7 @@ export default function CreateRoom() {
       </div>
 
       {/* 右側のカード */}
-      <div className="col-span-3">
+      <div className="mt-10 lg:mt-0">
         <Card className="p-8">
           <span className="flex mb-3">
             <Heading as="h1Small">ルームへの申請</Heading>
@@ -254,6 +258,10 @@ export default function CreateRoom() {
           </div>
         </Card>
       </div>
+
+      <Button type="submit" disabled={isDisabled} className="mt-10 lg:hidden">
+        作成する
+      </Button>
     </Template>
   );
 }

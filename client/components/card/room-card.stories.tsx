@@ -1,6 +1,6 @@
 import { Meta } from "@storybook/react";
 import React from "react";
-import { RoomCard, RoomCardProps } from "./team-card";
+import { RoomCard, RoomCardProps } from "./room-card";
 
 export default {
   title: "TeamCard",

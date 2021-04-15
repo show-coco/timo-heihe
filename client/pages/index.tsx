@@ -9,7 +9,7 @@ import { Button } from "../components/button";
 import {
   convertToTeamCardObjFromTeams,
   RoomCard,
-} from "../components/card/team-card";
+} from "../components/card/room-card";
 /* Hooks */
 import { useSearchTeams } from "../hooks/useSearchRooms";
 /* Icons */
