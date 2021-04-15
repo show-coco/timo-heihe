@@ -40,11 +40,12 @@ export default function EditRoom() {
   console.log(formState);
 
   return (
-    <Template className="p-10">
+    <Template className="pt-10 lg:p-10">
       <Heading as="h1Big" className="pb-10 text-center">
         ルーム情報を編集する
       </Heading>
-      <div className="flex space-x-10">
+
+      <div className="flex flex-col lg:flex-row lg:space-x-10">
         <Card className="flex-1 p-8">
           <form onSubmit={onSubmit}>
             <div className="space-y-10">
@@ -61,7 +62,7 @@ export default function EditRoom() {
                 </div>
               </div>
 
-              <div className="flex space-x-6">
+              <div className="flex flex-col lg:flex-row lg:space-x-6">
                 <div className={`${betweenH2} flex-1`}>
                   <span className="flex">
                     <Heading as="h2">ルームID</Heading>
@@ -75,7 +76,7 @@ export default function EditRoom() {
                   />
                 </div>
 
-                <div className={`${betweenH2} w-2/3`}>
+                <div className={`${betweenH2} lg:w-2/3 mt-10 lg:mt-0`}>
                   <span className="flex">
                     <Heading as="h2">ルーム名</Heading>
                     <span className="text-red-500">*</span>
@@ -150,21 +151,24 @@ export default function EditRoom() {
                   <span className="text-red-500">*</span>
                 </span>
 
-                <div className="h-96">
+                <div className="h-72">
                   <TextArea
                     placeholder="ルームについて"
                     value={formState.description}
                     onChange={(e) => setter.setDescription(e.target.value)}
+                    className="h-64"
                   />
                 </div>
               </div>
 
-              <Button type="submit">保存する</Button>
+              <Button type="submit" className="hidden lg:inline-block">
+                保存する
+              </Button>
             </div>
           </form>
         </Card>
 
-        <div className="w-1/3 space-y-10">
+        <div className="space-y-10">
           <Card className="space-y-5 p-7">
             <div className={betweenH2}>
               <span className="flex">
@@ -205,11 +209,13 @@ export default function EditRoom() {
 
               <div className="flex items-center space-x-2">
                 <GithubIcon height="30px" />
-                <TextInput
-                  placeholder="GithubリポジトリのURL"
-                  value={formState.repositoryUrl}
-                  onChange={(e) => setter.setRespositoryUrl(e.target.value)}
-                />
+                <div className="flex-1">
+                  <TextInput
+                    placeholder="GithubリポジトリのURL"
+                    value={formState.repositoryUrl}
+                    onChange={(e) => setter.setRespositoryUrl(e.target.value)}
+                  />
+                </div>
               </div>
             </div>
           </Card>
@@ -250,6 +256,10 @@ export default function EditRoom() {
             </div>
           </Card>
         </div>
+
+        <Button type="submit" className="inline-block my-10 lg:hidden">
+          保存する
+        </Button>
       </div>
     </Template>
   );
