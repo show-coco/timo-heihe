@@ -65,7 +65,7 @@ export const RoomCard: React.FC<RoomCardProps> = ({
       >
         <div>
           <Card
-            className={`p-5 cursor-pointer ${className}`}
+            className={`p-5 cursor-pointer hover:shadow-md duration-200 ${className}`}
             tabIndex={0}
             role="button"
           >
