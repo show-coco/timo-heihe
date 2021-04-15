@@ -1,29 +1,31 @@
 import React from "react";
 import { GetServerSideProps } from "next";
-
+import ReactMarkdown from "react-markdown";
+import Link from "next/link";
+import { useRouter } from "next/router";
+import { useApplyRoomMutation, useRoomQuery } from "../../generated/types";
+/* Components */
 import { Avatar } from "../../components/avatar/avatar";
 import { Card } from "../../components/card/card";
-import {
-  CategorySet,
-  convertToCategoryArray,
-} from "../../components/category/category-set";
 import { Heading } from "../../components/heading/heading";
+import { Button } from "../../components/button";
+import { AvatarWithName } from "../../components/avatar/avatar-with-name";
+import { LoginModal } from "../../components/login-modal";
+import { Template } from "../../components/template/app/template";
+import { Tag } from "../../components/tag";
+import { Meta } from "../../components/meta";
 import {
   convertToSkillPochiSetArray,
   SkillPochiSet,
 } from "../../components/skill/skill-pochi-set";
-import { Button } from "../../components/button";
-import Link from "next/link";
-import { AvatarWithName } from "../../components/avatar/avatar-with-name";
-import ReactMarkdown from "react-markdown";
-import { useAuthContext } from "../../providers/useAuthContext";
+import {
+  CategorySet,
+  convertToCategoryArray,
+} from "../../components/category/category-set";
+/* Hooks */
 import { useModal } from "../../hooks/useModal";
-import { LoginModal } from "../../components/login-modal";
-import { Template } from "../../components/template/app/template";
-import { Tag } from "../../components/tag";
-import { useApplyRoomMutation, useRoomQuery } from "../../generated/types";
-import { useRouter } from "next/router";
-import { Meta } from "../../components/meta";
+/* Contexts */
+import { useAuthContext } from "../../providers/useAuthContext";
 
 type Props = {
   url: string;
@@ -43,11 +45,21 @@ export default function ShowRoom({ url, title }: Props) {
   const [applyRoom] = useApplyRoomMutation();
 
   const room = data?.room;
-
-  // if (loading) return <p>Loading...</p>;
-  // if (!room) return <p>データがありません</p>;
-
   const iamOwner = room?.owner.id === id;
+  const onClickApply = (roomId?: number | null) => {
+    () => {
+      if (isAuthenticated) {
+        applyRoom({
+          variables: {
+            userId: id,
+            roomId: roomId || 0,
+          },
+        });
+      } else {
+        onOpen();
+      }
+    };
+  };
 
   return (
     <>
@@ -122,15 +134,7 @@ export default function ShowRoom({ url, title }: Props) {
                 </p>
                 <Button
                   className="px-12 mt-5 shadow-lg"
-                  onClick={() => {
-                    console.log("clicked");
-                    applyRoom({
-                      variables: {
-                        userId: id,
-                        roomId: room.id || 0,
-                      },
-                    });
-                  }}
+                  onClick={() => onClickApply(room.id)}
                 >
                   申請する
                 </Button>
@@ -156,17 +160,6 @@ export default function ShowRoom({ url, title }: Props) {
                   })}
                 </div>
               </div>
-              {/* <div>
-                <Heading as="h3" className="mb-3">
-                  募集する役割
-                </Heading>
-                <div className="space-y-1">
-                  <p>モバイルエンジニア</p>
-                  <p>インフラエンジニア</p>
-                  <p>デザイナー</p>
-                  <p>フロントエンドエンジニア</p>
-                </div>
-              </div> */}
             </Card>
 
             <Card className="p-8">
