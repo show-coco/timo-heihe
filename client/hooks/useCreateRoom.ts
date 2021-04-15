@@ -121,9 +121,11 @@ export const useCreateRoom = () => {
           input: getVariables(),
         },
       });
-      router.push(
-        `/room/${res.data?.createRoom.slug}?title=${res.data?.createRoom.title}`
-      );
+      if (typeof window !== "undefined") {
+        router.push(
+          `/room/${res.data?.createRoom.slug}?title=${res.data?.createRoom.title}`
+        );
+      }
     } catch (e) {
       console.log(e);
     }

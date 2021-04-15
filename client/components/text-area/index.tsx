@@ -26,7 +26,7 @@ export const TextArea: React.FC<TextAreaProps> = ({
         </label>
       )}
       <textarea
-        className={`resize-none bg-blue-100 rounded-sm w-full h-full ${borderStyle} ${className}`}
+        className={`resize-none bg-blue-100 rounded-sm w-full ${borderStyle} ${className}`}
         {...props}
       />
     </div>
