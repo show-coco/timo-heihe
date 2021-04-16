@@ -1,4 +1,5 @@
 import React from "react";
+
 import { GetServerSideProps } from "next";
 import ReactMarkdown from "react-markdown";
 import Link from "next/link";
@@ -13,6 +14,11 @@ import { AvatarWithName } from "../../components/avatar/avatar-with-name";
 import { LoginModal } from "../../components/login-modal";
 import { Template } from "../../components/template/app/template";
 import { Tag } from "../../components/tag";
+
+import { useShareBtn } from "../../hooks/useShareBtn";
+
+import { ShareBtn } from "../../components/share-btn";
+
 import { Meta } from "../../components/meta";
 import {
   convertToSkillPochiSetArray,
@@ -35,8 +41,9 @@ type Props = {
 export default function ShowRoom({ url, title }: Props) {
   const { isAuthenticated, id } = useAuthContext();
   const { isOpen, onOpen, onClose } = useModal();
+
   const router = useRouter();
-  console.log(url);
+
   const { data } = useRoomQuery({
     variables: {
       slug: router.query.slug?.toString() || "",
@@ -46,6 +53,9 @@ export default function ShowRoom({ url, title }: Props) {
 
   const room = data?.room;
   const iamOwner = room?.owner.id === id;
+
+  const { shareUrl } = useShareBtn();
+
   const onClickApply = (roomId?: number | null) => {
     () => {
       if (isAuthenticated) {
@@ -64,7 +74,9 @@ export default function ShowRoom({ url, title }: Props) {
   return (
     <>
       <LoginModal isOpen={isOpen} onRequestClose={onClose} />
+
       <Meta title={title} image={`${url}`} />
+
       <Template className="p-10">
         {iamOwner && (
           <div className="flex justify-end mb-4">
@@ -76,6 +88,7 @@ export default function ShowRoom({ url, title }: Props) {
             </Link>
           </div>
         )}
+
         <div className="flex flex-row space-x-10">
           <Card className="flex-1 p-8">
             <div className="flex justify-between">
@@ -85,15 +98,19 @@ export default function ShowRoom({ url, title }: Props) {
                   className="mb-4"
                 />
 
-                <div className="flex items-center space-x-3">
-                  <div>
+                <div className="flex justify-between space-x-3 ">
+                  <div className="flex items-center">
                     <Avatar
                       src={room?.icon || ""}
                       name={room?.name}
                       size="large"
                     />
+                    <Heading as="h1Big">{room?.name || ""}</Heading>
                   </div>
-                  <Heading as="h1Big">{room?.title || ""}</Heading>
+
+                  <div>
+                    <ShareBtn shareUrl={shareUrl} />
+                  </div>
                 </div>
               </div>
             </div>
