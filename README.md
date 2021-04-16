@@ -31,6 +31,25 @@ $ cd client && yarn dev
 $ docker-compose up -d
 ```
 
+### DBサーバを停止
+
+```bash
+$ docker-compose stop db
+```
+
+### DBサーバを削除
+
+```bash
+$ docker-compose rm db
+```
+
+### DBのデータを削除
+
+```bash
+# DBサーバを削除後
+$ docker volume rm timo-heihe_db-data
+```
+
 ### テーブルの作成 or 更新
 ```bash
 $ cd server & yarn start:dev
