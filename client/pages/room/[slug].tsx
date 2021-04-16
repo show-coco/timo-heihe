@@ -15,12 +15,9 @@ import { LoginModal } from "../../components/login-modal";
 import { Template } from "../../components/template/app/template";
 import { Tag } from "../../components/tag";
 
-import { useApplyRoomMutation, useRoomQuery } from "../../generated/types";
-import { UseShareBtn } from "../../hooks/useShareBtn";
-import { useRouter } from "next/router";
+import { useShareBtn } from "../../hooks/useShareBtn";
 
 import { ShareBtn } from "../../components/share-btn";
-
 
 import { Meta } from "../../components/meta";
 import {
@@ -57,7 +54,7 @@ export default function ShowRoom({ url, title }: Props) {
   const room = data?.room;
   const iamOwner = room?.owner.id === id;
 
-  const { shareUrl } = UseShareBtn();
+  const { shareUrl } = useShareBtn();
 
   const onClickApply = (roomId?: number | null) => {
     () => {
@@ -73,7 +70,6 @@ export default function ShowRoom({ url, title }: Props) {
       }
     };
   };
-
 
   return (
     <>
