@@ -1,5 +1,5 @@
 import React from "react";
-import { Navigation } from "./navigation";
+import { AppHeader } from "./header";
 
 type TemplateProps = {
   children: React.ReactNode;
@@ -15,7 +15,7 @@ export const Template: React.FC<TemplateProps> = ({
   return (
     <>
       <header className="min-h-20">
-        <Navigation />
+        <AppHeader />
         {header}
       </header>
 

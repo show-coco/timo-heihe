@@ -11,13 +11,13 @@ type CardProps = {
 const defaultStyle = "md:p-5 rounded-md bg-white";
 const variants = {
   outline: "border-2 border-gray-300",
-  shadow: "shadow-lg",
+  shadow: "shadow-sm",
   none: "",
 };
 
 export const Card: React.FC<CardProps> = ({
   children,
-  variant = "none",
+  variant = "shadow",
   role,
   tabIndex,
   ...props

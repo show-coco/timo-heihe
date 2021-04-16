@@ -9,17 +9,24 @@ type Props = {
 export const useAuthGuard = ({ ownerId, isMe }: Props) => {
   const router = useRouter();
   const userId = router.query.id;
-  const { isAuthenticated, id, userId: loginUserId } = useAuthContext();
+  const {
+    isAuthenticated,
+    id,
+    userId: loginUserId,
+    loading,
+  } = useAuthContext();
 
-  if (ownerId && ownerId !== id) {
-    router.push("/");
-  }
+  if (typeof window !== "undefined") {
+    if (ownerId && ownerId !== id) {
+      router.push("/");
+    }
 
-  if (isMe && userId !== loginUserId) {
-    router.push("/");
-  }
+    if (isMe && userId !== loginUserId) {
+      router.push("/");
+    }
 
-  if (!isAuthenticated) {
-    router.push("/login");
+    if (!isAuthenticated && !loading) {
+      router.push("/login");
+    }
   }
 };
