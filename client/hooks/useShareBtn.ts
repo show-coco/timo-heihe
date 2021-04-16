@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-export const UseShareBtn = () => {
+export const useShareBtn = () => {
   const [shareUrl, setShareUrl] = useState("");
   useEffect(() => {
     if (typeof window !== "undefined") {
