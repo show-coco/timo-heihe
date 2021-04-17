@@ -8,7 +8,7 @@ export default {
 } as Meta;
 
 const sizes = ["small", "medium", "large"] as const;
-const variants = ["outline", "primary", "ghost"] as const;
+const variants = ["outline", "solid", "ghost", "outline"] as const;
 
 export const withSizes = () => {
   return (
