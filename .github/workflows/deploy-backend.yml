@@ -10,6 +10,10 @@ on:
     paths:
       - "server/**"
 
+defaults:
+  run:
+    working-directory: ./server
+
 env:
   PROJECT_ID: 'timo-heihe'
 
