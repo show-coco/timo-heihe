@@ -5,6 +5,10 @@ on:
     branches: [main]
     paths:
       - "server/**"
+  pull_request:
+    branches: [main]
+    paths:
+      - "server/**"
 
 env:
   PROJECT_ID: 'timo-heihe'
