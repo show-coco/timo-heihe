@@ -23,7 +23,7 @@ import GithubIcon from "../../../assets/icons/github.svg";
 import { useAuthGuard } from "../../../hooks/useAuthGurad";
 
 export default function EditUser() {
-  const { formState, file, setter, skills, onSubmit } = useEditUser();
+  const { form, file, setter, skills, disabled, onSubmit } = useEditUser();
 
   useAuthGuard({});
 
@@ -32,7 +32,7 @@ export default function EditUser() {
       <form onSubmit={onSubmit}>
         <Card className="p-8 space-y-10">
           <div className="flex items-center space-x-7">
-            <Avatar src={formState.imageUrl} size="large" />
+            <Avatar src={form.imageUrl} size="large" />
             <FileInput
               ref={file.fileRef}
               onClick={file.onClickFileInput}
@@ -43,8 +43,9 @@ export default function EditUser() {
           <div>
             <Heading as="h2">ユーザ名</Heading>
             <TextInput
-              value={formState.userName}
-              onChange={(e) => setter.setUserName(e.target.value)}
+              value={form.userName.value}
+              onChange={form.userName.onChange}
+              errors={form.userName.errors}
             />
           </div>
 
@@ -53,20 +54,27 @@ export default function EditUser() {
             <span className="flex items-center">
               @
               <TextInput
-                value={formState.userId}
+                value={form.userId.value}
                 className="w-2/3 ml-2"
-                onChange={(e) => setter.setUserId(e.target.value)}
+                onChange={form.userId.onChange}
               />
             </span>
+            <ul>
+              {form.userId.errors.map((error) => (
+                <li key={error.code} className="text-red-500">
+                  {error.message}
+                </li>
+              ))}
+            </ul>
           </div>
 
           <div>
             <Heading as="h2">自己紹介</Heading>
             <div className="h-96">
               <TextArea
-                value={formState.introduction}
+                value={form.introduction.value}
                 placeholder="自己紹介文を設定してください"
-                onChange={(e) => setter.setIntroduction(e.target.value)}
+                onChange={form.introduction.onChange}
                 className="h-80"
               />
             </div>
@@ -79,16 +87,16 @@ export default function EditUser() {
               <GithubIcon />
               <span className="pl-1">@</span>
               <TextInput
-                value={formState.githubId}
-                onChange={(e) => setter.setGithubId(e.target.value)}
+                value={form.githubId.value}
+                onChange={form.githubId.onChange}
               />
             </div>
             <div className="flex items-center space-x-2">
               <TwitterIcon class="bg-blue-400 rounded-full" />
               <span>@</span>
               <TextInput
-                value={formState.twitterId}
-                onChange={(e) => setter.setTwitterId(e.target.value)}
+                value={form.twitterId.value}
+                onChange={form.twitterId.onChange}
               />
             </div>
           </div>
@@ -100,16 +108,18 @@ export default function EditUser() {
               data={convertToACData(skills)}
               placeholder="スキルを検索"
               setSelected={setter.setSkills}
-              selectedData={formState.selectedSkills}
+              selectedData={form.selectedSkills}
             />
             <EditableSkillPochiSet
-              skills={convertToSkillPochiSetArray(formState.selectedSkills)}
+              skills={convertToSkillPochiSetArray(form.selectedSkills)}
               setSelected={setter.setSkills}
-              selectedData={formState.selectedSkills}
+              selectedData={form.selectedSkills}
             />
           </div>
 
-          <Button type="submit">保存する</Button>
+          <Button type="submit" disabled={disabled}>
+            保存する
+          </Button>
         </Card>
       </form>
     </Template>
