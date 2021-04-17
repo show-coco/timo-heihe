@@ -100,6 +100,7 @@ export const useTextInput = ({
     errors,
     value,
     onChange,
+    setValue,
     valid,
   };
 };
