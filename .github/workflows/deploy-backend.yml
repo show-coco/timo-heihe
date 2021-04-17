@@ -16,6 +16,7 @@ defaults:
 
 env:
   PROJECT_ID: 'timo-heihe'
+  GCLOUD_SERVICE_KEY: ${{ secrets.GCLOUD_SERVICE_KEY }}
 
 jobs:
   deploy:
@@ -43,3 +44,13 @@ jobs:
         run: |
           yarn
           yarn build
+      - name: Copy Service Account from Environment
+        run: |
+          echo $GCLOUD_SERVICE_KEY > ${HOME}/gcloud-service-key.json
+      - name: Use cloud-sdk
+        uses: docker://google/cloud-sdk:273.0.0
+      - name: Deploy
+        run: |
+          gcloud auth activate-service-account --key-file=${HOME}/gcloud-service-key.json
+          gcloud app deploy --quiet --project $PROJECT_ID
+
