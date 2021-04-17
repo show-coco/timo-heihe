@@ -50,9 +50,9 @@ import { RoomApplyingUserModule } from './room-applying-user/room-applying-user.
       type: 'postgres',
       host: 'db',
       port: 5432,
-      username: 'timoheihe',
-      password: 'postgres',
-      database: 'postgres',
+      username: process.env.DB_USER_NAME,
+      password: process.env.DB_PASSWORD,
+      database: process.env.DB_DATABASE,
       entities: [
         User,
         Room,
