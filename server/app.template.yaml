@@ -1,0 +1,14 @@
+runtime: nodejs12
+env_variables:
+  GOOGLE_CLIENT_ID: ${{GOOGLE_CLIENT_ID}}
+  GOOGLE_SECRET: ${{GOOGLE_SECRET}}
+  FRONTEND_URL: ${{FRONTEND_URL}}
+  DB_USER_NAME: ${{DB_USER_NAME}}
+  DB_PASSWORD: ${{DB_PASSWORD}}
+  DB_DATABASE: ${{DB_DATABASE}}
+
+handlers:
+- url: /.*
+  secure: always
+  redirect_http_response_code: 301
+  script: auto

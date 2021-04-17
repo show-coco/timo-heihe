@@ -36,21 +36,37 @@ jobs:
           key: v1-dependencies-${{ hashFiles('**/yarn.lock') }}
           restore-keys: |
             v1-dependencies-
+
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
+
       - name: Build Application
         run: |
           yarn
           yarn build
+
       - name: Copy Service Account from Environment
         run: |
           echo $GCLOUD_SERVICE_KEY > ${HOME}/gcloud-service-key.json
+
       - name: Use cloud-sdk
         uses: docker://google/cloud-sdk:273.0.0
+
+      - name: Load Secrets
+      run: node ./scripts/config-compile.js
+      env:
+        GOOGLE_CLIENT_ID: ${{secrets.GOOGLE_CLIENT_ID}}
+        GOOGLE_SECRET: ${{secrets.GOOGLE_SECRET}}
+        FRONTEND_URL: ${{secrets.FRONTEND_URL}}
+        DB_USER_NAME: ${{secrets.DB_USER_NAME}}
+        DB_PASSWORD: ${{secrets.DB_PASSWORD}}
+        DB_DATABASE: ${{secrets.DB_DATABASE}}
+
       - name: Deploy
         run: |
           gcloud auth activate-service-account --key-file=${HOME}/gcloud-service-key.json
           gcloud app deploy --quiet --project $PROJECT_ID
-
+    
+      - run: rm -f app.yaml
