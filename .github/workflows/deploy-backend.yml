@@ -55,14 +55,14 @@ jobs:
         uses: docker://google/cloud-sdk:273.0.0
 
       - name: Load Secrets
-      run: node ./scripts/config-compile.js
-      env:
-        GOOGLE_CLIENT_ID: ${{secrets.GOOGLE_CLIENT_ID}}
-        GOOGLE_SECRET: ${{secrets.GOOGLE_SECRET}}
-        FRONTEND_URL: ${{secrets.FRONTEND_URL}}
-        DB_USER_NAME: ${{secrets.DB_USER_NAME}}
-        DB_PASSWORD: ${{secrets.DB_PASSWORD}}
-        DB_DATABASE: ${{secrets.DB_DATABASE}}
+        run: node ./scripts/config-compile.js
+        env:
+          GOOGLE_CLIENT_ID: ${{secrets.GOOGLE_CLIENT_ID}}
+          GOOGLE_SECRET: ${{secrets.GOOGLE_SECRET}}
+          FRONTEND_URL: ${{secrets.FRONTEND_URL}}
+          DB_USER_NAME: ${{secrets.DB_USER_NAME}}
+          DB_PASSWORD: ${{secrets.DB_PASSWORD}}
+          DB_DATABASE: ${{secrets.DB_DATABASE}}
 
       - name: Deploy
         run: |
