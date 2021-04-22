@@ -35,6 +35,13 @@ import { RoomApplyingUserModule } from './room-applying-user/room-applying-user.
         RoomTypeModule,
         RecruitmentLevelModule,
       ],
+      cors: {
+        origin: [
+          process.env.FRONTEND_URL,
+          'https://timo-heihe-git-feature-deploy-show-coco.vercel.app',
+        ],
+        credentials: true,
+      },
       playground: true,
       autoSchemaFile: 'schema.graphql',
       sortSchema: true,
