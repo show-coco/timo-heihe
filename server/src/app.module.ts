@@ -46,7 +46,6 @@ import { RoomApplyingUserModule } from './room-applying-user/room-applying-user.
       autoSchemaFile: 'schema.graphql',
       sortSchema: true,
       context: ({ req }) => {
-        console.log('reqqq', req && req.headers);
         return {
           headers: req && req.headers,
         };
@@ -55,11 +54,12 @@ import { RoomApplyingUserModule } from './room-applying-user/room-applying-user.
     }),
     TypeOrmModule.forRoot({
       type: 'postgres',
-      host: 'db',
-      port: 5432,
+      host: process.env.DB_HOST,
+      port: Number(process.env.DB_PORT),
       username: process.env.DB_USER_NAME,
       password: process.env.DB_PASSWORD,
       database: process.env.DB_DATABASE,
+      extra: { socketPath: process.env.DB_SOCKET_PATH },
       entities: [
         User,
         Room,

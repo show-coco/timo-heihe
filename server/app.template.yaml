@@ -6,6 +6,9 @@ env_variables:
   DB_USER_NAME: ${{DB_USER_NAME}}
   DB_PASSWORD: ${{DB_PASSWORD}}
   DB_DATABASE: ${{DB_DATABASE}}
+  DB_HOST: ${{DB_HOST}}
+  DB_PORT: ${{DB_PORT}}
+  DB_SOCKET_PATH: ${{DB_SOCKET_PATH}}
 
 handlers:
 - url: /.*
