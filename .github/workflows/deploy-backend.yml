@@ -63,6 +63,9 @@ jobs:
           DB_USER_NAME: ${{secrets.DB_USER_NAME}}
           DB_PASSWORD: ${{secrets.DB_PASSWORD}}
           DB_DATABASE: ${{secrets.DB_DATABASE}}
+          DB_SOCKET_PATH: ${{secrets.DB_SOCKET_PATH}}
+          DB_PORT: ${{secrets.DB_PORT}}
+          DB_HOST: ${{secrets.DB_HOST}}
 
       - name: Deploy
         run: |
