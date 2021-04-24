@@ -35,11 +35,19 @@ import { RoomApplyingUserModule } from './room-applying-user/room-applying-user.
         RoomTypeModule,
         RecruitmentLevelModule,
       ],
+      cors: {
+        origin: [
+          process.env.FRONTEND_URL,
+          'https://timo-heihe-git-feature-deploy-show-coco.vercel.app',
+        ],
+        credentials: true,
+      },
       playground: true,
-      autoSchemaFile: 'schema.graphql',
+      autoSchemaFile: !process.env.GAE_ENV
+        ? './src/schema.gql'
+        : '/tmp/schema.gql',
       sortSchema: true,
       context: ({ req }) => {
-        console.log('reqqq', req && req.headers);
         return {
           headers: req && req.headers,
         };
@@ -48,11 +56,12 @@ import { RoomApplyingUserModule } from './room-applying-user/room-applying-user.
     }),
     TypeOrmModule.forRoot({
       type: 'postgres',
-      host: 'db',
-      port: 5432,
-      username: 'timoheihe',
-      password: 'postgres',
-      database: 'postgres',
+      host: process.env.DB_HOST,
+      port: Number(process.env.DB_PORT),
+      username: process.env.DB_USER_NAME,
+      password: process.env.DB_PASSWORD,
+      database: process.env.DB_DATABASE,
+      extra: { socketPath: process.env.DB_SOCKET_PATH },
       entities: [
         User,
         Room,
