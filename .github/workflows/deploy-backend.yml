@@ -60,6 +60,7 @@ jobs:
           GOOGLE_CLIENT_ID: ${{secrets.GOOGLE_CLIENT_ID}}
           GOOGLE_SECRET: ${{secrets.GOOGLE_SECRET}}
           FRONTEND_URL: ${{secrets.FRONTEND_URL}}
+          BACKEND_URL: ${{secrets.BACKEND_URL}}
           DB_USER_NAME: ${{secrets.DB_USER_NAME}}
           DB_PASSWORD: ${{secrets.DB_PASSWORD}}
           DB_DATABASE: ${{secrets.DB_DATABASE}}
