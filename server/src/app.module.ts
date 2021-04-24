@@ -86,3 +86,5 @@ import { RoomApplyingUserModule } from './room-applying-user/room-applying-user.
   ],
 })
 export class AppModule {}
+
+console.log(process.env);
