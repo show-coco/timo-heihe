@@ -8,7 +8,7 @@ env_variables:
   DB_DATABASE: ${{DB_DATABASE}}
   DB_HOST: ${{DB_HOST}}
   DB_PORT: ${{DB_PORT}}
-  DB_SOCKET_PATH: /cloudsql/timo-heihe:asia-northeast1:cloud-circle
+  DB_SOCKET_PATH: ${{DB_SOCKET_PATH}}
 
 handlers:
 - url: /.*
