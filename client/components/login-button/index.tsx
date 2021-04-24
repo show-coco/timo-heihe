@@ -7,7 +7,7 @@ type Props = {
 
 export const LoginButton: React.FC<Props> = ({ className }: Props) => {
   return (
-    <Link href="http://localhost:8080/google">
+    <Link href={`${process.env.NEXT_PUBLIC_BACKEND_URL}/google`}>
       <button
         className={`px-3 py-1 text-white align-middle rounded-md shadow-sm bg-gradient-to-r from-orange-400 to-orange-350 hover:from-orange-600 hover:to-orange-350 ${className}`}
       >
