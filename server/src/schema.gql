@@ -1,0 +1,218 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type CategoryModel {
+  id: Int!
+  name: String!
+  rooms: [RoomModel!]!
+}
+
+input CreateCategoryInput {
+  name: String!
+}
+
+input CreateMessageInput {
+  opponentSlug: String!
+  text: String!
+}
+
+input CreateRoomInput {
+  categories: [Int!]!
+  description: String
+  icon: String
+  invidationUrl: String
+  name: String!
+  owner: Int!
+  recruiementLevels: [Int!]!
+  repositoryUrl: String
+  skills: [Int!]
+  slug: String!
+  title: String!
+  typeIds: [Int!]!
+  withApplication: Boolean!
+}
+
+input CreateSkillInput {
+  icon: String!
+  id: Int!
+  name: String!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+input FetchMessageInput {
+  cursor: DateTime!
+  opponentSlug: String!
+}
+
+type MessageModel {
+  createdAt: DateTime!
+  id: Int!
+  receiver: UserModel!
+  sender: UserModel!
+  text: String!
+}
+
+type Mutation {
+  acceptApplication(roomId: Int!, userId: Int!): RoomModel!
+  applyRoom(roomId: Int!, userId: Int!): RoomModel!
+  createCategory(createCategoryInput: CreateCategoryInput!): CategoryModel!
+  createMessage(input: CreateMessageInput!): MessageModel!
+  createRoom(input: CreateRoomInput!): RoomModel!
+  createSkill(createSkillInput: CreateSkillInput!): SkillModel!
+  deleteRoom(id: Int!): RoomModel!
+  rejectApplication(roomId: Int!, userId: Int!): RoomModel!
+  removeCategory(id: Int!): CategoryModel!
+  removeSkill(id: Int!): SkillModel!
+  updateCategory(updateCategoryInput: UpdateCategoryInput!): CategoryModel!
+  updateMessage(input: UpdateMessageInput!): MessageModel!
+  updateRoom(input: UpdateRoomInput!): RoomModel!
+  updateSkill(updateSkillInput: UpdateSkillInput!): SkillModel!
+  updateUser(updateUserInput: UpdateUserInput!): UserModel!
+}
+
+input MyRoomsInput {
+  iAmOwner: Boolean
+  state: State
+}
+
+type Query {
+  categories: [CategoryModel!]!
+  category(id: Int!): CategoryModel!
+  me: UserModel!
+  message(id: Int!): MessageModel!
+  messages(input: FetchMessageInput!): [MessageModel!]!
+  myRooms(input: MyRoomsInput!): [RoomModel!]!
+  opponents: [RoomModel!]!
+  recruitmentLevels: [RecruitmentLevelModel!]!
+  room(slug: String!): RoomModel!
+  rooms(input: SearchRoomInput): [RoomModel!]!
+  roomTypes: [RoomTypeModel!]!
+  skill(id: Int!): SkillModel!
+  skills: [SkillModel!]!
+  user(userId: String!): UserModel!
+  users: [UserModel!]!
+}
+
+type RecruitmentLevelModel {
+  id: Int!
+  name: String!
+}
+
+type RoomApplyingUserModel {
+  room: RoomModel!
+  state: State!
+  user: UserModel!
+}
+
+type RoomModel {
+  applyingUsers: [RoomApplyingUserModel!]
+  categories: [CategoryModel!]!
+  createdAt: DateTime
+  description: String!
+  icon: String
+  id: Int
+  invidationUrl: String
+  name: String!
+  owner: UserModel!
+  recruitmentLevels: [RecruitmentLevelModel!]!
+  repositoryUrl: String
+  skills: [SkillModel!]
+  slug: String!
+  title: String!
+  types: [RoomTypeModel!]!
+  withApplication: Boolean!
+}
+
+type RoomTypeModel {
+  id: Int!
+  name: String!
+}
+
+input SearchRoomInput {
+  categoryIds: [Int!]
+  keyword: String
+  recruitmentLevelIds: [Int!]
+  skillIds: [Int!]
+  typeId: Int
+  withApplication: Boolean
+}
+
+type SkillModel {
+  icon: String!
+  id: Int!
+  name: String!
+}
+
+enum State {
+  APPLYING
+  APPROVED
+  REJECTED
+}
+
+type Subscription {
+  messageAdded(slug: String!): MessageModel!
+}
+
+input UpdateCategoryInput {
+  id: Int!
+  name: String
+}
+
+input UpdateMessageInput {
+  id: Int!
+  opponentSlug: String
+  text: String
+}
+
+input UpdateRoomInput {
+  categories: [Int!]
+  description: String
+  icon: String
+  id: Int!
+  invidationUrl: String
+  name: String
+  owner: Int
+  recruiementLevels: [Int!]
+  repositoryUrl: String
+  skills: [Int!]
+  slug: String
+  title: String
+  typeIds: [Int!]
+  withApplication: Boolean
+}
+
+input UpdateSkillInput {
+  icon: String
+  id: Int!
+  name: String
+}
+
+input UpdateUserInput {
+  avatar: String
+  email: String
+  githubId: String
+  id: Int!
+  introduction: String
+  name: String
+  skills: [Int!]
+  twitterId: String
+  userId: String
+}
+
+type UserModel {
+  avatar: String
+  email: String!
+  githubId: String
+  id: Int!
+  introduction: String
+  name: String!
+  ownerTeams: [RoomModel!]
+  skills: [SkillModel!]
+  twitterId: String
+  userId: String!
+}

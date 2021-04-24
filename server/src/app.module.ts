@@ -47,7 +47,9 @@ console.log(process.env.DB_SOCKET_PATH);
         credentials: true,
       },
       playground: true,
-      autoSchemaFile: 'schema.graphql',
+      autoSchemaFile: !process.env.GAE_ENV
+        ? './src/schema.gql'
+        : '/tmp/schema.gql',
       sortSchema: true,
       context: ({ req }) => {
         return {
