@@ -20,6 +20,10 @@ import { RecruitmentLevel } from './recruitment-level/entities/recruitment-level
 import { RoomApplyingUser } from './room-applying-user/entities/room-applying-user.entity';
 import { RoomApplyingUserModule } from './room-applying-user/room-applying-user.module';
 
+console.log('Hello');
+console.log(process.env);
+console.log(process.env.DB_SOCKET_PATH);
+
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -84,3 +88,7 @@ import { RoomApplyingUserModule } from './room-applying-user/room-applying-user.
   ],
 })
 export class AppModule {}
+
+console.log('Hello');
+console.log(process.env);
+console.log(process.env.DB_SOCKET_PATH);
