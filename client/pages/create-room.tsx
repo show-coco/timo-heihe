@@ -259,7 +259,11 @@ export default function CreateRoom() {
         </Card>
       </div>
 
-      <Button type="submit" disabled={isDisabled} className="mt-10 lg:hidden">
+      <Button
+        onClick={onSubmit}
+        disabled={isDisabled}
+        className="my-10 lg:hidden"
+      >
         作成する
       </Button>
     </Template>

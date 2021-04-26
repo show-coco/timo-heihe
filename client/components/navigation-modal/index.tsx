@@ -35,6 +35,9 @@ export const NavigationModal: React.FC<Props> = (props: Props) => {
               <Link href="/">ルームを探す</Link>
             </span>
             <span className="pt-3">
+              <Link href="/create-room">ルームを作成</Link>
+            </span>
+            <span className="pt-3">
               <Link href="/">メッセージ</Link>
             </span>
             <span className="pt-3">
