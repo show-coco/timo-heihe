@@ -255,7 +255,7 @@ export default function EditRoom() {
           </Card>
         </div>
 
-        <Button type="submit" className="inline-block my-10 lg:hidden">
+        <Button onClick={onSubmit} className="inline-block my-10 lg:hidden">
           保存する
         </Button>
       </div>
