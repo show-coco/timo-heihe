@@ -16,7 +16,7 @@ export const AvatarWithName: React.FC<AvatarWithNameProps> = ({
   return (
     <Link href="/user/[id]" as={`/user/${userId}`}>
       <span
-        className={`flex items-center space-x-2 ${className} cursor-pointer`}
+        className={`flex items-center space-x-2 ${className} cursor-pointer whitespace-nowrap`}
       >
         <Avatar {...props} className="hover:shadow-md" />
         <p className="mr-5 hover:underline">{props.name}</p>

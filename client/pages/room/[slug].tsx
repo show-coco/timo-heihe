@@ -77,7 +77,7 @@ export default function ShowRoom({ url, title }: Props) {
 
       <Meta title={title} image={`${url}`} />
 
-      <Template className="p-10">
+      <Template className="py-5 md:p-10">
         {iamOwner && (
           <div className="flex justify-end mb-4">
             <Link
@@ -89,7 +89,7 @@ export default function ShowRoom({ url, title }: Props) {
           </div>
         )}
 
-        <div className="flex flex-row space-x-10">
+        <div className="flex flex-col space-y-8 md:space-x-10 md:flex-row md:space-y-0">
           <Card className="flex-1 p-8">
             <div className="flex justify-between">
               <div className="flex-1">
@@ -98,7 +98,7 @@ export default function ShowRoom({ url, title }: Props) {
                   className="mb-4"
                 />
 
-                <div className="flex justify-between space-x-3 ">
+                <div className="flex flex-col space-x-3 md:flex-row md:justify-between ">
                   <div className="flex items-center">
                     <Avatar
                       src={room?.icon || ""}
@@ -117,9 +117,9 @@ export default function ShowRoom({ url, title }: Props) {
 
             <hr className="my-4" />
 
-            <div className="flex items-center space-x-8">
+            <div className="flex flex-col md:items-center md:space-x-8 md:flex-row">
               <span className="flex items-center space-x-3">
-                <p className="font-bold">オーナー</p>
+                <p className="font-bold whitespace-nowrap">オーナー</p>
                 <AvatarWithName
                   src={room?.owner.avatar || ""}
                   userId={room?.owner.userId || ""}
@@ -129,7 +129,7 @@ export default function ShowRoom({ url, title }: Props) {
               </span>
 
               <span className="flex items-center space-x-3">
-                <p className="font-bold">ルーム名</p>
+                <p className="font-bold whitespace-nowrap">ルーム名</p>
                 <span>{room?.name}</span>
               </span>
             </div>
@@ -143,7 +143,7 @@ export default function ShowRoom({ url, title }: Props) {
             </div>
           </Card>
 
-          <div className="flex flex-col w-1/3 space-y-10">
+          <div className="flex flex-col space-y-10 md:w-1/3">
             {room?.withApplication ? (
               <Card className="p-8 text-center">
                 <p>
