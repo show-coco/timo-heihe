@@ -27,7 +27,9 @@ export default function UserDetail() {
     },
   });
 
-  console.error(error);
+  if (error) {
+    router.push("/404");
+  }
 
   const iAmLoginUser = useMemo(() => data?.user.id === loginUserId, [
     data?.user.id,

@@ -91,6 +91,9 @@ export default function Message() {
   };
 
   if (error) console.error(error);
+  if (error) {
+    router.push("/404");
+  }
 
   return (
     <MessagesTemplate users={users}>
