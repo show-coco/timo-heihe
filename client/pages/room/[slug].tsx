@@ -41,14 +41,18 @@ type Props = {
 export default function ShowRoom({ url, title }: Props) {
   const { isAuthenticated, id } = useAuthContext();
   const { isOpen, onOpen, onClose } = useModal();
-
   const router = useRouter();
 
-  const { data } = useRoomQuery({
+  const { data, error } = useRoomQuery({
     variables: {
       slug: router.query.slug?.toString() || "",
     },
   });
+
+  if (error) {
+    router.push("/404");
+  }
+
   const [applyRoom] = useApplyRoomMutation();
 
   const room = data?.room;

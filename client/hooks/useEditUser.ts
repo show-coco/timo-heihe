@@ -40,11 +40,15 @@ export const useEditUser = () => {
   const [updateUser] = useUpdateUserMutation();
   const [disabled, setDisabled] = useState(false);
 
-  const { data } = useEditUserPageQuery({
+  const { data, error } = useEditUserPageQuery({
     variables: {
       userId: me.userId,
     },
   });
+
+  if (error) {
+    router.push("/404");
+  }
 
   useEffect(() => {
     if (data) {

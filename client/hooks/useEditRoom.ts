@@ -57,6 +57,9 @@ export const useEditTeam = () => {
   });
 
   if (error) console.log(error);
+  if (error) {
+    router.push("/404");
+  }
 
   const [updateTeam] = useEditRoomMutation();
 
