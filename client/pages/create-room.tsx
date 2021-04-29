@@ -210,7 +210,7 @@ export default function CreateRoom() {
               <TextInput
                 name="招待URL"
                 placeholder="DiscordやSlackの招待URL"
-                onChange={(e) => setter.setRespositoryUrl(e.target.value)}
+                onChange={(e) => setter.setInvidationUrl(e.target.value)}
               />
             </div>
           )}
