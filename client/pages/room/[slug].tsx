@@ -109,7 +109,9 @@ export default function ShowRoom({ url, title }: Props) {
                       name={room?.name}
                       size="large"
                     />
-                    <Heading as="h1Big">{room?.name || ""}</Heading>
+                    <Heading as="h1Big" className="ml-3">
+                      {room?.title || ""}
+                    </Heading>
                   </div>
 
                   <div>
