@@ -57,10 +57,13 @@ export default function ReceivedApplyingPage() {
   return (
     <Template className="p-5 md:p-10">
       <Meta title={"受け取った申請 | CloudCircle"} />
-      <div className="mx-auto md:w-3/5">
-        <Heading as="h1Big" className="mb-8 text-center">
+      <div className="mx-auto text-center md:w-3/5">
+        <Heading as="h1Big" className="mb-3">
           受け取った申請
         </Heading>
+        <p className="mb-8">
+          あなたがオーナーのルームへの参加申請が表示されます。
+        </p>
 
         {/* TODO */}
         {loading ? (
@@ -89,7 +92,9 @@ export default function ReceivedApplyingPage() {
             ) : null
           )
         ) : (
-          <p className="text-center">受け取った申請はありません</p>
+          <p className="text-lg font-bold text-center">
+            受け取った申請はありません
+          </p>
         )}
       </div>
     </Template>
