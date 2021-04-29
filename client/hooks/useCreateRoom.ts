@@ -115,6 +115,7 @@ export const useCreateRoom = () => {
     isPrivateError,
   ]);
 
+  console.log(invidationUrl);
   useEffect(() => {
     if (isPrivate === ROOM_TYPE.PUBLIC && !invidationUrl) {
       setIsPrivateError("招待URLを入力してください");
