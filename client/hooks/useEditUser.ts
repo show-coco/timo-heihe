@@ -10,7 +10,7 @@ import { useAuthContext } from "../providers/useAuthContext";
 import { convertToSkillsIds } from "./useCreateRoom";
 import { convertToACSelectedData } from "./useEditRoom";
 import { useFileInput } from "./useFileInput";
-import { REGEXES, useTextInput } from "./useTextInput";
+import { REGEXES, TEXT_INPUT_ERRORS, useTextInput } from "./useTextInput";
 
 export const useEditUser = () => {
   const router = useRouter();
@@ -100,6 +100,7 @@ export const useEditUser = () => {
       });
       router.push(`/user/${data?.updateUser.userId}`);
     } catch (e) {
+      userId.setErrors([...userId.errors, TEXT_INPUT_ERRORS.DEPLICATED]);
       console.log(e);
     }
   };
