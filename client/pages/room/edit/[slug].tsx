@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { AutoComplate } from "../../../components/auto-complate/auto-complate";
 import { Avatar } from "../../../components/avatar/avatar";
 import { Card } from "../../../components/card/card";
@@ -19,6 +19,7 @@ import { TextArea } from "../../../components/text-area";
 import { useAuthGuard } from "../../../hooks/useAuthGurad";
 import { Template } from "../../../components/template/app/template";
 import { OperationTag } from "../../../components/tag/operation";
+import { TEXT_INPUT_ERRORS } from "../../../hooks/useTextInput";
 
 const betweenH2 = "space-y-2";
 
@@ -32,10 +33,19 @@ export default function EditRoom() {
     roomTypes,
     ownerId,
     recruitmentLevels,
+    form,
+    isDisbaled,
+    isPrivateError,
     onSubmit,
   } = useEditTeam();
 
   useAuthGuard({ ownerId });
+
+  const slugErrors = useMemo(() => {
+    return form.slug.errors.filter(
+      (error) => error !== TEXT_INPUT_ERRORS.REQUIRED
+    );
+  }, [form.slug.errors]);
 
   return (
     <Template className="pt-10 lg:p-10">
@@ -69,9 +79,17 @@ export default function EditRoom() {
 
                   <TextInput
                     placeholder="ルームIDを入力"
-                    value={formState.slug}
-                    onChange={(e) => setter.setSlug(e.target.value)}
+                    value={form.slug.value}
+                    onChange={form.slug.onChange}
+                    errors={form.slug.errors}
                   />
+                  <ul>
+                    {slugErrors.map((error) => (
+                      <li key={error.code} className="text-red-500">
+                        ・{error.message}
+                      </li>
+                    ))}
+                  </ul>
                 </div>
 
                 <div className={`${betweenH2} lg:w-2/3 mt-10 lg:mt-0`}>
@@ -82,8 +100,9 @@ export default function EditRoom() {
 
                   <TextInput
                     placeholder="ルーム名を入力"
-                    value={formState.name}
-                    onChange={(e) => setter.setName(e.target.value)}
+                    value={form.name.value}
+                    onChange={form.name.onChange}
+                    errors={form.name.errors}
                   />
                 </div>
               </div>
@@ -97,8 +116,9 @@ export default function EditRoom() {
                 <TextInput
                   placeholder="メンバー募集タイトル"
                   className="w-2/3"
-                  value={formState.title}
-                  onChange={(e) => setter.setTitle(e.target.value)}
+                  value={form.title.value}
+                  onChange={form.title.onChange}
+                  errors={form.title.errors}
                 />
               </div>
 
@@ -129,13 +149,10 @@ export default function EditRoom() {
                       key={i}
                       className="mt-4 mr-4"
                       value={category.id?.toString()}
-                      checked={formState.categories.includes(category.id || -1)}
-                      onChange={(e) =>
-                        setter.onChangeCategories(
-                          e,
-                          Number(e.currentTarget.value)
-                        )
-                      }
+                      checked={form.categories.values.includes(
+                        category.id || -1
+                      )}
+                      onChange={() => form.categories.onChange(category.id)}
                     >
                       {category.name}
                     </Checkbox>
@@ -152,14 +169,19 @@ export default function EditRoom() {
                 <div className="h-72">
                   <TextArea
                     placeholder="ルームについて"
-                    value={formState.description}
-                    onChange={(e) => setter.setDescription(e.target.value)}
+                    value={form.description.value}
+                    onChange={form.description.onChange}
                     className="h-64"
+                    errors={form.description.errors}
                   />
                 </div>
               </div>
 
-              <Button type="submit" className="hidden lg:inline-block">
+              <Button
+                type="submit"
+                className="hidden lg:inline-block"
+                disabled={isDisbaled}
+              >
                 保存する
               </Button>
             </div>
@@ -173,6 +195,8 @@ export default function EditRoom() {
                 <Heading as="h3">参加時の申請</Heading>
                 <span className="text-red-500">*</span>
               </span>
+
+              <p className="mt-1 text-red-500">{isPrivateError}</p>
 
               <div className="flex space-x-8">
                 <Radio
@@ -192,15 +216,17 @@ export default function EditRoom() {
               </div>
             </div>
 
-            <div className={betweenH2}>
-              <Heading as="h3">招待URL</Heading>
+            {formState.withApplication === "1" && (
+              <div className={betweenH2}>
+                <Heading as="h3">招待URL</Heading>
 
-              <TextInput
-                placeholder="SlackやDiscordの招待URL"
-                value={formState.invitationUrl}
-                onChange={(e) => setter.setInvitationUrl(e.target.value)}
-              />
-            </div>
+                <TextInput
+                  placeholder="SlackやDiscordの招待URL"
+                  value={formState.invitationUrl}
+                  onChange={(e) => setter.setInvitationUrl(e.target.value)}
+                />
+              </div>
+            )}
 
             <div className={betweenH2}>
               <Heading as="h3">Githubリポジトリ</Heading>
@@ -255,7 +281,11 @@ export default function EditRoom() {
           </Card>
         </div>
 
-        <Button onClick={onSubmit} className="inline-block my-10 lg:hidden">
+        <Button
+          onClick={onSubmit}
+          className="inline-block my-10 lg:hidden"
+          disabled={isDisbaled}
+        >
           保存する
         </Button>
       </div>

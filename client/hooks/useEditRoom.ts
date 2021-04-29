@@ -10,6 +10,8 @@ import {
 } from "../generated/types";
 import { useFileInput } from "./useFileInput";
 import { convertToSkillsIds } from "./useCreateRoom";
+import { REGEXES, useTextInput } from "./useTextInput";
+import { useCheckbox } from "./useCheckbox";
 
 export const convertToACSelectedData = (
   skills: Pick<SkillModel, "id" | "name">[]
@@ -31,16 +33,29 @@ export const convertToCategoryArray = (
 export const useEditTeam = () => {
   const router = useRouter();
   const querySlug = router.query.slug;
-  const [title, setTitle] = useState("");
-  const [name, setName] = useState("");
-  const [slug, setSlug] = useState("");
-  const [description, setDescription] = useState("");
+  const title = useTextInput({
+    required: true,
+  });
+  const name = useTextInput({
+    required: true,
+  });
+  const slug = useTextInput({
+    regex: REGEXES.HALF_SIZE_NUMBER,
+    required: true,
+    min: 3,
+    max: 20,
+  });
+  const description = useTextInput({
+    required: true,
+  });
+  const categories = useCheckbox({
+    min: 1,
+  });
   const [repositoryUrl, setRespositoryUrl] = useState("");
   const [invitationUrl, setInvitationUrl] = useState("");
   const [withApplication, setWithApplication] = useState("1");
   const [recruitmentLevels, setRecruitmentLevels] = useState<number[]>([]);
   const [selectedSkills, setSkills] = useState<ACSelectedData[]>([]);
-  const [categories, setCategories] = useState<number[]>([]);
   const [types, setTypes] = useState<number[]>([]);
   const {
     fileRef,
@@ -49,6 +64,8 @@ export const useEditTeam = () => {
     imageUrl,
     setImageUrl,
   } = useFileInput();
+  const [isPrivateError, setIsPrivateError] = useState("");
+  const [isDisbaled, setIsDisabled] = useState(true);
 
   const { data, loading, error } = useRoomEditPageQuery({
     variables: {
@@ -64,14 +81,44 @@ export const useEditTeam = () => {
   const [updateTeam] = useEditRoomMutation();
 
   useEffect(() => {
+    if (
+      slug.errors.length ||
+      description.errors.length ||
+      title.errors.length ||
+      name.errors.length ||
+      categories.errors.length ||
+      isPrivateError.length
+    ) {
+      setIsDisabled(true);
+    } else {
+      setIsDisabled(false);
+    }
+  }, [
+    categories.errors.length,
+    description.errors.length,
+    name.errors.length,
+    slug.errors.length,
+    title.errors.length,
+    isPrivateError,
+  ]);
+
+  useEffect(() => {
+    if (withApplication === "1" && !invitationUrl) {
+      setIsPrivateError("招待URLを入力してください");
+    } else {
+      setIsPrivateError("");
+    }
+  }, [invitationUrl, withApplication]);
+
+  useEffect(() => {
     if (!loading && data) {
       const room = data.room;
       const typeIds = room.types.map((type) => type.id);
 
-      setTitle(room.title);
-      setName(room.name);
-      setSlug(room.slug);
-      setDescription(room.description);
+      title.setValue(room.title);
+      name.setValue(room.name);
+      slug.setValue(room.slug);
+      description.setValue(room.description);
       setInvitationUrl(room.invidationUrl || "");
       setRespositoryUrl(room.repositoryUrl || "");
       setWithApplication(room.withApplication ? "2" : "1");
@@ -79,25 +126,11 @@ export const useEditTeam = () => {
         room.recruitmentLevels.map((recruitmentLevel) => recruitmentLevel.id)
       );
       setSkills(convertToACSelectedData(room.skills || []));
-      setCategories(convertToCategoryArray(room.categories));
+      categories.setValues(convertToCategoryArray(room.categories));
       setImageUrl(room.icon || "");
       setTypes(typeIds);
     }
   }, [data, loading, setImageUrl]);
-
-  const onChangeCategories = (
-    event: React.FormEvent<HTMLInputElement>,
-    id: number
-  ) => {
-    let newCategories = categories.slice();
-
-    if (categories.includes(id)) {
-      newCategories = categories.filter((value) => value !== id);
-    } else {
-      newCategories.push(id);
-    }
-    setCategories(newCategories);
-  };
 
   const onChangeType = (
     event: React.FormEvent<HTMLInputElement>,
@@ -123,17 +156,17 @@ export const useEditTeam = () => {
         variables: {
           input: {
             id: data?.room.id || 0,
-            name,
-            title,
-            slug,
+            name: name.value,
+            title: title.value,
+            slug: slug.value,
             icon: imageUrl,
             skills: convertToSkillsIds(selectedSkills),
             recruiementLevels: recruitmentLevels,
-            description,
+            description: description.value,
             repositoryUrl,
             invidationUrl: invitationUrl,
             withApplication: withApplication === "2",
-            categories: categories,
+            categories: categories.values,
             typeIds: types,
           },
         },
@@ -167,19 +200,23 @@ export const useEditTeam = () => {
       onChangeFileInput,
     },
     setter: {
-      setTitle,
-      setName,
-      setSlug,
-      setDescription,
       setRespositoryUrl,
       setWithApplication,
       setRecruitmentLevels,
       setInvitationUrl,
       setSkills,
-      onChangeCategories,
       setImageUrl,
       onChangeType,
     },
+    form: {
+      title,
+      name,
+      slug,
+      description,
+      categories,
+    },
+    isPrivateError,
+    isDisbaled,
     onSubmit,
     categories: data?.categories || [],
     skills: data?.skills || [],
