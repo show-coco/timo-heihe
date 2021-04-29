@@ -8,7 +8,7 @@ export type SkillPochiProps = {
   onClick?: (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
 };
 
-const languageColors = {
+const languageColors: { [key: string]: string } = {
   typescript: "bg-blue-400",
   go: "bg-blue-200",
   graphql: "bg-pink-500",

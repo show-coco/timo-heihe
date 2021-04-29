@@ -4,7 +4,7 @@ type Props = {
   children: string;
 };
 
-const skills = {
+const skills: { [key: string]: string } = {
   typescript: "TypeScript",
   go: "Go",
   graphql: "GraphQL",
