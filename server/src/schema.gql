@@ -143,7 +143,7 @@ input SearchRoomInput {
 }
 
 type SkillModel {
-  icon: String!
+  icon: String
   id: Int!
   name: String!
 }

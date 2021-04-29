@@ -10,7 +10,7 @@ export class Skill {
   @Column()
   name: string;
 
-  @Column()
+  @Column({ nullable: true })
   icon: string;
 
   @ManyToMany(() => Room, (room) => room.skills)
