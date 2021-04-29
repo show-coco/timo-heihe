@@ -72,7 +72,7 @@ export const RoomCard: React.FC<RoomCardProps> = ({
             <div className="flex flex-col md:items-center md:flex-row">
               <h3 className="flex-1">{title}</h3>
 
-              <span>
+              <span className=" w-min">
                 <AvatarWithName
                   src={owner.src}
                   name={owner.name}
