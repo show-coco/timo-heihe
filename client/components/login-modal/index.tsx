@@ -7,14 +7,7 @@ type Props = ModalProps;
 
 export const LoginModal: React.FC<Props> = (props: Props) => {
   return (
-    <Modal
-      {...props}
-      style={{
-        content: {
-          width: "35%",
-        },
-      }}
-    >
+    <Modal {...props}>
       <div className="flex flex-col items-center justify-center space-y-7">
         <Heading className="text-orange-400">Cloud Circle</Heading>
         <div className="px-10">

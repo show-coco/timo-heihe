@@ -34,7 +34,10 @@ export const WITH_APPLICATION = 1;
 
 export const useSearchTeams = (): UseSearch => {
   const { skillIds: mySkillIds } = useAuthContext();
-  const { data: searchConditions } = useSearchConditionsQuery();
+  const {
+    data: searchConditions,
+    error: conditionError,
+  } = useSearchConditionsQuery();
   const [keyword, setKeyword] = useState<string>("");
   const [categoryIds, setCategoryIds] = useState<number[]>([]);
   const [skillIds, setSkillIds] = useState<number[]>(mySkillIds);
@@ -53,6 +56,8 @@ export const useSearchTeams = (): UseSearch => {
       },
     },
   });
+
+  if (conditionError) console.error(conditionError);
 
   useEffect(() => {
     refetchRooms();

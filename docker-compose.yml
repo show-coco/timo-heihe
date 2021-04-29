@@ -13,7 +13,7 @@ services:
       - 6543:5432
     volumes:
       - db-data:/var/lib/postgresql/data
-      - ./seeds/seed.sql:/seed.sql
+      - ./seeds:/seeds
 
   server:
     build:

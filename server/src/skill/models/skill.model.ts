@@ -8,6 +8,6 @@ export class SkillModel {
   @Field()
   name: string;
 
-  @Field()
+  @Field({ nullable: true })
   icon: string;
 }
