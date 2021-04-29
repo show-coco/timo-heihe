@@ -34,6 +34,10 @@ export const TEXT_INPUT_ERRORS = {
     code: 4,
     message: "文字以下で入力してください",
   },
+  DEPLICATED: {
+    code: 5,
+    message: "IDが既に使用されています",
+  },
 };
 
 const MIN_MESSAGE = "文字以上入力してください";
@@ -101,6 +105,7 @@ export const useTextInput = ({
     value,
     onChange,
     setValue,
+    setErrors,
     valid,
   };
 };

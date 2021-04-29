@@ -10,7 +10,7 @@ import {
 } from "../generated/types";
 import { useFileInput } from "./useFileInput";
 import { convertToSkillsIds } from "./useCreateRoom";
-import { REGEXES, useTextInput } from "./useTextInput";
+import { REGEXES, TEXT_INPUT_ERRORS, useTextInput } from "./useTextInput";
 import { useCheckbox } from "./useCheckbox";
 
 export const convertToACSelectedData = (
@@ -175,6 +175,7 @@ export const useEditTeam = () => {
         `/room/${res.data?.updateRoom.slug}?title=${res.data?.updateRoom.title}`
       );
     } catch (e) {
+      slug.setErrors([...slug.errors, TEXT_INPUT_ERRORS.DEPLICATED]);
       console.log(e);
     }
   };
