@@ -35,7 +35,7 @@ export default function Home() {
 
   return (
     <Template
-      className="md:p-10"
+      className="pb-10 md:p-10"
       header={
         <HomeHeader
           teamTypes={roomsData?.roomTypes}

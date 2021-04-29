@@ -73,6 +73,7 @@ export const useCreateRoom = () => {
     onChange: onChangeFileInput,
     imageUrl,
   } = useFileInput();
+  const [isPrivateError, setIsPrivateError] = useState("");
 
   const [types, setTypes] = useState<number[]>([]);
 
@@ -98,7 +99,8 @@ export const useCreateRoom = () => {
       description.errors.length ||
       title.errors.length ||
       name.errors.length ||
-      categories.errors.length
+      categories.errors.length ||
+      isPrivateError.length
     ) {
       setIsDisabled(true);
     } else {
@@ -110,7 +112,16 @@ export const useCreateRoom = () => {
     name.errors.length,
     slug.errors.length,
     title.errors.length,
+    isPrivateError,
   ]);
+
+  useEffect(() => {
+    if (isPrivate === ROOM_TYPE.PUBLIC && !invidationUrl) {
+      setIsPrivateError("招待URLを入力してください");
+    } else {
+      setIsPrivateError("");
+    }
+  }, [invidationUrl, isPrivate]);
 
   const onSubmit = async (
     e:
@@ -172,6 +183,7 @@ export const useCreateRoom = () => {
       categories,
     },
     loading,
+    isPrivateError,
     isDisabled,
   };
 };

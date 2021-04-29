@@ -39,6 +39,7 @@ export default function CreateRoom() {
     state,
     isDisabled,
     form,
+    isPrivateError,
   } = useCreateRoom();
   const { data } = useCreateRoomPageQuery();
 
@@ -183,21 +184,24 @@ export default function CreateRoom() {
       {/* 右側のカード */}
       <div className="mt-10 lg:mt-0">
         <Card className="p-8">
-          <span className="flex mb-3">
+          <span className="flex">
             <Heading as="h1Small">ルームへの申請</Heading>
             <span className="text-red-500">*</span>
           </span>
-          <div className="flex space-x-8">
+          <p className="mt-1 text-red-500">{isPrivateError}</p>
+          <div className="flex mt-3 space-x-8">
             <Radio
               text="なし"
               name="apply"
               value={ROOM_TYPE.PUBLIC}
+              checked={state.isPrivate === ROOM_TYPE.PUBLIC}
               onChange={() => setter.setIsPrivate(ROOM_TYPE.PUBLIC)}
             />
             <Radio
               text="あり"
               name="apply"
               value={ROOM_TYPE.PRIVATE}
+              checked={state.isPrivate === ROOM_TYPE.PRIVATE}
               onChange={() => setter.setIsPrivate(ROOM_TYPE.PRIVATE)}
             />
           </div>

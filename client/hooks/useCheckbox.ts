@@ -67,5 +67,6 @@ export const useCheckbox = ({ initialValues, max, min }: Props) => {
     values,
     errors,
     onChange,
+    setValues,
   };
 };

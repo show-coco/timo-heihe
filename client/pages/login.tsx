@@ -7,7 +7,7 @@ import Link from "next/link";
 import { Meta } from "../components/meta";
 function Login() {
   return (
-    <div className="relative block w-screen h-screen overflow-hidden bg-gradient-to-t from-yellow-100">
+    <div className="relative block w-screen h-screen overflow-x-hidden bg-gradient-to-t from-yellow-100">
       <Meta title={"ログイン | CloudCircle"} />
       <Circle className="absolute w-96 h-96 -top-12 -right-20 bg-gradient-to-t from-yellow-400" />
 
