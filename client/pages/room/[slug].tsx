@@ -173,11 +173,13 @@ export default function ShowRoom({ url, title }: Props) {
             )}
 
             <Card className="p-8">
-              <div className="mb-7">
-                <Heading as="h3">募集するレベル帯</Heading>
+              <div>
+                <Heading as="h3" className="mb-2">
+                  募集するレベル帯
+                </Heading>
 
-                {room?.recruitmentLevels ? (
-                  <div className="flex flex-wrap mt-3">
+                {room?.recruitmentLevels.length ? (
+                  <div className="flex flex-wrap">
                     {room.recruitmentLevels.map((level) => {
                       return <Tag key={level.id}>{level.name || ""}</Tag>;
                     })}
@@ -189,9 +191,11 @@ export default function ShowRoom({ url, title }: Props) {
             </Card>
 
             <Card className="p-8">
-              <Heading as="h3">使用するスキル</Heading>
+              <Heading as="h3" className="mb-2">
+                使用するスキル
+              </Heading>
 
-              {room?.skills ? (
+              {room?.skills?.length ? (
                 <SkillPochiSet
                   skills={convertToSkillPochiSetArray(room.skills)}
                 />
