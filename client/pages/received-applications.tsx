@@ -10,10 +10,12 @@ import {
   useRejectApplicationMutation,
 } from "../generated/types";
 import { Meta } from "../components/meta";
+import { useRouter } from "next/router";
 export default function ReceivedApplyingPage() {
   const { data, loading } = useReceivedApplyingQuery();
   const [reject] = useRejectApplicationMutation();
   const [accept] = useAcceptApplicationMutation();
+  const router = useRouter();
 
   const onClickReject = (userId: number, roomId: number) => {
     reject({
@@ -33,8 +35,6 @@ export default function ReceivedApplyingPage() {
           ),
         }));
 
-        console.log("newMyRooms", newMyRooms);
-
         cache.writeQuery<ReceivedApplyingQuery>({
           query: ReceivedApplyingDocument,
           data: { myRooms: newMyRooms || [] },
@@ -43,13 +43,18 @@ export default function ReceivedApplyingPage() {
     });
   };
 
-  const onClickAccept = (userId: number, roomId: number) => {
-    accept({
+  const onClickAccept = async (
+    userId: number,
+    roomId: number,
+    slug: string
+  ) => {
+    await accept({
       variables: {
         userId,
         roomId,
       },
     });
+    router.push("/messages/:id", `/messages/${slug}`);
   };
 
   const isExists = data?.myRooms.some((myRoom) => myRoom.applyingUsers?.length);
@@ -57,11 +62,11 @@ export default function ReceivedApplyingPage() {
   return (
     <Template className="p-5 md:p-10">
       <Meta title={"受け取った申請 | CloudCircle"} />
-      <div className="mx-auto text-center md:w-3/5">
-        <Heading as="h1Big" className="mb-3">
+      <div className="mx-auto md:w-3/5">
+        <Heading as="h1Big" className="mb-3 text-center">
           受け取った申請
         </Heading>
-        <p className="mb-8">
+        <p className="mb-8 text-center">
           あなたがオーナーのルームへの参加申請が表示されます。
         </p>
 
@@ -84,7 +89,11 @@ export default function ReceivedApplyingPage() {
                       onClickReject(applyingUser.user?.id, myRoom.id || 0)
                     }
                     onAccept={() => {
-                      onClickAccept(applyingUser.user?.id, myRoom.id || 0);
+                      onClickAccept(
+                        applyingUser.user?.id,
+                        myRoom.id || 0,
+                        applyingUser.user.userId
+                      );
                     }}
                   />
                 ))}

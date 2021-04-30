@@ -61,18 +61,16 @@ export default function ShowRoom({ url, title }: Props) {
   const { shareUrl } = useShareBtn();
 
   const onClickApply = (roomId?: number | null) => {
-    () => {
-      if (isAuthenticated) {
-        applyRoom({
-          variables: {
-            userId: id,
-            roomId: roomId || 0,
-          },
-        });
-      } else {
-        onOpen();
-      }
-    };
+    if (isAuthenticated) {
+      applyRoom({
+        variables: {
+          userId: id,
+          roomId: roomId || 0,
+        },
+      });
+    } else {
+      onOpen();
+    }
   };
 
   return (
