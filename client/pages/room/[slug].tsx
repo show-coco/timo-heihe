@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 import { GetServerSideProps } from "next";
 import ReactMarkdown from "react-markdown";
@@ -42,8 +42,9 @@ export default function ShowRoom({ url, title }: Props) {
   const { isAuthenticated, id } = useAuthContext();
   const { isOpen, onOpen, onClose } = useModal();
   const router = useRouter();
+  const [applyClicked, setApplyClicked] = useState(false);
 
-  const { data, error } = useRoomQuery({
+  const { data, error, loading: roomLoading } = useRoomQuery({
     variables: {
       slug: router.query.slug?.toString() || "",
     },
@@ -54,7 +55,7 @@ export default function ShowRoom({ url, title }: Props) {
     router.push("/404");
   }
 
-  const [applyRoom] = useApplyRoomMutation();
+  const [applyRoom, { loading: applyLoading }] = useApplyRoomMutation();
 
   const room = data?.room;
   const iamOwner = room?.owner.id === id;
@@ -63,14 +64,15 @@ export default function ShowRoom({ url, title }: Props) {
 
   const { shareUrl } = useShareBtn();
 
-  const onClickApply = (roomId?: number | null) => {
+  const onClickApply = async (roomId?: number | null) => {
     if (isAuthenticated) {
-      applyRoom({
+      await applyRoom({
         variables: {
           userId: id,
           roomId: roomId || 0,
         },
       });
+      setApplyClicked(true);
     } else {
       onOpen();
     }
@@ -159,9 +161,10 @@ export default function ShowRoom({ url, title }: Props) {
                 <Button
                   className="px-12 mt-5 shadow-lg"
                   onClick={() => onClickApply(room.id)}
-                  disabled={iamOwner || iamApplying}
+                  loading={applyLoading}
+                  disabled={iamOwner || iamApplying || applyClicked}
                 >
-                  申請する
+                  {applyClicked ? "申請しました" : "申請する"}
                 </Button>
               </Card>
             ) : (

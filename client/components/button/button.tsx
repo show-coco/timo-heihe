@@ -99,6 +99,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         type="button"
         className={`${variantStyle} ${defaultStyle} ${sizeStyle} ${paddingStyle} ${disabledStyle} ${className} ${roundedStyle} ${colorSchemeStyle}`}
         ref={ref}
+        disabled={loading}
         {...props}
       >
         {loading && <Spinner className="mr-5" />}
