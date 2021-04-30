@@ -154,3 +154,23 @@ h3 {
     width: 35%;
   }
 }
+
+/* =====Spinner===== */
+@keyframes spinner {
+  to {transform: rotate(360deg);}
+}
+
+.spinner:before {
+  opacity: .5;
+  content: '';
+  box-sizing: border-box;
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  margin-top: -10px;
+  margin-left: -10px;
+  border-radius: 50%;
+  border: 3px solid #e5e7eb54;
+  border-top-color: white;
+  animation: spinner 1.0s linear infinite;
+}

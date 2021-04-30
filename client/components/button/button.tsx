@@ -1,4 +1,5 @@
 import React from "react";
+import { Spinner } from "../loading/spinner";
 
 export type ButtonProps = {
   variant?: "solid" | "outline" | "ghost" | "underline";
@@ -11,10 +12,11 @@ export type ButtonProps = {
   disabled?: boolean;
   type?: "submit";
   roundedTop?: boolean;
+  loading?: boolean;
 };
 
 const defaultStyle =
-  "font-bold whitespace-nowrap inline-flex justify-center items-center relative border-box";
+  "font-bold whitespace-nowrap inline-flex flex-row justify-center items-center border-box";
 
 const sizes = {
   small: "h-8",
@@ -73,6 +75,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       className,
       isIcon,
       roundedTop,
+      loading,
       ...props
     }: ButtonProps,
     ref
@@ -98,6 +101,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         ref={ref}
         {...props}
       >
+        {loading && <Spinner className="mr-5" />}
         {children}
       </button>
     );
