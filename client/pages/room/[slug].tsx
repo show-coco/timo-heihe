@@ -32,6 +32,7 @@ import {
 import { useModal } from "../../hooks/useModal";
 /* Contexts */
 import { useAuthContext } from "../../providers/useAuthContext";
+import { Skeleton } from "../../components/loading/skeleton";
 
 type Props = {
   url: string;
@@ -145,6 +146,7 @@ export default function ShowRoom({ url, title }: Props) {
 
             <div className="mt-8 space-y-2">
               <div className="markdown">
+                {roomLoading && <Skeleton />}
                 <ReactMarkdown>
                   {room?.description || "詳細は何もありません"}
                 </ReactMarkdown>

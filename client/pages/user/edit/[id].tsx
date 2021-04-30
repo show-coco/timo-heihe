@@ -23,7 +23,16 @@ import GithubIcon from "../../../assets/icons/github.svg";
 import { useAuthGuard } from "../../../hooks/useAuthGurad";
 
 export default function EditUser() {
-  const { form, file, setter, skills, disabled, onSubmit } = useEditUser();
+  const {
+    form,
+    file,
+    setter,
+    skills,
+    disabled,
+    userInfoLoading,
+    updateUserLoading,
+    onSubmit,
+  } = useEditUser();
 
   useAuthGuard({});
 
@@ -154,7 +163,7 @@ export default function EditUser() {
             />
           </div>
 
-          <Button type="submit" disabled={disabled}>
+          <Button type="submit" disabled={disabled} loading={updateUserLoading}>
             保存する
           </Button>
         </Card>
