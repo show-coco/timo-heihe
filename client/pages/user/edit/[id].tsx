@@ -42,11 +42,21 @@ export default function EditUser() {
 
           <div>
             <Heading as="h2">ユーザ名</Heading>
-            <TextInput
-              value={form.userName.value}
-              onChange={form.userName.onChange}
-              errors={form.userName.errors}
-            />
+
+            <div>
+              <TextInput
+                value={form.userName.value}
+                onChange={form.userName.onChange}
+                errors={form.userName.errors}
+              />
+              <ul>
+                {form.userName.errors.map((error) => (
+                  <li key={error.code} className="text-red-500">
+                    ・{error.message}
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
 
           <div>
@@ -78,6 +88,15 @@ export default function EditUser() {
                 className="h-80"
               />
             </div>
+            <div>
+              <ul>
+                {form.introduction.errors.map((error) => (
+                  <li key={error.code} className="text-red-500">
+                    ・{error.message}
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
 
           <div className="space-y-3">
@@ -90,6 +109,15 @@ export default function EditUser() {
                 value={form.githubId.value}
                 onChange={form.githubId.onChange}
               />
+              <div>
+                <ul>
+                  {form.githubId.errors.map((error) => (
+                    <li key={error.code} className="text-red-500">
+                      ・{error.message}
+                    </li>
+                  ))}
+                </ul>
+              </div>
             </div>
             <div className="flex items-center space-x-2">
               <TwitterIcon class="bg-blue-400 rounded-full" />
@@ -98,6 +126,15 @@ export default function EditUser() {
                 value={form.twitterId.value}
                 onChange={form.twitterId.onChange}
               />
+              <div>
+                <ul>
+                  {form.twitterId.errors.map((error) => (
+                    <li key={error.code} className="text-red-500">
+                      ・{error.message}
+                    </li>
+                  ))}
+                </ul>
+              </div>
             </div>
           </div>
 

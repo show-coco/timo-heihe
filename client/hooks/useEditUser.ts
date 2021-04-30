@@ -17,6 +17,7 @@ export const useEditUser = () => {
   const me = useAuthContext();
   const userName = useTextInput({
     required: true,
+    max: 30,
   });
   const userId = useTextInput({
     required: true,
@@ -26,9 +27,14 @@ export const useEditUser = () => {
   });
   const introduction = useTextInput({
     required: true,
+    max: 1000,
   });
-  const githubId = useTextInput({});
-  const twitterId = useTextInput({});
+  const githubId = useTextInput({
+    max: 30,
+  });
+  const twitterId = useTextInput({
+    max: 30,
+  });
   const [selectedSkills, setSkills] = useState<ACSelectedData[]>([]);
   const {
     fileRef,

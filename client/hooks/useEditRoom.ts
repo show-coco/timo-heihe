@@ -35,9 +35,11 @@ export const useEditTeam = () => {
   const querySlug = router.query.slug;
   const title = useTextInput({
     required: true,
+    max: 50,
   });
   const name = useTextInput({
     required: true,
+    max: 30,
   });
   const slug = useTextInput({
     regex: REGEXES.HALF_SIZE_NUMBER,
@@ -47,6 +49,7 @@ export const useEditTeam = () => {
   });
   const description = useTextInput({
     required: true,
+    max: 1000,
   });
   const categories = useCheckbox({
     min: 1,

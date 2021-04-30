@@ -42,9 +42,11 @@ export const useCreateRoom = () => {
   const { data: searchConditions } = useSearchConditionsQuery();
   const title = useTextInput({
     required: true,
+    max: 50,
   });
   const name = useTextInput({
     required: true,
+    max: 30,
   });
   const slug = useTextInput({
     regex: REGEXES.HALF_SIZE_NUMBER,
@@ -54,6 +56,7 @@ export const useCreateRoom = () => {
   });
   const description = useTextInput({
     required: true,
+    max: 1000,
   });
   const [recruiementLevels, setRecruiementLevels] = useState<number[]>([]);
   const [recruitNumber, setRecruitNumber] = useState(0);

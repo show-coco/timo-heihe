@@ -98,12 +98,21 @@ export default function EditRoom() {
                     <span className="text-red-500">*</span>
                   </span>
 
-                  <TextInput
-                    placeholder="ルーム名を入力"
-                    value={form.name.value}
-                    onChange={form.name.onChange}
-                    errors={form.name.errors}
-                  />
+                  <div className="flex flex-col">
+                    <TextInput
+                      placeholder="ルーム名を入力"
+                      value={form.name.value}
+                      onChange={form.name.onChange}
+                      errors={form.name.errors}
+                    />
+                  </div>
+                  <ul>
+                    {form.name.errors.map((error) => (
+                      <li key={error.code} className="text-red-500">
+                        ・{error.message}
+                      </li>
+                    ))}
+                  </ul>
                 </div>
               </div>
 
@@ -113,13 +122,22 @@ export default function EditRoom() {
                   <span className="text-red-500">*</span>
                 </span>
 
-                <TextInput
-                  placeholder="メンバー募集タイトル"
-                  className="w-2/3"
-                  value={form.title.value}
-                  onChange={form.title.onChange}
-                  errors={form.title.errors}
-                />
+                <div className="flex flex-col">
+                  <TextInput
+                    placeholder="メンバー募集タイトル"
+                    className="w-2/3"
+                    value={form.title.value}
+                    onChange={form.title.onChange}
+                    errors={form.title.errors}
+                  />
+                  <ul>
+                    {form.title.errors.map((error) => (
+                      <li key={error.code} className="text-red-500">
+                        ・{error.message}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
               </div>
 
               <div className={`flex flex-col flex-wrap w-2/3`}>
@@ -141,7 +159,10 @@ export default function EditRoom() {
               </div>
 
               <div className={`flex flex-col flex-wrap w-2/3`}>
-                <Heading as="h2">カテゴリー</Heading>
+                <span className="flex">
+                  <Heading as="h2">カテゴリー</Heading>
+                  <span className="text-red-500">*</span>
+                </span>
 
                 <div>
                   {categories.map((category, i) => (
@@ -158,6 +179,13 @@ export default function EditRoom() {
                     </Checkbox>
                   ))}
                 </div>
+                <ul>
+                  {form.categories.errors.map((error) => (
+                    <li key={error.code} className="text-red-500">
+                      ・{error.message}
+                    </li>
+                  ))}
+                </ul>
               </div>
 
               <div className={betweenH2}>
@@ -175,6 +203,13 @@ export default function EditRoom() {
                     errors={form.description.errors}
                   />
                 </div>
+                <ul>
+                  {form.description.errors.map((error) => (
+                    <li key={error.code} className="text-red-500">
+                      ・{error.message}
+                    </li>
+                  ))}
+                </ul>
               </div>
 
               <Button
