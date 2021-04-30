@@ -43,10 +43,10 @@ export const useEditUser = () => {
     imageUrl,
     setImageUrl,
   } = useFileInput();
-  const [updateUser] = useUpdateUserMutation();
+  const [updateUser, { loading: updateUserLoading }] = useUpdateUserMutation();
   const [disabled, setDisabled] = useState(false);
 
-  const { data, error } = useEditUserPageQuery({
+  const { data, error, loading: userInfoLoading } = useEditUserPageQuery({
     variables: {
       userId: me.userId,
     },
@@ -132,5 +132,7 @@ export const useEditUser = () => {
     skills: data?.skills || [],
     disabled,
     onSubmit,
+    updateUserLoading,
+    userInfoLoading,
   };
 };

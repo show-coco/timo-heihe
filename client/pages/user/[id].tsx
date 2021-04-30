@@ -16,12 +16,13 @@ import Link from "next/link";
 import { Template } from "../../components/template/app/template";
 import ReactMarkdown from "react-markdown";
 import { Meta } from "../../components/meta";
+import { Skeleton } from "../../components/loading/skeleton";
 export default function UserDetail() {
   const router = useRouter();
   const id = router.query.id;
   const { id: loginUserId } = useAuthContext();
 
-  const { data, error } = useUserDetailPageQuery({
+  const { data, error, loading } = useUserDetailPageQuery({
     variables: {
       userId: id?.toString() || "",
     },
@@ -79,16 +80,10 @@ export default function UserDetail() {
                 </Link>
               )}
             </div>
-
-            <span>
-              {/* <Heading className="text-xl" as="h2">
-                {data?.user.name || ""}
-              </Heading> */}
-              {/* <span>@{data?.user.userId}</span> */}
-            </span>
           </span>
 
           <div className="p-8 markdown md:p-0">
+            {loading && <Skeleton />}
             <ReactMarkdown>
               {data?.user.introduction || "自己紹介文を設定してください"}
             </ReactMarkdown>
@@ -119,7 +114,7 @@ export default function UserDetail() {
         <div className="md:w-1/3">
           <Card className="p-8 space-y-5 bg-blue-100 md:bg-white">
             <Heading as="h2">スキル</Heading>
-
+            {loading && <Skeleton />}
             {data?.user.skills && data?.user.skills.length ? (
               <SkillPochiSet
                 skills={convertToSkillPochiSetArray(data?.user.skills)}

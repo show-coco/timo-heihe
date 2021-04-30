@@ -40,6 +40,7 @@ export default function CreateRoom() {
     isDisabled,
     form,
     isPrivateError,
+    loading,
   } = useCreateRoom();
   const { data } = useCreateRoomPageQuery();
 
@@ -194,6 +195,7 @@ export default function CreateRoom() {
               <Button
                 type="submit"
                 disabled={isDisabled}
+                loading={loading}
                 className="hidden lg:inline-flex"
               >
                 作成する
@@ -289,6 +291,7 @@ export default function CreateRoom() {
         onClick={onSubmit}
         disabled={isDisabled}
         className="my-10 lg:hidden"
+        loading={loading}
       >
         作成する
       </Button>

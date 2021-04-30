@@ -16,6 +16,8 @@ import { useSearchTeams } from "../hooks/useSearchRooms";
 import TargetIcon from "../assets/icons/search.svg";
 import { Modal } from "../components/modal/modal";
 import { useModal } from "../hooks/useModal";
+import { Skeleton } from "../components/loading/skeleton";
+import { Card } from "../components/card";
 
 export default function Home() {
   const {
@@ -23,6 +25,7 @@ export default function Home() {
     error,
     typeId,
     setTypeId,
+    loading,
     ...searchArea
   } = useSearchTeams();
   const { isOpen, onClose, onOpen } = useModal();
@@ -48,11 +51,22 @@ export default function Home() {
 
       <div className="flex md:px-10">
         <div className="w-full mt-5 space-y-5 md:w-3/5">
-          {!teams || teams.length === 0 ? (
-            <p className="text-lg font-bold text-center">ルームがありません</p>
-          ) : (
-            teams.map((team, i) => <RoomCard {...team} key={i} />)
+          {loading && (
+            <Card
+              className={`p-5 cursor-pointer hover:shadow-md duration-200`}
+              tabIndex={0}
+              role="button"
+            >
+              <Skeleton />
+            </Card>
           )}
+          {!teams || teams.length === 0
+            ? !loading && (
+                <p className="text-lg font-bold text-center">
+                  ルームがありません
+                </p>
+              )
+            : teams.map((team, i) => <RoomCard {...team} key={i} />)}
         </div>
 
         <div className="flex-1 hidden mt-5 ml-10 md:block">
