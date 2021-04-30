@@ -60,10 +60,13 @@ export class RoomService {
       .leftJoinAndSelect('room.owner', 'owner')
       .leftJoinAndSelect('room.types', 'types')
       .leftJoinAndSelect('room.recruitmentLevels', 'recruitmentLevels')
-      .leftJoinAndSelect('room.applyingUsers', 'applyingUsers')
-      .where('room.withApplication = :withApplication', {
+      .leftJoinAndSelect('room.applyingUsers', 'applyingUsers');
+
+    if (input.withApplication) {
+      query.where('room.withApplication = :withApplication', {
         withApplication: input.withApplication,
       });
+    }
 
     if (input?.keyword) {
       query.andWhere(
