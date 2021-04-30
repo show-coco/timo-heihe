@@ -46,6 +46,8 @@ export class RoomService {
       .where({ slug })
       .getOne();
 
+    res.applyingUsers = res.applyingUsers.filter((user) => user.user);
+
     console.log('response on rooms->service->findOneBySlug', res);
     return res;
   }
