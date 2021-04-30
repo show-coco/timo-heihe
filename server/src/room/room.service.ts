@@ -41,8 +41,12 @@ export class RoomService {
       .leftJoinAndSelect('room.owner', 'owner')
       .leftJoinAndSelect('room.types', 'types')
       .leftJoinAndSelect('room.recruitmentLevels', 'recruitmentLevels')
+      .leftJoinAndSelect('room.applyingUsers', 'applyingUsers')
+      .leftJoinAndSelect('applyingUsers.user', 'user')
       .where({ slug })
       .getOne();
+
+    res.applyingUsers = res.applyingUsers.filter((user) => user.user);
 
     console.log('response on rooms->service->findOneBySlug', res);
     return res;
@@ -60,10 +64,13 @@ export class RoomService {
       .leftJoinAndSelect('room.owner', 'owner')
       .leftJoinAndSelect('room.types', 'types')
       .leftJoinAndSelect('room.recruitmentLevels', 'recruitmentLevels')
-      .leftJoinAndSelect('room.applyingUsers', 'applyingUsers')
-      .where('room.withApplication = :withApplication', {
+      .leftJoinAndSelect('room.applyingUsers', 'applyingUsers');
+
+    if (input.withApplication) {
+      query.where('room.withApplication = :withApplication', {
         withApplication: input.withApplication,
       });
+    }
 
     if (input?.keyword) {
       query.andWhere(

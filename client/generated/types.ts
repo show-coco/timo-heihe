@@ -259,7 +259,7 @@ export type SearchRoomInput = {
 
 export type SkillModel = {
   __typename?: "SkillModel";
-  icon: Scalars["String"];
+  icon?: Maybe<Scalars["String"]>;
   id: Scalars["Int"];
   name: Scalars["String"];
 };
@@ -633,6 +633,16 @@ export type RoomQuery = { __typename?: "Query" } & {
     | "repositoryUrl"
     | "invidationUrl"
   > & {
+      applyingUsers?: Maybe<
+        Array<
+          { __typename?: "RoomApplyingUserModel" } & {
+            user: { __typename?: "UserModel" } & Pick<
+              UserModel,
+              "id" | "userId"
+            >;
+          }
+        >
+      >;
       recruitmentLevels: Array<
         { __typename?: "RecruitmentLevelModel" } & Pick<
           RecruitmentLevelModel,
@@ -1660,6 +1670,12 @@ export const RoomDocument = gql`
       withApplication
       repositoryUrl
       invidationUrl
+      applyingUsers {
+        user {
+          id
+          userId
+        }
+      }
       recruitmentLevels {
         id
         name

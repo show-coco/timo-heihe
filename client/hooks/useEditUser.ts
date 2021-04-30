@@ -10,13 +10,14 @@ import { useAuthContext } from "../providers/useAuthContext";
 import { convertToSkillsIds } from "./useCreateRoom";
 import { convertToACSelectedData } from "./useEditRoom";
 import { useFileInput } from "./useFileInput";
-import { REGEXES, useTextInput } from "./useTextInput";
+import { REGEXES, TEXT_INPUT_ERRORS, useTextInput } from "./useTextInput";
 
 export const useEditUser = () => {
   const router = useRouter();
   const me = useAuthContext();
   const userName = useTextInput({
     required: true,
+    max: 30,
   });
   const userId = useTextInput({
     required: true,
@@ -26,9 +27,14 @@ export const useEditUser = () => {
   });
   const introduction = useTextInput({
     required: true,
+    max: 1000,
   });
-  const githubId = useTextInput({});
-  const twitterId = useTextInput({});
+  const githubId = useTextInput({
+    max: 30,
+  });
+  const twitterId = useTextInput({
+    max: 30,
+  });
   const [selectedSkills, setSkills] = useState<ACSelectedData[]>([]);
   const {
     fileRef,
@@ -100,6 +106,7 @@ export const useEditUser = () => {
       });
       router.push(`/user/${data?.updateUser.userId}`);
     } catch (e) {
+      userId.setErrors([...userId.errors, TEXT_INPUT_ERRORS.DEPLICATED]);
       console.log(e);
     }
   };

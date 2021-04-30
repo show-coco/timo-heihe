@@ -12,7 +12,7 @@ import {
 import { useAuthContext } from "../providers/useAuthContext";
 /* Hooks */
 import { useFileInput } from "./useFileInput";
-import { REGEXES, useTextInput } from "./useTextInput";
+import { REGEXES, TEXT_INPUT_ERRORS, useTextInput } from "./useTextInput";
 import { useCheckbox } from "./useCheckbox";
 
 const toggleArrayItem = <T>(arr: T[], item: T): T[] =>
@@ -42,9 +42,11 @@ export const useCreateRoom = () => {
   const { data: searchConditions } = useSearchConditionsQuery();
   const title = useTextInput({
     required: true,
+    max: 50,
   });
   const name = useTextInput({
     required: true,
+    max: 30,
   });
   const slug = useTextInput({
     regex: REGEXES.HALF_SIZE_NUMBER,
@@ -54,6 +56,7 @@ export const useCreateRoom = () => {
   });
   const description = useTextInput({
     required: true,
+    max: 1000,
   });
   const [recruiementLevels, setRecruiementLevels] = useState<number[]>([]);
   const [recruitNumber, setRecruitNumber] = useState(0);
@@ -115,7 +118,6 @@ export const useCreateRoom = () => {
     isPrivateError,
   ]);
 
-  console.log(invidationUrl);
   useEffect(() => {
     if (isPrivate === ROOM_TYPE.PUBLIC && !invidationUrl) {
       setIsPrivateError("招待URLを入力してください");
@@ -143,7 +145,8 @@ export const useCreateRoom = () => {
         );
       }
     } catch (e) {
-      console.log(e);
+      slug.setErrors([...slug.errors, TEXT_INPUT_ERRORS.DEPLICATED]);
+      console.error(e);
     }
   };
 

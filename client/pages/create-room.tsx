@@ -101,8 +101,16 @@ export default function CreateRoom() {
                     onChange={form.name.onChange}
                     errors={form.name.errors}
                   />
+                  <ul>
+                    {form.name.errors.map((error) => (
+                      <li key={error.code} className="text-red-500">
+                        ・{error.message}
+                      </li>
+                    ))}
+                  </ul>
                 </div>
               </div>
+
               <div className={`w-full mt-10 ${betweenH2}`}>
                 <TextInput
                   name="募集タイトル"
@@ -112,6 +120,13 @@ export default function CreateRoom() {
                   onChange={form.title.onChange}
                   errors={form.title.errors}
                 />
+                <ul>
+                  {form.title.errors.map((error) => (
+                    <li key={error.code} className="text-red-500">
+                      ・{error.message}
+                    </li>
+                  ))}
+                </ul>
               </div>
 
               <div className={`flex flex-col flex-wrap w-2/3`}>
@@ -167,6 +182,13 @@ export default function CreateRoom() {
                     errors={form.description.errors}
                   />
                 </div>
+                <ul>
+                  {form.description.errors.map((error) => (
+                    <li key={error.code} className="text-red-500">
+                      ・{error.message}
+                    </li>
+                  ))}
+                </ul>
               </div>
 
               <Button

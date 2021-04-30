@@ -1,13 +1,11 @@
 import { ApolloError } from "@apollo/client";
 import React, { useCallback, useEffect, useState } from "react";
-import { TeamType } from "../constants";
 import {
   useSearchConditionsQuery,
   SearchConditionsQuery,
   useRoomsQuery,
   RoomsQuery,
 } from "../generated/types";
-import { useAuthContext } from "../providers/useAuthContext";
 
 export type UseSearch = {
   handleSubmit: () => void;
@@ -16,9 +14,9 @@ export type UseSearch = {
   setKeyword: React.Dispatch<React.SetStateAction<string>>;
   setTypeId: React.Dispatch<React.SetStateAction<number | undefined>>;
   setLevelIds: React.Dispatch<React.SetStateAction<number[]>>;
-  setWithApplication: React.Dispatch<React.SetStateAction<number>>;
+  setWithApplication: React.Dispatch<React.SetStateAction<number | undefined>>;
   levelIds: number[];
-  withApplication: number;
+  withApplication: number | undefined;
   keyword: string;
   searchConditions?: SearchConditionsQuery;
   skillIds: number[];
@@ -33,25 +31,26 @@ export const WITH_NO_APPLICATION = 0;
 export const WITH_APPLICATION = 1;
 
 export const useSearchTeams = (): UseSearch => {
-  const { skillIds: mySkillIds } = useAuthContext();
   const {
     data: searchConditions,
     error: conditionError,
   } = useSearchConditionsQuery();
   const [keyword, setKeyword] = useState<string>("");
   const [categoryIds, setCategoryIds] = useState<number[]>([]);
-  const [skillIds, setSkillIds] = useState<number[]>(mySkillIds);
+  const [skillIds, setSkillIds] = useState<number[]>([]);
   const [levelIds, setLevelIds] = useState<number[]>([]);
   const [typeId, setTypeId] = useState<number | undefined>(undefined);
-  const [withApplication, setWithApplication] = useState(WITH_NO_APPLICATION);
+  const [withApplication, setWithApplication] = useState<number | undefined>(
+    undefined
+  );
   const { data: roomsData, refetch, loading, error } = useRoomsQuery({
     variables: {
       input: {
         keyword: null,
         categoryIds: null,
-        skillIds: mySkillIds.length ? mySkillIds : null,
+        skillIds: null,
         recruitmentLevelIds: null,
-        withApplication: false,
+        withApplication: null,
         typeId: null,
       },
     },
@@ -70,7 +69,9 @@ export const useSearchTeams = (): UseSearch => {
         categoryIds: categoryIds.length ? categoryIds : null,
         skillIds: skillIds.length ? skillIds : null,
         recruitmentLevelIds: levelIds.length ? levelIds : null,
-        withApplication: withApplication === WITH_APPLICATION,
+        withApplication: withApplication
+          ? withApplication === WITH_APPLICATION
+          : null,
         typeId: typeId || null,
       },
     });
