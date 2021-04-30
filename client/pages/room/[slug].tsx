@@ -50,6 +50,7 @@ export default function ShowRoom({ url, title }: Props) {
   });
 
   if (error) {
+    console.log(error);
     router.push("/404");
   }
 
@@ -57,6 +58,8 @@ export default function ShowRoom({ url, title }: Props) {
 
   const room = data?.room;
   const iamOwner = room?.owner.id === id;
+  const iamApplying =
+    room?.applyingUsers?.findIndex((user) => user.user?.id === id) !== -1;
 
   const { shareUrl } = useShareBtn();
 
@@ -156,6 +159,7 @@ export default function ShowRoom({ url, title }: Props) {
                 <Button
                   className="px-12 mt-5 shadow-lg"
                   onClick={() => onClickApply(room.id)}
+                  disabled={iamOwner || iamApplying}
                 >
                   申請する
                 </Button>

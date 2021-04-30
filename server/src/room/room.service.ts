@@ -41,6 +41,8 @@ export class RoomService {
       .leftJoinAndSelect('room.owner', 'owner')
       .leftJoinAndSelect('room.types', 'types')
       .leftJoinAndSelect('room.recruitmentLevels', 'recruitmentLevels')
+      .leftJoinAndSelect('room.applyingUsers', 'applyingUsers')
+      .leftJoinAndSelect('applyingUsers.user', 'user')
       .where({ slug })
       .getOne();
 
