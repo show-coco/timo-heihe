@@ -4,11 +4,17 @@ import { MessageTimelineItem } from "./item";
 
 type Props = {
   users: UseMessageUsers["users"];
+  className?: string;
 };
 
-export const MessageTimeline: React.FC<Props> = ({ users }: Props) => {
+export const MessageTimeline: React.FC<Props> = ({
+  users,
+  className,
+}: Props) => {
   return (
-    <div className="w-full overflow-y-scroll border-r divide-y md:w-1/4">
+    <div
+      className={`overflow-y-scroll border-r divide-y md:w-1/4 ${className}`}
+    >
       {users.map((user) => (
         <MessageTimelineItem user={user} key={user?.id} />
       ))}

@@ -14,9 +14,11 @@ import {
 } from "../../generated/types";
 import { useMessageUsers } from "../../hooks/useMessageUsers";
 import SendIcon from "../../assets/icons/send.svg";
+import AllowLeftIcon from "../../assets/icons/allow-left.svg";
 import { IconButton } from "../../components/button/icon-button";
 import { useAuthContext } from "../../providers/useAuthContext";
 import { Meta } from "../../components/meta";
+import Link from "next/link";
 const currentDate = new Date();
 
 export default function Message() {
@@ -27,6 +29,9 @@ export default function Message() {
   const [messages, setMessages] = useState<MessageFragment[]>([]);
   const { userId } = useAuthContext();
   const [hasNext, setHasNext] = useState(false);
+
+  const messageLogPage = router.pathname === "/messages/[userSlug]";
+  let onePage = typeof screen !== "undefined" && screen.width < 768;
 
   const { data: messageData, error, fetchMore } = useMessagesQuery({
     variables: {
@@ -98,12 +103,21 @@ export default function Message() {
   return (
     <MessagesTemplate users={users}>
       <Meta title={"メッセージ | CloudCircle"} />
-      <div>
+      <div className="flex flex-col items-stretch justify-between h-full">
         <div className="divide-y">
           {loading ? (
             <div className="h-16">Loading...</div>
           ) : opponentData ? (
-            <UserInfo {...opponentData.user} className="h-16 ml-5" />
+            <div className="flex items-center ml-3">
+              {messageLogPage && onePage && (
+                <Link href="/messages">
+                  <a className="inline-block font-bold">
+                    <AllowLeftIcon />
+                  </a>
+                </Link>
+              )}
+              <UserInfo {...opponentData.user} className="h-16 ml-5" />
+            </div>
           ) : (
             <div>情報が取得できませんでした</div>
           )}
@@ -111,7 +125,7 @@ export default function Message() {
           {messages ? (
             <div
               id="scrollableDiv"
-              className="flex flex-col-reverse px-5 overflow-auto h-96"
+              className="flex flex-col-reverse px-5 overflow-auto max-h-60vh"
             >
               <InfiniteScroll
                 hasMore={hasNext}
@@ -140,7 +154,7 @@ export default function Message() {
           )}
         </div>
 
-        <div className="px-3 pt-5">
+        <div className="px-3 pt-5 mb-5">
           <form onSubmit={onSubmit}>
             <div className="relative">
               <TextInput
