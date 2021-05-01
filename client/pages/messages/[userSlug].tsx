@@ -98,7 +98,7 @@ export default function Message() {
   return (
     <MessagesTemplate users={users}>
       <Meta title={"メッセージ | CloudCircle"} />
-      <div>
+      <div className="flex flex-col items-stretch justify-between h-full">
         <div className="divide-y">
           {loading ? (
             <div className="h-16">Loading...</div>
@@ -111,7 +111,7 @@ export default function Message() {
           {messages ? (
             <div
               id="scrollableDiv"
-              className="flex flex-col-reverse px-5 overflow-auto h-96"
+              className="flex flex-col-reverse px-5 overflow-auto max-h-60vh"
             >
               <InfiniteScroll
                 hasMore={hasNext}
@@ -140,7 +140,7 @@ export default function Message() {
           )}
         </div>
 
-        <div className="px-3 pt-5">
+        <div className="px-3 pt-5 mb-5">
           <form onSubmit={onSubmit}>
             <div className="relative">
               <TextInput
