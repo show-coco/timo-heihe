@@ -42,7 +42,7 @@ export const NavigationModal: React.FC<Props> = (props: Props) => {
               </Link>
             </span>
             <span className="pt-3">
-              <Link href="/">
+              <Link href="/messages">
                 <a className="inline-block w-full">メッセージ</a>
               </Link>
             </span>

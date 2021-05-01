@@ -14,9 +14,11 @@ import {
 } from "../../generated/types";
 import { useMessageUsers } from "../../hooks/useMessageUsers";
 import SendIcon from "../../assets/icons/send.svg";
+import AllowLeftIcon from "../../assets/icons/allow-left.svg";
 import { IconButton } from "../../components/button/icon-button";
 import { useAuthContext } from "../../providers/useAuthContext";
 import { Meta } from "../../components/meta";
+import Link from "next/link";
 const currentDate = new Date();
 
 export default function Message() {
@@ -27,6 +29,9 @@ export default function Message() {
   const [messages, setMessages] = useState<MessageFragment[]>([]);
   const { userId } = useAuthContext();
   const [hasNext, setHasNext] = useState(false);
+
+  const messageLogPage = router.pathname === "/messages/[userSlug]";
+  let onePage = typeof screen !== "undefined" && screen.width < 768;
 
   const { data: messageData, error, fetchMore } = useMessagesQuery({
     variables: {
@@ -103,7 +108,16 @@ export default function Message() {
           {loading ? (
             <div className="h-16">Loading...</div>
           ) : opponentData ? (
-            <UserInfo {...opponentData.user} className="h-16 ml-5" />
+            <div className="flex items-center ml-3">
+              {messageLogPage && onePage && (
+                <Link href="/messages">
+                  <a className="inline-block font-bold">
+                    <AllowLeftIcon />
+                  </a>
+                </Link>
+              )}
+              <UserInfo {...opponentData.user} className="h-16 ml-5" />
+            </div>
           ) : (
             <div>情報が取得できませんでした</div>
           )}
