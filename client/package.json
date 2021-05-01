@@ -30,6 +30,7 @@
     "react-markdown": "^5.0.3",
     "react-modal": "^3.12.1",
     "react-share": "^4.4.0",
+    "react-tooltip": "^4.2.18",
     "subscriptions-transport-ws": "^0.9.18",
     "tailwindcss": "npm:@tailwindcss/postcss7-compat"
   },
