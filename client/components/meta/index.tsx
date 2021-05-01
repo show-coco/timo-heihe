@@ -42,6 +42,7 @@ export const Meta = ({ title, description, keyword, image, url }: Props) => {
       />
       <meta name="twitter:image" content={image ? image : "/ogp.png"} />
       <link rel="canonical" href={url} />
+      <link rel="icon" type="image/png" href="/favicon.png" />
     </Head>
   );
 };
