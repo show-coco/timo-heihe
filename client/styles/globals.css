@@ -174,3 +174,7 @@ h3 {
   border-top-color: white;
   animation: spinner 1.0s linear infinite;
 }
+
+button:focus {
+  outline: none;
+}
