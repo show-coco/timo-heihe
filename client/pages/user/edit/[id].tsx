@@ -88,7 +88,10 @@ export default function EditUser() {
           </div>
 
           <div>
-            <Heading as="h2">自己紹介</Heading>
+            <div className="flex items-center">
+              <Heading as="h2">自己紹介</Heading>
+              <span className="ml-3 text-gray-400">Markdown</span>
+            </div>
             <div className="h-96">
               <TextArea
                 value={form.introduction.value}

@@ -189,9 +189,10 @@ export default function EditRoom() {
               </div>
 
               <div className={betweenH2}>
-                <span className="flex">
+                <span className="flex items-center">
                   <Heading as="h2">ルームの説明</Heading>
                   <span className="text-red-500">*</span>
+                  <span className="ml-3 text-gray-400">Markdown</span>
                 </span>
 
                 <div className="h-72">
