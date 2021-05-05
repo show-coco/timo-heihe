@@ -61,7 +61,9 @@ export const useCreateRoom = () => {
   const [recruiementLevels, setRecruiementLevels] = useState<number[]>([]);
   const [recruitNumber, setRecruitNumber] = useState(0);
   const [repositoryUrl, setRespositoryUrl] = useState("");
-  const [invidationUrl, setInvidationUrl] = useState("");
+  const invidationUrl = useTextInput({
+    regex: REGEXES.URL,
+  });
   const [isPrivate, setIsPrivate] = useState<RoomTypeValueType>(
     ROOM_TYPE.PUBLIC
   );
@@ -86,7 +88,7 @@ export const useCreateRoom = () => {
     slug: slug.value,
     owner: id,
     repositoryUrl,
-    invidationUrl,
+    invidationUrl: invidationUrl.value,
     icon: imageUrl,
     skills: convertToSkillsIds(selectedSkills),
     description: description.value,
@@ -103,6 +105,7 @@ export const useCreateRoom = () => {
       title.errors.length ||
       name.errors.length ||
       categories.errors.length ||
+      invidationUrl.errors.length ||
       isPrivateError.length
     ) {
       setIsDisabled(true);
@@ -116,6 +119,7 @@ export const useCreateRoom = () => {
     slug.errors.length,
     title.errors.length,
     isPrivateError,
+    invidationUrl.errors.length,
   ]);
 
   useEffect(() => {
@@ -177,7 +181,6 @@ export const useCreateRoom = () => {
       setIsPrivate,
       setSkills,
       setRecruiementLevels,
-      setInvidationUrl,
     },
     form: {
       slug,
@@ -185,6 +188,7 @@ export const useCreateRoom = () => {
       name,
       description,
       categories,
+      invidationUrl,
     },
     loading,
     isPrivateError,

@@ -257,9 +257,17 @@ export default function EditRoom() {
 
                 <TextInput
                   placeholder="SlackやDiscordの招待URL"
-                  value={formState.invitationUrl}
-                  onChange={(e) => setter.setInvitationUrl(e.target.value)}
+                  value={form.invitationUrl.value}
+                  onChange={form.invitationUrl.onChange}
+                  errors={form.invitationUrl.errors}
                 />
+                <ul>
+                  {form.invitationUrl.errors.map((error) => (
+                    <li key={error.code} className="text-red-500">
+                      ・{error.message}
+                    </li>
+                  ))}
+                </ul>
               </div>
             )}
 

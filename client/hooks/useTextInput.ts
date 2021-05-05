@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useState } from "react";
 
 export const REGEXES = {
   HALF_SIZE_NUMBER: "[^a-z0-9-_]",
+  URL: "^(?!https?://)",
 } as const;
 
 type RegexType = typeof REGEXES[keyof typeof REGEXES];
@@ -37,6 +38,10 @@ export const TEXT_INPUT_ERRORS = {
   DEPLICATED: {
     code: 5,
     message: "IDが既に使用されています",
+  },
+  URL: {
+    code: 6,
+    message: "URLを正しい形式で入力してください",
   },
 };
 
@@ -80,6 +85,9 @@ export const useTextInput = ({
       switch (regex) {
         case REGEXES.HALF_SIZE_NUMBER:
           newErrors.push(TEXT_INPUT_ERRORS.HALF_SIZE_NUMBER);
+          break;
+        case REGEXES.URL:
+          newErrors.push(TEXT_INPUT_ERRORS.URL);
           break;
       }
     }
