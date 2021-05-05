@@ -17,6 +17,7 @@ import { Template } from "../../components/template/app/template";
 import ReactMarkdown from "react-markdown";
 import { Meta } from "../../components/meta";
 import { Skeleton } from "../../components/loading/skeleton";
+import ReactTooltip from "react-tooltip";
 export default function UserDetail() {
   const router = useRouter();
   const id = router.query.id;
@@ -89,13 +90,18 @@ export default function UserDetail() {
             </ReactMarkdown>
           </div>
 
-          <div className="flex ">
+          <div className="flex pl-8 space-x-2 md:pl-0">
             {data?.user.githubId && (
               <a
                 className="cursor-pointer"
                 href={`https://github.com/${data?.user.githubId}`}
                 target="blank"
+                data-tip="Githubを見る"
               >
+                <ReactTooltip
+                  effect="solid"
+                  className="text-white bg-black-400"
+                />
                 <GithubIcon />
               </a>
             )}
@@ -104,6 +110,7 @@ export default function UserDetail() {
                 className="cursor-pointer"
                 href={`https://twitter.com/${data?.user.twitterId}`}
                 target="blank"
+                data-tip="Twitterを見る"
               >
                 <TwitterIcon class="bg-blue-400 rounded-full" />
               </a>
