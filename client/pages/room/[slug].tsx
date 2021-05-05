@@ -83,7 +83,7 @@ export default function ShowRoom({ url, title }: Props) {
     <>
       <LoginModal isOpen={isOpen} onRequestClose={onClose} />
 
-      <Meta title={title} image={`${url}`} />
+      <Meta title={title} image={`${decodeURIComponent(url)}`} />
 
       <Template className="py-5 md:p-10">
         {iamOwner && (
