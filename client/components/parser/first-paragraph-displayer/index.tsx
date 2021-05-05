@@ -10,9 +10,13 @@ export const FirstParagraphDisplayer: React.FC<Props> = ({
   text,
   className,
 }: Props) => {
-  console.log(text);
-  const firstPagraph = text.match(/\n(.+?)\n/);
-  console.log("firstParagraph", firstPagraph);
+  const firstHeading = text.match(/^#{1}.*\n/);
+  let firstPagraph;
+  if (firstHeading) {
+    firstPagraph = text.match(/\n.+/);
+  } else {
+    firstPagraph = text.match(/.+/);
+  }
 
   return <div className={className}>{firstPagraph && firstPagraph[0]}</div>;
 };
