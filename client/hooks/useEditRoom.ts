@@ -92,7 +92,7 @@ export const useEditTeam = () => {
       title.errors.length ||
       name.errors.length ||
       categories.errors.length ||
-      invitationUrl.errors.length ||
+      (!withApplication && invitationUrl.errors.length) ||
       isPrivateError.length
     ) {
       setIsDisabled(true);
@@ -107,6 +107,7 @@ export const useEditTeam = () => {
     title.errors.length,
     isPrivateError,
     invitationUrl.errors.length,
+    withApplication,
   ]);
 
   useEffect(() => {

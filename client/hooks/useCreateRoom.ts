@@ -61,7 +61,7 @@ export const useCreateRoom = () => {
   const [recruiementLevels, setRecruiementLevels] = useState<number[]>([]);
   const [recruitNumber, setRecruitNumber] = useState(0);
   const [repositoryUrl, setRespositoryUrl] = useState("");
-  const invidationUrl = useTextInput({
+  const invitationUrl = useTextInput({
     regex: REGEXES.URL,
   });
   const [isPrivate, setIsPrivate] = useState<RoomTypeValueType>(
@@ -88,7 +88,7 @@ export const useCreateRoom = () => {
     slug: slug.value,
     owner: id,
     repositoryUrl,
-    invidationUrl: invidationUrl.value,
+    invidationUrl: invitationUrl.value,
     icon: imageUrl,
     skills: convertToSkillsIds(selectedSkills),
     description: description.value,
@@ -105,7 +105,7 @@ export const useCreateRoom = () => {
       title.errors.length ||
       name.errors.length ||
       categories.errors.length ||
-      invidationUrl.errors.length ||
+      (!isPrivate && invitationUrl.errors.length) ||
       isPrivateError.length
     ) {
       setIsDisabled(true);
@@ -119,16 +119,17 @@ export const useCreateRoom = () => {
     slug.errors.length,
     title.errors.length,
     isPrivateError,
-    invidationUrl.errors.length,
+    invitationUrl.errors.length,
+    isPrivate,
   ]);
 
   useEffect(() => {
-    if (isPrivate === ROOM_TYPE.PUBLIC && !invidationUrl) {
+    if (isPrivate === ROOM_TYPE.PUBLIC && !invitationUrl) {
       setIsPrivateError("招待URLを入力してください");
     } else {
       setIsPrivateError("");
     }
-  }, [invidationUrl, isPrivate]);
+  }, [invitationUrl, isPrivate]);
 
   const onSubmit = async (
     e:
@@ -188,7 +189,7 @@ export const useCreateRoom = () => {
       name,
       description,
       categories,
-      invidationUrl,
+      invitationUrl,
     },
     loading,
     isPrivateError,

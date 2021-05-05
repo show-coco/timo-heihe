@@ -235,12 +235,12 @@ export default function CreateRoom() {
                 <TextInput
                   name="招待URL"
                   placeholder="DiscordやSlackの招待URL"
-                  onChange={form.invidationUrl.onChange}
-                  errors={form.invidationUrl.errors}
+                  onChange={form.invitationUrl.onChange}
+                  errors={form.invitationUrl.errors}
                 />
               </div>
               <ul>
-                {form.invidationUrl.errors.map((error) => (
+                {form.invitationUrl.errors.map((error) => (
                   <li key={error.code} className="text-red-500">
                     ・{error.message}
                   </li>

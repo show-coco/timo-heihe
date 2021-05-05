@@ -1,8 +1,8 @@
 import React, { useCallback, useEffect, useState } from "react";
 
 export const REGEXES = {
-  HALF_SIZE_NUMBER: "[^a-z0-9-_]",
-  URL: "^(?!https?://)",
+  HALF_SIZE_NUMBER: "^[0-9a-z-_]*$",
+  URL: "^(https?://)",
 } as const;
 
 type RegexType = typeof REGEXES[keyof typeof REGEXES];
@@ -15,13 +15,14 @@ type Props = {
   min?: number;
 };
 
-const includesInvalidChars = (text: string, regex: RegexType) =>
-  new RegExp(regex).test(text);
+const isValidChars = (text: string, regex: RegexType) => {
+  return text.match(regex);
+};
 
 export const TEXT_INPUT_ERRORS = {
   HALF_SIZE_NUMBER: {
     code: 1,
-    message: "半角英数字を入力してください",
+    message: "半角英数字(小文字)または「-」「_」で入力してください",
   },
   REQUIRED: {
     code: 2,
@@ -41,7 +42,7 @@ export const TEXT_INPUT_ERRORS = {
   },
   URL: {
     code: 6,
-    message: "URLを正しい形式で入力してください",
+    message: "httpsまたはhttpで始まるURLを入力してください",
   },
 };
 
@@ -81,7 +82,7 @@ export const useTextInput = ({
 
   const valid = useCallback(() => {
     let newErrors: TextInputErrorType[] = [];
-    if (regex && includesInvalidChars(value, regex)) {
+    if (regex && !isValidChars(value, regex)) {
       switch (regex) {
         case REGEXES.HALF_SIZE_NUMBER:
           newErrors.push(TEXT_INPUT_ERRORS.HALF_SIZE_NUMBER);
