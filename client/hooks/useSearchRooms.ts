@@ -69,9 +69,10 @@ export const useSearchTeams = (): UseSearch => {
         categoryIds: categoryIds.length ? categoryIds : null,
         skillIds: skillIds.length ? skillIds : null,
         recruitmentLevelIds: levelIds.length ? levelIds : null,
-        withApplication: withApplication
-          ? withApplication === WITH_APPLICATION
-          : null,
+        withApplication:
+          withApplication !== undefined
+            ? withApplication === WITH_APPLICATION
+            : null,
         typeId: typeId || null,
       },
     });

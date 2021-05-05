@@ -66,7 +66,7 @@ export class RoomService {
       .leftJoinAndSelect('room.recruitmentLevels', 'recruitmentLevels')
       .leftJoinAndSelect('room.applyingUsers', 'applyingUsers');
 
-    if (input.withApplication) {
+    if (input.withApplication != null) {
       query.where('room.withApplication = :withApplication', {
         withApplication: input.withApplication,
       });
