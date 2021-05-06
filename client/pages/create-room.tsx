@@ -230,12 +230,22 @@ export default function CreateRoom() {
             />
           </div>
           {state.isPrivate === "1" && (
-            <div className={`${betweenH2} mt-4`}>
-              <TextInput
-                name="招待URL"
-                placeholder="DiscordやSlackの招待URL"
-                onChange={(e) => setter.setInvidationUrl(e.target.value)}
-              />
+            <div>
+              <div className={`${betweenH2} mt-4`}>
+                <TextInput
+                  name="招待URL"
+                  placeholder="DiscordやSlackの招待URL"
+                  onChange={form.invitationUrl.onChange}
+                  errors={form.invitationUrl.errors}
+                />
+              </div>
+              <ul>
+                {form.invitationUrl.errors.map((error) => (
+                  <li key={error.code} className="text-red-500">
+                    ・{error.message}
+                  </li>
+                ))}
+              </ul>
             </div>
           )}
           <div className={`${betweenH2} mt-4`}>

@@ -33,6 +33,7 @@ import { useModal } from "../../hooks/useModal";
 /* Contexts */
 import { useAuthContext } from "../../providers/useAuthContext";
 import { Skeleton } from "../../components/loading/skeleton";
+import { sanitize } from "../../utils/sanitize";
 
 type Props = {
   url: string;
@@ -173,7 +174,7 @@ export default function ShowRoom({ url, title }: Props) {
               <Card className="p-8 text-center">
                 <p>招待URLからルームへ参加できます</p>
                 <p>（DiscordやSlackなど）</p>
-                <a href={room?.invidationUrl || ""}>
+                <a href={sanitize(room?.invidationUrl || "")}>
                   <Button className="px-12 mt-5 shadow-lg">
                     招待URLから参加する
                   </Button>

@@ -55,7 +55,9 @@ export const useEditTeam = () => {
     min: 1,
   });
   const [repositoryUrl, setRespositoryUrl] = useState("");
-  const [invitationUrl, setInvitationUrl] = useState("");
+  const invitationUrl = useTextInput({
+    regex: REGEXES.URL,
+  });
   const [withApplication, setWithApplication] = useState("1");
   const [recruitmentLevels, setRecruitmentLevels] = useState<number[]>([]);
   const [selectedSkills, setSkills] = useState<ACSelectedData[]>([]);
@@ -90,6 +92,7 @@ export const useEditTeam = () => {
       title.errors.length ||
       name.errors.length ||
       categories.errors.length ||
+      (!withApplication && invitationUrl.errors.length) ||
       isPrivateError.length
     ) {
       setIsDisabled(true);
@@ -103,6 +106,8 @@ export const useEditTeam = () => {
     slug.errors.length,
     title.errors.length,
     isPrivateError,
+    invitationUrl.errors.length,
+    withApplication,
   ]);
 
   useEffect(() => {
@@ -122,7 +127,7 @@ export const useEditTeam = () => {
       name.setValue(room.name);
       slug.setValue(room.slug);
       description.setValue(room.description);
-      setInvitationUrl(room.invidationUrl || "");
+      invitationUrl.setValue(room.invidationUrl || "");
       setRespositoryUrl(room.repositoryUrl || "");
       setWithApplication(room.withApplication ? "2" : "1");
       setRecruitmentLevels(
@@ -167,7 +172,7 @@ export const useEditTeam = () => {
             recruiementLevels: recruitmentLevels,
             description: description.value,
             repositoryUrl,
-            invidationUrl: invitationUrl,
+            invidationUrl: invitationUrl.value,
             withApplication: withApplication === "2",
             categories: categories.values,
             typeIds: types,
@@ -207,7 +212,6 @@ export const useEditTeam = () => {
       setRespositoryUrl,
       setWithApplication,
       setRecruitmentLevels,
-      setInvitationUrl,
       setSkills,
       setImageUrl,
       onChangeType,
@@ -218,6 +222,7 @@ export const useEditTeam = () => {
       slug,
       description,
       categories,
+      invitationUrl,
     },
     isPrivateError,
     isDisbaled,
