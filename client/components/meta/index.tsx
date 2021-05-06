@@ -30,7 +30,10 @@ export const Meta = ({ title, description, keyword, image, url }: Props) => {
       <meta property="og:site_name" content={title} />
       <meta name="twitter:card" content={"summary_large_image"} />
       <meta name="twitter:site" content="@test" />
-      <meta name="twitter:url" content={image ? image : "/ogp.png"} />
+      <meta
+        name="twitter:url"
+        content={image ? image : "https://cloud-circle.vercel.app/ogp.png"}
+      />
       <meta name="twitter:title" content={title} />
       <meta
         name="twitter:description"
