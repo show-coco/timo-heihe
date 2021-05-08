@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-
-import { GetServerSideProps } from "next";
+import { gql } from "@apollo/client";
+import { client } from "../../../client/pages/_app";
 import ReactMarkdown from "react-markdown";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -14,7 +14,7 @@ import { AvatarWithName } from "../../components/avatar/avatar-with-name";
 import { LoginModal } from "../../components/login-modal";
 import { Template } from "../../components/template/app/template";
 import { Tag } from "../../components/tag";
-
+import { getServerSideProps } from "./server-side";
 import { useShareBtn } from "../../hooks/useShareBtn";
 
 import { ShareBtn } from "../../components/share-btn";
@@ -44,13 +44,14 @@ export default function ShowRoom({ url, title }: Props) {
   const { isAuthenticated, id } = useAuthContext();
   const { isOpen, onOpen, onClose } = useModal();
   const router = useRouter();
-  const [applyClicked, setApplyClicked] = useState(false);
 
   const { data, error, loading: roomLoading } = useRoomQuery({
     variables: {
       slug: router.query.slug?.toString() || "",
     },
   });
+
+  const [applyClicked, setApplyClicked] = useState(false);
 
   if (error) {
     console.log(error);
@@ -90,7 +91,7 @@ export default function ShowRoom({ url, title }: Props) {
         {iamOwner && (
           <div className="flex justify-end mb-4">
             <Link
-              href={`/room/edit/[slug]?title=${room?.title}`}
+              href={`/room/edit/[slug]`}
               as={`/room/edit/${router.query.slug?.toString() || ""}`}
             >
               <Button>編集する</Button>
@@ -219,13 +220,50 @@ export default function ShowRoom({ url, title }: Props) {
     </>
   );
 }
+export async function getStaticProps({ params }) {
+  const { data } = await client.query({
+    query: gql`
+      query Room($slug: String!) {
+        room(slug: $slug) {
+          id
+          title
+          name
+          description
+          icon
+          withApplication
+          repositoryUrl
+          invidationUrl
+          applyingUsers {
+            user {
+              id
+              userId
+            }
+          }
+          recruitmentLevels {
+            id
+            name
+          }
+          owner {
+            id
+            userId
+            name
+            avatar
+          }
+          skills {
+            id
+            name
+          }
+          categories {
+            id
+            name
+          }
+        }
+      }
+    `,
+    variables: { slug: params?.slug.toString() },
+  });
 
-export const getServerSideProps: GetServerSideProps = async ({
-  query,
-  params,
-}) => {
-  const { title } = query;
-
+  const title = data.room.title;
   const url = `https://ogp-mu.vercel.app/${title}.${params?.slug}.png`;
   return {
     props: {
@@ -233,4 +271,11 @@ export const getServerSideProps: GetServerSideProps = async ({
       title,
     },
   };
-};
+}
+
+export async function getStaticPaths() {
+  return {
+    paths: [{ params: { slug: "3333" } }],
+    fallback: false,
+  };
+}
