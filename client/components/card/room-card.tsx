@@ -59,10 +59,7 @@ export const RoomCard: React.FC<RoomCardProps> = ({
 }: RoomCardProps) => {
   return (
     <div>
-      <Link
-        href={`/room/[slug]?title=${title}`}
-        as={`/room/${slug}?title=${title}`}
-      >
+      <Link href={`/room/[slug]`} as={`/room/${slug}`}>
         <div>
           <Card
             className={`p-5 cursor-pointer hover:shadow-md duration-200 ${className}`}

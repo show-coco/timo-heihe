@@ -33,7 +33,7 @@ export default function Home() {
   const teams = useMemo(() => {
     return roomsData?.rooms && convertToTeamCardObjFromTeams(roomsData.rooms);
   }, [roomsData]);
-
+  console.log(roomsData?.rooms);
   if (error) return <p>{error.message}</p>;
 
   return (
