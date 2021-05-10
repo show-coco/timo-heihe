@@ -19,7 +19,10 @@ export class RoomApplyingUser {
   @ManyToOne(() => User, (user) => user.applyingRooms, { primary: true })
   user: User;
 
-  @ManyToOne(() => Room, (room) => room.applyingUsers, { primary: true })
+  @ManyToOne(() => Room, (room) => room.applyingUsers, {
+    primary: true,
+    onDelete: 'CASCADE',
+  })
   room: Room;
 
   @Column({

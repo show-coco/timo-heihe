@@ -1,0 +1,5 @@
+mutation DeleteRoom($id: Int!) {
+  deleteRoom(id: $id) {
+    id
+  }
+}
