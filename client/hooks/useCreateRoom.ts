@@ -145,9 +145,7 @@ export const useCreateRoom = () => {
         },
       });
       if (typeof window !== "undefined") {
-        router.push(
-          `/room/${res.data?.createRoom.slug}?title=${res.data?.createRoom.title}`
-        );
+        router.push(`/room/${res.data?.createRoom.slug}`);
       }
     } catch (e) {
       slug.setErrors([...slug.errors, TEXT_INPUT_ERRORS.DEPLICATED]);

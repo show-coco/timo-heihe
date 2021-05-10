@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-
-import { GetServerSideProps } from "next";
+import { gql } from "@apollo/client";
+import { client } from "../../../client/pages/_app";
 import ReactMarkdown from "react-markdown";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useApplyRoomMutation, useRoomQuery } from "../../generated/types";
+import { useApplyRoomMutation } from "../../generated/types";
 /* Components */
 import { Avatar } from "../../components/avatar/avatar";
 import { Card } from "../../components/card/card";
@@ -34,28 +34,54 @@ import { useModal } from "../../hooks/useModal";
 import { useAuthContext } from "../../providers/useAuthContext";
 import { Skeleton } from "../../components/loading/skeleton";
 import { sanitize } from "../../utils/sanitize";
-
+import {
+  CategoryModel,
+  RecruitmentLevelModel,
+  SkillModel,
+  RoomApplyingUserModel,
+  CreateRoomInput,
+} from "../../generated/types";
 type Props = {
   url: string;
   title: string;
+  data: {
+    room: {
+      __typename: string;
+      id: number;
+      title: string;
+      name: string;
+      description: string;
+      icon: string;
+      withApplication: boolean;
+      repositoryUrl: string;
+      invidationUrl: string;
+      applyingUsers: RoomApplyingUserModel[];
+      recruitmentLevels: RecruitmentLevelModel[];
+      owner: {
+        __typename: string;
+        id: number;
+        userId: string;
+        name: string;
+        avatar: string;
+      };
+      skills: SkillModel[];
+      categories: Pick<CategoryModel, "id" | "name">[];
+    };
+  };
+  roomLoading: boolean;
 };
 
-export default function ShowRoom({ url, title }: Props) {
+export default function ShowRoom({ url, title, data, roomLoading }: Props) {
   const { isAuthenticated, id } = useAuthContext();
   const { isOpen, onOpen, onClose } = useModal();
   const router = useRouter();
+
   const [applyClicked, setApplyClicked] = useState(false);
 
-  const { data, error, loading: roomLoading } = useRoomQuery({
-    variables: {
-      slug: router.query.slug?.toString() || "",
-    },
-  });
-
-  if (error) {
-    console.log(error);
-    router.push("/404");
-  }
+  // if (error) {
+  //   console.log(error);
+  //   router.push("/404");
+  // }
 
   const [applyRoom, { loading: applyLoading }] = useApplyRoomMutation();
 
@@ -84,13 +110,17 @@ export default function ShowRoom({ url, title }: Props) {
     <>
       <LoginModal isOpen={isOpen} onRequestClose={onClose} />
 
-      <Meta title={title} image={`${decodeURIComponent(url)}`} />
+      <Meta
+        title={title}
+        image={`${decodeURIComponent(url)}`}
+        description={data.room.description}
+      />
 
       <Template className="py-5 md:p-10">
         {iamOwner && (
           <div className="flex justify-end mb-4">
             <Link
-              href={`/room/edit/[slug]?title=${room?.title}`}
+              href={`/room/edit/[slug]`}
               as={`/room/edit/${router.query.slug?.toString() || ""}`}
             >
               <Button>編集する</Button>
@@ -191,7 +221,7 @@ export default function ShowRoom({ url, title }: Props) {
                 {room?.recruitmentLevels.length ? (
                   <div className="flex flex-wrap">
                     {room.recruitmentLevels.map((level) => {
-                      return <Tag key={level.id}>{level.name || ""}</Tag>;
+                      return <Tag key={level?.id}>{level?.name || ""}</Tag>;
                     })}
                   </div>
                 ) : (
@@ -219,18 +249,120 @@ export default function ShowRoom({ url, title }: Props) {
     </>
   );
 }
+type Params = {
+  params: {
+    slug: string;
+  };
+};
 
-export const getServerSideProps: GetServerSideProps = async ({
-  query,
-  params,
-}) => {
-  const { title } = query;
+export async function getStaticProps({ params }: Params) {
+  const { data, loading: roomLoading } = await client.query({
+    query: gql`
+      query Room($slug: String!) {
+        room(slug: $slug) {
+          id
+          title
+          name
+          description
+          icon
+          withApplication
+          repositoryUrl
+          invidationUrl
+          applyingUsers {
+            user {
+              id
+              userId
+            }
+          }
+          recruitmentLevels {
+            id
+            name
+          }
+          owner {
+            id
+            userId
+            name
+            avatar
+          }
+          skills {
+            id
+            name
+          }
+          categories {
+            id
+            name
+          }
+        }
+      }
+    `,
+    variables: { slug: params?.slug.toString() },
+  });
 
-  const url = `https://ogp-mu.vercel.app/${title}.${params?.slug}.png`;
+  const title = data.room.title;
+  const name = params.slug;
+  const url = decodeURI(`https://ogp-mu.vercel.app/${title}.${name}.png`);
+
   return {
     props: {
       url,
       title,
+      data,
+      roomLoading,
     },
+    revalidate: 60,
   };
-};
+}
+
+export async function getStaticPaths() {
+  const { data: roomdata } = await client.query({
+    query: gql`
+      query Rooms($input: SearchRoomInput) {
+        rooms(input: $input) {
+          id
+          title
+          slug
+          description
+          icon
+          withApplication
+          repositoryUrl
+          createdAt
+          owner {
+            id
+            userId
+            name
+            avatar
+          }
+          skills {
+            id
+            name
+          }
+        }
+        roomTypes {
+          id
+          name
+        }
+      }
+    `,
+    variables: {
+      input: {
+        keyword: null,
+        categoryIds: null,
+        skillIds: null,
+        recruitmentLevelIds: null,
+        withApplication: null,
+        typeId: null,
+      },
+    },
+  });
+
+  const paths = roomdata?.rooms.map((res: CreateRoomInput) => {
+    return {
+      params: { slug: res.slug.toString() },
+    };
+  });
+
+  return {
+    paths: paths,
+    fallback: false,
+  };
+}

@@ -12,7 +12,8 @@ export const Meta = ({ title, description, keyword, image, url }: Props) => {
   return (
     <Head>
       <title>{title}</title>
-      <meta property="og:title" content={title} />
+
+      <meta property="og:title" content={title ? title : "CloudCircle"} />
       <meta content="text/html; charset=utf-8" httpEquiv="Content-Type" />
       <meta
         property="og:description"
