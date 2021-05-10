@@ -4,7 +4,10 @@ import { client } from "../../../client/pages/_app";
 import ReactMarkdown from "react-markdown";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useApplyRoomMutation } from "../../generated/types";
+import {
+  useApplyRoomMutation,
+  useDeleteRoomMutation,
+} from "../../generated/types";
 /* Components */
 import { Avatar } from "../../components/avatar/avatar";
 import { Card } from "../../components/card/card";
@@ -41,6 +44,7 @@ import {
   RoomApplyingUserModel,
   CreateRoomInput,
 } from "../../generated/types";
+import { Modal } from "../../components/modal/modal";
 type Props = {
   url: string;
   title: string;
@@ -74,6 +78,11 @@ type Props = {
 export default function ShowRoom({ url, title, data, roomLoading }: Props) {
   const { isAuthenticated, id } = useAuthContext();
   const { isOpen, onOpen, onClose } = useModal();
+  const {
+    isOpen: deleteModalIsOpen,
+    onOpen: deleteModalonOpen,
+    onClose: deleteModalonClose,
+  } = useModal();
   const router = useRouter();
 
   const [applyClicked, setApplyClicked] = useState(false);
@@ -84,6 +93,11 @@ export default function ShowRoom({ url, title, data, roomLoading }: Props) {
   // }
 
   const [applyRoom, { loading: applyLoading }] = useApplyRoomMutation();
+  const [deleteRoom, { loading: deleteLoading }] = useDeleteRoomMutation({
+    variables: {
+      id: data.room.id,
+    },
+  });
 
   const room = data?.room;
   const iamOwner = room?.owner.id === id;
@@ -106,9 +120,23 @@ export default function ShowRoom({ url, title, data, roomLoading }: Props) {
     }
   };
 
+  const onDeleteRoom = async () => {
+    await deleteRoom();
+    deleteModalonClose();
+    router.push("/");
+  };
+
   return (
     <>
       <LoginModal isOpen={isOpen} onRequestClose={onClose} />
+      <Modal isOpen={deleteModalIsOpen} onRequestClose={deleteModalonClose}>
+        <div className="flex flex-col items-center justify-center space-y-7">
+          <Heading as="h2">ルームを削除しますか</Heading>
+          <Button onClick={onDeleteRoom} loading={deleteLoading}>
+            ルームを削除する
+          </Button>
+        </div>
+      </Modal>
 
       <Meta
         title={title}
@@ -119,12 +147,22 @@ export default function ShowRoom({ url, title, data, roomLoading }: Props) {
       <Template className="py-5 md:p-10">
         {iamOwner && (
           <div className="flex justify-end mb-4">
-            <Link
-              href={`/room/edit/[slug]`}
-              as={`/room/edit/${router.query.slug?.toString() || ""}`}
-            >
-              <Button>編集する</Button>
-            </Link>
+            <div className="flex items-center space-x-3">
+              <Button
+                onClick={() => deleteModalonOpen()}
+                variant="outline"
+                colorScheme="red"
+              >
+                削除する
+              </Button>
+
+              <Link
+                href={`/room/edit/[slug]`}
+                as={`/room/edit/${router.query.slug?.toString() || ""}`}
+              >
+                <Button>編集する</Button>
+              </Link>
+            </div>
           </div>
         )}
 

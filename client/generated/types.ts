@@ -428,6 +428,14 @@ export type CreateRoomMutation = { __typename?: "Mutation" } & {
   >;
 };
 
+export type DeleteRoomMutationVariables = Exact<{
+  id: Scalars["Int"];
+}>;
+
+export type DeleteRoomMutation = { __typename?: "Mutation" } & {
+  deleteRoom: { __typename?: "RoomModel" } & Pick<RoomModel, "id">;
+};
+
 export type EditRoomMutationVariables = Exact<{
   input: UpdateRoomInput;
 }>;
@@ -944,6 +952,54 @@ export type CreateRoomMutationResult = Apollo.MutationResult<CreateRoomMutation>
 export type CreateRoomMutationOptions = Apollo.BaseMutationOptions<
   CreateRoomMutation,
   CreateRoomMutationVariables
+>;
+export const DeleteRoomDocument = gql`
+  mutation DeleteRoom($id: Int!) {
+    deleteRoom(id: $id) {
+      id
+    }
+  }
+`;
+export type DeleteRoomMutationFn = Apollo.MutationFunction<
+  DeleteRoomMutation,
+  DeleteRoomMutationVariables
+>;
+
+/**
+ * __useDeleteRoomMutation__
+ *
+ * To run a mutation, you first call `useDeleteRoomMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteRoomMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteRoomMutation, { data, loading, error }] = useDeleteRoomMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useDeleteRoomMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    DeleteRoomMutation,
+    DeleteRoomMutationVariables
+  >
+) {
+  return Apollo.useMutation<DeleteRoomMutation, DeleteRoomMutationVariables>(
+    DeleteRoomDocument,
+    baseOptions
+  );
+}
+export type DeleteRoomMutationHookResult = ReturnType<
+  typeof useDeleteRoomMutation
+>;
+export type DeleteRoomMutationResult = Apollo.MutationResult<DeleteRoomMutation>;
+export type DeleteRoomMutationOptions = Apollo.BaseMutationOptions<
+  DeleteRoomMutation,
+  DeleteRoomMutationVariables
 >;
 export const EditRoomDocument = gql`
   mutation EditRoom($input: UpdateRoomInput!) {
