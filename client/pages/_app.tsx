@@ -54,26 +54,25 @@ const splitLink =
         authLink.concat(httpLink)
       )
     : httpLink;
+export const client = new ApolloClient({
+  link: splitLink,
+  cache: new InMemoryCache({
+    // typePolicies: {
+    //   Query: {
+    //     fields: {
+    //       messages: {
+    //         keyArgs: ["input", ["opponentSlug"]],
+    //         merge(existing = [], incoming) {
+    //           return [...existing, ...incoming];
+    //         },
+    //       },
+    //     },
+    //   },
+    // },
+  }),
+});
 
 function MyApp({ Component, pageProps }: AppProps) {
-  const client = new ApolloClient({
-    link: splitLink,
-    cache: new InMemoryCache({
-      // typePolicies: {
-      //   Query: {
-      //     fields: {
-      //       messages: {
-      //         keyArgs: ["input", ["opponentSlug"]],
-      //         merge(existing = [], incoming) {
-      //           return [...existing, ...incoming];
-      //         },
-      //       },
-      //     },
-      //   },
-      // },
-    }),
-  });
-
   return (
     <>
       <Head>
