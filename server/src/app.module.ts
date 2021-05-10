@@ -42,7 +42,7 @@ import { RoomApplyingUserModule } from './room-applying-user/room-applying-user.
         ],
         credentials: true,
       },
-      playground: process.env.DEV === 'development',
+      playground: process.env.ENV === 'development',
       autoSchemaFile: !process.env.GAE_ENV
         ? './src/schema.gql'
         : '/tmp/schema.gql', // GCP上ではtmpしかアクセス権限がないのでtmpに作成
