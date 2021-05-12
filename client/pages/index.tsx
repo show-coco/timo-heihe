@@ -6,10 +6,7 @@ import { HomeHeader } from "../components/template/home/header";
 import { Template } from "../components/template/app/template";
 import { Meta } from "../components/meta";
 import { Button } from "../components/button";
-import {
-  convertToTeamCardObjFromTeams,
-  RoomCard,
-} from "../components/card/room-card";
+import { RoomCard } from "../components/card/room-card";
 /* Hooks */
 import { useSearchTeams } from "../hooks/useSearchRooms";
 /* Icons */
@@ -18,6 +15,7 @@ import { Modal } from "../components/modal/modal";
 import { useModal } from "../hooks/useModal";
 import { Skeleton } from "../components/loading/skeleton";
 import { Card } from "../components/card";
+import { RoomCardList } from "../components/room-card-list/room-cad-list";
 
 export default function Home() {
   const {
@@ -29,10 +27,6 @@ export default function Home() {
     ...searchArea
   } = useSearchTeams();
   const { isOpen, onClose, onOpen } = useModal();
-
-  const teams = useMemo(() => {
-    return roomsData?.rooms && convertToTeamCardObjFromTeams(roomsData.rooms);
-  }, [roomsData]);
 
   if (error) return <p>{error.message}</p>;
 
@@ -50,7 +44,7 @@ export default function Home() {
       <Meta title={"ルーム一覧ページ | CloudCircle"} />
 
       <div className="flex md:px-10">
-        <div className="w-full mt-5 space-y-5 md:w-3/5">
+        <div className="w-full mt-5 md:w-3/5">
           {loading && (
             <Card
               className={`p-5 cursor-pointer hover:shadow-md duration-200`}
@@ -60,13 +54,8 @@ export default function Home() {
               <Skeleton />
             </Card>
           )}
-          {!teams || teams.length === 0
-            ? !loading && (
-                <p className="text-lg font-bold text-center">
-                  ルームがありません
-                </p>
-              )
-            : teams.map((team, i) => <RoomCard {...team} key={i} />)}
+
+          <RoomCardList rooms={roomsData?.rooms} loading={loading} />
         </div>
 
         <div className="flex-1 hidden mt-5 ml-10 md:block">

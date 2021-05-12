@@ -48,7 +48,7 @@ import { Modal } from "../../components/modal/modal";
 type Props = {
   url: string;
   title: string;
-  data: {
+  data?: {
     room: {
       __typename: string;
       id: number;
@@ -95,7 +95,7 @@ export default function ShowRoom({ url, title, data, roomLoading }: Props) {
   const [applyRoom, { loading: applyLoading }] = useApplyRoomMutation();
   const [deleteRoom, { loading: deleteLoading }] = useDeleteRoomMutation({
     variables: {
-      id: data.room.id,
+      id: data?.room.id || 0,
     },
   });
 
@@ -141,7 +141,7 @@ export default function ShowRoom({ url, title, data, roomLoading }: Props) {
       <Meta
         title={title}
         image={`${decodeURIComponent(url)}`}
-        description={data.room.description}
+        description={data?.room.description}
       />
 
       <Template className="py-5 md:p-10">

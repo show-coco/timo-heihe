@@ -254,6 +254,7 @@ export type SearchRoomInput = {
   recruitmentLevelIds?: Maybe<Array<Scalars["Int"]>>;
   skillIds?: Maybe<Array<Scalars["Int"]>>;
   typeId?: Maybe<Scalars["Int"]>;
+  userSlug?: Maybe<Scalars["String"]>;
   withApplication?: Maybe<Scalars["Boolean"]>;
 };
 
@@ -715,6 +716,7 @@ export type UserDetailPageQuery = { __typename?: "Query" } & {
         Array<{ __typename?: "SkillModel" } & Pick<SkillModel, "id" | "name">>
       >;
     };
+  rooms: Array<{ __typename?: "RoomModel" } & RoomCardFragment>;
 };
 
 export type MessageAddedSubscriptionVariables = Exact<{
@@ -1920,7 +1922,11 @@ export const UserDetailPageDocument = gql`
         name
       }
     }
+    rooms(input: { userSlug: $userId }) {
+      ...RoomCard
+    }
   }
+  ${RoomCardFragmentDoc}
 `;
 
 /**

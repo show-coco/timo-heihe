@@ -19,4 +19,7 @@ export class SearchRoomInput {
 
   @Field(() => Boolean, { nullable: true })
   withApplication?: boolean;
+
+  @Field(() => String, { nullable: true })
+  userSlug?: string;
 }

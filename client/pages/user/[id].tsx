@@ -18,6 +18,7 @@ import ReactMarkdown from "react-markdown";
 import { Meta } from "../../components/meta";
 import { Skeleton } from "../../components/loading/skeleton";
 import ReactTooltip from "react-tooltip";
+import { RoomCardList } from "../../components/room-card-list/room-cad-list";
 export default function UserDetail() {
   const router = useRouter();
   const id = router.query.id;
@@ -30,6 +31,7 @@ export default function UserDetail() {
   });
 
   if (error) {
+    console.error(error);
     router.push("/404");
   }
 
@@ -131,6 +133,15 @@ export default function UserDetail() {
             )}
           </Card>
         </div>
+      </div>
+
+      <div className="md:w-2/3">
+        <Heading
+          as="h2"
+          className="mt-10 mb-5"
+        >{`${data?.user.name}がオーナーのルーム`}</Heading>
+
+        <RoomCardList rooms={data?.rooms} loading={loading} />
       </div>
     </Template>
   );

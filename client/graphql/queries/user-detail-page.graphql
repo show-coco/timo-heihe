@@ -12,4 +12,7 @@ query UserDetailPage($userId: String!) {
       name
     }
   }
+  rooms(input: { userSlug: $userId }) {
+    ...RoomCard
+  }
 }
