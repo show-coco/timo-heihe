@@ -352,55 +352,8 @@ export async function getStaticProps({ params }: Params) {
 }
 
 export async function getStaticPaths() {
-  const { data: roomdata } = await client.query({
-    query: gql`
-      query Rooms($input: SearchRoomInput) {
-        rooms(input: $input) {
-          id
-          title
-          slug
-          description
-          icon
-          withApplication
-          repositoryUrl
-          createdAt
-          owner {
-            id
-            userId
-            name
-            avatar
-          }
-          skills {
-            id
-            name
-          }
-        }
-        roomTypes {
-          id
-          name
-        }
-      }
-    `,
-    variables: {
-      input: {
-        keyword: null,
-        categoryIds: null,
-        skillIds: null,
-        recruitmentLevelIds: null,
-        withApplication: null,
-        typeId: null,
-      },
-    },
-  });
-
-  const paths = roomdata?.rooms.map((res: CreateRoomInput) => {
-    return {
-      params: { slug: res.slug.toString() },
-    };
-  });
-
   return {
-    paths: paths,
-    fallback: false,
+    paths: [],
+    fallback: true,
   };
 }
