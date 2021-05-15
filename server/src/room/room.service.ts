@@ -232,11 +232,10 @@ export class RoomService {
     return res;
   }
 
-  async remove(id: number): Promise<{ affected?: number }> {
-    const returns = await this.roomRepository.delete({ id });
+  async remove(id: number): Promise<{ id: number }> {
+    await this.roomRepository.delete({ id });
 
-    const res = returns;
-    console.log('response on rooms->service->remove', res);
-    return res;
+    console.log('response on rooms->service->remove');
+    return { id };
   }
 }

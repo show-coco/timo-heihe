@@ -1,12 +1,18 @@
-import React, { useState } from "react";
-import { gql } from "@apollo/client";
+import React, { useEffect, useState } from "react";
+import { ApolloCache, gql } from "@apollo/client";
 import { client } from "../../../client/pages/_app";
 import ReactMarkdown from "react-markdown";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import {
+  DeleteRoomMutation,
+  RoomQuery,
   useApplyRoomMutation,
   useDeleteRoomMutation,
+  UserDetailPageDocument,
+  UserDetailPageQuery,
+  UserDetailPageQueryVariables,
+  useRoomQuery,
 } from "../../generated/types";
 /* Components */
 import { Avatar } from "../../components/avatar/avatar";
@@ -37,72 +43,84 @@ import { useModal } from "../../hooks/useModal";
 import { useAuthContext } from "../../providers/useAuthContext";
 import { Skeleton } from "../../components/loading/skeleton";
 import { sanitize } from "../../utils/sanitize";
-import {
-  CategoryModel,
-  RecruitmentLevelModel,
-  SkillModel,
-  RoomApplyingUserModel,
-  CreateRoomInput,
-} from "../../generated/types";
 import { Modal } from "../../components/modal/modal";
 type Props = {
   url: string;
   title: string;
-  data?: {
-    room: {
-      __typename: string;
-      id: number;
-      title: string;
-      name: string;
-      description: string;
-      icon: string;
-      withApplication: boolean;
-      repositoryUrl: string;
-      invidationUrl: string;
-      applyingUsers: RoomApplyingUserModel[];
-      recruitmentLevels: RecruitmentLevelModel[];
-      owner: {
-        __typename: string;
-        id: number;
-        userId: string;
-        name: string;
-        avatar: string;
-      };
-      skills: SkillModel[];
-      categories: Pick<CategoryModel, "id" | "name">[];
-    };
-  };
+  data?: RoomQuery;
   roomLoading: boolean;
 };
 
 export default function ShowRoom({ url, title, data, roomLoading }: Props) {
   const { isAuthenticated, id } = useAuthContext();
   const { isOpen, onOpen, onClose } = useModal();
+  const [room, setRoom] = useState<RoomQuery["room"] | undefined>(data?.room);
   const {
     isOpen: deleteModalIsOpen,
     onOpen: deleteModalonOpen,
     onClose: deleteModalonClose,
   } = useModal();
   const router = useRouter();
-
   const [applyClicked, setApplyClicked] = useState(false);
+  const isMine = data?.room.owner.id === id;
+
+  // オーナーがユーザー詳細更新後にクライアント側でオーナーの場合のみ最新のデータをフェッチ
+  // 参考: https://zenn.dev/catnose99/articles/8bed46fb271e44
+  const { data: newRoomData } = useRoomQuery({
+    variables: {
+      slug: router.query.slug?.toString() || "",
+      isMine: isMine,
+    },
+  });
+
+  useEffect(() => {
+    if (newRoomData) {
+      setRoom(newRoomData.room);
+    }
+  }, [newRoomData]);
 
   // if (error) {
   //   console.log(error);
   //   router.push("/404");
   // }
 
-  const [applyRoom, { loading: applyLoading }] = useApplyRoomMutation();
-  const [deleteRoom, { loading: deleteLoading }] = useDeleteRoomMutation({
-    variables: {
-      id: data?.room.id || 0,
-    },
-  });
-
-  const room = data?.room;
   const iamOwner = room?.owner.id === id;
   const iamApplying =
     room?.applyingUsers?.findIndex((user) => user.user?.id === id) !== -1;
+
+  const updateDelete = (client: ApolloCache<DeleteRoomMutation>) => {
+    const data: UserDetailPageQuery | null = client.readQuery<
+      UserDetailPageQuery,
+      UserDetailPageQueryVariables
+    >({
+      query: UserDetailPageDocument,
+      variables: {
+        userId: room?.owner.userId || "",
+      },
+    });
+
+    if (data) {
+      const deletedRooms = data.rooms.filter((r) => r.id !== room?.id);
+      client.writeQuery<UserDetailPageQuery, UserDetailPageQueryVariables>({
+        query: UserDetailPageDocument,
+        variables: {
+          userId: room?.owner.userId || "",
+        },
+        data: {
+          user: data.user,
+          rooms: deletedRooms,
+        },
+      });
+    }
+  };
+
+  const [applyRoom, { loading: applyLoading }] = useApplyRoomMutation();
+  const [deleteRoom, { loading: deleteLoading }] = useDeleteRoomMutation({
+    variables: {
+      id: room?.id || 0,
+    },
+    update: updateDelete,
+  });
 
   const { shareUrl } = useShareBtn();
 

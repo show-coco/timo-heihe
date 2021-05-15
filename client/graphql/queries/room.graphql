@@ -1,5 +1,5 @@
-query Room($slug: String!) {
-  room(slug: $slug) {
+query Room($slug: String!, $isMine: Boolean!) {
+  room(slug: $slug) @include(if: $isMine) {
     id
     title
     name

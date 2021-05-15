@@ -1,7 +1,37 @@
 mutation EditRoom($input: UpdateRoomInput!) {
   updateRoom(input: $input) {
     id
-    title
     slug
+    title
+    name
+    description
+    icon
+    withApplication
+    repositoryUrl
+    invidationUrl
+    applyingUsers {
+      user {
+        id
+        userId
+      }
+    }
+    recruitmentLevels {
+      id
+      name
+    }
+    owner {
+      id
+      userId
+      name
+      avatar
+    }
+    skills {
+      id
+      name
+    }
+    categories {
+      id
+      name
+    }
   }
 }

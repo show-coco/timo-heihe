@@ -423,10 +423,7 @@ export type CreateRoomMutationVariables = Exact<{
 }>;
 
 export type CreateRoomMutation = { __typename?: "Mutation" } & {
-  createRoom: { __typename?: "RoomModel" } & Pick<
-    RoomModel,
-    "id" | "title" | "slug"
-  >;
+  createRoom: { __typename?: "RoomModel" } & RoomCardFragment;
 };
 
 export type DeleteRoomMutationVariables = Exact<{
@@ -444,8 +441,43 @@ export type EditRoomMutationVariables = Exact<{
 export type EditRoomMutation = { __typename?: "Mutation" } & {
   updateRoom: { __typename?: "RoomModel" } & Pick<
     RoomModel,
-    "id" | "title" | "slug"
-  >;
+    | "id"
+    | "slug"
+    | "title"
+    | "name"
+    | "description"
+    | "icon"
+    | "withApplication"
+    | "repositoryUrl"
+    | "invidationUrl"
+  > & {
+      applyingUsers?: Maybe<
+        Array<
+          { __typename?: "RoomApplyingUserModel" } & {
+            user: { __typename?: "UserModel" } & Pick<
+              UserModel,
+              "id" | "userId"
+            >;
+          }
+        >
+      >;
+      recruitmentLevels: Array<
+        { __typename?: "RecruitmentLevelModel" } & Pick<
+          RecruitmentLevelModel,
+          "id" | "name"
+        >
+      >;
+      owner: { __typename?: "UserModel" } & Pick<
+        UserModel,
+        "id" | "userId" | "name" | "avatar"
+      >;
+      skills?: Maybe<
+        Array<{ __typename?: "SkillModel" } & Pick<SkillModel, "id" | "name">>
+      >;
+      categories: Array<
+        { __typename?: "CategoryModel" } & Pick<CategoryModel, "id" | "name">
+      >;
+    };
 };
 
 export type RejectApplicationMutationVariables = Exact<{
@@ -471,7 +503,20 @@ export type UpdateUserMutationVariables = Exact<{
 }>;
 
 export type UpdateUserMutation = { __typename?: "Mutation" } & {
-  updateUser: { __typename?: "UserModel" } & Pick<UserModel, "id" | "userId">;
+  updateUser: { __typename?: "UserModel" } & Pick<
+    UserModel,
+    | "id"
+    | "userId"
+    | "name"
+    | "avatar"
+    | "introduction"
+    | "githubId"
+    | "twitterId"
+  > & {
+      skills?: Maybe<
+        Array<{ __typename?: "SkillModel" } & Pick<SkillModel, "id" | "name">>
+      >;
+    };
 };
 
 export type CreateRoomPageQueryVariables = Exact<{ [key: string]: never }>;
@@ -628,6 +673,7 @@ export type ReceivedApplyingQuery = { __typename?: "Query" } & {
 
 export type RoomQueryVariables = Exact<{
   slug: Scalars["String"];
+  isMine: Scalars["Boolean"];
 }>;
 
 export type RoomQuery = { __typename?: "Query" } & {
@@ -908,11 +954,10 @@ export type ApplyRoomMutationOptions = Apollo.BaseMutationOptions<
 export const CreateRoomDocument = gql`
   mutation CreateRoom($input: CreateRoomInput!) {
     createRoom(input: $input) {
-      id
-      title
-      slug
+      ...RoomCard
     }
   }
+  ${RoomCardFragmentDoc}
 `;
 export type CreateRoomMutationFn = Apollo.MutationFunction<
   CreateRoomMutation,
@@ -1007,8 +1052,38 @@ export const EditRoomDocument = gql`
   mutation EditRoom($input: UpdateRoomInput!) {
     updateRoom(input: $input) {
       id
-      title
       slug
+      title
+      name
+      description
+      icon
+      withApplication
+      repositoryUrl
+      invidationUrl
+      applyingUsers {
+        user {
+          id
+          userId
+        }
+      }
+      recruitmentLevels {
+        id
+        name
+      }
+      owner {
+        id
+        userId
+        name
+        avatar
+      }
+      skills {
+        id
+        name
+      }
+      categories {
+        id
+        name
+      }
     }
   }
 `;
@@ -1155,6 +1230,15 @@ export const UpdateUserDocument = gql`
     updateUser(updateUserInput: $input) {
       id
       userId
+      name
+      avatar
+      introduction
+      githubId
+      twitterId
+      skills {
+        id
+        name
+      }
     }
   }
 `;
@@ -1718,8 +1802,8 @@ export type ReceivedApplyingQueryResult = Apollo.QueryResult<
   ReceivedApplyingQueryVariables
 >;
 export const RoomDocument = gql`
-  query Room($slug: String!) {
-    room(slug: $slug) {
+  query Room($slug: String!, $isMine: Boolean!) {
+    room(slug: $slug) @include(if: $isMine) {
       id
       title
       name
@@ -1769,6 +1853,7 @@ export const RoomDocument = gql`
  * const { data, loading, error } = useRoomQuery({
  *   variables: {
  *      slug: // value for 'slug'
+ *      isMine: // value for 'isMine'
  *   },
  * });
  */

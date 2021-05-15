@@ -6,6 +6,9 @@ import { ACSelectedData } from "../components/auto-complate/auto-complate";
 import {
   CreateRoomInput,
   useCreateRoomMutation,
+  UserDetailPageDocument,
+  UserDetailPageQuery,
+  UserDetailPageQueryVariables,
   useSearchConditionsQuery,
 } from "../generated/types";
 /* Contexts */
@@ -37,7 +40,7 @@ export type RoomTypeValueType = typeof ROOM_TYPE[keyof typeof ROOM_TYPE];
 
 export const useCreateRoom = () => {
   const router = useRouter();
-  const { id } = useAuthContext();
+  const { id, userId } = useAuthContext();
   const [createRoom, { loading }] = useCreateRoomMutation();
   const { data: searchConditions } = useSearchConditionsQuery();
   const title = useTextInput({
@@ -142,6 +145,33 @@ export const useCreateRoom = () => {
       const res = await createRoom({
         variables: {
           input: getVariables(),
+        },
+        update: (client, res) => {
+          const data: UserDetailPageQuery | null = client.readQuery<
+            UserDetailPageQuery,
+            UserDetailPageQueryVariables
+          >({
+            query: UserDetailPageDocument,
+            variables: {
+              userId,
+            },
+          });
+
+          if (data && res.data) {
+            client.writeQuery<
+              UserDetailPageQuery,
+              UserDetailPageQueryVariables
+            >({
+              query: UserDetailPageDocument,
+              variables: {
+                userId,
+              },
+              data: {
+                user: data.user,
+                rooms: [...data.rooms, res.data.createRoom],
+              },
+            });
+          }
         },
       });
       if (typeof window !== "undefined") {
