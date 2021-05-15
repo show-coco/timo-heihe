@@ -8,15 +8,20 @@ export default {
 } as Meta;
 
 const mock: RoomCardProps = {
+  id: 1,
   title: "hello",
   slug: "test-1",
-  owner: {
-    userId: "test-user-id",
-    src: "http://flat-icon-design.com/f/f_object_158/s256_f_object_158_0bg.png",
-    name: "test-user-name",
-  },
+  icon: "http://flat-icon-design.com/f/f_object_158/s256_f_object_158_0bg.png",
+  withApplication: false,
   description: "vneaivneoiavnrioanv",
-  languages: ["typescript"],
+  owner: {
+    id: 1,
+    userId: "test-user-1",
+    avatar:
+      "http://flat-icon-design.com/f/f_object_158/s256_f_object_158_0bg.png",
+    name: "ropital",
+  },
+  skills: [{ id: 1, name: "typescript" }],
   createdAt: "",
 };
 
