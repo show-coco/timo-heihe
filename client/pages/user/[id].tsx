@@ -135,14 +135,16 @@ export default function UserDetail() {
         </div>
       </div>
 
-      <div className="md:w-2/3">
-        <Heading
-          as="h2"
-          className="mt-10 mb-5"
-        >{`${data?.user.name}がオーナーのルーム`}</Heading>
+      {data && (
+        <div className="md:w-2/3">
+          <Heading
+            as="h2"
+            className="mt-10 mb-5"
+          >{`${data.user.name}がオーナーのルーム`}</Heading>
 
-        <RoomCardList rooms={data?.rooms} loading={loading} />
-      </div>
+          <RoomCardList rooms={data?.rooms} loading={loading} />
+        </div>
+      )}
     </Template>
   );
 }

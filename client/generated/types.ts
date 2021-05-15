@@ -423,10 +423,7 @@ export type CreateRoomMutationVariables = Exact<{
 }>;
 
 export type CreateRoomMutation = { __typename?: "Mutation" } & {
-  createRoom: { __typename?: "RoomModel" } & Pick<
-    RoomModel,
-    "id" | "title" | "slug"
-  >;
+  createRoom: { __typename?: "RoomModel" } & RoomCardFragment;
 };
 
 export type DeleteRoomMutationVariables = Exact<{
@@ -471,7 +468,20 @@ export type UpdateUserMutationVariables = Exact<{
 }>;
 
 export type UpdateUserMutation = { __typename?: "Mutation" } & {
-  updateUser: { __typename?: "UserModel" } & Pick<UserModel, "id" | "userId">;
+  updateUser: { __typename?: "UserModel" } & Pick<
+    UserModel,
+    | "id"
+    | "userId"
+    | "name"
+    | "avatar"
+    | "introduction"
+    | "githubId"
+    | "twitterId"
+  > & {
+      skills?: Maybe<
+        Array<{ __typename?: "SkillModel" } & Pick<SkillModel, "id" | "name">>
+      >;
+    };
 };
 
 export type CreateRoomPageQueryVariables = Exact<{ [key: string]: never }>;
@@ -908,11 +918,10 @@ export type ApplyRoomMutationOptions = Apollo.BaseMutationOptions<
 export const CreateRoomDocument = gql`
   mutation CreateRoom($input: CreateRoomInput!) {
     createRoom(input: $input) {
-      id
-      title
-      slug
+      ...RoomCard
     }
   }
+  ${RoomCardFragmentDoc}
 `;
 export type CreateRoomMutationFn = Apollo.MutationFunction<
   CreateRoomMutation,
@@ -1155,6 +1164,15 @@ export const UpdateUserDocument = gql`
     updateUser(updateUserInput: $input) {
       id
       userId
+      name
+      avatar
+      introduction
+      githubId
+      twitterId
+      skills {
+        id
+        name
+      }
     }
   }
 `;

@@ -2,5 +2,14 @@ mutation UpdateUser($input: UpdateUserInput!) {
   updateUser(updateUserInput: $input) {
     id
     userId
+    name
+    avatar
+    introduction
+    githubId
+    twitterId
+    skills {
+      id
+      name
+    }
   }
 }

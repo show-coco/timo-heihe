@@ -1,7 +1,5 @@
 mutation CreateRoom($input: CreateRoomInput!) {
   createRoom(input: $input) {
-    id
-    title
-    slug
+    ...RoomCard
   }
 }

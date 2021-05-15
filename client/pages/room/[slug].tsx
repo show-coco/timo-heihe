@@ -1,12 +1,16 @@
 import React, { useState } from "react";
-import { gql } from "@apollo/client";
+import { ApolloCache, gql } from "@apollo/client";
 import { client } from "../../../client/pages/_app";
 import ReactMarkdown from "react-markdown";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import {
+  DeleteRoomMutation,
   useApplyRoomMutation,
   useDeleteRoomMutation,
+  UserDetailPageDocument,
+  UserDetailPageQuery,
+  UserDetailPageQueryVariables,
 } from "../../generated/types";
 /* Components */
 import { Avatar } from "../../components/avatar/avatar";
@@ -92,17 +96,44 @@ export default function ShowRoom({ url, title, data, roomLoading }: Props) {
   //   router.push("/404");
   // }
 
-  const [applyRoom, { loading: applyLoading }] = useApplyRoomMutation();
-  const [deleteRoom, { loading: deleteLoading }] = useDeleteRoomMutation({
-    variables: {
-      id: data?.room.id || 0,
-    },
-  });
-
   const room = data?.room;
   const iamOwner = room?.owner.id === id;
   const iamApplying =
     room?.applyingUsers?.findIndex((user) => user.user?.id === id) !== -1;
+
+  const updateDelete = (client: ApolloCache<DeleteRoomMutation>) => {
+    const data: UserDetailPageQuery | null = client.readQuery<
+      UserDetailPageQuery,
+      UserDetailPageQueryVariables
+    >({
+      query: UserDetailPageDocument,
+      variables: {
+        userId: room?.owner.userId || "",
+      },
+    });
+
+    if (data) {
+      const deletedRooms = data.rooms.filter((r) => r.id !== room?.id);
+      client.writeQuery<UserDetailPageQuery, UserDetailPageQueryVariables>({
+        query: UserDetailPageDocument,
+        variables: {
+          userId: room?.owner.userId || "",
+        },
+        data: {
+          user: data.user,
+          rooms: deletedRooms,
+        },
+      });
+    }
+  };
+
+  const [applyRoom, { loading: applyLoading }] = useApplyRoomMutation();
+  const [deleteRoom, { loading: deleteLoading }] = useDeleteRoomMutation({
+    variables: {
+      id: room?.id || 0,
+    },
+    update: updateDelete,
+  });
 
   const { shareUrl } = useShareBtn();
 
