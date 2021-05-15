@@ -69,7 +69,7 @@ export default function ShowRoom({ url, title, data, roomLoading }: Props) {
   const { data: newRoomData } = useRoomQuery({
     variables: {
       slug: router.query.slug?.toString() || "",
-      isMine,
+      isMine: isMine,
     },
   });
 
