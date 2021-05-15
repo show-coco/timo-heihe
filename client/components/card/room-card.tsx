@@ -10,35 +10,8 @@ import { dateFormatter, YEAR_MANTH_DAY_SLASH } from "../../utils/dateFormat";
 import Link from "next/link";
 import { FirstParagraphDisplayer } from "../parser/first-paragraph-displayer";
 
-export type RoomCardProps = {
-  title: string;
-  slug: string;
-  owner: AvatarWithNameProps;
-  description: string;
-  languages: string[];
-  createdAt: string;
+export type RoomCardProps = RoomCardFragment & {
   className?: string;
-};
-
-export const convertToTeamCardObjFromTeams = (
-  queryObj: RoomCardFragment[]
-): RoomCardProps[] => {
-  return queryObj.map((team) => {
-    return {
-      ...team,
-      id: team.id || 0,
-      owner: {
-        name: team.owner.name,
-        src: team.owner.avatar || "",
-        userId: team.owner.userId,
-      },
-      languages: convertToSKillsArray(team.skills),
-      createdAt: dateFormatter(
-        new Date(Date.parse(team.createdAt)),
-        YEAR_MANTH_DAY_SLASH
-      ),
-    };
-  });
 };
 
 const convertToSKillsArray = (
@@ -53,7 +26,7 @@ export const RoomCard: React.FC<RoomCardProps> = ({
   slug,
   owner,
   description,
-  languages,
+  skills,
   createdAt,
   className,
 }: RoomCardProps) => {
@@ -71,7 +44,7 @@ export const RoomCard: React.FC<RoomCardProps> = ({
 
               <span className=" w-min">
                 <AvatarWithName
-                  src={owner.src}
+                  src={owner.avatar || ""}
                   name={owner.name}
                   size="small"
                   className="mr-4"
@@ -83,7 +56,10 @@ export const RoomCard: React.FC<RoomCardProps> = ({
             <FirstParagraphDisplayer className="pt-4 pb-6" text={description} />
 
             <div className="flex items-end">
-              <SkillPochiSet skills={languages} className="flex-row flex-1" />
+              <SkillPochiSet
+                skills={convertToSKillsArray(skills)}
+                className="flex-row flex-1"
+              />
 
               <span>{createdAt}</span>
             </div>

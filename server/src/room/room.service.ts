@@ -101,6 +101,12 @@ export class RoomService {
       });
     }
 
+    if (input?.userSlug) {
+      query.andWhere('owner.userId = :id', {
+        id: input.userSlug,
+      });
+    }
+
     const res = await query.getMany();
 
     console.log('res on rooms->service->findAll', res);

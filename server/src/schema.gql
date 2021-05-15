@@ -139,6 +139,7 @@ input SearchRoomInput {
   recruitmentLevelIds: [Int!]
   skillIds: [Int!]
   typeId: Int
+  userSlug: String
   withApplication: Boolean
 }
 

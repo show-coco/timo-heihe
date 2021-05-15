@@ -48,7 +48,7 @@ import { Modal } from "../../components/modal/modal";
 type Props = {
   url: string;
   title: string;
-  data: {
+  data?: {
     room: {
       __typename: string;
       id: number;
@@ -95,7 +95,7 @@ export default function ShowRoom({ url, title, data, roomLoading }: Props) {
   const [applyRoom, { loading: applyLoading }] = useApplyRoomMutation();
   const [deleteRoom, { loading: deleteLoading }] = useDeleteRoomMutation({
     variables: {
-      id: data.room.id,
+      id: data?.room.id || 0,
     },
   });
 
@@ -141,7 +141,7 @@ export default function ShowRoom({ url, title, data, roomLoading }: Props) {
       <Meta
         title={title}
         image={`${decodeURIComponent(url)}`}
-        description={data.room.description}
+        description={data?.room.description}
       />
 
       <Template className="py-5 md:p-10">
@@ -352,55 +352,8 @@ export async function getStaticProps({ params }: Params) {
 }
 
 export async function getStaticPaths() {
-  const { data: roomdata } = await client.query({
-    query: gql`
-      query Rooms($input: SearchRoomInput) {
-        rooms(input: $input) {
-          id
-          title
-          slug
-          description
-          icon
-          withApplication
-          repositoryUrl
-          createdAt
-          owner {
-            id
-            userId
-            name
-            avatar
-          }
-          skills {
-            id
-            name
-          }
-        }
-        roomTypes {
-          id
-          name
-        }
-      }
-    `,
-    variables: {
-      input: {
-        keyword: null,
-        categoryIds: null,
-        skillIds: null,
-        recruitmentLevelIds: null,
-        withApplication: null,
-        typeId: null,
-      },
-    },
-  });
-
-  const paths = roomdata?.rooms.map((res: CreateRoomInput) => {
-    return {
-      params: { slug: res.slug.toString() },
-    };
-  });
-
   return {
-    paths: paths,
-    fallback: false,
+    paths: [],
+    fallback: true,
   };
 }
