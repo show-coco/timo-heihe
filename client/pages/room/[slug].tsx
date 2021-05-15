@@ -74,10 +74,14 @@ export default function ShowRoom({ url, title, data, roomLoading }: Props) {
   });
 
   useEffect(() => {
-    if (newRoomData) {
+    if (newRoomData?.room) {
       setRoom(newRoomData.room);
     }
   }, [newRoomData]);
+
+  useEffect(() => {
+    setRoom(data?.room);
+  }, [data?.room]);
 
   // if (error) {
   //   console.log(error);
