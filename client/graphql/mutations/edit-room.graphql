@@ -9,12 +9,6 @@ mutation EditRoom($input: UpdateRoomInput!) {
     withApplication
     repositoryUrl
     invidationUrl
-    applyingUsers {
-      user {
-        id
-        userId
-      }
-    }
     recruitmentLevels {
       id
       name
