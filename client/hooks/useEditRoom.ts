@@ -160,7 +160,7 @@ export const useEditTeam = () => {
   ) => {
     e.preventDefault();
     try {
-      const res = await updateTeam({
+      const { data: updatedData, errors } = await updateTeam({
         variables: {
           input: {
             id: data?.room.id || 0,
@@ -179,8 +179,9 @@ export const useEditTeam = () => {
           },
         },
       });
+      console.error(errors);
       router.push(
-        `/room/${res.data?.updateRoom.slug}?title=${res.data?.updateRoom.title}`
+        `/room/${updatedData?.updateRoom.slug}?title=${updatedData?.updateRoom.title}`
       );
     } catch (e) {
       slug.setErrors([...slug.errors, TEXT_INPUT_ERRORS.DEPLICATED]);
