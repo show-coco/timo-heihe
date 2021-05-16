@@ -123,6 +123,7 @@ export const EditRoomForm: React.VFC<RoomEditFormProps> = ({
                       key={i}
                       className="mt-4 mr-4"
                       value={type.id}
+                      checked={form.type.value.includes(type.id)}
                       onChange={(e) => form.type.onChangeType(e, type.id)}
                     >
                       {type.name}
