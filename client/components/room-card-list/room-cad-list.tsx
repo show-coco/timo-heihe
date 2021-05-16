@@ -13,8 +13,12 @@ export const RoomCardList: React.VFC<Props> = ({
   loading,
   className,
 }: Props) => {
-  if (!rooms || (rooms.length === 0 && !loading)) {
+  if ((!rooms && !loading) || (rooms && rooms.length === 0 && !loading)) {
     return <p className="text-lg font-bold text-center">ルームがありません</p>;
+  }
+
+  if (!rooms) {
+    return null;
   }
 
   return (
