@@ -1,21 +1,25 @@
 import React, { Fragment } from "react";
 import { TextInputErrorType } from "../../hooks/useTextInput";
 
-type TextInputProps = {
-  placeholder?: string;
+export type TextInputProps = {
   className?: string;
+  placeholder?: string;
   name?: string;
-  value?: string;
-  required?: boolean;
   icon?: React.ReactNode;
-  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  errors?: TextInputErrorType[];
+  required?: boolean;
+  value: string;
+  errors: TextInputErrorType[];
+  onChange: (
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => void;
 };
 
 // eslint-disable-next-line react/display-name
 export const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
   ({ className, ...props }: TextInputProps, ref) => {
-    const borderStyle = props.errors?.length ? "border-red-500" : "border-none";
+    const borderStyle = props.errors?.length
+      ? "border-blue-500"
+      : "border-none";
 
     const propsStyle = props.required ? "flex" : "block";
     return (
@@ -37,6 +41,13 @@ export const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
             {...props}
           />
         </div>
+        <ul>
+          {props.errors?.map((error) => (
+            <li key={error.code} className="text-blue-500">
+              ・{error.message}
+            </li>
+          ))}
+        </ul>
       </Fragment>
     );
   }

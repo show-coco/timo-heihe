@@ -11,7 +11,7 @@ import { AutoComplate } from "../../../components/auto-complate/auto-complate";
 import { Button } from "../../../components/button";
 import { EditableSkillPochiSet } from "../../../components/skill/editable-skill-pochi-set";
 import { Template } from "../../../components/template/app/template";
-import { TextArea } from "../../../components/text-area";
+import { TextArea } from "../../../components/text-input/text-area";
 import {
   convertToACData,
   convertToSkillPochiSetArray,
@@ -29,7 +29,6 @@ export default function EditUser() {
     setter,
     skills,
     disabled,
-    userInfoLoading,
     updateUserLoading,
     onSubmit,
   } = useEditUser();
@@ -58,13 +57,6 @@ export default function EditUser() {
                 onChange={form.userName.onChange}
                 errors={form.userName.errors}
               />
-              <ul>
-                {form.userName.errors.map((error) => (
-                  <li key={error.code} className="text-red-500">
-                    ・{error.message}
-                  </li>
-                ))}
-              </ul>
             </div>
           </div>
 
@@ -72,19 +64,8 @@ export default function EditUser() {
             <Heading as="h2">ユーザID</Heading>
             <span className="flex items-center">
               @
-              <TextInput
-                value={form.userId.value}
-                className="w-2/3 ml-2"
-                onChange={form.userId.onChange}
-              />
+              <TextInput {...form.userId} className="w-2/3 ml-2" />
             </span>
-            <ul>
-              {form.userId.errors.map((error) => (
-                <li key={error.code} className="text-red-500">
-                  {error.message}
-                </li>
-              ))}
-            </ul>
           </div>
 
           <div>
@@ -94,20 +75,10 @@ export default function EditUser() {
             </div>
             <div className="h-96">
               <TextArea
-                value={form.introduction.value}
                 placeholder="自己紹介文を設定してください"
-                onChange={form.introduction.onChange}
+                {...form.introduction}
                 className="h-80"
               />
-            </div>
-            <div>
-              <ul>
-                {form.introduction.errors.map((error) => (
-                  <li key={error.code} className="text-red-500">
-                    ・{error.message}
-                  </li>
-                ))}
-              </ul>
             </div>
           </div>
 
@@ -117,36 +88,12 @@ export default function EditUser() {
             <div className="flex items-center space-x-2">
               <GithubIcon />
               <span className="pl-1">@</span>
-              <TextInput
-                value={form.githubId.value}
-                onChange={form.githubId.onChange}
-              />
-              <div>
-                <ul>
-                  {form.githubId.errors.map((error) => (
-                    <li key={error.code} className="text-red-500">
-                      ・{error.message}
-                    </li>
-                  ))}
-                </ul>
-              </div>
+              <TextInput {...form.githubId} />
             </div>
             <div className="flex items-center space-x-2">
               <TwitterIcon class="bg-blue-400 rounded-full" />
               <span>@</span>
-              <TextInput
-                value={form.twitterId.value}
-                onChange={form.twitterId.onChange}
-              />
-              <div>
-                <ul>
-                  {form.twitterId.errors.map((error) => (
-                    <li key={error.code} className="text-red-500">
-                      ・{error.message}
-                    </li>
-                  ))}
-                </ul>
-              </div>
+              <TextInput {...form.twitterId} />
             </div>
           </div>
 

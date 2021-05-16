@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react";
+import { TextInputProps } from "../components/text-input/text-input";
 
 export const REGEXES = {
   HALF_SIZE_NUMBER: "^[0-9a-z-_]*$",
@@ -13,6 +14,8 @@ type Props = {
   required?: boolean;
   max?: number;
   min?: number;
+  placeholder?: string;
+  name?: string;
 };
 
 const isValidChars = (text: string, regex: RegexType) => {
@@ -51,27 +54,34 @@ const MAX_MESSAGE = "文字以下で入力してください";
 
 export type TextInputErrorType = typeof TEXT_INPUT_ERRORS[keyof typeof TEXT_INPUT_ERRORS];
 
+export type UseTextInput = TextInputProps & {
+  setValue: React.Dispatch<React.SetStateAction<string>>;
+  setErrors: React.Dispatch<React.SetStateAction<TextInputErrorType[]>>;
+  valid: () => void;
+};
+
 export const useTextInput = ({
   initialValue = "",
   regex,
   required = false,
   min,
   max,
-}: Props) => {
+  ...props
+}: Props): UseTextInput => {
   const [value, setValue] = useState(initialValue);
   const [errors, setErrors] = useState<TextInputErrorType[]>([]);
-  const [changedCount, setChangedCount] = useState(0);
+  // const [changedCount, setChangedCount] = useState(0);
 
   useEffect(() => {
     console.log("errors", errors);
   }, [errors]);
 
   useEffect(() => {
-    if (changedCount < 2) {
-      setChangedCount(2);
-    } else {
-      valid();
-    }
+    // if (changedCount < 2) {
+    //   setChangedCount(2);
+    // } else {
+    valid();
+    // }
   }, [value]);
 
   const onChange = (
@@ -112,6 +122,8 @@ export const useTextInput = ({
   return {
     errors,
     value,
+    required,
+    ...props,
     onChange,
     setValue,
     setErrors,

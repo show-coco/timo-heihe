@@ -3,8 +3,12 @@ import { storage } from "../firebase";
 import loadImage from "blueimp-load-image";
 
 export type UseFileInputReturn = {
-  onClick: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
-  onChange: (event: React.ChangeEvent<HTMLInputElement>) => Promise<void>;
+  onClickFileInput: (
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => void;
+  onChangeFileInput: (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => Promise<void>;
   setImageUrl: React.Dispatch<React.SetStateAction<string>>;
   fileRef: React.RefObject<HTMLInputElement>;
   imageUrl: string;
@@ -14,12 +18,16 @@ export const useFileInput = (): UseFileInputReturn => {
   const fileRef = useRef<HTMLInputElement>(null);
   const [imageUrl, setImageUrl] = useState("");
 
-  const onClick = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+  const onClickFileInput = (
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
     event.preventDefault();
     if (fileRef && fileRef.current) fileRef.current.click();
   };
 
-  const onChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+  const onChangeFileInput = async (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     if (event.target.files) {
       const file = event.target.files[0];
       const canvas = await loadImage(file, {
@@ -71,8 +79,8 @@ export const useFileInput = (): UseFileInputReturn => {
   // };
 
   return {
-    onClick,
-    onChange,
+    onClickFileInput,
+    onChangeFileInput,
     setImageUrl,
     fileRef,
     imageUrl,
