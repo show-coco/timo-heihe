@@ -360,9 +360,9 @@ export async function getStaticProps({ params }: Params) {
 
   const title = data.room.title;
   const name = params.slug;
-  const url = decodeURI(
-    `https://ogp-mu.vercel.app/${encodeURI(title)}.${encodeURI(name)}.png`
-  );
+  const url = `https://ogp-mu.vercel.app/${encodeURI(title)}.${encodeURI(
+    name
+  )}.png`;
 
   return {
     props: {
