@@ -27,6 +27,7 @@ const betweenH2 = "space-y-2";
 type RoomEditFormProps = {
   buttonName: string;
   title: string;
+  tabTitle: string;
   selectableData?: SearchConditionsQuery;
   loading: boolean;
   isDisabled: boolean;
@@ -74,10 +75,11 @@ export const EditRoomForm: React.VFC<RoomEditFormProps> = ({
   loading,
   buttonName,
   title,
+  tabTitle,
 }: RoomEditFormProps) => {
   return (
     <Template className="flex flex-col lg:py-10 lg:space-x-10 lg:flex-row lg:px-28">
-      <Meta title={"ルーム作成 | CloudCircle"} />
+      <Meta title={`${tabTitle} | CloudCircle`} />
 
       <div className="flex-1">
         {/*左側のカード */}

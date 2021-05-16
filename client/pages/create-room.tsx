@@ -18,6 +18,7 @@ export default function CreateRoom() {
       {...useCreateRoom()}
       buttonName="作成する"
       title="新しいルームを作成する"
+      tabTitle="ルーム作成"
     />
   );
 }
