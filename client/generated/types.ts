@@ -451,16 +451,6 @@ export type EditRoomMutation = { __typename?: "Mutation" } & {
     | "repositoryUrl"
     | "invidationUrl"
   > & {
-      applyingUsers?: Maybe<
-        Array<
-          { __typename?: "RoomApplyingUserModel" } & {
-            user: { __typename?: "UserModel" } & Pick<
-              UserModel,
-              "id" | "userId"
-            >;
-          }
-        >
-      >;
       recruitmentLevels: Array<
         { __typename?: "RecruitmentLevelModel" } & Pick<
           RecruitmentLevelModel,
@@ -740,6 +730,9 @@ export type SearchConditionsQuery = { __typename?: "Query" } & {
       RecruitmentLevelModel,
       "id" | "name"
     >
+  >;
+  roomTypes: Array<
+    { __typename?: "RoomTypeModel" } & Pick<RoomTypeModel, "id" | "name">
   >;
 };
 
@@ -1060,12 +1053,6 @@ export const EditRoomDocument = gql`
       withApplication
       repositoryUrl
       invidationUrl
-      applyingUsers {
-        user {
-          id
-          userId
-        }
-      }
       recruitmentLevels {
         id
         name
@@ -1939,6 +1926,10 @@ export const SearchConditionsDocument = gql`
       name
     }
     recruitmentLevels {
+      id
+      name
+    }
+    roomTypes {
       id
       name
     }

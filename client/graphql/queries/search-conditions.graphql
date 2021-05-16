@@ -12,4 +12,8 @@ query SearchConditions {
     id
     name
   }
+  roomTypes {
+    id
+    name
+  }
 }

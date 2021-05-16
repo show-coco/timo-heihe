@@ -9,7 +9,13 @@ export default {
 } as Meta;
 
 export const Basic = () => {
-  const { fileRef, onChange, onClick } = useFileInput();
+  const { fileRef, onChangeFileInput, onClickFileInput } = useFileInput();
 
-  return <FileInput ref={fileRef} onChange={onChange} onClick={onClick} />;
+  return (
+    <FileInput
+      ref={fileRef}
+      onChange={onChangeFileInput}
+      onClick={onClickFileInput}
+    />
+  );
 };

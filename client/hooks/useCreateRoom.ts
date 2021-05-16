@@ -89,14 +89,8 @@ export const useCreateRoom = () => {
     min: 1,
   });
   const [isDisabled, setIsDisabled] = useState<boolean>(true);
-  const {
-    fileRef,
-    onClick: onClickFileInput,
-    onChange: onChangeFileInput,
-    imageUrl,
-  } = useFileInput();
+  const file = useFileInput();
   const [isPrivateError, setIsPrivateError] = useState("");
-
   const [types, setTypes] = useState<number[]>([]);
 
   const getVariables = (): CreateRoomInput => ({
@@ -106,7 +100,7 @@ export const useCreateRoom = () => {
     owner: id,
     repositoryUrl: repositoryUrl.value,
     invidationUrl: invitationUrl.value,
-    icon: imageUrl,
+    icon: file.imageUrl,
     skills: convertToSkillsIds(selectedSkills),
     description: description.value,
     recruiementLevels,
@@ -214,16 +208,13 @@ export const useCreateRoom = () => {
       name,
       description,
       invitationUrl,
-      file: {
-        onClickFileInput,
-        onChangeFileInput,
-        imageUrl,
-        fileRef,
-      },
+      repositoryUrl,
+      file,
       type: {
         onChangeType,
+        setTypes,
+        value: types,
       },
-      repositoryUrl,
       isPrivate: {
         value: isPrivate,
         setIsPrivate,

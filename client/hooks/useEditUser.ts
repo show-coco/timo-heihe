@@ -38,8 +38,8 @@ export const useEditUser = () => {
   const [selectedSkills, setSkills] = useState<ACSelectedData[]>([]);
   const {
     fileRef,
-    onClick: onClickFileInput,
-    onChange: onChangeFileInput,
+    onClickFileInput: onClickFileInput,
+    onChangeFileInput: onChangeFileInput,
     imageUrl,
     setImageUrl,
   } = useFileInput();
