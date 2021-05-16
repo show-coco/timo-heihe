@@ -55,7 +55,7 @@ export const useCreateRoom = () => {
     regex: REGEXES.HALF_SIZE_NUMBER,
     required: true,
     min: 3,
-    max: 20,
+    max: 40,
   });
   const description = useTextInput({
     required: true,
@@ -66,6 +66,7 @@ export const useCreateRoom = () => {
   const [repositoryUrl, setRespositoryUrl] = useState("");
   const invitationUrl = useTextInput({
     regex: REGEXES.URL,
+    required: true,
   });
   const [isPrivate, setIsPrivate] = useState<RoomTypeValueType>(
     ROOM_TYPE.PUBLIC

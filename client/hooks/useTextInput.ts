@@ -60,18 +60,18 @@ export const useTextInput = ({
 }: Props) => {
   const [value, setValue] = useState(initialValue);
   const [errors, setErrors] = useState<TextInputErrorType[]>([]);
-  const [changedCount, setChangedCount] = useState(0);
+  // const [changedCount, setChangedCount] = useState(0);
 
   useEffect(() => {
     console.log("errors", errors);
   }, [errors]);
 
   useEffect(() => {
-    if (changedCount < 2) {
-      setChangedCount(2);
-    } else {
-      valid();
-    }
+    // if (changedCount < 2) {
+    //   setChangedCount(2);
+    // } else {
+    valid();
+    // }
   }, [value]);
 
   const onChange = (

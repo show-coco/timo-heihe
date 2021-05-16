@@ -15,7 +15,7 @@ export const TextArea: React.FC<TextAreaProps> = ({
   className,
   ...props
 }: TextAreaProps) => {
-  const borderStyle = props.errors?.length ? "border-red-500" : "border-none";
+  const borderStyle = props.errors?.length ? "border-blue-500" : "border-none";
 
   return (
     <div className="h-full">

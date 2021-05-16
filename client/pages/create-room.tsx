@@ -87,7 +87,7 @@ export default function CreateRoom() {
                   />
                   <ul>
                     {slugErrors.map((error) => (
-                      <li key={error.code} className="text-red-500">
+                      <li key={error.code} className="text-blue-500">
                         ・{error.message}
                       </li>
                     ))}
@@ -104,7 +104,7 @@ export default function CreateRoom() {
                   />
                   <ul>
                     {form.name.errors.map((error) => (
-                      <li key={error.code} className="text-red-500">
+                      <li key={error.code} className="text-blue-500">
                         ・{error.message}
                       </li>
                     ))}
@@ -123,7 +123,7 @@ export default function CreateRoom() {
                 />
                 <ul>
                   {form.title.errors.map((error) => (
-                    <li key={error.code} className="text-red-500">
+                    <li key={error.code} className="text-blue-500">
                       ・{error.message}
                     </li>
                   ))}
@@ -154,7 +154,7 @@ export default function CreateRoom() {
                 </span>
                 <ul>
                   {form.categories.errors.map((error) => (
-                    <li key={error.code} className="text-red-500">
+                    <li key={error.code} className="text-blue-500">
                       ・{error.message}
                     </li>
                   ))}
@@ -185,7 +185,7 @@ export default function CreateRoom() {
                 </div>
                 <ul>
                   {form.description.errors.map((error) => (
-                    <li key={error.code} className="text-red-500">
+                    <li key={error.code} className="text-blue-500">
                       ・{error.message}
                     </li>
                   ))}
@@ -212,7 +212,7 @@ export default function CreateRoom() {
             <Heading as="h1Small">ルームへの申請</Heading>
             <span className="text-red-500">*</span>
           </span>
-          <p className="mt-1 text-red-500">{isPrivateError}</p>
+          <p className="mt-1 text-blue-500">{isPrivateError}</p>
           <div className="flex mt-3 space-x-8">
             <Radio
               text="なし"
@@ -241,7 +241,7 @@ export default function CreateRoom() {
               </div>
               <ul>
                 {form.invitationUrl.errors.map((error) => (
-                  <li key={error.code} className="text-red-500">
+                  <li key={error.code} className="text-blue-500">
                     ・{error.message}
                   </li>
                 ))}

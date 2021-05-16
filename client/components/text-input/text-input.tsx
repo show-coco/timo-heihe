@@ -15,7 +15,9 @@ type TextInputProps = {
 // eslint-disable-next-line react/display-name
 export const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
   ({ className, ...props }: TextInputProps, ref) => {
-    const borderStyle = props.errors?.length ? "border-red-500" : "border-none";
+    const borderStyle = props.errors?.length
+      ? "border-blue-500"
+      : "border-none";
 
     const propsStyle = props.required ? "flex" : "block";
     return (
