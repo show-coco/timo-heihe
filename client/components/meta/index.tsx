@@ -17,7 +17,11 @@ export const Meta = ({ title, description, keyword, image, url }: Props) => {
       <meta property="og:title" content={title ? title : "CloudCircle"} />
       <meta property="og:site_name" content="CloudCircle" />
       <meta property="og:type" content="website" />
+      <meta name="twitter:url" content={image ? image : "/ogp.png"} />
       <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:title" content={title} />
+      <link rel="canonical" href={url} />
+      <link rel="icon" type="image/png" href="/favicon.png" />
       {/* <meta name="twitter:site" content="@3shake_Inc" /> */}
       <meta
         name="Description"
