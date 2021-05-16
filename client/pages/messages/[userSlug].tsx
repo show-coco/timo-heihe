@@ -160,6 +160,7 @@ export default function Message() {
               <TextInput
                 onChange={(e) => setText(e.target.value)}
                 value={text}
+                errors={[]}
               />
               <span className="absolute top-0 right-2">
                 <IconButton

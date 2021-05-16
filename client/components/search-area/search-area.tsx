@@ -42,6 +42,7 @@ export const SearchArea: FC<Props> = ({
             className="md:my-6"
             placeholder="キーワードで検索する"
             value={keyword}
+            errors={[]}
           />
         </div>
       </div>
