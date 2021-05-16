@@ -1,5 +1,5 @@
 /* ルーム作成ページ */
-import React, { useMemo } from "react";
+import React from "react";
 import { SkillModel, useCreateRoomPageQuery } from "../generated/types";
 /* Components */
 import { Card } from "../components/card/card";
@@ -10,11 +10,11 @@ import { TextInput } from "../components/text-input/text-input";
 import { Radio } from "../components/radio/radio";
 import { Checkbox } from "../components/checkbox/checkbox";
 import { Button } from "../components/button";
-import { TextArea } from "../components/text-area";
 import { Template } from "../components/template/app/template";
 import { OperationTag } from "../components/tag/operation";
 import { Meta } from "../components/meta";
 import { EditableSkillPochiSet } from "../components/skill/editable-skill-pochi-set";
+import { TextArea } from "../components/text-input/text-area";
 import {
   ACSelectedData,
   AutoComplate,
@@ -24,35 +24,16 @@ import { useAuthGuard } from "../hooks/useAuthGurad";
 import { useCreateRoom, ROOM_TYPE } from "../hooks/useCreateRoom";
 /* Icons */
 import GithubIcon from "../assets/icons/github.svg";
-import { TEXT_INPUT_ERRORS } from "../hooks/useTextInput";
 
 const betweenH2 = "space-y-2";
 
 export default function CreateRoom() {
-  const {
-    onClickFileInput,
-    onChangeFileInput,
-    onSubmit,
-    onChangeType,
-    searchConditions,
-    setter,
-    state,
-    isDisabled,
-    form,
-    isPrivateError,
-    loading,
-  } = useCreateRoom();
+  const { selectableData, isDisabled, form, loading } = useCreateRoom();
   const { data } = useCreateRoomPageQuery();
 
   useAuthGuard({});
 
   const skills = data?.skills || [];
-
-  const slugErrors = useMemo(() => {
-    return form.slug.errors.filter(
-      (error) => error !== TEXT_INPUT_ERRORS.REQUIRED
-    );
-  }, [form.slug.errors]);
 
   return (
     <Template className="flex flex-col lg:py-10 lg:space-x-10 lg:flex-row lg:px-28">
@@ -61,73 +42,34 @@ export default function CreateRoom() {
       <div className="flex-1">
         {/*左側のカード */}
         <Card className="p-8">
-          <form onSubmit={onSubmit}>
+          <form onSubmit={form.onSubmit}>
             <div className="space-y-10">
               <Heading as="h1Small">新しいルームを作成する</Heading>
               <div className={betweenH2}>
                 <Heading as="h2">ルームアイコン</Heading>
+
                 <div className="flex items-center space-x-7">
-                  <Avatar src={state.imageUrl} />
+                  <Avatar src={form.file.imageUrl} />
                   <FileInput
-                    ref={state.fileRef}
-                    onClick={onClickFileInput}
-                    onChange={onChangeFileInput}
+                    ref={form.file.fileRef}
+                    onClick={form.file.onClickFileInput}
+                    onChange={form.file.onChangeFileInput}
                   />
                 </div>
               </div>
 
               <div className="flex flex-col lg:flex-row">
                 <div className={`lg:w-1/4 ${betweenH2}`}>
-                  <TextInput
-                    name="ルームID"
-                    required
-                    placeholder="ルームID"
-                    onChange={form.slug.onChange}
-                    errors={form.slug.errors}
-                  />
-                  <ul>
-                    {slugErrors.map((error) => (
-                      <li key={error.code} className="text-blue-500">
-                        ・{error.message}
-                      </li>
-                    ))}
-                  </ul>
+                  <TextInput {...form.slug} />
                 </div>
 
                 <div className={`w-full mt mt-10 lg:mt-0 lg:ml-8 ${betweenH2}`}>
-                  <TextInput
-                    name="ルーム名"
-                    required
-                    placeholder="ルーム名を入力"
-                    onChange={form.name.onChange}
-                    errors={form.name.errors}
-                  />
-                  <ul>
-                    {form.name.errors.map((error) => (
-                      <li key={error.code} className="text-blue-500">
-                        ・{error.message}
-                      </li>
-                    ))}
-                  </ul>
+                  <TextInput {...form.name} />
                 </div>
               </div>
 
               <div className={`w-full mt-10 ${betweenH2}`}>
-                <TextInput
-                  name="募集タイトル"
-                  required
-                  placeholder="メンバー募集タイトル"
-                  className="w-2/3"
-                  onChange={form.title.onChange}
-                  errors={form.title.errors}
-                />
-                <ul>
-                  {form.title.errors.map((error) => (
-                    <li key={error.code} className="text-blue-500">
-                      ・{error.message}
-                    </li>
-                  ))}
-                </ul>
+                <TextInput className="w-2/3" {...form.title} />
               </div>
 
               <div className={`flex flex-col flex-wrap w-2/3`}>
@@ -139,7 +81,7 @@ export default function CreateRoom() {
                       key={i}
                       className="mt-4 mr-4"
                       value={type.id}
-                      onChange={(e) => onChangeType(e, type.id)}
+                      onChange={(e) => form.type.onChangeType(e, type.id)}
                     >
                       {type.name}
                     </Checkbox>
@@ -147,49 +89,10 @@ export default function CreateRoom() {
                 </div>
               </div>
 
-              <div className={`flex flex-col flex-wrap w-2/3`}>
-                <span className="flex">
-                  <Heading as="h2">カテゴリー</Heading>
-                  <span className="text-red-500">*</span>
-                </span>
-                <ul>
-                  {form.categories.errors.map((error) => (
-                    <li key={error.code} className="text-blue-500">
-                      ・{error.message}
-                    </li>
-                  ))}
-                </ul>
-                <div>
-                  {data?.categories.map((category, i) => (
-                    <Checkbox
-                      key={i}
-                      className="mt-4 mr-4"
-                      onChange={() => form.categories.onChange(category.id)}
-                    >
-                      {category.name}
-                    </Checkbox>
-                  ))}
-                </div>
-              </div>
-
               <div className={`${betweenH2} h-64`}>
                 <div className="h-full">
-                  <TextArea
-                    name="ルームについて"
-                    required
-                    placeholder="ルームについて（Markdown記法）&#13;&#10;最初の一文がルーム一覧の説明文に表示されます。"
-                    className="h-56 mt-3 "
-                    onChange={form.description.onChange}
-                    errors={form.description.errors}
-                  />
+                  <TextArea className="h-56 mt-3 " {...form.description} />
                 </div>
-                <ul>
-                  {form.description.errors.map((error) => (
-                    <li key={error.code} className="text-blue-500">
-                      ・{error.message}
-                    </li>
-                  ))}
-                </ul>
               </div>
 
               <Button
@@ -212,48 +115,34 @@ export default function CreateRoom() {
             <Heading as="h1Small">ルームへの申請</Heading>
             <span className="text-red-500">*</span>
           </span>
-          <p className="mt-1 text-blue-500">{isPrivateError}</p>
+          <p className="mt-1 text-blue-500">{form.isPrivate.isPrivateError}</p>
           <div className="flex mt-3 space-x-8">
             <Radio
               text="なし"
               name="apply"
               value={ROOM_TYPE.PUBLIC}
-              checked={state.isPrivate === ROOM_TYPE.PUBLIC}
-              onChange={() => setter.setIsPrivate(ROOM_TYPE.PUBLIC)}
+              checked={form.isPrivate.value === ROOM_TYPE.PUBLIC}
+              onChange={() => form.isPrivate.setIsPrivate(ROOM_TYPE.PUBLIC)}
             />
             <Radio
               text="あり"
               name="apply"
               value={ROOM_TYPE.PRIVATE}
-              checked={state.isPrivate === ROOM_TYPE.PRIVATE}
-              onChange={() => setter.setIsPrivate(ROOM_TYPE.PRIVATE)}
+              checked={form.isPrivate.value === ROOM_TYPE.PRIVATE}
+              onChange={() => form.isPrivate.setIsPrivate(ROOM_TYPE.PRIVATE)}
             />
           </div>
-          {state.isPrivate === "1" && (
+          {form.isPrivate.value === "1" && (
             <div>
               <div className={`${betweenH2} mt-4`}>
-                <TextInput
-                  name="招待URL"
-                  placeholder="DiscordやSlackの招待URL"
-                  onChange={form.invitationUrl.onChange}
-                  errors={form.invitationUrl.errors}
-                />
+                <TextInput {...form.invitationUrl} />
               </div>
-              <ul>
-                {form.invitationUrl.errors.map((error) => (
-                  <li key={error.code} className="text-blue-500">
-                    ・{error.message}
-                  </li>
-                ))}
-              </ul>
             </div>
           )}
           <div className={`${betweenH2} mt-4`}>
             <TextInput
-              name="Githubリポジトリ"
-              placeholder="URLを入力"
               icon={<GithubIcon height="30px" />}
-              onChange={(e) => setter.setRespositoryUrl(e.target.value)}
+              {...form.repositoryUrl}
             />
           </div>
         </Card>
@@ -264,13 +153,13 @@ export default function CreateRoom() {
             募集レベル
           </Heading>
           <div>
-            {searchConditions?.recruitmentLevels.map((level) => (
+            {selectableData?.recruitmentLevels.map((level) => (
               <OperationTag
                 id={level.id}
                 name={level.name}
-                selectedItemIds={state.recruiementLevels}
-                setIsSelected={setter.setRecruiementLevels}
-                isSelected={state.recruiementLevels.includes(level.id)}
+                selectedItemIds={form.recruiementLevels.value}
+                setIsSelected={form.recruiementLevels.setRecruiementLevels}
+                isSelected={form.recruiementLevels.value.includes(level.id)}
                 key={level.id}
               />
             ))}
@@ -285,20 +174,20 @@ export default function CreateRoom() {
             <AutoComplate
               data={convertToACData(skills)}
               placeholder="スキルを検索"
-              setSelected={setter.setSkills}
-              selectedData={state.selectedSkills}
+              setSelected={form.skills.setSkills}
+              selectedData={form.skills.value}
             />
             <EditableSkillPochiSet
-              skills={convertToSkillPochiSetArray(state.selectedSkills)}
-              setSelected={setter.setSkills}
-              selectedData={state.selectedSkills}
+              skills={convertToSkillPochiSetArray(form.skills.value)}
+              setSelected={form.skills.setSkills}
+              selectedData={form.skills.value}
             />
           </div>
         </Card>
       </div>
 
       <Button
-        onClick={onSubmit}
+        onClick={form.onSubmit}
         disabled={isDisabled}
         className="my-10 lg:hidden"
         loading={loading}

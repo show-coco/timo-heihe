@@ -15,7 +15,7 @@ import {
   convertToSkillPochiSetArray,
 } from "../../create-room";
 import { EditableSkillPochiSet } from "../../../components/skill/editable-skill-pochi-set";
-import { TextArea } from "../../../components/text-area";
+import { TextArea } from "../../../components/text-input/text-area";
 import { useAuthGuard } from "../../../hooks/useAuthGurad";
 import { Template } from "../../../components/template/app/template";
 import { OperationTag } from "../../../components/tag/operation";

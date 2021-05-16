@@ -11,7 +11,7 @@ import { AutoComplate } from "../../../components/auto-complate/auto-complate";
 import { Button } from "../../../components/button";
 import { EditableSkillPochiSet } from "../../../components/skill/editable-skill-pochi-set";
 import { Template } from "../../../components/template/app/template";
-import { TextArea } from "../../../components/text-area";
+import { TextArea } from "../../../components/text-input/text-area";
 import {
   convertToACData,
   convertToSkillPochiSetArray,

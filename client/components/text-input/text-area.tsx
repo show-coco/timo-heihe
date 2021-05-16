@@ -1,20 +1,10 @@
-import React, { Fragment } from "react";
-import { TextInputErrorType } from "../../hooks/useTextInput";
+import React from "react";
+import { TextInputProps } from "./text-input";
 
-type TextAreaProps = {
-  placeholder?: string;
-  className?: string;
-  value?: string;
-  name?: string;
-  required?: boolean;
-  onChange?: (event: React.ChangeEvent<HTMLTextAreaElement>) => void;
-  errors?: TextInputErrorType[];
-};
-
-export const TextArea: React.FC<TextAreaProps> = ({
+export const TextArea: React.FC<TextInputProps> = ({
   className,
   ...props
-}: TextAreaProps) => {
+}: TextInputProps) => {
   const borderStyle = props.errors?.length ? "border-blue-500" : "border-none";
 
   return (
@@ -29,6 +19,13 @@ export const TextArea: React.FC<TextAreaProps> = ({
         className={`resize-none bg-blue-100 rounded-sm w-full ${borderStyle} ${className}`}
         {...props}
       />
+      <ul>
+        {props.errors?.map((error) => (
+          <li key={error.code} className="text-blue-500">
+            ・{error.message}
+          </li>
+        ))}
+      </ul>
     </div>
   );
 };

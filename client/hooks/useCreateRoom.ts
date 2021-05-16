@@ -42,35 +42,48 @@ export const useCreateRoom = () => {
   const router = useRouter();
   const { id, userId } = useAuthContext();
   const [createRoom, { loading }] = useCreateRoomMutation();
-  const { data: searchConditions } = useSearchConditionsQuery();
+  const { data: selectableData } = useSearchConditionsQuery();
   const title = useTextInput({
     required: true,
     max: 50,
+    name: "募集タイトル",
+    placeholder: "メンバー募集タイトル",
   });
   const name = useTextInput({
     required: true,
     max: 30,
+    name: "ルーム名",
+    placeholder: "ルーム名を入力",
   });
   const slug = useTextInput({
     regex: REGEXES.HALF_SIZE_NUMBER,
     required: true,
     min: 3,
     max: 40,
+    name: "ルームID",
+    placeholder: "ルームID",
   });
   const description = useTextInput({
     required: true,
     max: 1000,
+    name: "ルームについて",
+    placeholder:
+      "ルームについて（Markdown記法）&#13;&#10;最初の一文がルーム一覧の説明文に表示されます。",
   });
-  const [recruiementLevels, setRecruiementLevels] = useState<number[]>([]);
-  const [recruitNumber, setRecruitNumber] = useState(0);
-  const [repositoryUrl, setRespositoryUrl] = useState("");
+  const repositoryUrl = useTextInput({
+    name: "Githubリポジトリ",
+    placeholder: "URLを入力",
+  });
   const invitationUrl = useTextInput({
     regex: REGEXES.URL,
     required: true,
+    name: "招待URL",
+    placeholder: "DiscordやSlackの招待URL",
   });
   const [isPrivate, setIsPrivate] = useState<RoomTypeValueType>(
     ROOM_TYPE.PUBLIC
   );
+  const [recruiementLevels, setRecruiementLevels] = useState<number[]>([]);
   const [selectedSkills, setSkills] = useState<ACSelectedData[]>([]);
   const categories = useCheckbox({
     min: 1,
@@ -91,7 +104,7 @@ export const useCreateRoom = () => {
     name: name.value,
     slug: slug.value,
     owner: id,
-    repositoryUrl,
+    repositoryUrl: repositoryUrl.value,
     invidationUrl: invitationUrl.value,
     icon: imageUrl,
     skills: convertToSkillsIds(selectedSkills),
@@ -192,36 +205,39 @@ export const useCreateRoom = () => {
   };
 
   return {
-    onSubmit,
-    onClickFileInput,
-    onChangeFileInput,
-    onChangeType,
-    searchConditions,
-    state: {
-      recruiementLevels,
-      selectedSkills,
-      isPrivate,
-      recruitNumber,
-      imageUrl,
-      fileRef,
-    },
-    setter: {
-      setRecruitNumber,
-      setRespositoryUrl,
-      setIsPrivate,
-      setSkills,
-      setRecruiementLevels,
-    },
+    selectableData,
+    loading,
+    isDisabled,
     form: {
       slug,
       title,
       name,
       description,
-      categories,
       invitationUrl,
+      file: {
+        onClickFileInput,
+        onChangeFileInput,
+        imageUrl,
+        fileRef,
+      },
+      type: {
+        onChangeType,
+      },
+      repositoryUrl,
+      isPrivate: {
+        value: isPrivate,
+        setIsPrivate,
+        isPrivateError,
+      },
+      skills: {
+        value: selectedSkills,
+        setSkills,
+      },
+      recruiementLevels: {
+        value: recruiementLevels,
+        setRecruiementLevels,
+      },
+      onSubmit,
     },
-    loading,
-    isPrivateError,
-    isDisabled,
   };
 };
