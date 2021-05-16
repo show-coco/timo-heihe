@@ -67,6 +67,7 @@ jobs:
           DB_SOCKET_PATH: ${{secrets.DB_SOCKET_PATH}}
           DB_PORT: ${{secrets.DB_PORT}}
           DB_HOST: ${{secrets.DB_HOST}}
+          JWT_KEY: ${{secrets.JWT_KEY}}
 
       - name: Deploy
         run: |
