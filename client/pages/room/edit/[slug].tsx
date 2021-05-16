@@ -8,6 +8,7 @@ export default function EditRoom() {
       {...useEditTeam()}
       buttonName="編集する"
       title="ルームを編集する"
+      tabTitle="ルーム編集"
     />
   );
 }
