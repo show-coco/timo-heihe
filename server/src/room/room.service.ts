@@ -180,7 +180,15 @@ export class RoomService {
 
     const returns = await this.roomRepository.save(formattedInput);
 
-    const res = await this.findOne(returns.id);
+    const room = await this.findOne(returns.id);
+
+    const res: Room = {
+      ...room,
+      applyingUsers: room.applyingUsers.filter((user) =>
+        user.user ? user.user : null,
+      ),
+    };
+
     console.log('response on rooms->service->update', res);
     return res;
   }
