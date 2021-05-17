@@ -32,5 +32,9 @@ query Room($slug: String!, $isMine: Boolean!) {
       id
       name
     }
+    types {
+      id
+      name
+    }
   }
 }

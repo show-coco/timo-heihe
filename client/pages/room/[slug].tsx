@@ -73,6 +73,8 @@ export default function ShowRoom({ url, title, data, roomLoading }: Props) {
     },
   });
 
+  console.log(room);
+
   useEffect(() => {
     if (newRoomData?.room) {
       setRoom(newRoomData.room);
@@ -193,7 +195,7 @@ export default function ShowRoom({ url, title, data, roomLoading }: Props) {
             <div className="flex justify-between">
               <div className="flex-1">
                 <CategorySet
-                  categories={convertToCategoryArray(room?.categories || [])}
+                  categories={convertToCategoryArray(room?.types || [])}
                   className="mb-4"
                 />
 
@@ -349,6 +351,10 @@ export async function getStaticProps({ params }: Params) {
             name
           }
           categories {
+            id
+            name
+          }
+          types {
             id
             name
           }

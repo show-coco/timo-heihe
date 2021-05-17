@@ -704,6 +704,9 @@ export type RoomQuery = { __typename?: "Query" } & {
       categories: Array<
         { __typename?: "CategoryModel" } & Pick<CategoryModel, "id" | "name">
       >;
+      types: Array<
+        { __typename?: "RoomTypeModel" } & Pick<RoomTypeModel, "id" | "name">
+      >;
     };
 };
 
@@ -1820,6 +1823,10 @@ export const RoomDocument = gql`
         name
       }
       categories {
+        id
+        name
+      }
+      types {
         id
         name
       }
