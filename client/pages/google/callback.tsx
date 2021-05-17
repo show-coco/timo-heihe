@@ -10,6 +10,12 @@ function Google() {
   const name = router.query.name;
   const id = router.query.id;
   const userId = router.query.userId;
+  console.log(token, name, id, userId);
+
+  if (!token || !name || !id || !userId) {
+    return null;
+  }
+
   if (
     typeof token !== "string" ||
     typeof name !== "string" ||

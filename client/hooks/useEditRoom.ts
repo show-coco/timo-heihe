@@ -96,9 +96,7 @@ export const useEditTeam = () => {
         },
       });
       console.error(errors);
-      router.push(
-        `/room/${updatedData?.updateRoom.slug}?title=${updatedData?.updateRoom.title}`
-      );
+      router.push(`/room/${updatedData?.updateRoom.slug}`);
     } catch (e) {
       form.slug.setErrors([...form.slug.errors, TEXT_INPUT_ERRORS.DEPLICATED]);
       console.log(e);
